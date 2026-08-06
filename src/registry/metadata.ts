@@ -12,7 +12,7 @@ export function createRouteMetadata({
   path: string;
 }): Metadata {
   const fullTitle =
-    title === siteConfig.name ? title : `${title} — ${siteConfig.name}`;
+    title === siteConfig.name ? title : `${title} | ${siteConfig.name}`;
 
   return {
     title: title === siteConfig.name ? { absolute: title } : title,

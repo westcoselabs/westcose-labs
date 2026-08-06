@@ -1,9 +1,13 @@
+import Link from "next/link";
+
 import {
-  RouteCardGrid,
   RouteDocument,
   RouteSection,
 } from "@/components/apps/RouteDocument";
-import { createRouteMetadata } from "@/registry";
+import {
+  capabilityRegistry,
+  createRouteMetadata,
+} from "@/registry";
 
 export const metadata = createRouteMetadata({
   title: "Services",
@@ -11,51 +15,31 @@ export const metadata = createRouteMetadata({
   path: "/services",
 });
 
-const capabilityAreas = [
-  {
-    title: "Product interfaces",
-    detail:
-      "Responsive, semantic interfaces designed around the real content and interaction model.",
-  },
-  {
-    title: "Front-end architecture",
-    detail:
-      "Typed component systems, route-aware state, performance boundaries, and maintainable CSS.",
-  },
-  {
-    title: "Prototypes and experiments",
-    detail:
-      "Focused proofs that answer product and technical questions before a larger build.",
-  },
-] as const;
-
 export default function ServicesPage() {
   return (
     <RouteDocument
-      eyebrow="Capability map"
+      eyebrow="Installed modules"
       title="Services"
-      description="A concise view of the disciplines this portfolio is built to demonstrate. Engagement terms and availability require owner confirmation."
+      description="Capabilities connected to working proof inside this portfolio. Availability and engagement terms require confirmation."
+      presentation="services"
       actions={[
-        { href: "/projects", label: "View the work", variant: "primary" },
+        { href: "/projects", label: "View projects", variant: "primary" },
         { href: "/contact", label: "Contact" },
       ]}
     >
-      <RouteCardGrid>
-        {capabilityAreas.map((capability, index) => (
-          <article className="route-card" key={capability.title}>
-            <p className="route-card__index">
-              {String(index + 1).padStart(2, "0")}
-            </p>
+      <div className="capability-index">
+        {capabilityRegistry.map((capability) => (
+          <article key={capability.id}>
             <h2>{capability.title}</h2>
-            <p>{capability.detail}</p>
+            <p>{capability.description}</p>
+            <Link href={capability.proofHref}>{capability.proofLabel}</Link>
           </article>
         ))}
-      </RouteCardGrid>
+      </div>
       <RouteSection title="Scope note">
         <p>
-          This page describes capability areas, not a promise of current
-          availability, pricing, or a fixed service package. Those production
-          details will be added only after owner approval.
+          This is a capability map, not a promise of current availability,
+          pricing, or a fixed package. Those details appear only after approval.
         </p>
       </RouteSection>
     </RouteDocument>

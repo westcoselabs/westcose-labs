@@ -54,5 +54,26 @@ describe("Pocket session state", () => {
       "welcome",
     ]);
   });
+
+  it("supports locking, lock preview, and startup replay without changing routes", () => {
+    let state = createInitialPocketState({
+      pathname: "/",
+      session: { startupPlayed: true, unlocked: true },
+    });
+
+    state = pocketReducer(state, { type: "system/preview-lock" });
+    expect(state).toMatchObject({
+      startupPlayed: true,
+      unlocked: true,
+      previewingLock: true,
+    });
+
+    state = pocketReducer(state, { type: "unlock" });
+    state = pocketReducer(state, { type: "system/lock" });
+    expect(state).toMatchObject({ unlocked: false, previewingLock: false });
+
+    state = pocketReducer(state, { type: "system/replay-startup" });
+    expect(state).toMatchObject({ startupPlayed: false, unlocked: false });
+  });
 });
 

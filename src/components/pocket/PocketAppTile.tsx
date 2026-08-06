@@ -90,7 +90,7 @@ export function PocketAppTile({
         onPointerUp={cancelLongPress}
         type="button"
       >
-        <span aria-hidden="true" className={styles.tile}>
+        <span aria-hidden="true" className={styles.tile} data-tone={app.tone}>
           <PocketAppGlyph iconKey={app.iconKey} />
         </span>
         <span className={styles.label}>{app.label}</span>

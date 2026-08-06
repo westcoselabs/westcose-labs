@@ -39,6 +39,7 @@ export function PocketShell({
   pageOneApps,
   pageTwoApps,
   pathname,
+  previewingLock = false,
   reducedMotion = false,
   startupPlayed,
   unlocked,
@@ -65,10 +66,15 @@ export function PocketShell({
   if (!atRoot || activeApp) {
     content = (
       <PocketAppFrame
+        appId={activeApp?.id ?? "route"}
         backLabel={activeApp?.backLabel}
+        iconKey={activeApp?.iconKey ?? "projects"}
         normalViewHref={normalViewHref}
         onBack={onBack}
+        shareHref={pathname}
+        subtitle={activeApp?.subtitle}
         title={activeApp?.title ?? "WestCose Labs"}
+        tone={activeApp?.tone ?? "blue"}
       >
         {children}
       </PocketAppFrame>
@@ -81,7 +87,7 @@ export function PocketShell({
         reducedMotion={reducedMotion}
       />
     );
-  } else if (!unlocked) {
+  } else if (!unlocked || previewingLock) {
     content = (
       <PocketLockScreen
         normalViewHref={normalViewHref}
@@ -97,7 +103,6 @@ export function PocketShell({
         featuredProject={featuredProject}
         labsStatus={labsStatus}
         menuTargetId={menuTargetId}
-        normalViewHref={normalViewHref}
         onCloseAppMenu={onCloseAppMenu}
         onLaunchApp={onLaunchApp}
         onOpenAppMenu={onOpenAppMenu}

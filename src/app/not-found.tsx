@@ -7,7 +7,7 @@ export default function NotFound() {
     <RouteDocument
       eyebrow="Error 404"
       title="This file is not on the workstation"
-      description="The route may have moved, or it may belong to a deferred app that is not part of V1."
+      description="The route may have moved, or it may belong to a deferred app that is not installed in this build."
       actions={[
         { href: "/", label: "Return home", variant: "primary" },
         { href: "/projects", label: "Browse projects" },

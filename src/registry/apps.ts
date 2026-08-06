@@ -2,10 +2,6 @@ import { siteConfig } from "./site";
 import { getRouteDescriptor } from "./routes";
 import type { AppId, OSApp } from "./types";
 
-const githubTarget = siteConfig.githubUrl
-  ? ({ kind: "external", href: siteConfig.githubUrl } as const)
-  : ({ kind: "route", href: "/about#links" } as const);
-
 export const appRegistry = [
   {
     id: "projects",
@@ -15,6 +11,7 @@ export const appRegistry = [
     description: "Selected product, web, and software work.",
     accessibilityLabel: "Open Projects",
     iconKey: "projects",
+    tone: "blue",
     status: "available",
     availableIn: ["desktop", "pocket", "normal"],
     target: { kind: "route", href: "/projects" },
@@ -28,6 +25,7 @@ export const appRegistry = [
     description: "Playable work and game development notes.",
     accessibilityLabel: "Open Games",
     iconKey: "games",
+    tone: "indigo",
     status: "available",
     availableIn: ["desktop", "pocket", "normal"],
     target: { kind: "route", href: "/games" },
@@ -41,6 +39,7 @@ export const appRegistry = [
     description: "Small prototypes and technical studies.",
     accessibilityLabel: "Open Experiments",
     iconKey: "experiments",
+    tone: "cyan",
     status: "available",
     availableIn: ["desktop", "pocket", "normal"],
     target: { kind: "route", href: "/experiments" },
@@ -54,6 +53,7 @@ export const appRegistry = [
     description: "Capabilities for thoughtful digital products.",
     accessibilityLabel: "Open Services",
     iconKey: "services",
+    tone: "teal",
     status: "available",
     availableIn: ["desktop", "pocket", "normal"],
     target: { kind: "route", href: "/services" },
@@ -67,6 +67,7 @@ export const appRegistry = [
     description: "Background, approach, and system information.",
     accessibilityLabel: "Open About",
     iconKey: "about",
+    tone: "silver",
     status: "available",
     availableIn: ["desktop", "pocket", "normal"],
     target: { kind: "route", href: "/about" },
@@ -80,6 +81,7 @@ export const appRegistry = [
     description: "Start a project through native email, text, or phone.",
     accessibilityLabel: "Open Contact",
     iconKey: "contact",
+    tone: "cyan",
     status: siteConfig.contactEmailConfigured
       ? "available"
       : "needs-configuration",
@@ -94,6 +96,7 @@ export const appRegistry = [
     description: "Project launcher and development presentation.",
     accessibilityLabel: "Open FightClub project launcher",
     iconKey: "fightclub",
+    tone: "red",
     status: "fixture",
     availableIn: ["desktop", "pocket", "normal"],
     target: { kind: "route", href: "/games/fightclub" },
@@ -107,6 +110,7 @@ export const appRegistry = [
     description: "A small command utility with keyboard equivalents.",
     accessibilityLabel: "Open Terminal",
     iconKey: "terminal",
+    tone: "graphite",
     status: "available",
     availableIn: ["desktop", "normal"],
     target: { kind: "route", href: "/terminal" },
@@ -123,11 +127,12 @@ export const appRegistry = [
       ? "Open GitHub profile in a new tab"
       : "Review pending GitHub profile configuration",
     iconKey: "github",
+    tone: "graphite",
     status: siteConfig.githubConfigured
       ? "available"
       : "needs-configuration",
     availableIn: ["desktop", "pocket", "normal"],
-    target: githubTarget,
+    target: { kind: "route", href: "/github" },
     defaultPocketPage: 0,
   },
   {
@@ -138,6 +143,7 @@ export const appRegistry = [
     description: "Nonessential archive material and harmless oddities.",
     accessibilityLabel: "Open Recycle",
     iconKey: "recycle",
+    tone: "green",
     status: "available",
     availableIn: ["desktop", "pocket", "normal"],
     target: { kind: "route", href: "/recycle" },
@@ -151,6 +157,7 @@ export const appRegistry = [
     description: "A short field guide to WestCose Labs OS.",
     accessibilityLabel: "Open README notes",
     iconKey: "notes",
+    tone: "amber",
     status: "available",
     availableIn: ["desktop", "pocket", "normal"],
     target: { kind: "route", href: "/notes" },
@@ -164,6 +171,7 @@ export const appRegistry = [
     description: "Display, contrast, motion, sound, and session controls.",
     accessibilityLabel: "Open Settings",
     iconKey: "settings",
+    tone: "cobalt",
     status: "available",
     availableIn: ["desktop", "pocket", "normal"],
     target: { kind: "route", href: "/settings" },
@@ -177,6 +185,7 @@ export const appRegistry = [
     description: "Start a native text message.",
     accessibilityLabel: `Text ${siteConfig.ownerName} at ${siteConfig.phoneDisplay}`,
     iconKey: "messages",
+    tone: "cyan",
     status: "available",
     availableIn: ["pocket"],
     target: { kind: "sms", href: `sms:${siteConfig.phoneE164}` },
@@ -190,6 +199,7 @@ export const appRegistry = [
     description: "Start a native phone call.",
     accessibilityLabel: `Call ${siteConfig.ownerName} at ${siteConfig.phoneDisplay}`,
     iconKey: "phone",
+    tone: "green",
     status: "available",
     availableIn: ["pocket"],
     target: { kind: "telephone", href: `tel:${siteConfig.phoneE164}` },

@@ -27,9 +27,10 @@ import {
   type WorkspaceBounds,
 } from "@/lib";
 import {
-  appRegistry,
   desktopPlacement,
+  desktopTaskbarPinnedPlacement,
   getAppById,
+  startMenuGroups,
   startMenuPlacement,
   type AppId,
   type OSApp,
@@ -106,6 +107,9 @@ export function DesktopShell({
   const [workspace, setWorkspace] = useState(initialWorkspace);
   const [selectedAppId, setSelectedAppId] = useState<AppId | null>(null);
   const [search, setSearch] = useState("");
+  const [clockPanelOpen, setClockPanelOpen] = useState(false);
+  const [systemMenuOpen, setSystemMenuOpen] = useState(false);
+  const [powerMessage, setPowerMessage] = useState("");
   const startButtonRef = useRef<HTMLButtonElement>(null);
   const desktopRef = useRef<HTMLDivElement>(null);
   const launchFocusRef = useRef(new Map<string, HTMLElement>());
@@ -247,15 +251,49 @@ export function DesktopShell({
     return () => window.removeEventListener("keydown", closeMenus);
   }, [state.menu]);
 
-  const startApps = useMemo(
-    () =>
-      startMenuPlacement
-        .map((id) => getAppById(id))
-        .filter((app) =>
-          `${app.name} ${app.description}`
-            .toLowerCase()
-            .includes(search.toLowerCase()),
-        ),
+  useEffect(() => {
+    if (!clockPanelOpen && !systemMenuOpen) return;
+    const closeTrayPanels = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setClockPanelOpen(false);
+      setSystemMenuOpen(false);
+    };
+    window.addEventListener("keydown", closeTrayPanels);
+    return () => window.removeEventListener("keydown", closeTrayPanels);
+  }, [clockPanelOpen, systemMenuOpen]);
+
+  const filteredStartGroups = useMemo(
+    () => {
+      const normalizedSearch = search.trim().toLowerCase();
+      if (normalizedSearch) {
+        return [
+          {
+            id: "search",
+            label: "Search results",
+            apps: startMenuPlacement
+              .map((id) => getAppById(id))
+              .filter((app) =>
+                `${app.name} ${app.description}`
+                  .toLowerCase()
+                  .includes(normalizedSearch),
+              ),
+          },
+        ].filter((group) => group.apps.length > 0);
+      }
+
+      return startMenuGroups
+        .map((group) => ({
+          ...group,
+          apps: group.apps
+            .map((id) => getAppById(id))
+            .filter((app) =>
+              `${app.name} ${app.description}`
+                .toLowerCase()
+                .includes(normalizedSearch),
+            ),
+        }))
+        .filter((group) => group.apps.length > 0);
+    },
     [search],
   );
   const selectedApp = selectedAppId ? getAppById(selectedAppId) : null;
@@ -322,6 +360,8 @@ export function DesktopShell({
       onPointerDown={(event) => {
         if (event.target === event.currentTarget) {
           dispatch({ type: "menu/close" });
+          setClockPanelOpen(false);
+          setSystemMenuOpen(false);
           setSelectedAppId(null);
         }
       }}
@@ -340,6 +380,7 @@ export function DesktopShell({
               aria-pressed={selected}
               className={styles.desktopIcon}
               data-selected={selected || undefined}
+              data-tone={app.tone}
               key={app.id}
               onClick={() => setSelectedAppId(app.id)}
               onDoubleClick={() => launchApp(app)}
@@ -386,9 +427,9 @@ export function DesktopShell({
         </div>
       ) : null}
 
-      <aside aria-label="Clock and date" className={styles.clockWidget}>
-        <span className={styles.clockLabel}>LOCAL SYSTEM</span>
-        <strong>{clock.time}</strong>
+      <aside aria-label="Desktop build status" className={styles.clockWidget}>
+        <span className={styles.clockLabel}>BUILD MODE</span>
+        <strong>WestCose</strong>
         <span>{clock.date}</span>
       </aside>
 
@@ -416,7 +457,7 @@ export function DesktopShell({
         <section aria-label="Start menu" className={styles.startMenu}>
           <header>
             <p>WestCose Labs</p>
-            <span>DUSK / V1</span>
+            <span>DUSK / V2</span>
           </header>
           <label className={styles.search}>
             <MagnifyingGlass aria-hidden="true" />
@@ -430,26 +471,45 @@ export function DesktopShell({
             />
           </label>
           <div className={styles.startResults}>
-            {startApps.map((app) => (
-              <button
-                key={app.id}
-                onClick={() => {
-                  launchApp(app);
-                  dispatch({ type: "menu/close" });
-                }}
-                type="button"
-              >
-                <AppGlyph iconKey={app.iconKey} size={24} />
-                <span>
-                  <strong>{app.name}</strong>
-                  <small>{app.description}</small>
-                </span>
-              </button>
+            {filteredStartGroups.map((group) => (
+              <section className={styles.startGroup} key={group.id}>
+                <h3>{group.label}</h3>
+                {group.apps.map((app) => (
+                  <button
+                    data-tone={app.tone}
+                    key={app.id}
+                    onClick={() => {
+                      launchApp(app);
+                      dispatch({ type: "menu/close" });
+                    }}
+                    type="button"
+                  >
+                    <span className={styles.startGlyph}>
+                      <AppGlyph iconKey={app.iconKey} size={24} />
+                    </span>
+                    <span>
+                      <strong>{app.name}</strong>
+                      <small>{app.description}</small>
+                    </span>
+                  </button>
+                ))}
+              </section>
             ))}
+            {filteredStartGroups.length === 0 ? (
+              <p className={styles.noResults}>No apps match {search}.</p>
+            ) : null}
           </div>
           <footer>
-            <ButtonLink href={normalViewHref}>Normal View</ButtonLink>
-            <Button onClick={() => openUtility("settings")}>Settings</Button>
+            <div className={styles.startFooterActions}>
+              <ButtonLink href={normalViewHref}>Normal View</ButtonLink>
+              <Button onClick={() => openUtility("settings")}>Settings</Button>
+              <Button onClick={() => router.push("/github")}>GitHub</Button>
+              <Button onClick={() => router.push("/contact")}>Contact</Button>
+            </div>
+            <div className={styles.powerZone}>
+              <Button onClick={() => setPowerMessage("Restart postponed. The build is still warm.")}>Restart later</Button>
+              <span aria-live="polite">{powerMessage}</span>
+            </div>
           </footer>
         </section>
       ) : null}
@@ -480,11 +540,44 @@ export function DesktopShell({
         </div>
       ) : null}
 
+      {clockPanelOpen ? (
+        <section
+          aria-label="Date and system status"
+          className={styles.clockPanel}
+          id="desktop-clock-panel"
+        >
+          <p>Local system</p>
+          <strong>{clock.time}</strong>
+          <span>{clock.date}</span>
+          <div>
+            <span>Build mode</span>
+            <strong>Active</strong>
+          </div>
+          <Button onClick={() => openUtility("settings")}>Open Settings</Button>
+        </section>
+      ) : null}
+
+      {systemMenuOpen ? (
+        <section
+          aria-label="System actions"
+          className={styles.systemActionsPanel}
+          id="desktop-system-actions"
+        >
+          <p>System actions</p>
+          <Button onClick={() => openUtility("settings")}>Open Settings</Button>
+          <Button onClick={() => router.push("/github")}>Open GitHub directory</Button>
+          <ButtonLink href={normalViewHref}>Open Normal View</ButtonLink>
+          <small>WestCose Labs OS V2 / build mode active</small>
+        </section>
+      ) : null}
+
       <nav aria-label="Desktop taskbar" className={styles.taskbar}>
         <button
           aria-expanded={state.menu?.kind === "start"}
           className={styles.startButton}
-          onClick={() =>
+          onClick={() => {
+            setClockPanelOpen(false);
+            setSystemMenuOpen(false);
             dispatch(
               state.menu?.kind === "start"
                 ? { type: "menu/close" }
@@ -492,40 +585,50 @@ export function DesktopShell({
                     type: "menu/open",
                     menu: { kind: "start", triggerId: "start-button" },
                   },
-            )
-          }
+            );
+          }}
           ref={startButtonRef}
           type="button"
         >
           <SquaresFour aria-hidden="true" weight="fill" />
           <span>Start</span>
         </button>
-        <div className={styles.pinnedApps}>
-          {appRegistry.slice(0, 4).map((app) => (
-            <IconButton
-              key={app.id}
-              label={`Open ${app.name}`}
-              onClick={() => launchApp(app)}
-            >
-              <AppGlyph iconKey={app.iconKey} size={22} />
-            </IconButton>
-          ))}
-          {state.windows.map((desktopWindow) => (
-            <button
-              aria-current={desktopWindow.id === state.activeWindowId ? "true" : undefined}
-              className={styles.runningApp}
-              key={desktopWindow.id}
-              onClick={() =>
-                desktopWindow.status === "minimized"
-                  ? restoreWindow(desktopWindow)
-                  : dispatch({ type: "window/focus", id: desktopWindow.id })
-              }
-              type="button"
-            >
-              <span>{desktopWindow.title}</span>
-              <i aria-hidden="true" />
-            </button>
-          ))}
+        <div className={styles.taskbarCenter}>
+          <div aria-label="Pinned apps" className={styles.pinnedApps} role="group">
+            {desktopTaskbarPinnedPlacement.map((appId) => {
+              const app = getAppById(appId);
+              return (
+                <IconButton
+                  className={styles.pinnedApp}
+                  data-tone={app.tone}
+                  key={app.id}
+                  label={`Open ${app.name}`}
+                  onClick={() => launchApp(app)}
+                >
+                  <AppGlyph iconKey={app.iconKey} size={22} />
+                </IconButton>
+              );
+            })}
+          </div>
+          <span aria-hidden="true" className={styles.taskbarDivider} />
+          <div aria-label="Running apps" className={styles.runningApps} role="group">
+            {state.windows.map((desktopWindow) => (
+              <button
+                aria-current={desktopWindow.id === state.activeWindowId ? "true" : undefined}
+                className={styles.runningApp}
+                key={desktopWindow.id}
+                onClick={() =>
+                  desktopWindow.status === "minimized"
+                    ? restoreWindow(desktopWindow)
+                    : dispatch({ type: "window/focus", id: desktopWindow.id })
+                }
+                type="button"
+              >
+                <span>{desktopWindow.title}</span>
+                <i aria-hidden="true" />
+              </button>
+            ))}
+          </div>
         </div>
         <div className={styles.systemTray}>
           <IconButton
@@ -541,11 +644,33 @@ export function DesktopShell({
           <ButtonLink className={styles.normalButton} href={normalViewHref}>
             Normal
           </ButtonLink>
-          <div className={styles.trayClock}>
+          <button
+            aria-controls="desktop-clock-panel"
+            aria-expanded={clockPanelOpen}
+            className={styles.trayClock}
+            onClick={() => {
+              dispatch({ type: "menu/close" });
+              setSystemMenuOpen(false);
+              setClockPanelOpen((open) => !open);
+            }}
+            type="button"
+          >
             <span>{clock.time}</span>
             <small>{clock.date}</small>
-          </div>
-          <CaretUp aria-hidden="true" />
+          </button>
+          <IconButton
+            aria-controls="desktop-system-actions"
+            aria-expanded={systemMenuOpen}
+            label="Open system actions"
+            onClick={() => {
+              dispatch({ type: "menu/close" });
+              setClockPanelOpen(false);
+              setSystemMenuOpen((open) => !open);
+            }}
+            selected={systemMenuOpen}
+          >
+            <CaretUp aria-hidden="true" />
+          </IconButton>
         </div>
       </nav>
     </div>

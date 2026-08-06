@@ -71,10 +71,61 @@
   gap: var(--space-md);
 }
 
+.group {
+  display: grid;
+  gap: var(--space-base);
+}
+
+.group h3,
+.group p {
+  margin: 0;
+}
+
+.group p {
+  margin-block-start: var(--space-xs);
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-sm-size);
+}
+
+.actionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-sm);
+}
+
+.personality {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-sm);
+}
+
+.personality > div {
+  display: grid;
+  gap: var(--space-xs);
+  padding: var(--space-base);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-recessed);
+}
+
+.personality span {
+  color: var(--color-text-subdued);
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+}
+
+.personality strong {
+  font-size: var(--type-body-sm-size);
+}
+
 @media (max-width: 36rem) {
   .row,
   .selectRow {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .actionGrid,
+  .personality {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

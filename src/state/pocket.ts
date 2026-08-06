@@ -15,6 +15,7 @@ export interface PocketMenuTarget {
 
 export interface PocketState extends PocketSessionValues {
   readonly menuTarget: PocketMenuTarget | null;
+  readonly previewingLock: boolean;
 }
 
 export type PocketAction =
@@ -25,6 +26,9 @@ export type PocketAction =
     }
   | { readonly type: "startup/complete" }
   | { readonly type: "unlock" }
+  | { readonly type: "system/lock" }
+  | { readonly type: "system/preview-lock" }
+  | { readonly type: "system/replay-startup" }
   | { readonly type: "page/set"; readonly page: PocketPage }
   | { readonly type: "launch/record-origin"; readonly page: PocketPage }
   | {
@@ -74,6 +78,7 @@ export function createInitialPocketState(options: {
       ),
     ),
     menuTarget: null,
+    previewingLock: false,
   };
 }
 
@@ -91,9 +96,40 @@ export function pocketReducer(
       return state.startupPlayed ? state : { ...state, startupPlayed: true };
 
     case "unlock":
-      return state.unlocked
+      return state.unlocked && !state.previewingLock
         ? state
-        : { ...state, startupPlayed: true, unlocked: true };
+        : {
+            ...state,
+            startupPlayed: true,
+            unlocked: true,
+            previewingLock: false,
+          };
+
+    case "system/lock":
+      return {
+        ...state,
+        startupPlayed: true,
+        unlocked: false,
+        previewingLock: false,
+        menuTarget: null,
+      };
+
+    case "system/preview-lock":
+      return {
+        ...state,
+        startupPlayed: true,
+        previewingLock: true,
+        menuTarget: null,
+      };
+
+    case "system/replay-startup":
+      return {
+        ...state,
+        startupPlayed: false,
+        unlocked: false,
+        previewingLock: false,
+        menuTarget: null,
+      };
 
     case "page/set":
       return state.page === action.page

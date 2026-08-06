@@ -17,7 +17,8 @@ export default function ProjectsPage() {
       eyebrow="Work directory"
       title="Projects"
       description="Selected software and web work. Development fixtures are labeled until their production facts and assets are approved."
-      status={`${projectRegistry.length} project file`}
+      status={`${projectRegistry.length} project files`}
+      presentation="projects"
     >
       <RouteCardGrid>
         {projectRegistry.map((project) => (

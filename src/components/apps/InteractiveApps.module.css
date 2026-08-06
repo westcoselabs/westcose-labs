@@ -1,0 +1,196 @@
+.explorer {
+  display: grid;
+  grid-template-columns: minmax(13rem, 0.72fr) minmax(0, 1.28fr);
+  min-block-size: 24rem;
+  overflow: hidden;
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-base);
+}
+
+.sidebar {
+  display: grid;
+  align-content: start;
+  gap: var(--space-sm);
+  padding: var(--space-base);
+  border-inline-end: var(--border-thin) solid var(--color-border-subtle);
+  background: var(--color-surface-recessed);
+}
+
+.search {
+  inline-size: 100%;
+  min-block-size: var(--control-min-size);
+  padding-inline: var(--space-md);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-full);
+  background: var(--color-surface-overlay);
+  color: var(--color-text-primary);
+}
+
+.list {
+  display: grid;
+  gap: var(--space-xs);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.listButton {
+  display: grid;
+  gap: var(--space-xs);
+  inline-size: 100%;
+  min-block-size: var(--control-min-size);
+  padding: var(--space-md);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-primary);
+  text-align: start;
+}
+
+.listButton small,
+.detail small {
+  color: var(--color-text-secondary);
+}
+
+.listButton[aria-current="true"] {
+  background: var(--color-surface-active);
+  box-shadow: var(--neu-shadow-pressed);
+}
+
+.detail {
+  display: grid;
+  align-content: start;
+  gap: var(--space-lg);
+  padding: clamp(var(--space-lg), 4vw, var(--space-3xl));
+}
+
+.detail h2,
+.detail p {
+  margin: 0;
+}
+
+.detail p {
+  max-inline-size: var(--text-measure);
+  color: var(--color-text-secondary);
+  line-height: var(--type-body-lg-leading);
+}
+
+.archive {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.archiveRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-base);
+  padding: var(--space-base);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-recessed);
+}
+
+.archiveRow span {
+  display: grid;
+  gap: var(--space-xs);
+  min-inline-size: 0;
+}
+
+.archiveRow small {
+  color: var(--color-text-secondary);
+}
+
+.launcher {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(15rem, 0.85fr);
+  gap: var(--space-xl);
+  padding: var(--space-xl);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-recessed);
+}
+
+.launcherArt {
+  position: relative;
+  display: grid;
+  align-content: end;
+  min-block-size: 20rem;
+  padding: var(--space-xl);
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-active);
+}
+
+.launcherArt img {
+  object-fit: cover;
+}
+
+.launcherArt span {
+  position: relative;
+  z-index: var(--layer-content);
+  justify-self: start;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-xs);
+  background: color-mix(in srgb, var(--color-neutral) 82%, transparent);
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+  text-transform: uppercase;
+}
+
+.launcherPanel {
+  display: grid;
+  align-content: center;
+  gap: var(--space-base);
+}
+
+.launcherPanel h2,
+.launcherPanel p {
+  margin: 0;
+}
+
+.launcherPanel p {
+  color: var(--color-text-secondary);
+}
+
+.launcherActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.feedback {
+  min-block-size: var(--space-xl);
+  color: var(--color-warning) !important;
+  font-family: var(--font-mono);
+  font-size: var(--type-mono-sm-size);
+}
+
+@media (max-width: 44rem) {
+  .explorer,
+  .launcher {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sidebar {
+    border-inline-end: 0;
+    border-block-end: var(--border-thin) solid var(--color-border-subtle);
+  }
+
+  .list {
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(12rem, 76%);
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+  }
+
+  .list li {
+    scroll-snap-align: start;
+  }
+
+  .launcherArt {
+    min-block-size: 14rem;
+  }
+}

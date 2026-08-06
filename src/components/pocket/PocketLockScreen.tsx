@@ -1,6 +1,6 @@
 "use client";
 
-import { CaretRight, X } from "@phosphor-icons/react";
+import { CaretRight, LockSimple, X } from "@phosphor-icons/react";
 import {
   type KeyboardEvent,
   type PointerEvent,
@@ -152,12 +152,16 @@ export function PocketLockScreen({
   return (
     <main aria-labelledby="lock-time" className={styles.lock}>
       <div className={styles.clock}>
+        <p className={styles.identity}>
+          <span aria-hidden="true"><LockSimple weight="duotone" /></span>
+          WestCose Pocket
+        </p>
         <h1 className={styles.time} id="lock-time">
           {clock.time}
         </h1>
         <p className={styles.date}>{clock.date}</p>
         {normalViewHref ? (
-          <ButtonLink href={normalViewHref}>Normal View</ButtonLink>
+          <ButtonLink href={normalViewHref}>Open Normal View</ButtonLink>
         ) : null}
       </div>
 

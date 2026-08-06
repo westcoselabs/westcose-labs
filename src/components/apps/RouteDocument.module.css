@@ -201,6 +201,7 @@
 }
 
 .document :global(.project-card__art) {
+  position: relative;
   display: grid;
   place-items: end start;
   min-block-size: calc(var(--space-7xl) * 2);
@@ -217,10 +218,35 @@
   letter-spacing: var(--type-mono-sm-tracking);
 }
 
+.document :global(.project-card__art img) {
+  object-fit: cover;
+  filter: saturate(0.82) contrast(1.03);
+}
+
+.document :global(.project-card__art::after) {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, color-mix(in srgb, var(--color-neutral) 72%, transparent), transparent 58%);
+  pointer-events: none;
+}
+
+.document :global(.project-card__art > span) {
+  position: relative;
+  z-index: 1;
+}
+
 .document :global(.project-card__content) {
   display: grid;
   gap: var(--space-md);
   padding: 0 var(--space-xl) var(--space-xl);
+}
+
+.document :global(.project-card__meta) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-sm);
 }
 
 .document :global(.development-fixture) {
@@ -326,6 +352,364 @@
 .document :global(.command-list dt),
 .document :global(.command-list dd) {
   margin: 0;
+}
+
+.document :global(.game-cover-art) {
+  position: relative;
+  min-block-size: clamp(14rem, 34vw, 25rem);
+  margin: calc(var(--space-xl) * -1) calc(var(--space-xl) * -1) var(--space-base);
+  overflow: hidden;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: var(--color-surface-active);
+}
+
+.document :global(.game-cover-art img) {
+  object-fit: cover;
+}
+
+.document :global(.game-cover-art span) {
+  position: absolute;
+  inset-inline-start: var(--space-base);
+  inset-block-end: var(--space-base);
+  z-index: var(--layer-content);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-xs);
+  background: color-mix(in srgb, var(--color-neutral) 82%, transparent);
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+  text-transform: uppercase;
+}
+
+.document :global(.project-hero-art) {
+  display: grid;
+  gap: var(--space-sm);
+  margin: 0;
+}
+
+.document :global(.project-hero-art img) {
+  inline-size: 100%;
+  block-size: auto;
+  aspect-ratio: 3 / 2;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+}
+
+.document :global(.project-hero-art figcaption) {
+  color: var(--color-text-subdued);
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+}
+
+.document :global(.project-gallery) {
+  display: grid;
+  gap: var(--space-base);
+}
+
+.document :global(.project-gallery > div) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-base);
+}
+
+.document :global(.project-gallery img) {
+  inline-size: 100%;
+  block-size: auto;
+  border-radius: var(--radius-md);
+}
+
+.document :global(.related-work) {
+  display: grid;
+  gap: var(--space-base);
+}
+
+.document :global(.related-work > a) {
+  display: grid;
+  gap: var(--space-xs);
+  padding: var(--space-base);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-recessed);
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+.document :global(.related-work > a span) {
+  color: var(--color-text-secondary);
+}
+
+.document :global(.capability-index) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-xl);
+}
+
+.document :global(.capability-index article) {
+  display: grid;
+  align-content: start;
+  gap: var(--space-md);
+  min-block-size: 12rem;
+  padding: var(--space-xl);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-recessed);
+}
+
+.document :global(.capability-index article:nth-child(4n + 1)) {
+  min-block-size: 15rem;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--color-primary) 20%, transparent), transparent),
+    var(--color-surface-recessed);
+}
+
+.document :global(.capability-index article:nth-child(4n + 2)) {
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--color-tertiary) 14%, transparent), transparent),
+    var(--color-surface-recessed);
+}
+
+.document :global(.capability-index h2),
+.document :global(.capability-index p) {
+  margin: 0;
+}
+
+.document :global(.capability-index p) {
+  color: var(--color-text-secondary);
+}
+
+.document :global(.capability-index a) {
+  align-self: end;
+  color: var(--color-primary-hover);
+  font-weight: var(--type-label-lg-weight);
+}
+
+.document :global(.system-fact-grid),
+.document :global(.project-inspector) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-sm);
+}
+
+.document :global(.system-fact-grid > div),
+.document :global(.project-inspector > div) {
+  display: grid;
+  gap: var(--space-xs);
+  padding: var(--space-base);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-recessed);
+}
+
+.document :global(.system-fact-grid span),
+.document :global(.project-inspector span),
+.document :global(.system-information span),
+.document :global(.repository-list span) {
+  color: var(--color-text-subdued);
+  font-family: var(--font-mono);
+  font-size: var(--type-mono-sm-size);
+}
+
+.document :global(.system-information) {
+  display: grid;
+  overflow: hidden;
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-recessed);
+}
+
+.document :global(.system-information > div) {
+  display: grid;
+  grid-template-columns: minmax(9rem, 0.55fr) minmax(0, 1fr);
+  gap: var(--space-sm) var(--space-xl);
+  padding: var(--space-base) var(--space-lg);
+  border-block-end: var(--border-thin) solid var(--color-border-subtle);
+}
+
+.document :global(.system-information > div:last-child) {
+  border-block-end: 0;
+}
+
+.document :global(.system-information small) {
+  grid-column: 2;
+  color: var(--color-text-secondary);
+}
+
+.document :global(.owner-input) {
+  display: grid;
+  gap: var(--space-base);
+  padding: var(--space-lg);
+  border-inline-start: var(--space-xs) solid var(--color-warning);
+  background: var(--color-surface-recessed);
+}
+
+.document :global(.owner-input h2),
+.document :global(.owner-input ul) {
+  margin: 0;
+}
+
+.document :global(.repository-list) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+
+.document :global(.repository-list article) {
+  display: grid;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-recessed);
+}
+
+.document :global(.repository-list h2),
+.document :global(.repository-list p) {
+  margin: 0;
+}
+
+.document :global(.experiment-card) {
+  border-block-start: var(--space-xs) solid var(--item-tone, var(--color-primary));
+}
+
+.document :global([data-tone="blue"]) { --item-tone: var(--app-tone-blue); }
+.document :global([data-tone="indigo"]) { --item-tone: var(--app-tone-indigo); }
+.document :global([data-tone="cyan"]) { --item-tone: var(--app-tone-cyan); }
+.document :global([data-tone="silver"]) { --item-tone: var(--app-tone-silver); }
+
+:global([data-shell="desktop"]) .document :global(.route-document__header) {
+  border-radius: var(--radius-sm);
+  box-shadow: var(--neu-shadow-flat);
+  background: var(--color-surface-base);
+}
+
+:global([data-shell="desktop"]) .document[data-presentation="projects"] :global(.route-card-grid) {
+  grid-template-columns: repeat(2, minmax(18rem, 1fr));
+}
+
+:global([data-shell="normal"]) .document {
+  gap: clamp(var(--space-3xl), 7vw, var(--space-6xl));
+  max-inline-size: var(--content-max-width);
+}
+
+:global([data-shell="normal"]) .document :global(.route-document__header) {
+  padding: clamp(var(--space-xl), 5vw, var(--space-5xl)) 0;
+  border: 0;
+  border-block-end: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-none);
+  background: transparent;
+  box-shadow: none;
+}
+
+:global([data-shell="normal"]) .document[data-presentation="home"] :global(.route-document__header) {
+  align-content: end;
+  min-block-size: min(42rem, calc(100dvh - var(--desktop-taskbar-size) - var(--space-4xl)));
+  padding: clamp(var(--space-2xl), 7vw, var(--space-6xl));
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-2xl);
+  background:
+    linear-gradient(to right, var(--color-neutral) 0 38%, color-mix(in srgb, var(--color-neutral) 18%, transparent) 72%),
+    linear-gradient(to top, var(--color-neutral), transparent 55%),
+    url("/images/wallpapers/dusk-desktop.webp") center / cover;
+}
+
+:global([data-shell="normal"]) .document[data-presentation="home"] :global(.route-document__title) {
+  max-inline-size: 15ch;
+  font-size: clamp(var(--type-headline-lg-size), 6vw, var(--type-display-lg-size));
+}
+
+:global([data-shell="normal"]) .document :global(.route-document__body) {
+  gap: clamp(var(--space-3xl), 7vw, var(--space-6xl));
+}
+
+:global([data-shell="normal"]) .document :global(.route-section) {
+  padding: var(--space-2xl) 0 0;
+  border: 0;
+  border-block-start: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-none);
+  background: transparent;
+}
+
+:global([data-shell="normal"]) .document :global(.route-section > h2) {
+  font-size: var(--type-headline-md-size);
+}
+
+:global([data-shell="normal"]) .document :global(.project-card) {
+  grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.85fr);
+  min-block-size: 24rem;
+  border: 0;
+  background: var(--color-surface-recessed);
+}
+
+:global([data-shell="normal"]) .document :global(.project-card__art) {
+  min-block-size: 100%;
+}
+
+:global([data-shell="normal"]) .document :global(.project-card__content) {
+  align-content: center;
+  padding: var(--space-2xl);
+}
+
+:global([data-shell="pocket"]) .document {
+  gap: var(--space-lg);
+  padding: var(--space-base);
+}
+
+:global([data-shell="pocket"]) .document :global(.route-document__header) {
+  gap: var(--space-md);
+  padding: var(--space-base);
+  border: 0;
+  border-radius: var(--radius-md);
+  box-shadow: none;
+}
+
+:global([data-shell="pocket"]) .document :global(.route-document__title) {
+  font-size: var(--type-headline-md-size);
+}
+
+:global([data-shell="pocket"]) .document :global(.route-document__lede) {
+  font-size: var(--type-body-md-size);
+}
+
+:global([data-shell="pocket"]) .document :global(.route-document__body) {
+  gap: var(--space-lg);
+}
+
+:global([data-shell="pocket"]) .document :global(.route-section) {
+  padding: var(--space-base);
+}
+
+:global([data-shell="pocket"]) .document :global(.route-card-grid),
+:global([data-shell="pocket"]) .document :global(.capability-index),
+:global([data-shell="pocket"]) .document :global(.repository-list) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+:global([data-shell="pocket"]) .document :global(.project-card__art) {
+  min-block-size: 11rem;
+}
+
+@media (max-width: 48em) {
+  .document :global(.capability-index),
+  .document :global(.system-fact-grid),
+  .document :global(.project-inspector),
+  .document :global(.repository-list),
+  :global([data-shell="normal"]) .document :global(.project-card) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  :global([data-shell="normal"]) .document[data-presentation="home"] :global(.route-document__header) {
+    min-block-size: 34rem;
+    padding: var(--space-xl);
+    background:
+      linear-gradient(to top, var(--color-neutral) 0 42%, color-mix(in srgb, var(--color-neutral) 18%, transparent) 72%),
+      url("/images/wallpapers/dusk-pocket.webp") center / cover;
+  }
+
+  .document :global(.system-information > div) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .document :global(.system-information small) {
+    grid-column: 1;
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {

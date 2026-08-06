@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import type { AppTone } from "@/registry";
 
 export type PocketPageIndex = 0 | 1;
 
@@ -10,6 +11,7 @@ export interface PocketAppItem {
   readonly kind?: "app" | "social";
   readonly label: string;
   readonly statusLabel?: string;
+  readonly tone: AppTone;
   readonly verified?: boolean;
 }
 
@@ -33,7 +35,11 @@ export interface LabsStatusItem {
 
 export interface PocketAppFrameDescriptor {
   readonly backLabel?: string;
+  readonly iconKey: string;
+  readonly id: string;
+  readonly subtitle?: string;
   readonly title: string;
+  readonly tone: AppTone;
 }
 
 export interface PocketShellProps {
@@ -61,5 +67,6 @@ export interface PocketShellProps {
   readonly reducedMotion?: boolean;
   readonly startupPlayed: boolean;
   readonly unlocked: boolean;
+  readonly previewingLock?: boolean;
   readonly wallpaperUrl?: string;
 }

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import {
   RouteCardGrid,
@@ -19,10 +20,20 @@ export default function GamesPage() {
       title="Games"
       description="Game work is presented without loading an engine until a verified build exists and you explicitly choose Play."
       status="1 launcher"
+      presentation="games"
     >
       <RouteCardGrid>
         <article className="route-card route-card--feature">
-          <p className="route-card__index">PROJECT / LAUNCHER</p>
+          <div className="game-cover-art">
+            <Image
+              alt="Concept cover art of a worn boxing glove inside a graphite arcade cabinet"
+              fill
+              sizes="(max-width: 48rem) 100vw, 44rem"
+              src="/images/projects/fightclub-concept-cover.webp"
+            />
+            <span>Concept cover art</span>
+          </div>
+          <p className="route-card__index">Development launcher</p>
           <h2>
             <Link href="/games/fightclub">FightClub</Link>
           </h2>

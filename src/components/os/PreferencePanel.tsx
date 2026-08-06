@@ -11,7 +11,10 @@ type PreferencePanelProps = {
   effectiveReducedMotion: boolean;
   onDisplayPreference: (preference: DisplayPreference) => void;
   onHighContrast: (enabled: boolean) => void;
+  onLockPocket: () => void;
+  onPreviewLock: () => void;
   onReducedMotion: (enabled: boolean) => void;
+  onReplayStartup: () => void;
   onResetPreferences: () => void;
   onResetSession: () => void;
   onSound: (enabled: boolean) => void;
@@ -22,7 +25,10 @@ export function PreferencePanel({
   effectiveReducedMotion,
   onDisplayPreference,
   onHighContrast,
+  onLockPocket,
+  onPreviewLock,
   onReducedMotion,
+  onReplayStartup,
   onResetPreferences,
   onResetSession,
   onSound,
@@ -38,8 +44,7 @@ export function PreferencePanel({
         <p className={styles.eyebrow}>Local controls</p>
         <h2 id="preference-heading">Live OS preferences</h2>
         <p className={styles.intro}>
-          These settings stay on this device. Dusk is the sole decorative V1
-          theme.
+          Real controls come first. Fictional system details stay clearly secondary.
         </p>
       </div>
 
@@ -47,46 +52,27 @@ export function PreferencePanel({
         <label className={styles.row}>
           <span>
             <strong>Sound feedback</strong>
-            <small>Off by default; never autoplays.</small>
+            <small>Off by default and never autoplayed.</small>
           </span>
-          <input
-            checked={preferences.soundEnabled}
-            onChange={(event) => onSound(event.currentTarget.checked)}
-            type="checkbox"
-          />
+          <input checked={preferences.soundEnabled} onChange={(event) => onSound(event.currentTarget.checked)} type="checkbox" />
         </label>
         <label className={styles.row}>
           <span>
             <strong>Extra reduced motion</strong>
-            <small>
-              {effectiveReducedMotion
-                ? "Reduced motion is currently effective."
-                : "Short tactile transitions remain enabled."}
-            </small>
+            <small>{effectiveReducedMotion ? "Reduced motion is currently effective." : "Short tactile transitions remain enabled."}</small>
           </span>
-          <input
-            checked={preferences.extraReducedMotion}
-            onChange={(event) => onReducedMotion(event.currentTarget.checked)}
-            type="checkbox"
-          />
+          <input checked={preferences.extraReducedMotion} onChange={(event) => onReducedMotion(event.currentTarget.checked)} type="checkbox" />
         </label>
         <label className={styles.row}>
           <span>
             <strong>High contrast</strong>
             <small>Flattens shadows and reinforces boundaries.</small>
           </span>
-          <input
-            checked={preferences.highContrast}
-            onChange={(event) => onHighContrast(event.currentTarget.checked)}
-            type="checkbox"
-          />
+          <input checked={preferences.highContrast} onChange={(event) => onHighContrast(event.currentTarget.checked)} type="checkbox" />
         </label>
         <label className={styles.selectRow}>
           <span>Preferred presentation</span>
-          <select
-            onChange={updateDisplay}
-            value={preferences.displayPreference}
-          >
+          <select onChange={updateDisplay} value={preferences.displayPreference}>
             <option value="auto">Automatic</option>
             <option value="desktop">Desktop OS</option>
             <option value="pocket">Pocket OS</option>
@@ -95,9 +81,28 @@ export function PreferencePanel({
         </label>
       </SurfaceRecessed>
 
+      <section className={styles.group} aria-labelledby="pocket-system-heading">
+        <div>
+          <h3 id="pocket-system-heading">Pocket system</h3>
+          <p>These actions are reversible and return to the root route.</p>
+        </div>
+        <div className={styles.actionGrid}>
+          <Button onClick={onLockPocket}>Lock Pocket OS</Button>
+          <Button onClick={onPreviewLock}>Preview lock screen</Button>
+          <Button onClick={onReplayStartup}>Replay startup</Button>
+          <Button onClick={() => onDisplayPreference("normal")}>Open Normal View</Button>
+        </div>
+      </section>
+
+      <section className={styles.personality} aria-label="System personality settings">
+        <div><span>Focus mode</span><strong>Build Mode</strong></div>
+        <div><span>Screen time</span><strong>Renaming files: elevated</strong></div>
+        <div><span>Build information</span><strong>Dusk system / route-driven</strong></div>
+      </section>
+
       <div className={styles.resetActions}>
         <Button onClick={onResetPreferences}>Reset preferences</Button>
-        <Button onClick={onResetSession}>Reset session</Button>
+        <Button onClick={onResetSession}>Reset Pocket session</Button>
       </div>
     </section>
   );

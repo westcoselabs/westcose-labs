@@ -1,11 +1,19 @@
 import Link from "next/link";
 
+import { ProjectCard } from "@/components/apps/ProjectCard";
 import {
   RouteCardGrid,
   RouteDocument,
   RouteSection,
 } from "@/components/apps/RouteDocument";
-import { createRouteMetadata, siteConfig } from "@/registry";
+import {
+  capabilityRegistry,
+  createRouteMetadata,
+  experimentRegistry,
+  projectRegistry,
+  siteConfig,
+  systemFacts,
+} from "@/registry";
 
 export const metadata = createRouteMetadata({
   title: siteConfig.name,
@@ -13,65 +21,73 @@ export const metadata = createRouteMetadata({
   path: "/",
 });
 
-const destinations = [
-  {
-    href: "/projects",
-    title: "Projects",
-    description: "Selected product, web, and software work.",
-  },
-  {
-    href: "/games",
-    title: "Games",
-    description: "Launchers, playable work, and development notes.",
-  },
-  {
-    href: "/experiments",
-    title: "Experiments",
-    description: "Small studies, prototypes, and technical investigations.",
-  },
-  {
-    href: "/about",
-    title: "About",
-    description: "Background, approach, and this portfolio system.",
-  },
-] as const;
-
 export default function Home() {
+  const featured = projectRegistry.find((project) => project.featured);
+
   return (
     <RouteDocument
       eyebrow="Personal creative workstation"
-      title="WestCose Labs OS"
-      description="One portfolio, presented as a tactile desktop, a touch-first Pocket OS, or a conventional document view."
+      title="Software, systems, games, and useful experiments."
+      description="WestCose Labs designs and builds digital products with a strong point of view and a practical core."
+      presentation="home"
       actions={[
-        { href: "/projects", label: "Browse projects", variant: "primary" },
-        { href: "/about", label: "About the lab" },
+        { href: "/projects", label: "View projects", variant: "primary" },
+        { href: "/contact", label: "Contact" },
       ]}
     >
-      <RouteSection title="A portfolio with three ways in">
-        <p>
-          The active route selects the content. Your display preference selects
-          the shell around it. Every essential destination remains a real browser
-          route, so the interface never gets between you and the work.
-        </p>
-      </RouteSection>
+      {featured ? (
+        <RouteSection title="Featured project">
+          <ProjectCard project={featured} />
+        </RouteSection>
+      ) : null}
 
-      <RouteSection title="Explore">
+      <RouteSection title="Selected experiments">
         <RouteCardGrid>
-          {destinations.map((destination) => (
-            <article className="route-card" key={destination.href}>
-              <p className="route-card__index" aria-hidden="true">
-                {String(destinations.indexOf(destination) + 1).padStart(2, "0")}
-              </p>
+          {experimentRegistry.slice(0, 4).map((experiment) => (
+            <article className="route-card experiment-card" key={experiment.slug}>
+              <p className="route-card__index">{experiment.status}</p>
               <h2>
-                <Link href={destination.href}>{destination.title}</Link>
+                <Link href={`/experiments/${experiment.slug}`}>
+                  {experiment.title}
+                </Link>
               </h2>
-              <p>{destination.description}</p>
-              <Link className="route-card__open" href={destination.href}>
-                Open
+              <p>{experiment.purpose}</p>
+              <Link className="route-card__open" href={`/experiments/${experiment.slug}`}>
+                Open study
               </Link>
             </article>
           ))}
         </RouteCardGrid>
+      </RouteSection>
+
+      <RouteSection title="Capabilities">
+        <div className="capability-index">
+          {capabilityRegistry.map((capability) => (
+            <article key={capability.id}>
+              <h2>{capability.title}</h2>
+              <p>{capability.description}</p>
+              <Link href={capability.proofHref}>{capability.proofLabel}</Link>
+            </article>
+          ))}
+        </div>
+      </RouteSection>
+
+      <RouteSection title="About the system">
+        <div className="system-fact-grid">
+          {systemFacts.slice(0, 6).map((fact) => (
+            <div key={fact.label}>
+              <span>{fact.label}</span>
+              <strong>{fact.value}</strong>
+            </div>
+          ))}
+        </div>
+        <p>
+          Desktop OS, Pocket OS, and Normal View share the same routes and
+          content. The interface changes. The facts do not.
+        </p>
+        <Link className="route-action route-action--secondary" href="/about">
+          About WestCose Labs
+        </Link>
       </RouteSection>
     </RouteDocument>
   );

@@ -1,16 +1,27 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import type { RegisteredProject } from "@/registry/projects";
 
 export function ProjectCard({ project }: { project: RegisteredProject }) {
   return (
-    <article className="project-card">
-      <div className="project-card__art" aria-hidden="true">
-        <span>WCL / PROJECT FILE</span>
+    <article className="project-card" data-tone={project.accentTone}>
+      <div className="project-card__art">
+        {project.cover ? (
+          <Image
+            alt={project.cover.alt}
+            fill
+            sizes="(max-width: 48rem) 100vw, 50vw"
+            src={project.cover.src}
+          />
+        ) : (
+          <span aria-hidden="true">WCL / PROJECT FILE</span>
+        )}
       </div>
       <div className="project-card__content">
         <p className="project-card__meta">
-          {project.category} · {formatProjectStatus(project.status)}
+          <span>{project.category}</span>
+          <span>{formatProjectStatus(project.status)}</span>
         </p>
         <h2>
           <Link href={`/projects/${project.slug}`}>{project.title}</Link>

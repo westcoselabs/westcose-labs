@@ -18,6 +18,21 @@ type RouteDocumentProps = {
   actions?: readonly RouteAction[];
   children: ReactNode;
   className?: string;
+  presentation?:
+    | "home"
+    | "projects"
+    | "project"
+    | "games"
+    | "game"
+    | "experiments"
+    | "services"
+    | "about"
+    | "notes"
+    | "settings"
+    | "contact"
+    | "github"
+    | "recycle"
+    | "terminal";
 };
 
 export function RouteDocument({
@@ -28,13 +43,15 @@ export function RouteDocument({
   actions = [],
   children,
   className,
+  presentation,
 }: RouteDocumentProps) {
   return (
-    <article
+    <div
       className={[styles.document, "route-document", className]
         .filter(Boolean)
         .join(" ")}
       data-route-content
+      data-presentation={presentation}
     >
       <header className="route-document__header">
         <div className="route-document__heading-group">
@@ -80,7 +97,7 @@ export function RouteDocument({
         ) : null}
       </header>
       <div className="route-document__body">{children}</div>
-    </article>
+    </div>
   );
 }
 

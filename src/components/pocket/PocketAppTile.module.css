@@ -26,7 +26,7 @@
   inline-size: var(--pocket-icon-size);
   block-size: var(--pocket-icon-size);
   border-radius: var(--radius-xl);
-  color: var(--color-primary-hover);
+  color: var(--app-icon-tone, var(--color-primary-hover));
   background: var(--neu-raised-bg);
   box-shadow: var(--neu-shadow-raised);
   transition:
@@ -35,6 +35,17 @@
     box-shadow var(--motion-base) var(--ease-standard),
     transform var(--motion-fast) var(--ease-standard);
 }
+
+.tile[data-tone="blue"] { --app-icon-tone: var(--app-tone-blue); }
+.tile[data-tone="indigo"] { --app-icon-tone: var(--app-tone-indigo); }
+.tile[data-tone="cyan"] { --app-icon-tone: var(--app-tone-cyan); }
+.tile[data-tone="teal"] { --app-icon-tone: var(--app-tone-teal); }
+.tile[data-tone="silver"] { --app-icon-tone: var(--app-tone-silver); }
+.tile[data-tone="graphite"] { --app-icon-tone: var(--app-tone-graphite); }
+.tile[data-tone="amber"] { --app-icon-tone: var(--app-tone-amber); }
+.tile[data-tone="cobalt"] { --app-icon-tone: var(--app-tone-cobalt); }
+.tile[data-tone="green"] { --app-icon-tone: var(--app-tone-green); }
+.tile[data-tone="red"] { --app-icon-tone: var(--app-tone-red); }
 
 .label {
   inline-size: 100%;
@@ -55,8 +66,20 @@
   transform: translateY(var(--press-offset));
 }
 
+.menuButton {
+  position: absolute;
+  inset-block-start: calc(var(--space-sm) * -1);
+  inset-inline-start: calc(50% + var(--space-xs));
+  color: var(--color-text-secondary);
+  background: transparent;
+  box-shadow: none;
+}
+
 .menuButton svg {
-  transform: scale(0.82);
+  padding: var(--space-micro);
+  border-radius: var(--radius-full);
+  background: var(--color-surface-overlay);
+  transform: scale(0.72);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -72,6 +95,6 @@
   }
 
   .menuButton svg {
-    transform: scale(0.72);
+    transform: scale(0.64);
   }
 }

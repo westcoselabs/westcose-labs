@@ -1,4 +1,5 @@
 import { DevelopmentFixture } from "@/components/apps/DevelopmentFixture";
+import { FightClubLauncher } from "@/components/apps/FightClubLauncher";
 import {
   RouteDocument,
   RouteSection,
@@ -16,32 +17,20 @@ export default function FightClubPage() {
     <RouteDocument
       eyebrow="Game project"
       title="FightClub"
-      description="A lightweight project launcher. No game engine or unverified build is included in the initial bundle."
+      description="A lightweight project launcher with a future lazy game boundary."
       status="Build unavailable"
+      presentation="game"
     >
+      <FightClubLauncher />
       <DevelopmentFixture>
-        Artwork, controls, production notes, and playable build status need owner
-        confirmation before this launcher can offer Play.
+        Approved artwork, controls, production notes, version, and playable build
+        status are still required. The Uninstall action is a harmless Easter egg.
       </DevelopmentFixture>
-      <RouteSection title="Launcher status">
-        <p>
-          The presentation shell is ready for a future <code>GameMount</code>
-          boundary. That boundary will load only after an explicit Play action,
-          and only when a verified build is supplied.
-        </p>
-        <button
-          className="route-action route-action--primary"
-          type="button"
-          disabled
-        >
-          Play unavailable
-        </button>
-      </RouteSection>
-      <RouteSection title="Initial-bundle contract">
+      <RouteSection title="Load boundary">
         <ul>
-          <li>No game engine request on the home or Games route.</li>
-          <li>No online score, achievement, or save infrastructure.</li>
-          <li>Launcher content remains readable in every presentation shell.</li>
+          <li>No game engine request on Home or the Games route.</li>
+          <li>No unverified Play action, score, achievement, or save state.</li>
+          <li>A future build mounts only after an explicit launch.</li>
         </ul>
       </RouteSection>
     </RouteDocument>

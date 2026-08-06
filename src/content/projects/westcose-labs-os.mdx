@@ -1,0 +1,31 @@
+## The brief
+
+WestCose Labs OS turns a conventional portfolio into a fictional workstation and
+matching pocket device. The design goal is memorable presentation with modern,
+predictable browser behavior underneath.
+
+## The system decision
+
+The URL selects the content. A typed shell resolver selects Desktop OS, Pocket
+OS, or Normal View around that same route. This keeps direct links, refresh,
+Back and Forward, metadata, and server-rendered content intact.
+
+## Constraints
+
+- Keep route content out of duplicated shell-specific files.
+- Keep startup, lock, and Pocket Home inside the usable mobile viewport.
+- Keep game engines, large media, and unverified integrations out of the first load.
+- Preserve keyboard, reduced-motion, high-contrast, and visible alternatives.
+
+## What is implemented
+
+The repository contains typed app, route, project, placement, and notification
+registries; versioned local preferences and Pocket session state; draggable and
+resizable desktop windows; a two-page Pocket Home; and a conventional Normal
+View that renders without completing the operating-system interactions.
+
+## Verification
+
+The implementation is covered by unit, component, Playwright, visual, and
+automated accessibility tests. Public links and final production screenshots are
+shown only after owner verification.

@@ -2,6 +2,18 @@ export type ShellId = "desktop" | "pocket" | "normal";
 
 export type AppStatus = "available" | "fixture" | "needs-configuration";
 
+export type AppTone =
+  | "blue"
+  | "indigo"
+  | "cyan"
+  | "teal"
+  | "silver"
+  | "graphite"
+  | "amber"
+  | "cobalt"
+  | "green"
+  | "red";
+
 export type LaunchTarget =
   | { kind: "route"; href: `/${string}` }
   | { kind: "external"; href: `https://${string}` }
@@ -33,6 +45,7 @@ export type OSApp = {
   description: string;
   accessibilityLabel: string;
   iconKey: string;
+  tone: AppTone;
   status: AppStatus;
   availableIn: readonly ShellId[];
   target: LaunchTarget;
@@ -65,6 +78,57 @@ export type Project = {
   featured: boolean;
   relatedProjectSlugs: readonly string[];
   publishedAt?: string;
+  role?: string;
+  objective?: string;
+  constraints?: readonly string[];
+  decisions?: readonly string[];
+  outcomes?: readonly string[];
+  versionLabel?: string;
+  accentTone?: AppTone;
+  pocketSummary?: string;
+  desktopPresentation?: "portfolio-explorer" | "game-launcher";
+  ownerInputNeeded?: readonly string[];
+};
+
+export type ExperimentStatus =
+  | "stable"
+  | "beta"
+  | "unfinished"
+  | "archived"
+  | "broken-on-purpose";
+
+export type Experiment = {
+  slug: string;
+  title: string;
+  purpose: string;
+  status: ExperimentStatus;
+  requirements: string;
+  proof: string;
+  iconKey: string;
+  tone: AppTone;
+};
+
+export type Note = {
+  id: string;
+  title: string;
+  summary: string;
+  body: readonly string[];
+  tag: "README" | "Process" | "System humor";
+  pinned?: boolean;
+};
+
+export type Capability = {
+  id: string;
+  title: string;
+  description: string;
+  proofLabel: string;
+  proofHref: `/${string}`;
+};
+
+export type SystemFact = {
+  label: string;
+  value: string;
+  detail?: string;
 };
 
 export type RouteKind =

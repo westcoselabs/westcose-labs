@@ -1,9 +1,10 @@
+import { DoNotOpen } from "@/components/apps/DoNotOpen";
+import { RecycleExplorer } from "@/components/apps/RecycleExplorer";
 import {
   RouteDocument,
   RouteSection,
 } from "@/components/apps/RouteDocument";
-import { DoNotOpen } from "@/components/apps/DoNotOpen";
-import { createRouteMetadata } from "@/registry";
+import { createRouteMetadata, personalityRegistry } from "@/registry";
 
 export const metadata = createRouteMetadata({
   title: "Recycle",
@@ -11,41 +12,18 @@ export const metadata = createRouteMetadata({
   path: "/recycle",
 });
 
-const recycledFiles = [
-  {
-    name: "final-final-v7-actually-final.fig",
-    note: "Modified continuously since the phrase ‘quick revision.’",
-  },
-  {
-    name: "weekend-project-437-days-running.log",
-    note: "Background task healthy. Definition of healthy unavailable.",
-  },
-  {
-    name: "meeting-that-could-have-been-a-readme.txt",
-    note: "Recovered successfully. It is now a README.",
-  },
-] as const;
-
 export default function RecyclePage() {
   return (
     <RouteDocument
-      eyebrow="Archive / nonessential"
+      eyebrow="Recently deleted"
       title="Recycle"
-      description="A few joke files and side-project sediment. No essential portfolio content is hidden here."
-      status={`${recycledFiles.length} harmless files`}
+      description="Discarded concepts and harmless oddities. Nothing essential is stored only here."
+      status={`${personalityRegistry.recycleFiles.length} recoverable ideas`}
+      presentation="recycle"
     >
-      <RouteSection title="Recovered files">
-        <ul className="file-list">
-          {recycledFiles.map((file) => (
-            <li key={file.name}>
-              <strong>{file.name}</strong>
-              <span>{file.note}</span>
-            </li>
-          ))}
-        </ul>
-      </RouteSection>
+      <RecycleExplorer />
       <RouteSection title="Quarantined item">
-        <p>This interaction is optional, harmless, and easy to dismiss.</p>
+        <p>This optional interaction is harmless and easy to dismiss.</p>
         <DoNotOpen />
       </RouteSection>
     </RouteDocument>

@@ -1,6 +1,7 @@
 import { appRegistry } from "./apps";
 import {
   desktopPlacement,
+  desktopTaskbarPinnedPlacement,
   pocketDockPlacement,
   pocketPageOnePlacement,
   pocketPageTwoPlacement,
@@ -76,6 +77,7 @@ export function getRegistryIssues(): string[] {
   const placements: readonly [string, readonly AppId[]][] = [
     ["desktop", desktopPlacement],
     ["start menu", startMenuPlacement],
+    ["desktop taskbar", desktopTaskbarPinnedPlacement],
     ["Pocket Page One", pocketPageOnePlacement],
     ["Pocket Page Two", pocketPageTwoPlacement],
     ["Pocket dock", pocketDockPlacement],

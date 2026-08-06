@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type { ButtonHTMLAttributes, ReactNode, Ref } from "react";
 
 import styles from "./IconButton.module.css";
 
@@ -7,6 +7,7 @@ export interface IconButtonProps
   children: ReactNode;
   label: string;
   selected?: boolean;
+  buttonRef?: Ref<HTMLButtonElement>;
 }
 
 export function IconButton({
@@ -14,6 +15,7 @@ export function IconButton({
   className,
   label,
   selected,
+  buttonRef,
   type = "button",
   ...props
 }: IconButtonProps) {
@@ -24,6 +26,7 @@ export function IconButton({
       aria-pressed={selected}
       className={[styles.button, className].filter(Boolean).join(" ")}
       data-selected={selected || undefined}
+      ref={buttonRef}
       type={type}
     >
       {children}

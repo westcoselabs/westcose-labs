@@ -34,11 +34,13 @@ import {
   appRegistry,
   getAppById,
   getAppByPath,
+  getParentPath,
   getRouteDescriptor,
   pocketDockPlacement,
   pocketNotifications,
   pocketPageOnePlacement,
   pocketPageTwoPlacement,
+  personalityRegistry,
   projectRegistry,
   routeSupportsShell,
   type OSApp,
@@ -67,6 +69,7 @@ const toPocketApp = (app: OSApp): PocketAppItem => ({
   id: app.id,
   kind: "app",
   label: app.pocketLabel,
+  tone: app.tone,
   statusLabel:
     app.status === "needs-configuration" ? "Needs configuration" : undefined,
 });
@@ -243,7 +246,9 @@ export function OSRoot({ children }: OSRootProps) {
 
   const launchPocketApp = useCallback(
     (item: PocketAppItem) => {
-      const app = appRegistry.find((candidate) => candidate.id === item.id);
+      const app = appRegistry.find(
+        (candidate) => candidate.id === item.id,
+      ) as OSApp | undefined;
       if (!app) return;
       if (app.target.kind === "route") {
         pocketDispatch({ type: "launch/record-origin", page: pocket.page });
@@ -278,7 +283,14 @@ export function OSRoot({ children }: OSRootProps) {
   const resetSession = () => {
     safeRemoveStorage(window.sessionStorage, SESSION_STORAGE_KEY);
     setReadmeShown(DEFAULT_SESSION.readmeShown);
-    pocketDispatch({ type: "session/reset", pathname });
+    pocketDispatch({ type: "session/reset", pathname: "/" });
+  };
+
+  const showPocketSystem = (
+    action: "system/lock" | "system/preview-lock" | "system/replay-startup",
+  ) => {
+    pocketDispatch({ type: action });
+    router.push("/");
   };
 
   const preferencePanel = (
@@ -295,6 +307,9 @@ export function OSRoot({ children }: OSRootProps) {
       }
       onResetPreferences={resetPreferences}
       onResetSession={resetSession}
+      onLockPocket={() => showPocketSystem("system/lock")}
+      onPreviewLock={() => showPocketSystem("system/preview-lock")}
+      onReplayStartup={() => showPocketSystem("system/replay-startup")}
       onSound={(enabled) =>
         preferencesDispatch({ type: "sound/set", enabled })
       }
@@ -351,7 +366,17 @@ export function OSRoot({ children }: OSRootProps) {
           activeApp={
             pathname === "/"
               ? undefined
-              : { title: activeApp?.name ?? routeTitle, backLabel: "Back" }
+              : {
+                  id: activeApp?.id ?? "projects",
+                  title: activeApp?.name ?? routeTitle,
+                  backLabel: getParentPath(pathname) === "/" ? "Home" : "Back",
+                  iconKey: activeApp?.iconKey ?? "projects",
+                  subtitle:
+                    activeApp?.status === "fixture"
+                      ? "Development fixture"
+                      : undefined,
+                  tone: activeApp?.tone ?? "blue",
+                }
           }
           dismissedNotificationIds={pocket.dismissedNotificationIds}
           dockApps={pocketDockApps}
@@ -362,8 +387,8 @@ export function OSRoot({ children }: OSRootProps) {
               projectRegistry[0]?.shortDescription ?? "Selected product work.",
           }}
           labsStatus={{
-            label: "Routes online",
-            detail: "Development fixtures are clearly marked.",
+            label: personalityRegistry.statusMessages[0],
+            detail: personalityRegistry.conditionMessages[0],
           }}
           menuTargetId={pocket.menuTarget?.id}
           normalViewHref={normalViewHref}
@@ -389,6 +414,7 @@ export function OSRoot({ children }: OSRootProps) {
           pageOneApps={pocketPageOneApps}
           pageTwoApps={pocketPageTwoApps}
           pathname={pathname}
+          previewingLock={pocket.previewingLock}
           reducedMotion={effectiveAccessibility.reducedMotion}
           startupPlayed={pocket.startupPlayed}
           unlocked={pocket.unlocked}

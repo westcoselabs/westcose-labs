@@ -1,8 +1,13 @@
+import Link from "next/link";
+
 import {
+  RouteCardGrid,
   RouteDocument,
-  RouteSection,
 } from "@/components/apps/RouteDocument";
-import { createRouteMetadata } from "@/registry";
+import {
+  createRouteMetadata,
+  experimentRegistry,
+} from "@/registry";
 
 export const metadata = createRouteMetadata({
   title: "Experiments",
@@ -15,16 +20,27 @@ export default function ExperimentsPage() {
     <RouteDocument
       eyebrow="Lab index"
       title="Experiments"
-      description="A home for small prototypes and technical studies once their public details are confirmed."
-      status="No published entries"
+      description="Small technical studies extracted from working parts of this portfolio system."
+      status={`${experimentRegistry.length} verified studies`}
+      presentation="experiments"
     >
-      <RouteSection title="Directory is ready">
-        <p>
-          The route and registry contract are in place, but no experiment is
-          published as a production fact yet. Unknown experiment URLs correctly
-          return a not-found page instead of an inert “Coming Soon” destination.
-        </p>
-      </RouteSection>
+      <RouteCardGrid>
+        {experimentRegistry.map((experiment) => (
+          <article
+            className="route-card experiment-card"
+            data-tone={experiment.tone}
+            key={experiment.slug}
+          >
+            <p className="route-card__index">{experiment.status}</p>
+            <h2><Link href={`/experiments/${experiment.slug}`}>{experiment.title}</Link></h2>
+            <p>{experiment.purpose}</p>
+            <small>{experiment.requirements}</small>
+            <Link className="route-card__open" href={`/experiments/${experiment.slug}`}>
+              Inspect experiment
+            </Link>
+          </article>
+        ))}
+      </RouteCardGrid>
     </RouteDocument>
   );
 }

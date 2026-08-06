@@ -16,6 +16,7 @@ export default function TerminalPage() {
       eyebrow="Utility"
       title="Terminal"
       description="The Desktop shell may provide an interactive utility window. This route is the conventional command reference and Pocket fallback."
+      presentation="terminal"
     >
       <RouteSection title="Available commands">
         <dl className="command-list">

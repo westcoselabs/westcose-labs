@@ -2,7 +2,11 @@ import {
   RouteDocument,
   RouteSection,
 } from "@/components/apps/RouteDocument";
-import { createRouteMetadata, siteConfig } from "@/registry";
+import {
+  createRouteMetadata,
+  siteConfig,
+  systemFacts,
+} from "@/registry";
 
 export const metadata = createRouteMetadata({
   title: "About",
@@ -13,48 +17,39 @@ export const metadata = createRouteMetadata({
 export default function AboutPage() {
   return (
     <RouteDocument
-      eyebrow="System information"
-      title="About WestCose Labs"
-      description="A professional portfolio imagined as a fictional personal workstation from an alternate 2009."
+      eyebrow="About this device"
+      title="WestCose Labs"
+      description="A design-led software practice presented as a personal workstation from an alternate 2009."
+      presentation="about"
       actions={[
-        { href: "/projects", label: "Browse projects", variant: "primary" },
-        { href: "/contact", label: "Get in touch" },
+        { href: "/projects", label: "View projects", variant: "primary" },
+        { href: "/contact", label: "Contact" },
       ]}
     >
-      <RouteSection title="The idea">
+      <section className="system-information" aria-label="System information">
+        {systemFacts.map((fact) => (
+          <div key={fact.label}>
+            <span>{fact.label}</span>
+            <strong>{fact.value}</strong>
+            {"detail" in fact && fact.detail ? <small>{fact.detail}</small> : null}
+          </div>
+        ))}
+      </section>
+      <RouteSection title="Design language">
         <p>
-          Desktop OS gives pointer-oriented visitors a calm creative workstation.
-          Pocket OS makes the same portfolio touch-first. Normal View keeps every
-          essential route in conventional document flow. The route chooses the
-          content; the shell only changes its presentation.
+          Matte graphite, upper-left lighting, restrained system blue, local
+          photography, and sparse chrome create a tactile soft-tech interface
+          without copying an existing operating system.
         </p>
       </RouteSection>
-      <RouteSection title="The design language">
-        <p>
-          Matte graphite surfaces, upper-left lighting, restrained system blue,
-          photographic wallpaper, and sparse chrome create a tactile soft-tech
-          interface without cloning an existing operating system.
-        </p>
-      </RouteSection>
-      <RouteSection title="Links" id="links">
+      <RouteSection title="Verified links" id="links">
         {siteConfig.githubUrl ? (
-          <p>
-            <a href={siteConfig.githubUrl} rel="noreferrer" target="_blank">
-              Open the verified GitHub profile
-              <span className="sr-only"> (opens in a new tab)</span>
-            </a>
-          </p>
+          <p><a href={siteConfig.githubUrl} rel="noreferrer" target="_blank">Open GitHub profile<span className="sr-only"> (opens in a new tab)</span></a></p>
         ) : (
-          <p className="configuration-note">
-            The production GitHub destination is awaiting owner configuration.
-            No placeholder profile is linked.
-          </p>
+          <p className="configuration-note">The production GitHub destination still needs owner configuration.</p>
         )}
         {siteConfig.socials.length === 0 ? (
-          <p className="configuration-note">
-            Social shortcuts will appear only after their active destinations are
-            verified.
-          </p>
+          <p className="configuration-note">Social shortcuts remain hidden until their destinations are verified.</p>
         ) : null}
       </RouteSection>
     </RouteDocument>

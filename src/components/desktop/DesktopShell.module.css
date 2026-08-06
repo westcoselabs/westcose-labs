@@ -65,6 +65,8 @@
 }
 
 .iconWell {
+  --desktop-icon-tone: var(--color-primary-hover);
+
   display: grid;
   place-items: center;
   inline-size: var(--desktop-icon-size);
@@ -72,7 +74,44 @@
   border-radius: var(--radius-xl);
   background: var(--color-surface-raised);
   box-shadow: var(--neu-shadow-raised);
-  color: var(--color-primary-hover);
+  color: var(--desktop-icon-tone);
+}
+
+.desktopIcon[data-tone="blue"],
+.startGroup button[data-tone="blue"],
+.pinnedApp[data-tone="blue"] { --desktop-icon-tone: var(--app-tone-blue); }
+.desktopIcon[data-tone="indigo"],
+.startGroup button[data-tone="indigo"],
+.pinnedApp[data-tone="indigo"] { --desktop-icon-tone: var(--app-tone-indigo); }
+.desktopIcon[data-tone="cyan"],
+.startGroup button[data-tone="cyan"],
+.pinnedApp[data-tone="cyan"] { --desktop-icon-tone: var(--app-tone-cyan); }
+.desktopIcon[data-tone="teal"],
+.startGroup button[data-tone="teal"],
+.pinnedApp[data-tone="teal"] { --desktop-icon-tone: var(--app-tone-teal); }
+.desktopIcon[data-tone="silver"],
+.startGroup button[data-tone="silver"],
+.pinnedApp[data-tone="silver"] { --desktop-icon-tone: var(--app-tone-silver); }
+.desktopIcon[data-tone="graphite"],
+.startGroup button[data-tone="graphite"],
+.pinnedApp[data-tone="graphite"] { --desktop-icon-tone: var(--app-tone-graphite); }
+.desktopIcon[data-tone="amber"],
+.startGroup button[data-tone="amber"],
+.pinnedApp[data-tone="amber"] { --desktop-icon-tone: var(--app-tone-amber); }
+.desktopIcon[data-tone="cobalt"],
+.startGroup button[data-tone="cobalt"],
+.pinnedApp[data-tone="cobalt"] { --desktop-icon-tone: var(--app-tone-cobalt); }
+.desktopIcon[data-tone="green"],
+.startGroup button[data-tone="green"],
+.pinnedApp[data-tone="green"] { --desktop-icon-tone: var(--app-tone-green); }
+.desktopIcon[data-tone="red"],
+.startGroup button[data-tone="red"],
+.pinnedApp[data-tone="red"] { --desktop-icon-tone: var(--app-tone-red); }
+
+.desktopIcon[data-tone] .iconWell,
+.startGroup button[data-tone] .startGlyph,
+.pinnedApp[data-tone] {
+  color: var(--desktop-icon-tone);
 }
 
 .selectionBar {
@@ -118,7 +157,7 @@
 }
 
 .clockWidget strong {
-  font-size: var(--type-headline-lg-size);
+  font-size: var(--type-headline-sm-size);
   letter-spacing: var(--type-headline-lg-tracking);
 }
 
@@ -207,7 +246,9 @@
   font-weight: var(--type-label-lg-weight);
 }
 
+.taskbarCenter,
 .pinnedApps,
+.runningApps,
 .systemTray {
   display: flex;
   align-items: center;
@@ -215,9 +256,30 @@
   min-inline-size: 0;
 }
 
-.pinnedApps {
+.taskbarCenter {
   overflow-x: auto;
-  padding: var(--space-sm);
+  padding: var(--space-xs);
+}
+
+.pinnedApps,
+.runningApps {
+  flex: 0 0 auto;
+}
+
+.runningApps {
+  overflow: hidden;
+}
+
+.pinnedApp {
+  flex: 0 0 auto;
+}
+
+.taskbarDivider {
+  flex: 0 0 auto;
+  inline-size: var(--border-thin);
+  block-size: calc(var(--control-min-size) - var(--space-md));
+  margin-inline: var(--space-xs);
+  background: var(--color-border-subtle);
 }
 
 .runningApp {
@@ -254,6 +316,12 @@
 .trayClock {
   display: grid;
   min-inline-size: 5.5rem;
+  min-block-size: var(--control-min-size);
+  padding: var(--space-xs) var(--space-sm);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-primary);
   text-align: end;
 }
 
@@ -330,8 +398,50 @@
 
 .startResults {
   display: grid;
-  gap: var(--space-xs);
+  gap: var(--space-base);
   overflow: auto;
+}
+
+.startMenu footer {
+  align-items: stretch;
+  flex-direction: column;
+}
+
+.startFooterActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.powerZone {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-md);
+  padding-block-start: var(--space-md);
+  border-block-start: var(--border-thin) solid var(--color-border-subtle);
+}
+
+.powerZone span {
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+}
+
+.startGroup {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.startGroup h3 {
+  margin: 0;
+  padding-inline: var(--space-md);
+  color: var(--color-text-subdued);
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-label-md-weight);
+  letter-spacing: var(--type-label-md-tracking);
+  text-transform: uppercase;
 }
 
 .startResults button {
@@ -353,11 +463,97 @@
   gap: var(--space-xs);
 }
 
+.startResults .startGlyph {
+  display: grid;
+  place-items: center;
+}
+
 .startResults small {
   overflow: hidden;
   color: var(--color-text-secondary);
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.noResults {
+  margin: 0;
+  padding: var(--space-xl) var(--space-md);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.clockPanel {
+  position: fixed;
+  inset-inline-end: var(--desktop-gutter);
+  inset-block-end: calc(var(--desktop-taskbar-size) + var(--desktop-gutter) * 2);
+  z-index: var(--layer-menus);
+  display: grid;
+  gap: var(--space-sm);
+  inline-size: min(19rem, calc(100vw - var(--space-2xl)));
+  padding: var(--space-xl);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface-overlay);
+  box-shadow: var(--neu-shadow-floating);
+}
+
+.systemActionsPanel {
+  position: fixed;
+  inset-inline-end: var(--desktop-gutter);
+  inset-block-end: calc(var(--desktop-taskbar-size) + var(--desktop-gutter) * 2);
+  z-index: var(--layer-menus);
+  display: grid;
+  gap: var(--space-sm);
+  inline-size: min(18rem, calc(100vw - var(--space-2xl)));
+  padding: var(--space-lg);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface-overlay);
+  box-shadow: var(--neu-shadow-floating);
+}
+
+.systemActionsPanel p {
+  margin: 0 0 var(--space-xs);
+  color: var(--color-tertiary);
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+  text-transform: uppercase;
+}
+
+.systemActionsPanel small {
+  margin-block-start: var(--space-sm);
+  color: var(--color-text-secondary);
+}
+
+.clockPanel > p,
+.clockPanel > strong,
+.clockPanel > span {
+  margin: 0;
+}
+
+.clockPanel > p {
+  color: var(--color-tertiary);
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+  text-transform: uppercase;
+}
+
+.clockPanel > strong {
+  font-size: var(--type-display-md-size);
+  line-height: var(--type-display-md-leading);
+}
+
+.clockPanel > span {
+  color: var(--color-text-secondary);
+}
+
+.clockPanel > div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-block: var(--space-sm);
+  padding-block: var(--space-md);
+  border-block: var(--border-thin) solid var(--color-border-subtle);
 }
 
 .contextMenu {

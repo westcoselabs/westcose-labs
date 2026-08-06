@@ -16,10 +16,11 @@ export default function SettingsPage() {
       eyebrow="Control panel"
       title="Settings"
       description="Preferences are intentionally small, local, and reversible."
+      presentation="settings"
     >
       <RouteSection title="Display">
         <p>
-          Dusk is the only complete decorative theme in V1. Normal View is a
+          Dusk is the complete decorative theme. Normal View is a
           presentation preference, not a separate content tree, and its links
           preserve <code>?view=normal</code>.
         </p>

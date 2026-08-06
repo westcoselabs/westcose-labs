@@ -26,6 +26,17 @@
   --color-warning: #d99a43;
   --color-danger: #ef5b5b;
 
+  --app-tone-blue: var(--color-primary);
+  --app-tone-indigo: color-mix(in srgb, var(--color-primary) 70%, #7f74d8);
+  --app-tone-cyan: var(--color-tertiary);
+  --app-tone-teal: color-mix(in srgb, var(--color-tertiary) 72%, var(--color-success));
+  --app-tone-silver: var(--color-text-secondary);
+  --app-tone-graphite: var(--color-text-subdued);
+  --app-tone-amber: var(--color-warning);
+  --app-tone-cobalt: var(--color-primary-pressed);
+  --app-tone-green: var(--color-success);
+  --app-tone-red: var(--color-danger);
+
   --font-sans: var(--font-manrope), Manrope, Inter, system-ui, sans-serif;
   --font-mono: var(--font-ibm-plex-mono), "IBM Plex Mono", ui-monospace,
     SFMono-Regular, Consolas, monospace;
@@ -152,6 +163,7 @@
   --ease-exit: cubic-bezier(0.4, 0, 1, 1);
 
   --layer-base: 0;
+  --layer-content: 1;
   --layer-desktop-icons: 10;
   --layer-windows: 20;
   --layer-widgets: 30;

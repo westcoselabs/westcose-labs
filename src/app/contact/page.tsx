@@ -22,6 +22,7 @@ export default function ContactPage() {
           ? "Email handoff ready"
           : "Email address awaiting configuration"
       }
+      presentation="contact"
     >
       <RouteSection title="Compose an email">
         <ContactComposer recipient={siteConfig.contactEmail} />

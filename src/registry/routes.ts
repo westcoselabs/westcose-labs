@@ -110,6 +110,15 @@ export const routeRegistry = [
     parentPath: "/",
   },
   {
+    path: "/github",
+    kind: "app-index",
+    title: "GitHub",
+    description: "Verified repository and profile directory.",
+    appId: "github",
+    availableIn: ["desktop", "pocket", "normal"],
+    parentPath: "/",
+  },
+  {
     path: "/recycle",
     kind: "utility",
     title: "Recycle",

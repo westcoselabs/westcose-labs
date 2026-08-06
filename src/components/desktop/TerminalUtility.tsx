@@ -6,12 +6,28 @@ import { useState, type FormEvent } from "react";
 import styles from "./TerminalUtility.module.css";
 
 const INTRO = [
-  "WestCose Navigation Terminal v1",
+  "WestCose Navigation Terminal v2",
   "Type help. This utility cannot execute system commands.",
 ] as const;
 
+const ROUTE_COMMANDS = {
+  about: "/about",
+  contact: "/contact",
+  experiments: "/experiments",
+  games: "/games",
+  github: "/github",
+  projects: "/projects",
+  services: "/services",
+} as const;
+
+const HELP = [
+  "about | projects | games | experiments | services | contact | github",
+  "open fightclub | theme | history | secret | clear",
+].join("\n");
+
 export function TerminalUtility() {
   const router = useRouter();
+  const [history, setHistory] = useState<readonly string[]>([]);
   const [lines, setLines] = useState<readonly string[]>(INTRO);
 
   const runCommand = (event: FormEvent<HTMLFormElement>) => {
@@ -22,22 +38,43 @@ export function TerminalUtility() {
     form.reset();
 
     if (!command) return;
+    const nextHistory = [...history, command];
+    setHistory(nextHistory);
+
     if (command === "clear") {
       setLines([]);
       return;
     }
-    if (command === "projects" || command === "about") {
-      setLines((current) => [...current, `> ${command}`, `Opening /${command}`]);
-      router.push(`/${command}`);
+
+    const route = ROUTE_COMMANDS[command as keyof typeof ROUTE_COMMANDS];
+    if (route) {
+      setLines((current) => [...current, `> ${command}`, `Opening ${route}`]);
+      router.push(route);
+      return;
+    }
+
+    if (command === "open fightclub") {
+      setLines((current) => [
+        ...current,
+        `> ${command}`,
+        "Opening /games/fightclub without loading a game engine.",
+      ]);
+      router.push("/games/fightclub");
       return;
     }
 
     const response =
       command === "help"
-        ? "help · projects · about · clear"
-        : command === "westcose"
-          ? "Hidden command found: good software should still work when the costume comes off."
-          : `Unknown command: ${command}. Try help.`;
+        ? HELP
+        : command === "history"
+          ? nextHistory.map((entry, index) => `${index + 1}  ${entry}`).join("\n")
+          : command === "theme"
+            ? "Dusk is active. Open Settings for display and accessibility preferences."
+            : command === "secret" || command === "westcose"
+              ? "Hidden command found: good software should still work when the costume comes off."
+              : command === "sudo impress-client"
+                ? "Permission denied. Try showing the work instead."
+                : `Unknown command: ${command}. Try help.`;
     setLines((current) => [...current, `> ${command}`, response]);
   };
 

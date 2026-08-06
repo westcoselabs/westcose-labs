@@ -65,6 +65,23 @@ test.describe("Desktop OS", () => {
     await expect(page).toHaveURL("/?view=os");
     await expect(page.getByRole("region", { name: "Projects" })).toHaveCount(0);
   });
+
+  test("uses explicit pinned placement and opens the tray status panel", async ({
+    page,
+  }) => {
+    await page.goto("/?view=os");
+    const pinned = page.getByRole("group", { name: "Pinned apps" });
+    await expect(pinned.getByRole("button")).toHaveCount(4);
+    await expect(pinned.getByRole("button").nth(0)).toHaveAccessibleName("Open Projects");
+    await expect(pinned.getByRole("button").nth(1)).toHaveAccessibleName("Open Games");
+    await expect(pinned.getByRole("button").nth(2)).toHaveAccessibleName("Open Notes");
+    await expect(pinned.getByRole("button").nth(3)).toHaveAccessibleName("Open Settings");
+
+    await page.locator('[aria-controls="desktop-clock-panel"]').click();
+    await expect(
+      page.getByRole("region", { name: "Date and system status" }),
+    ).toBeVisible();
+  });
 });
 
 test.describe("Normal View", () => {
@@ -73,7 +90,11 @@ test.describe("Normal View", () => {
   test("preserves its query override across content routes", async ({ page }) => {
     await page.goto("/projects?view=normal");
     await expect(page.locator("html")).toHaveAttribute("data-shell", "normal");
-    await page.getByRole("link", { name: "Read case study" }).click();
+    await page
+      .getByRole("article")
+      .filter({ hasText: "Estate Sales Bakersfield" })
+      .getByRole("link", { name: "Read case study" })
+      .click();
     await expect(page).toHaveURL(
       "/projects/estate-sales-bakersfield?view=normal",
     );
@@ -143,7 +164,7 @@ test.describe("Pocket OS", () => {
 
     await page.getByRole("button", { name: "Back" }).click();
     await expect(page).toHaveURL("/projects");
-    await page.getByRole("button", { name: "Back" }).click();
+    await page.getByRole("button", { name: "Home" }).click();
     await expect(page).toHaveURL("/");
     await expect(page.getByRole("main", { name: "Pocket OS Home" })).toBeVisible();
   });
@@ -165,6 +186,66 @@ test.describe("Pocket OS", () => {
       "tel:+16127417277",
     );
   });
+
+  test("reveals status personality and restores the lock from Settings", async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/?view=os");
+    await page.getByRole("button", { name: "Tap to unlock" }).click();
+
+    const status = page.getByRole("button", { name: "Build stable enough" });
+    for (let tap = 0; tap < 5; tap += 1) await status.click();
+    await expect(
+      page.getByText("Diagnostic result: confidence exceeds available evidence."),
+    ).toBeVisible();
+
+    await page
+      .getByRole("main", { name: "Pocket OS Home" })
+      .locator("header")
+      .getByRole("button", { name: "Open Settings" })
+      .click();
+    await page.getByRole("button", { name: "Preview lock screen" }).click();
+    await expect(page.getByRole("button", { name: "Tap to unlock" })).toBeVisible();
+    await page.getByRole("button", { name: "Tap to unlock" }).click();
+    await expect(page.getByRole("main", { name: "Pocket OS Home" })).toBeVisible();
+  });
+
+  test("keeps app overflow attached and switches to Normal View", async ({ page }) => {
+    await page.goto("/projects?view=os");
+    await page.getByRole("button", { name: "More actions for Projects" }).click();
+    await page.getByRole("menuitem", { name: "Open Normal View" }).click();
+    await expect(page).toHaveURL("/projects?view=normal");
+    await expect(page.locator("html")).toHaveAttribute("data-shell", "normal");
+  });
+});
+
+test("keeps Pocket system screens inside required small viewports", async ({
+  browserName,
+  page,
+}) => {
+  test.skip(browserName !== "chromium", "Focused viewport matrix runs once in Chromium");
+  const viewports = [
+    { width: 320, height: 568 },
+    { width: 375, height: 667 },
+    { width: 390, height: 844 },
+    { width: 430, height: 932 },
+    { width: 667, height: 375 },
+  ];
+
+  for (const viewport of viewports) {
+    await page.setViewportSize(viewport);
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/?view=os");
+    await page.getByRole("button", { name: "Tap to unlock" }).click();
+    const overflow = await page.evaluate(() => ({
+      horizontal: document.documentElement.scrollWidth - innerWidth,
+      vertical: document.body.scrollHeight - innerHeight,
+    }));
+    expect(overflow.horizontal).toBeLessThanOrEqual(0);
+    expect(overflow.vertical).toBeLessThanOrEqual(1);
+    await page.evaluate(() => sessionStorage.clear());
+  }
 });
 
 test("does not request deferred heavy experiences", async ({ page }) => {
