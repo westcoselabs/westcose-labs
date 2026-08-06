@@ -1,0 +1,65 @@
+.terminal {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  block-size: 100%;
+  min-block-size: 0;
+  padding: var(--space-base);
+  background: var(--color-surface-recessed);
+  color: var(--color-text-primary);
+  font-family: var(--font-mono);
+  font-size: var(--type-mono-sm-size);
+}
+
+.output {
+  min-block-size: 0;
+  overflow: auto;
+}
+
+.output p {
+  margin: 0 0 var(--space-xs);
+  white-space: pre-wrap;
+}
+
+.form {
+  display: grid;
+  gap: var(--space-sm);
+  padding-block-start: var(--space-md);
+  border-block-start: var(--border-thin) solid var(--color-border-subtle);
+}
+
+.form > label {
+  color: var(--color-text-secondary);
+  font-size: var(--type-caption-size);
+  text-transform: uppercase;
+}
+
+.prompt {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.prompt span {
+  color: var(--color-tertiary);
+}
+
+.prompt input,
+.prompt button {
+  min-block-size: var(--control-min-size);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  color: var(--color-text-primary);
+}
+
+.prompt input {
+  min-inline-size: 0;
+  padding-inline: var(--space-md);
+  border-radius: var(--radius-sm);
+  background: var(--color-neutral);
+}
+
+.prompt button {
+  padding-inline: var(--space-base);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-active);
+}

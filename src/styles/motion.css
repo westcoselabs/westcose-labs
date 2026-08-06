@@ -1,0 +1,33 @@
+html {
+  scroll-behavior: smooth;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--motion-base);
+  animation-timing-function: var(--ease-standard);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: var(--motion-instant) !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: var(--motion-instant) !important;
+  }
+}
+
+[data-reduced-motion="true"] *,
+[data-reduced-motion="true"] *::before,
+[data-reduced-motion="true"] *::after {
+  scroll-behavior: auto !important;
+  animation-duration: var(--motion-instant) !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: var(--motion-instant) !important;
+}

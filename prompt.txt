@@ -1,0 +1,468 @@
+You are acting as the lead software architect and senior front-end engineer for the WestCose Labs portfolio website.
+
+Your task in this run is to inspect, understand, and plan the project. Do not implement the website yet.
+
+CURRENT REPOSITORY STATE
+
+The repository is currently a mostly stock create-next-app project.
+
+The custom architecture folder structure described in the documentation has NOT been created yet.
+
+Assume only the following may currently exist:
+
+- Stock Next.js starter files
+- package.json and lockfile
+- TypeScript and Next.js configuration
+- src/app starter files
+- public starter assets
+- Root DESIGN.md
+- A /docs directory containing the project’s creative-direction and architecture documents
+
+Do not assume that any documented components, routes, state files, content registries, hooks, assets, or directories already exist. Verify the actual workspace before planning.
+
+PRIMARY OBJECTIVE
+
+Develop a detailed, phased implementation plan for building WestCose Labs OS from the current bare-bones repository.
+
+The plan must be based on:
+
+1. The actual repository state
+2. The root DESIGN.md
+3. Every relevant Markdown document under /docs
+4. The installed Next.js, React, and TypeScript versions
+5. The architecture and scope explicitly approved in the project documentation
+
+Do not write application code, create directories, install packages, modify configuration, or change files during this run.
+
+STEP 1 — INSPECT THE REPOSITORY
+
+Inspect the complete workspace before reaching conclusions.
+
+At minimum, inspect:
+
+- Root directory
+- package.json
+- package-lock.json or other lockfile
+- tsconfig.json
+- next.config.* files
+- eslint configuration
+- src/app
+- src/components if it exists
+- src/styles if it exists
+- public
+- DESIGN.md
+- Every Markdown file under /docs
+- Existing Git configuration only to understand state; do not connect, push, commit, or create a remote
+
+Report:
+
+- Actual framework and dependency versions
+- Existing scripts
+- Whether the project uses App Router
+- Whether a src directory is enabled
+- Whether Tailwind, React Compiler, Turbopack, or other optional tools are configured
+- What files are still stock starter files
+- What custom work already exists
+- Any differences between the actual repository and the documented architecture
+
+Do not infer that a documented folder exists until you verify it.
+
+STEP 2 — STUDY THE DOCUMENTATION
+
+Read DESIGN.md and all project documents completely.
+
+Treat the documents according to this hierarchy:
+
+1. DESIGN.md YAML front matter
+   - Normative visual tokens
+   - Exact colors
+   - Typography
+   - Spacing
+   - Rounding
+   - Component token values
+
+2. DESIGN.md Markdown body
+   - Visual rationale
+   - Neumorphic material behavior
+   - Lighting direction
+   - Interaction states
+   - Component guidance
+   - Do’s and don’ts
+
+3. Website architecture plan
+   - Technical architecture
+   - Routing
+   - shell system
+   - Server and Client Component boundaries
+   - content strategy
+   - state strategy
+   - asset strategy
+   - testing
+   - accessibility
+   - performance
+
+4. Desktop creative-direction document
+   - WestCose Labs OS behavior
+   - desktop composition
+   - windows
+   - taskbar
+   - Start menu
+   - icons
+   - applications
+   - Easter eggs
+   - tone and personality
+
+5. Pocket OS creative-direction document
+   - mobile startup and lock screen
+   - exactly two home-screen pages
+   - fixed dock
+   - full-screen apps
+   - native Messages and Phone actions
+   - safe-area and visual-viewport requirements
+   - mobile exclusions
+
+Do not silently replace the documentation with generic best practices.
+
+When documents are ambiguous or appear to conflict:
+
+- Quote or clearly identify the conflicting requirements
+- Explain the implementation impact
+- Recommend a resolution
+- Do not silently choose one
+
+STEP 3 — SUMMARIZE YOUR UNDERSTANDING
+
+Before presenting an implementation plan, provide a concise project-understanding summary covering:
+
+- The purpose of WestCose Labs OS
+- The relationship among Desktop OS, Pocket OS, and Normal View
+- The intended Retro Soft-Tech Neumorphism style
+- The role of DESIGN.md
+- The route-as-source-of-truth principle
+- The shared-content principle
+- The difference between desktop and mobile interaction models
+- V1 scope
+- Explicit V1 exclusions
+- Database and asset-storage decisions
+
+The summary should demonstrate that you understand this as one website with three presentation shells, not three unrelated websites.
+
+STEP 4 — PRODUCE A REPOSITORY GAP ANALYSIS
+
+Compare the documented target architecture with the current repository.
+
+Organize the gap analysis into:
+
+- Already present
+- Present but still stock
+- Missing and required for the foundation
+- Missing but required later in V1
+- Optional after V1
+- Explicitly unnecessary for V1
+
+Include areas such as:
+
+- Routes
+- shell selection
+- OS providers
+- desktop components
+- Pocket OS components
+- Normal View
+- shared UI primitives
+- CSS files
+- design tokens
+- app registry
+- project registry
+- MDX content
+- reducers
+- hooks
+- icons
+- wallpapers
+- project assets
+- tests
+- accessibility infrastructure
+- performance infrastructure
+
+Do not recommend a database, authentication, CMS, Prisma, Postgres, or Vercel Blob unless an existing requirement genuinely needs one.
+
+STEP 5 — PROPOSE THE INITIAL REPOSITORY STRUCTURE
+
+Propose a clean initial folder structure based on the documentation and the actual starter repo.
+
+The structure should remain intentionally lean.
+
+Separate:
+
+- Routes
+- operating-system components
+- desktop components
+- Pocket OS components
+- shared UI primitives
+- app-specific components
+- content
+- typed registries
+- hooks
+- reducers
+- utilities
+- global styles
+- local assets
+- documentation
+- tests
+
+For every major directory, explain:
+
+- Why it exists
+- What belongs there
+- What should not be placed there
+- Whether it should be created during foundation setup or deferred
+
+Do not create empty directories for every speculative future feature. Distinguish between:
+
+- Create immediately
+- Create when the first related feature is implemented
+- Defer until after V1
+
+STEP 6 — DEFINE THE IMPLEMENTATION PHASES
+
+Create a phased plan from the current stock repo to V1.
+
+Use phases with clear dependencies and completion criteria.
+
+The plan should generally cover:
+
+Phase 0 — Repository verification and cleanup
+Phase 1 — Design-system foundation
+Phase 2 — Route and content foundation
+Phase 3 — Shell selection and shared OS state
+Phase 4 — Desktop shell foundation
+Phase 5 — Desktop window and taskbar system
+Phase 6 — Pocket OS viewport, startup, and lock screen
+Phase 7 — Pocket OS home pages and dock
+Phase 8 — Shared applications and project content
+Phase 9 — Normal View
+Phase 10 — FightClub launcher and heavy-experience boundaries
+Phase 11 — Easter eggs and personality
+Phase 12 — Testing, accessibility, performance, and production readiness
+
+You may adjust the phases when the inspected repository justifies a better sequence.
+
+For every phase, provide:
+
+- Objective
+- Files and directories likely involved
+- Components or systems created
+- Dependencies
+- Client versus Server Component boundaries
+- Tests required
+- Accessibility requirements
+- Performance considerations
+- Definition of done
+- Features explicitly deferred
+
+Avoid vague instructions such as “build the UI.” Break work into implementation-sized tasks.
+
+STEP 7 — DEFINE THE DESIGN-SYSTEM IMPLEMENTATION
+
+Explain how DESIGN.md should map into the codebase.
+
+Include:
+
+- Which tokens belong in CSS custom properties
+- How theme-specific shadow pairs should work
+- How the fixed upper-left lighting direction is maintained
+- Raised, recessed, pressed, selected, disabled, and floating states
+- Reusable surface primitives
+- CSS Modules versus global CSS responsibilities
+- Typography loading strategy
+- Focus and high-contrast states
+- Reduced-effects behavior
+- How to prevent arbitrary colors, radii, spacing, and shadows
+- How Normal View uses the same tokens with reduced neumorphic depth
+
+Do not suggest installing a generic neumorphism component library.
+
+The visual system should be implemented using custom CSS variables, vanilla CSS, and CSS Modules.
+
+STEP 8 — DEFINE ROUTING AND SHELL BEHAVIOR
+
+Create a clear route-to-shell model.
+
+Account for:
+
+- Desktop OS
+- Pocket OS
+- Normal View
+- Direct project URLs
+- Browser refresh
+- Browser back and forward
+- Opening an app
+- Opening an individual project
+- Returning to the appropriate mobile home page
+- Selecting Normal View
+- Avoiding duplicate content
+
+Clarify:
+
+- Which state belongs in the URL
+- Which state belongs in React context or reducers
+- Which preferences belong in localStorage
+- Which temporary states belong in sessionStorage
+- Which state should never be persisted
+
+Explain how a route such as:
+
+/projects/estate-sales-bakersfield
+
+can render the same content:
+
+- Inside a desktop window
+- As a full-screen Pocket OS app
+- As a conventional Normal View page
+
+STEP 9 — DEFINE THE FIRST IMPLEMENTATION MILESTONE
+
+Recommend the smallest useful first milestone after the plan is approved.
+
+The milestone should prove the architecture without trying to build every feature.
+
+It should likely include:
+
+- Global tokens
+- Font setup
+- one reusable raised surface
+- one reusable recessed surface
+- basic shell selection
+- desktop wallpaper
+- one desktop icon
+- basic taskbar placeholder
+- Pocket OS fixed viewport
+- basic lock-screen composition
+- basic Normal View route
+- one shared Projects route
+- no full window manager yet
+- no games or Three.js yet
+
+Provide an exact checklist for this milestone.
+
+STEP 10 — DEPENDENCY REVIEW
+
+Review the currently installed dependencies.
+
+Recommend only dependencies that are genuinely needed.
+
+For every proposed package, explain:
+
+- Why native React, CSS, or browser APIs are insufficient
+- Which phase requires it
+- Client bundle impact
+- Whether it can be deferred
+
+Do not install anything.
+
+Prefer:
+
+- Native CSS
+- Pointer Events
+- Web APIs
+- Next.js features
+- React Context and useReducer
+
+Avoid adding:
+
+- Redux
+- Zustand
+- Bootstrap
+- Tailwind
+- Generic neumorphism libraries
+- Large animation libraries
+- A database
+- Authentication
+- A CMS
+
+unless the inspected project and documented requirements clearly justify them.
+
+STEP 11 — RISKS AND OPEN DECISIONS
+
+List the most important implementation risks, including:
+
+- Desktop window manager complexity
+- Route synchronization
+- Mobile Safari visual viewport behavior
+- Safe-area handling
+- Accessibility of double-click, drag, long press, and slide-to-unlock
+- Dark-neumorphism contrast
+- Initial JavaScript size
+- Lazy loading of FightClub, TV, and World
+- Maintaining shared content across three shells
+- Avoiding overbuilding V1
+
+Separate these into:
+
+- Must resolve before implementation
+- Can resolve during the relevant phase
+- Intentionally deferred
+
+Only ask questions that materially block planning or the first implementation milestone.
+
+STEP 12 — FINAL OUTPUT FORMAT
+
+Return the result using this exact structure:
+
+# WestCose Labs OS — Repository Inspection and Implementation Plan
+
+## 1. Executive Summary
+
+## 2. Current Repository Audit
+
+## 3. Documentation-Derived Project Understanding
+
+## 4. Confirmed V1 Scope
+
+## 5. Explicit V1 Exclusions
+
+## 6. Repository Gap Analysis
+
+## 7. Proposed Repository Structure
+
+## 8. Server and Client Component Boundaries
+
+## 9. Routing and Shell Architecture
+
+## 10. State and Persistence Architecture
+
+## 11. Design-System Implementation
+
+## 12. Content and Asset Architecture
+
+## 13. Phased Implementation Plan
+
+## 14. First Implementation Milestone
+
+## 15. Dependency Recommendations
+
+## 16. Testing Strategy
+
+## 17. Accessibility Requirements
+
+## 18. Performance Requirements
+
+## 19. Risks and Open Decisions
+
+## 20. Recommended Immediate Next Action
+
+FINAL RULES
+
+- Do not modify any file.
+- Do not create directories.
+- Do not install packages.
+- Do not run destructive commands.
+- Do not initialize or connect a GitHub remote.
+- Do not commit or push anything.
+- Do not begin implementation.
+- Do not produce application code.
+- Do not assume documented folders already exist.
+- Do inspect the actual repository before planning.
+- Do preserve the terminology and approved scope from the documents.
+- Do identify discrepancies instead of silently correcting them.
+- Do keep the architecture lean and appropriate for V1.
+- Do provide enough implementation detail that a later coding run can execute one phase at a time.

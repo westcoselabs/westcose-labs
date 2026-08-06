@@ -1,0 +1,25 @@
+:root,
+[data-theme="dusk"] {
+  --neu-bg: var(--color-surface-base);
+  --neu-raised-bg: var(--color-surface-raised);
+  --neu-recessed-bg: var(--color-surface-recessed);
+  --neu-floating-bg: var(--color-surface-overlay);
+  --neu-active-bg: var(--color-surface-active);
+  --neu-shadow-dark: var(--color-shadow-dark);
+  --neu-shadow-light: var(--color-shadow-light);
+  --neu-accent: var(--color-primary);
+  --neu-focus: var(--color-focus);
+  --page-background: var(--color-neutral);
+  --content-background: var(--color-surface-base);
+  --text-strong: var(--color-text-primary);
+  --text-muted: var(--color-text-secondary);
+  --text-technical: var(--color-tertiary);
+  --structural-edge: var(--color-border-subtle);
+}
+
+[data-high-contrast="true"] {
+  --neu-raised-bg: var(--color-surface-active);
+  --neu-recessed-bg: var(--color-neutral);
+  --neu-floating-bg: var(--color-surface-base);
+  --structural-edge: var(--color-text-secondary);
+}

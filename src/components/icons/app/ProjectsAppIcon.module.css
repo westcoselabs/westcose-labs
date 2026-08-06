@@ -1,0 +1,24 @@
+.icon {
+  display: block;
+  object-fit: contain;
+}
+
+.desktop {
+  inline-size: var(--desktop-icon-size);
+  block-size: var(--desktop-icon-size);
+}
+
+.pocket {
+  inline-size: var(--pocket-icon-size);
+  block-size: var(--pocket-icon-size);
+}
+
+.artwork {
+  inline-size: var(--icon-size-app-art);
+  block-size: var(--icon-size-app-art);
+}
+
+.system {
+  inline-size: var(--icon-size-lg);
+  block-size: var(--icon-size-lg);
+}

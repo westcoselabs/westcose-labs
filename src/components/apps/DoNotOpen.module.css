@@ -1,0 +1,22 @@
+.panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-base);
+}
+
+.copy {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.copy p {
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 40rem) {
+  .panel {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

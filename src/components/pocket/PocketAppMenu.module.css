@@ -1,0 +1,40 @@
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: var(--layer-menus);
+  display: grid;
+  align-items: end;
+  padding:
+    var(--pocket-gutter)
+    var(--pocket-gutter)
+    max(var(--pocket-gutter), env(safe-area-inset-bottom));
+  background: color-mix(in srgb, var(--color-neutral) 72%, transparent);
+}
+
+.menu {
+  display: grid;
+  gap: var(--space-base);
+  inline-size: min(100%, var(--pocket-panel-max-width));
+  margin-inline: auto;
+}
+
+.heading {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.description {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-sm-size);
+}
+
+.status {
+  color: var(--color-tertiary);
+  font-family: var(--font-mono);
+  font-size: var(--type-mono-sm-size);
+}
+
+.actions {
+  display: grid;
+  gap: var(--space-sm);
+}

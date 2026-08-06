@@ -1,0 +1,80 @@
+.panel {
+  display: grid;
+  gap: var(--space-xl);
+  padding: clamp(var(--space-lg), 4vw, var(--space-2xl));
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-base);
+}
+
+.panel h2,
+.panel p {
+  margin: 0;
+}
+
+.eyebrow {
+  color: var(--color-tertiary);
+  font-family: var(--font-mono);
+  font-size: var(--type-label-md-size);
+  text-transform: uppercase;
+}
+
+.intro {
+  margin-block-start: var(--space-sm) !important;
+  color: var(--color-text-secondary);
+}
+
+.controls {
+  display: grid;
+  gap: var(--space-xs);
+  padding: var(--space-sm);
+}
+
+.row,
+.selectRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xl);
+  min-block-size: var(--control-min-size);
+  padding: var(--space-md) var(--space-base);
+  border-radius: var(--radius-sm);
+}
+
+.row span {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.row small {
+  color: var(--color-text-secondary);
+}
+
+.row input {
+  inline-size: var(--toggle-width);
+  block-size: var(--toggle-height);
+  accent-color: var(--color-primary);
+}
+
+.selectRow select {
+  min-block-size: var(--control-min-size);
+  padding-inline: var(--space-md);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-overlay);
+  color: var(--color-text-primary);
+}
+
+.resetActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+@media (max-width: 36rem) {
+  .row,
+  .selectRow {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

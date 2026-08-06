@@ -1,0 +1,93 @@
+.frame {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: hidden;
+  color: var(--color-text-primary);
+  background: var(--color-surface-base);
+}
+
+.header {
+  position: relative;
+  z-index: var(--layer-widgets);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-sm);
+  min-block-size: calc(var(--control-min-size) + var(--space-base));
+  padding:
+    max(var(--space-sm), env(safe-area-inset-top))
+    var(--pocket-gutter)
+    var(--space-sm);
+  background: var(--neu-floating-bg);
+  box-shadow: 0 var(--space-sm) var(--space-lg) var(--color-shadow-dark);
+}
+
+.back {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-block-size: var(--control-min-size);
+  padding: var(--space-sm) var(--space-md);
+  border: 0;
+  border-radius: var(--radius-md);
+  color: var(--color-primary-hover);
+  background: var(--neu-raised-bg);
+  box-shadow: var(--neu-shadow-raised);
+  font-size: var(--type-label-lg-size);
+  font-weight: var(--type-label-lg-weight);
+}
+
+.back:active {
+  color: var(--color-text-primary);
+  background: var(--neu-recessed-bg);
+  box-shadow: var(--neu-shadow-pressed);
+  transform: translateY(var(--press-offset));
+}
+
+.title {
+  overflow: hidden;
+  font-size: var(--type-label-lg-size);
+  font-weight: var(--type-label-lg-weight);
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.normalLink {
+  justify-self: end;
+  min-block-size: var(--control-min-size);
+  padding-inline: var(--space-md);
+  white-space: nowrap;
+}
+
+.header > span[aria-hidden="true"] {
+  inline-size: var(--control-min-size);
+  justify-self: end;
+}
+
+.content {
+  min-block-size: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-block-end: max(var(--pocket-gutter), env(safe-area-inset-bottom));
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 23rem) {
+  .normalLink {
+    inline-size: var(--control-min-size);
+    padding-inline: var(--space-sm);
+    overflow: hidden;
+    font-size: 0;
+  }
+
+  .normalLink::after {
+    content: "Aa";
+    font-family: var(--font-mono);
+    font-size: var(--type-mono-sm-size);
+  }
+}

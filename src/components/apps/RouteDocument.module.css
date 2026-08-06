@@ -1,0 +1,365 @@
+.document {
+  display: grid;
+  gap: var(--space-2xl);
+  inline-size: min(100%, calc(var(--space-7xl) * 12));
+  margin-inline: auto;
+  color: var(--color-text-primary);
+}
+
+.document :global(.route-document__header) {
+  display: grid;
+  gap: var(--space-xl);
+  padding: clamp(var(--space-xl), 4vw, var(--space-3xl));
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-xl);
+  background: var(--neu-raised-bg);
+  box-shadow: var(--neu-shadow-raised);
+}
+
+.document :global(.route-document__heading-group) {
+  display: grid;
+  gap: var(--space-md);
+  max-inline-size: calc(var(--space-7xl) * 9);
+}
+
+.document :global(.route-document__eyebrow),
+.document :global(.route-card__index),
+.document :global(.development-fixture__label),
+.document :global(.project-card__meta) {
+  margin: 0;
+  color: var(--color-tertiary);
+  font-family: var(--font-mono);
+  font-size: var(--type-label-md-size);
+  font-weight: var(--type-label-md-weight);
+  line-height: var(--type-label-md-leading);
+  letter-spacing: var(--type-label-md-tracking);
+  text-transform: uppercase;
+}
+
+.document :global(.route-document__title) {
+  margin: 0;
+  max-inline-size: calc(var(--space-7xl) * 8);
+  font-size: clamp(
+    var(--type-headline-md-size),
+    5vw,
+    var(--type-display-md-size)
+  );
+  font-weight: var(--type-display-md-weight);
+  line-height: var(--type-display-md-leading);
+  letter-spacing: var(--type-display-md-tracking);
+  text-wrap: balance;
+}
+
+.document :global(.route-document__lede) {
+  margin: 0;
+  max-inline-size: calc(var(--space-7xl) * 8);
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-lg-size);
+  line-height: var(--type-body-lg-leading);
+  text-wrap: pretty;
+}
+
+.document :global(.route-document__status) {
+  justify-self: start;
+  margin: 0;
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-full);
+  background: var(--color-surface-recessed);
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--type-mono-sm-size);
+  line-height: var(--type-mono-sm-leading);
+}
+
+.document :global(.route-document__actions),
+.document :global(.contact-actions) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.document :global(.route-action) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: var(--control-min-size);
+  padding: var(--space-md) var(--space-lg);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--neu-raised-bg);
+  box-shadow: var(--neu-shadow-raised);
+  color: var(--color-text-primary);
+  font-size: var(--type-label-lg-size);
+  font-weight: var(--type-label-lg-weight);
+  line-height: var(--type-label-lg-leading);
+  text-decoration: none;
+  transition:
+    transform var(--motion-fast) var(--ease-standard),
+    box-shadow var(--motion-fast) var(--ease-standard),
+    background-color var(--motion-fast) var(--ease-standard);
+}
+
+.document :global(.route-action--primary) {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  box-shadow: var(--neu-shadow-active);
+  color: var(--color-text-dark);
+}
+
+.document :global(.route-action:active) {
+  transform: translateY(var(--space-micro));
+  box-shadow: var(--neu-shadow-pressed);
+}
+
+.document :global(.route-action:disabled) {
+  border-color: var(--color-border-subtle);
+  background: var(--color-surface-recessed);
+  box-shadow: var(--neu-shadow-flat);
+  color: var(--color-text-secondary);
+  cursor: not-allowed;
+}
+
+.document :global(.route-document__body) {
+  display: grid;
+  gap: var(--space-2xl);
+}
+
+.document :global(.route-section) {
+  display: grid;
+  gap: var(--space-base);
+  padding: clamp(var(--space-lg), 4vw, var(--space-2xl));
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-base);
+}
+
+.document :global(.route-section h2),
+.document :global(.project-card h2),
+.document :global(.route-card h2) {
+  margin: 0;
+  font-size: var(--type-headline-sm-size);
+  font-weight: var(--type-headline-sm-weight);
+  line-height: var(--type-headline-sm-leading);
+  letter-spacing: var(--type-headline-sm-tracking);
+}
+
+.document :global(.route-section p),
+.document :global(.route-card p),
+.document :global(.project-card p),
+.document :global(.route-section ul),
+.document :global(.route-section dl) {
+  margin-block: 0;
+}
+
+.document :global(.route-section p),
+.document :global(.route-section li),
+.document :global(.route-section dd),
+.document :global(.route-card p),
+.document :global(.project-card p) {
+  color: var(--color-text-secondary);
+  line-height: var(--type-body-md-leading);
+}
+
+.document :global(.route-card-grid) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-xl);
+}
+
+.document :global(.route-card),
+.document :global(.project-card) {
+  display: grid;
+  gap: var(--space-lg);
+  padding: var(--space-xl);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--neu-raised-bg);
+  box-shadow: var(--neu-shadow-raised);
+}
+
+.document :global(.route-card--feature) {
+  grid-column: 1 / -1;
+}
+
+.document :global(.route-card h2 a),
+.document :global(.project-card h2 a) {
+  color: inherit;
+  text-decoration: none;
+}
+
+.document :global(.route-card__open),
+.document :global(.project-card__open) {
+  justify-self: start;
+  color: var(--color-primary-hover);
+  font-weight: var(--type-label-lg-weight);
+}
+
+.document :global(.project-card) {
+  padding: 0;
+  overflow: hidden;
+}
+
+.document :global(.project-card__art) {
+  display: grid;
+  place-items: end start;
+  min-block-size: calc(var(--space-7xl) * 2);
+  padding: var(--space-lg);
+  background:
+    linear-gradient(
+      140deg,
+      var(--color-primary-pressed),
+      var(--color-surface-active)
+    );
+  color: var(--color-text-primary);
+  font-family: var(--font-mono);
+  font-size: var(--type-mono-sm-size);
+  letter-spacing: var(--type-mono-sm-tracking);
+}
+
+.document :global(.project-card__content) {
+  display: grid;
+  gap: var(--space-md);
+  padding: 0 var(--space-xl) var(--space-xl);
+}
+
+.document :global(.development-fixture) {
+  display: grid;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+  border: var(--border-thin) solid var(--color-warning);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-recessed);
+}
+
+.document :global(.development-fixture__label) {
+  color: var(--color-warning);
+}
+
+.document :global(.case-study-prose) {
+  display: grid;
+  gap: var(--space-base);
+  padding: clamp(var(--space-lg), 4vw, var(--space-2xl));
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-base);
+}
+
+.document :global(.case-study-prose h1) {
+  font-size: var(--type-headline-md-size);
+}
+
+.document :global(.case-study-prose h2) {
+  margin-block-start: var(--space-xl);
+  font-size: var(--type-headline-sm-size);
+}
+
+.document :global(.case-study-prose p),
+.document :global(.case-study-prose ul) {
+  margin-block: 0;
+  color: var(--color-text-secondary);
+  line-height: var(--type-body-lg-leading);
+}
+
+.document :global(.contact-composer) {
+  display: grid;
+  gap: var(--space-base);
+}
+
+.document :global(.contact-composer__field) {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.document :global(.contact-composer label) {
+  font-size: var(--type-label-lg-size);
+  font-weight: var(--type-label-lg-weight);
+}
+
+.document :global(.contact-composer input),
+.document :global(.contact-composer textarea) {
+  inline-size: 100%;
+  min-block-size: var(--control-min-size);
+  padding: var(--space-md);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--neu-recessed-bg);
+  box-shadow: var(--neu-shadow-recessed);
+  color: var(--color-text-primary);
+}
+
+.document :global(.contact-composer textarea) {
+  resize: vertical;
+}
+
+.document :global(.contact-composer__error) {
+  color: var(--color-danger);
+}
+
+.document :global(.contact-composer__disclosure),
+.document :global(.configuration-note) {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-sm-size);
+}
+
+.document :global(.file-list),
+.document :global(.command-list) {
+  display: grid;
+  gap: var(--space-md);
+  padding: 0;
+  list-style: none;
+}
+
+.document :global(.file-list li),
+.document :global(.command-list > div) {
+  display: grid;
+  gap: var(--space-xs);
+  padding: var(--space-md) var(--space-base);
+  border-inline-start: var(--space-xs) solid var(--color-primary);
+  background: var(--color-surface-recessed);
+}
+
+.document :global(.file-list span) {
+  color: var(--color-text-secondary);
+}
+
+.document :global(.command-list dt),
+.document :global(.command-list dd) {
+  margin: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .document :global(.route-action:hover) {
+    transform: translateY(calc(var(--space-micro) * -1));
+    background: var(--color-surface-active);
+  }
+
+  .document :global(.route-action--primary:hover) {
+    background: var(--color-primary-hover);
+  }
+
+  .document :global(.route-card h2 a:hover),
+  .document :global(.project-card h2 a:hover),
+  .document :global(.route-card__open:hover),
+  .document :global(.project-card__open:hover) {
+    color: var(--color-primary-hover);
+  }
+}
+
+@media (max-width: 48em) {
+  .document :global(.route-card-grid) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+:global([data-shell="normal"]) .document :global(.route-document__header),
+:global([data-shell="normal"]) .document :global(.route-card),
+:global([data-shell="normal"]) .document :global(.project-card) {
+  box-shadow: var(--neu-shadow-flat);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .document :global(.route-action) {
+    transition: none;
+  }
+}

@@ -1,0 +1,57 @@
+.button {
+  display: inline-grid;
+  place-items: center;
+  inline-size: var(--control-min-size);
+  block-size: var(--control-min-size);
+  flex: 0 0 var(--control-min-size);
+  padding: var(--space-sm);
+  border: 0;
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  background: var(--neu-raised-bg);
+  box-shadow: var(--neu-shadow-raised);
+  touch-action: manipulation;
+  transition:
+    color var(--motion-fast) var(--ease-standard),
+    background-color var(--motion-fast) var(--ease-standard),
+    box-shadow var(--motion-base) var(--ease-standard),
+    transform var(--motion-fast) var(--ease-standard),
+    opacity var(--motion-fast) var(--ease-standard);
+}
+
+.button svg {
+  inline-size: var(--icon-size-lg);
+  block-size: var(--icon-size-lg);
+}
+
+.button[data-selected="true"] {
+  color: var(--color-focus);
+  background: var(--neu-active-bg);
+  box-shadow: var(--neu-shadow-active);
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: var(--surface-opacity-disabled);
+  box-shadow: var(--neu-shadow-flat);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button:not(:disabled):hover {
+    color: var(--color-primary-hover);
+    transform: translateY(var(--hover-offset));
+  }
+}
+
+.button:not(:disabled):active {
+  color: var(--color-text-primary);
+  background: var(--neu-recessed-bg);
+  box-shadow: var(--neu-shadow-pressed);
+  transform: translateY(var(--press-offset));
+}
+
+@media (forced-colors: active) {
+  .button {
+    border: var(--border-thin) solid ButtonText;
+  }
+}

@@ -1,0 +1,84 @@
+.surface {
+  color: var(--text-strong);
+  border: 0;
+  transition:
+    color var(--motion-fast) var(--ease-standard),
+    background-color var(--motion-fast) var(--ease-standard),
+    box-shadow var(--motion-base) var(--ease-standard),
+    transform var(--motion-fast) var(--ease-standard),
+    opacity var(--motion-fast) var(--ease-standard);
+}
+
+.raised {
+  padding: var(--space-base);
+  border-radius: var(--radius-xl);
+  background: var(--neu-raised-bg);
+  box-shadow: var(--neu-shadow-raised);
+}
+
+.recessed {
+  padding: var(--space-base);
+  border-radius: var(--radius-lg);
+  background: var(--neu-recessed-bg);
+  box-shadow: var(--neu-shadow-recessed);
+}
+
+.floating {
+  padding: var(--space-lg);
+  border-radius: var(--radius-2xl);
+  background: var(--neu-floating-bg);
+  box-shadow: var(--neu-shadow-floating);
+}
+
+.active {
+  padding: var(--space-base);
+  border-radius: var(--radius-xl);
+  color: var(--color-focus);
+  background: var(--neu-active-bg);
+  box-shadow: var(--neu-shadow-active);
+}
+
+.pressable {
+  min-block-size: var(--control-min-size);
+  padding: var(--space-md) var(--space-base);
+  border-radius: var(--radius-md);
+  color: var(--text-strong);
+  background: var(--neu-raised-bg);
+  box-shadow: var(--neu-shadow-raised);
+  font-weight: var(--type-label-lg-weight);
+  line-height: var(--type-label-lg-leading);
+  letter-spacing: var(--type-label-lg-tracking);
+  touch-action: manipulation;
+}
+
+.surface[data-selected="true"] {
+  color: var(--color-focus);
+  background: var(--neu-active-bg);
+  box-shadow: var(--neu-shadow-active);
+}
+
+.surface[data-disabled="true"],
+.pressable:disabled {
+  opacity: var(--surface-opacity-disabled);
+  box-shadow: var(--neu-shadow-flat);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pressable:not(:disabled):hover {
+    color: var(--color-primary-hover);
+    transform: translateY(var(--hover-offset));
+  }
+}
+
+.pressable:not(:disabled):active {
+  color: var(--color-text-primary);
+  background: var(--neu-recessed-bg);
+  box-shadow: var(--neu-shadow-pressed);
+  transform: translateY(var(--press-offset));
+}
+
+@media (forced-colors: active) {
+  .surface {
+    border: var(--border-thin) solid CanvasText;
+  }
+}

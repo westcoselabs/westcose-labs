@@ -1,49 +1,57 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html {
-  height: 100%;
-}
+@import "../styles/tokens.css";
+@import "../styles/reset.css";
+@import "../styles/themes.css";
+@import "../styles/typography.css";
+@import "../styles/neumorphism.css";
+@import "../styles/motion.css";
+@import "../styles/accessibility.css";
 
 html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
+  min-block-size: 100%;
+}
+
+html {
+  background: var(--page-background);
 }
 
 body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  min-block-size: 100dvh;
+  overflow-x: hidden;
+  background: var(--page-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--type-body-md-size);
+  line-height: var(--type-body-md-leading);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
 a {
   color: inherit;
-  text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: var(--font-mono);
+}
+
+.no-script-document {
+  inline-size: min(100% - var(--space-2xl), var(--content-max-width));
+  margin-inline: auto;
+  padding-block: var(--space-3xl);
+}
+
+::selection {
+  background: var(--color-primary);
+  color: var(--color-text-dark);
 }

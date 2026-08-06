@@ -1,0 +1,34 @@
+:root {
+  --neu-shadow-raised: -5px -5px 12px var(--neu-shadow-light),
+    7px 7px 16px var(--neu-shadow-dark),
+    inset 1px 1px 0 color-mix(in srgb, var(--neu-shadow-light) 72%, transparent);
+  --neu-shadow-recessed: inset 5px 5px 12px var(--neu-shadow-dark),
+    inset -4px -4px 10px var(--neu-shadow-light);
+  --neu-shadow-pressed: inset 4px 4px 10px var(--neu-shadow-dark),
+    inset -3px -3px 8px var(--neu-shadow-light);
+  --neu-shadow-floating: 0 24px 64px
+      color-mix(in srgb, var(--neu-shadow-dark) 88%, transparent),
+    -4px -4px 14px var(--neu-shadow-light),
+    inset 1px 1px 0 color-mix(in srgb, var(--neu-shadow-light) 72%, transparent);
+  --neu-shadow-active: 0 0 0 1px
+      color-mix(in srgb, var(--neu-accent) 34%, transparent),
+    0 0 18px color-mix(in srgb, var(--neu-accent) 20%, transparent),
+    inset 3px 3px 8px var(--neu-shadow-dark),
+    inset -2px -2px 7px var(--neu-shadow-light);
+  --neu-shadow-flat: inset 0 0 0 var(--border-thin) var(--structural-edge);
+}
+
+[data-shell="normal"] {
+  --neu-shadow-raised: -2px -2px 6px var(--neu-shadow-light),
+    3px 3px 8px var(--neu-shadow-dark);
+  --neu-shadow-floating: 0 12px 32px
+    color-mix(in srgb, var(--neu-shadow-dark) 72%, transparent);
+}
+
+[data-high-contrast="true"] {
+  --neu-shadow-raised: var(--neu-shadow-flat);
+  --neu-shadow-recessed: var(--neu-shadow-flat);
+  --neu-shadow-pressed: inset 0 0 0 var(--focus-width) var(--neu-accent);
+  --neu-shadow-floating: var(--neu-shadow-flat);
+  --neu-shadow-active: inset 0 0 0 var(--focus-width) var(--neu-accent);
+}

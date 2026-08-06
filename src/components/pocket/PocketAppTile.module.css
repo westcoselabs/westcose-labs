@@ -1,0 +1,77 @@
+.cell {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: var(--space-xs);
+  min-inline-size: 0;
+}
+
+.launch {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-xs);
+  inline-size: 100%;
+  min-block-size: calc(var(--pocket-icon-size) + var(--space-xl));
+  padding: 0;
+  border: 0;
+  color: var(--color-text-primary);
+  background: transparent;
+  touch-action: manipulation;
+}
+
+.tile {
+  display: grid;
+  place-items: center;
+  inline-size: var(--pocket-icon-size);
+  block-size: var(--pocket-icon-size);
+  border-radius: var(--radius-xl);
+  color: var(--color-primary-hover);
+  background: var(--neu-raised-bg);
+  box-shadow: var(--neu-shadow-raised);
+  transition:
+    color var(--motion-fast) var(--ease-standard),
+    background-color var(--motion-fast) var(--ease-standard),
+    box-shadow var(--motion-base) var(--ease-standard),
+    transform var(--motion-fast) var(--ease-standard);
+}
+
+.label {
+  inline-size: 100%;
+  overflow: hidden;
+  font-size: var(--type-label-md-size);
+  font-weight: var(--type-label-md-weight);
+  line-height: var(--type-label-md-leading);
+  letter-spacing: var(--type-label-md-tracking);
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.launch:active .tile {
+  color: var(--color-text-primary);
+  background: var(--neu-recessed-bg);
+  box-shadow: var(--neu-shadow-pressed);
+  transform: translateY(var(--press-offset));
+}
+
+.menuButton svg {
+  transform: scale(0.82);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .launch:hover .tile {
+    color: var(--color-focus);
+    transform: translateY(var(--hover-offset));
+  }
+}
+
+@media (max-height: 43.75rem) {
+  .cell {
+    gap: 0;
+  }
+
+  .menuButton svg {
+    transform: scale(0.72);
+  }
+}

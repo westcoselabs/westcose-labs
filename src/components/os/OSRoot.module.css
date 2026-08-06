@@ -1,0 +1,24 @@
+.root {
+  min-block-size: 100dvh;
+}
+
+.desktopPanel,
+.pocketPanel,
+.normalPanel {
+  min-block-size: 100dvh;
+}
+
+:global(html[data-shell="desktop"]) .pocketPanel,
+:global(html[data-shell="desktop"]) .normalPanel,
+:global(html[data-shell="pocket"]) .desktopPanel,
+:global(html[data-shell="pocket"]) .normalPanel,
+:global(html[data-shell="normal"]) .desktopPanel,
+:global(html[data-shell="normal"]) .pocketPanel {
+  display: none;
+}
+
+:global(html[data-shell="desktop"]) .desktopPanel,
+:global(html[data-shell="pocket"]) .pocketPanel,
+:global(html[data-shell="normal"]) .normalPanel {
+  display: block;
+}

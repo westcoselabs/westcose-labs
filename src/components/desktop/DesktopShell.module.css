@@ -1,0 +1,423 @@
+.desktop {
+  position: relative;
+  min-block-size: 100dvh;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    var(--color-neutral)
+    url("/images/wallpapers/dusk-desktop.webp") center / cover no-repeat;
+}
+
+.wallpaperShade {
+  position: absolute;
+  inset: 0;
+  z-index: var(--layer-base);
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--color-neutral) 12%, transparent),
+    color-mix(in srgb, var(--color-neutral) 48%, transparent)
+  );
+  pointer-events: none;
+}
+
+.iconGrid {
+  position: absolute;
+  inset-block-start: var(--desktop-gutter);
+  inset-inline-start: var(--desktop-gutter);
+  z-index: var(--layer-desktop-icons);
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(5, minmax(5.75rem, auto));
+  grid-auto-columns: 6.75rem;
+  gap: var(--space-md) var(--space-base);
+}
+
+.desktopIcon {
+  display: grid;
+  place-items: center;
+  align-content: start;
+  gap: var(--space-sm);
+  min-inline-size: 0;
+  min-block-size: var(--control-min-size);
+  padding: var(--space-xs);
+  border: var(--border-thin) solid transparent;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-primary);
+  text-shadow: 0 var(--border-thin) var(--space-xs) var(--color-shadow-dark);
+}
+
+.desktopIcon > span:last-child {
+  max-inline-size: 100%;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-xs);
+  background: color-mix(in srgb, var(--color-neutral) 72%, transparent);
+  font-size: var(--type-label-md-size);
+  font-weight: var(--type-label-md-weight);
+  line-height: var(--type-label-md-leading);
+  text-align: center;
+  text-wrap: balance;
+}
+
+.desktopIcon[data-selected="true"] {
+  border-color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 14%, transparent);
+}
+
+.iconWell {
+  display: grid;
+  place-items: center;
+  inline-size: var(--desktop-icon-size);
+  block-size: var(--desktop-icon-size);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface-raised);
+  box-shadow: var(--neu-shadow-raised);
+  color: var(--color-primary-hover);
+}
+
+.selectionBar {
+  position: absolute;
+  inset-inline-start: var(--desktop-gutter);
+  inset-block-end: calc(var(--desktop-taskbar-size) + var(--desktop-gutter) * 2);
+  z-index: var(--layer-widgets);
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-sm) var(--space-sm) var(--space-sm) var(--space-base);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-overlay);
+  box-shadow: var(--neu-shadow-floating);
+}
+
+.selectionBar > div {
+  display: grid;
+}
+
+.selectionBar span {
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+  text-transform: uppercase;
+}
+
+.clockWidget {
+  position: absolute;
+  inset-block-start: var(--desktop-gutter);
+  inset-inline-end: var(--desktop-gutter);
+  z-index: var(--layer-widgets);
+  display: grid;
+  gap: var(--space-xs);
+  inline-size: 13rem;
+  padding: var(--space-xl);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-xl);
+  background: color-mix(in srgb, var(--color-surface-overlay) 94%, transparent);
+  box-shadow: var(--neu-shadow-raised);
+  text-align: end;
+}
+
+.clockWidget strong {
+  font-size: var(--type-headline-lg-size);
+  letter-spacing: var(--type-headline-lg-tracking);
+}
+
+.clockWidget > span:last-child,
+.clockLabel {
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+  text-transform: uppercase;
+}
+
+.windowLayer {
+  position: absolute;
+  inset: 0;
+  z-index: var(--layer-windows);
+  pointer-events: none;
+}
+
+.windowLayer > div,
+.windowLayer section {
+  pointer-events: auto;
+}
+
+.readme {
+  display: grid;
+  align-content: center;
+  gap: var(--space-base);
+  min-block-size: 100%;
+  max-inline-size: var(--text-measure);
+  margin-inline: auto;
+}
+
+.readme h2,
+.readme p {
+  margin: 0;
+}
+
+.readme p {
+  color: var(--color-text-secondary);
+}
+
+.readmeEyebrow {
+  color: var(--color-tertiary) !important;
+  font-family: var(--font-mono);
+  font-size: var(--type-label-md-size);
+}
+
+.readmeActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.taskbar {
+  position: fixed;
+  inset-inline: var(--desktop-gutter);
+  inset-block-end: var(--desktop-gutter);
+  z-index: var(--layer-taskbar);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-md);
+  block-size: var(--desktop-taskbar-size);
+  padding: var(--space-md);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface-overlay);
+  box-shadow: var(--neu-shadow-floating);
+}
+
+.startButton,
+.runningApp {
+  min-block-size: var(--control-min-size);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-raised);
+  color: var(--color-text-primary);
+}
+
+.startButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding-inline: var(--space-base);
+  box-shadow: var(--neu-shadow-raised);
+  font-weight: var(--type-label-lg-weight);
+}
+
+.pinnedApps,
+.systemTray {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-inline-size: 0;
+}
+
+.pinnedApps {
+  overflow-x: auto;
+  padding: var(--space-sm);
+}
+
+.runningApp {
+  position: relative;
+  max-inline-size: 10rem;
+  padding-inline: var(--space-md);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.runningApp i {
+  position: absolute;
+  inset-inline: var(--space-md);
+  inset-block-end: var(--space-xs);
+  block-size: var(--space-micro);
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+}
+
+.runningApp[aria-current="true"] {
+  background: var(--color-surface-active);
+}
+
+.systemTray {
+  justify-content: flex-end;
+}
+
+.normalButton {
+  min-block-size: var(--control-min-size);
+  padding-inline: var(--space-md);
+}
+
+.trayClock {
+  display: grid;
+  min-inline-size: 5.5rem;
+  text-align: end;
+}
+
+.trayClock small {
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+}
+
+.startMenu,
+.contextMenu {
+  position: fixed;
+  z-index: var(--layer-menus);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  background: var(--color-surface-overlay);
+  box-shadow: var(--neu-shadow-floating);
+}
+
+.startMenu {
+  inset-inline-start: var(--desktop-gutter);
+  inset-block-end: calc(var(--desktop-taskbar-size) + var(--desktop-gutter) * 2);
+  display: grid;
+  gap: var(--space-base);
+  inline-size: min(25rem, calc(100vw - var(--space-2xl)));
+  max-block-size: min(38rem, calc(100dvh - var(--desktop-taskbar-size) - var(--space-6xl)));
+  padding: var(--space-lg);
+  border-radius: var(--radius-xl);
+}
+
+.startMenu header,
+.startMenu footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.startMenu header p {
+  margin: 0;
+  font-weight: var(--type-headline-sm-weight);
+}
+
+.startMenu header span {
+  color: var(--color-tertiary);
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+}
+
+.search {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-sm);
+  min-block-size: var(--control-min-size);
+  padding-inline: var(--space-md);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-recessed);
+  box-shadow: var(--neu-shadow-recessed);
+}
+
+.search input {
+  min-inline-size: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--color-text-primary);
+}
+
+.search:focus-within {
+  outline: var(--focus-width) solid var(--neu-focus);
+  outline-offset: var(--focus-offset);
+}
+
+.startResults {
+  display: grid;
+  gap: var(--space-xs);
+  overflow: auto;
+}
+
+.startResults button {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-md);
+  min-block-size: var(--control-min-size);
+  padding: var(--space-md);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-primary);
+  text-align: start;
+}
+
+.startResults button span {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.startResults small {
+  overflow: hidden;
+  color: var(--color-text-secondary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contextMenu {
+  inset-inline-start: var(--context-x);
+  inset-block-start: var(--context-y);
+  display: grid;
+  inline-size: 13rem;
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
+}
+
+.contextMenu button,
+.contextMenu a {
+  display: flex;
+  align-items: center;
+  min-block-size: var(--control-min-size);
+  padding-inline: var(--space-md);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-primary);
+  text-align: start;
+  text-decoration: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .desktopIcon:hover,
+  .startResults button:hover,
+  .contextMenu button:hover,
+  .contextMenu a:hover {
+    background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  }
+
+  .desktopIcon:hover .iconWell {
+    transform: translateY(var(--hover-offset));
+  }
+}
+
+@media (max-width: 64rem) {
+  .clockWidget {
+    inline-size: 11rem;
+  }
+
+  .clockWidget strong {
+    font-size: var(--type-headline-md-size);
+  }
+
+  .taskbar {
+    inset-inline: var(--space-md);
+    inset-block-end: var(--space-md);
+  }
+
+  .systemTray > svg,
+  .trayClock small {
+    display: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .desktop {
+    background-image: none;
+  }
+}

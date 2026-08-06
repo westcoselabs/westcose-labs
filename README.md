@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# WestCose Labs OS
 
-## Getting Started
+WestCose Labs OS is a route-backed portfolio presented through three shells:
 
-First, run the development server:
+- Desktop OS for pointer-oriented desktop interaction.
+- Pocket OS for touch-oriented phones and tablets.
+- Normal View for conventional, low-effect navigation.
+
+The pathname owns the content; the shell only changes its presentation. Local
+MDX and typed registries remain the source of truth, and no database, auth,
+CMS, upload service, or stored contact submission is used.
+
+## Local development
+
+Use Node 22 and npm 10, then run:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open <http://localhost:3000>. Useful verification commands are:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run lint
+npm run typecheck
+npm run test:run
+npm run build
+npm run test:e2e
+npm run test:a11y
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Playwright requires Chromium, Firefox, and WebKit binaries. Install them once
+with `npx playwright install chromium firefox webkit`.
 
-## Learn More
+## Presentation controls
 
-To learn more about Next.js, take a look at the following resources:
+- `?view=normal` forces Normal View on the current pathname.
+- `?view=os` restores automatic Desktop/Pocket selection.
+- `/normal` redirects to `/?view=normal` for compatibility.
+- Display, motion, contrast, sound, and session reset controls live in Settings.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Repository map
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `src/app`: semantic routes, metadata, loading/error boundaries, sitemap, robots.
+- `src/content`: local MDX case studies and static content.
+- `src/registry`: typed apps, routes, projects, placements, notifications, site data.
+- `src/components`: shared applications plus Desktop, Pocket, Normal, and material UI.
+- `src/state` and `src/lib`: reducers, storage, URI, routing, shell, and geometry helpers.
+- `src/styles`: exact Dusk tokens, typography, material, motion, and accessibility.
+- `tests`: unit, component, browser, accessibility, and visual coverage.
 
-## Deploy on Vercel
+## Production configuration gates
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Development fixtures are deliberately labeled and must not ship as invented
+facts. Before production acceptance, provide or approve:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `NEXT_PUBLIC_SITE_URL`
+- `NEXT_PUBLIC_CONTACT_EMAIL`
+- `NEXT_PUBLIC_GITHUB_URL`
+- verified active social destinations
+- confirmed Estate Sales Bakersfield copy, status, technologies, links, and art
+- final desktop and portrait wallpaper approval
+- the remaining custom app icons and FightClub artwork/build status
+- any approved local sound assets
+
+The documented telephone actions use `+1 612-741-7277`. Contact submission is a
+native `mailto:` handoff; the site never claims a message was sent or stores it.
+
+## V1 boundaries
+
+FightClub is a server-rendered launcher without a game engine. TV, World,
+Arcade, Archive, PWA/offline support, multiple decorative themes, persistent
+window layouts, database infrastructure, and multi-route live desktop windows
+remain intentionally outside V1.

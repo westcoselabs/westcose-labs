@@ -1,0 +1,10 @@
+.shell {
+  position: relative;
+  inline-size: var(--pocket-viewport-width, 100dvw);
+  block-size: var(--pocket-viewport-height, 100dvh);
+  max-inline-size: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--color-text-primary);
+  background: var(--color-neutral);
+}

@@ -1,0 +1,98 @@
+.startup {
+  display: grid;
+  place-items: center;
+  inline-size: 100%;
+  block-size: 100%;
+  padding: var(--pocket-gutter);
+  overflow: hidden;
+  color: var(--color-text-primary);
+  background: var(--color-neutral);
+}
+
+.sequence {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-xl);
+  inline-size: min(100%, var(--content-max-width));
+}
+
+.mark {
+  display: grid;
+  place-items: center;
+  inline-size: var(--pocket-icon-size);
+  block-size: var(--pocket-icon-size);
+  border-radius: var(--radius-xl);
+  color: var(--color-primary);
+  background: var(--neu-raised-bg);
+  box-shadow: var(--neu-shadow-raised);
+  font-family: var(--font-mono);
+  font-size: var(--type-headline-sm-size);
+  font-weight: var(--type-headline-sm-weight);
+  letter-spacing: var(--type-label-md-tracking);
+  animation: startup-pulse var(--motion-slow) var(--ease-standard) infinite
+    alternate;
+}
+
+.copy {
+  display: grid;
+  gap: var(--space-sm);
+  text-align: center;
+}
+
+.copy p {
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--type-mono-sm-size);
+}
+
+.progress {
+  inline-size: min(
+    var(--pocket-startup-progress-width),
+    var(--pocket-startup-progress-fluid-width)
+  );
+  block-size: var(--space-sm);
+  padding: var(--space-micro);
+  overflow: hidden;
+  border-radius: var(--radius-full);
+  background: var(--neu-recessed-bg);
+  box-shadow: var(--neu-shadow-recessed);
+}
+
+.progress::after {
+  content: "";
+  display: block;
+  inline-size: 58%;
+  block-size: 100%;
+  border-radius: inherit;
+  background: var(--color-primary);
+  transform-origin: left center;
+  animation: startup-progress var(--motion-slow) var(--ease-standard) infinite
+    alternate;
+}
+
+@keyframes startup-pulse {
+  from {
+    color: var(--color-primary);
+    box-shadow: var(--neu-shadow-raised);
+  }
+  to {
+    color: var(--color-focus);
+    box-shadow: var(--neu-shadow-active);
+  }
+}
+
+@keyframes startup-progress {
+  from {
+    transform: translateX(-38%);
+  }
+  to {
+    transform: translateX(104%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mark,
+  .progress::after {
+    animation: none;
+  }
+}

@@ -1,0 +1,79 @@
+:where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+  position: relative;
+  z-index: var(--layer-focus);
+  outline: var(--focus-width) solid var(--neu-focus);
+  outline-offset: var(--focus-offset);
+}
+
+:where([tabindex="-1"]):focus {
+  outline: none;
+}
+
+.skip-link {
+  position: fixed;
+  inset-block-start: var(--space-md);
+  inset-inline-start: var(--space-md);
+  z-index: var(--layer-focus);
+  min-block-size: var(--control-min-size);
+  padding: var(--space-md) var(--space-base);
+  border-radius: var(--radius-md);
+  color: var(--color-text-dark);
+  background: var(--color-focus);
+  font-weight: var(--type-label-lg-weight);
+  transform: translateY(calc(-100% - var(--space-xl)));
+  transition: transform var(--motion-fast) var(--ease-enter);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+.sr-only {
+  position: absolute;
+  inline-size: var(--border-thin);
+  block-size: var(--border-thin);
+  padding: 0;
+  margin: calc(var(--border-thin) * -1);
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+[aria-disabled="true"],
+:disabled {
+  cursor: not-allowed;
+}
+
+[inert] {
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --focus-width: 0.25rem;
+    --structural-edge: var(--color-text-secondary);
+  }
+}
+
+@media (forced-colors: active) {
+  :root {
+    color-scheme: light dark;
+    --neu-shadow-raised: none;
+    --neu-shadow-recessed: none;
+    --neu-shadow-pressed: none;
+    --neu-shadow-floating: none;
+    --neu-shadow-active: none;
+  }
+
+  :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+    outline-color: Highlight;
+  }
+
+  .skip-link {
+    color: ButtonText;
+    background: ButtonFace;
+    border: var(--border-thin) solid ButtonText;
+  }
+}
