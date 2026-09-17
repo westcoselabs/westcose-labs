@@ -12,21 +12,26 @@ import {
 } from "react";
 
 import { DesktopShell } from "@/components/desktop";
-import { NormalShell } from "@/components/normal";
+import { SemanticShell } from "@/components/normal";
 import {
   PocketShell,
   type PocketAppItem,
   type PocketPageIndex,
 } from "@/components/pocket";
+import { SettingsRoute } from "@/components/apps/settings/SettingsRoute";
 import {
   DEFAULT_SESSION,
-  PREFERENCES_STORAGE_KEY,
-  SESSION_STORAGE_KEY,
+  createDiscoveryService,
+  readLocalNotesState,
   readPreferences,
   readSession,
+  resetLocalNotesStorage,
+  resetPreferencesStorage,
+  resetSessionStorage,
   resolvePocketBackTarget,
   resolveShell,
-  safeRemoveStorage,
+  safeResolveStorage,
+  writeLocalNotesState,
   writePreferences,
   writeSession,
 } from "@/lib";
@@ -35,7 +40,9 @@ import {
   getAppById,
   getAppByPath,
   getParentPath,
+  getProject,
   getRouteDescriptor,
+  getTheme,
   pocketDockPlacement,
   pocketNotifications,
   pocketPageOnePlacement,
@@ -46,16 +53,20 @@ import {
   type OSApp,
 } from "@/registry";
 import {
+  createInitialLocalNotesState,
   createInitialPocketState,
   createInitialPreferences,
+  localNotesReducer,
   pocketReducer,
   preferencesReducer,
   resolveEffectiveAccessibility,
   toPocketSessionValues,
-  type DisplayPreference,
 } from "@/state";
 
-import { PreferencePanel } from "./PreferencePanel";
+import { DiscoveryServiceProvider } from "./DiscoveryServiceContext";
+import { LocalNotesProvider } from "./LocalNotesContext";
+import { SettingsProvider } from "./SettingsContext";
+import { ShellPresentationProvider } from "./ShellPresentationContext";
 import styles from "./OSRoot.module.css";
 
 type OSRootProps = {
@@ -74,13 +85,9 @@ const toPocketApp = (app: OSApp): PocketAppItem => ({
     app.status === "needs-configuration" ? "Needs configuration" : undefined,
 });
 
-function buildViewHref(
-  pathname: string,
-  searchParams: URLSearchParams,
-  view: "normal" | "os",
-) {
+function buildOsViewHref(pathname: string, searchParams: URLSearchParams) {
   const params = new URLSearchParams(searchParams);
-  params.set("view", view);
+  params.set("view", "os");
   return `${pathname}?${params.toString()}`;
 }
 
@@ -88,12 +95,20 @@ export function OSRoot({ children }: OSRootProps) {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [storage] = useState(() => ({
+    local:
+      typeof window === "undefined"
+        ? null
+        : safeResolveStorage(() => window.localStorage),
+    session:
+      typeof window === "undefined"
+        ? null
+        : safeResolveStorage(() => window.sessionStorage),
+  }));
   const initialPathnameRef = useRef(pathname);
   const [hydrated, setHydrated] = useState(false);
-  const [readmeShown, setReadmeShown] = useState(() =>
-    typeof window === "undefined"
-      ? false
-      : readSession(window.sessionStorage).readmeShown,
+  const [readmeShown, setReadmeShown] = useState(
+    () => readSession(storage.session).readmeShown,
   );
   const [environment, setEnvironment] = useState({
     coarsePointer: false,
@@ -112,11 +127,22 @@ export function OSRoot({ children }: OSRootProps) {
     { pathname },
     createInitialPocketState,
   );
+  const [localNotes, localNotesDispatch] = useReducer(
+    localNotesReducer,
+    undefined,
+    createInitialLocalNotesState,
+  );
+  const [discoveryService] = useState(() =>
+    createDiscoveryService(storage.local),
+  );
 
   useEffect(() => {
-    const storedPreferences = readPreferences(window.localStorage);
-    const storedSession = readSession(window.sessionStorage);
+    const storedPreferences = readPreferences(storage.local);
+    const storedSession = readSession(storage.session);
+    const storedLocalNotes = readLocalNotesState(storage.local);
     preferencesDispatch({ type: "hydrate", preferences: storedPreferences });
+    localNotesDispatch({ type: "hydrate", state: storedLocalNotes });
+    discoveryService.hydrate();
     pocketDispatch({
       type: "session/hydrate",
       pathname: initialPathnameRef.current,
@@ -153,20 +179,25 @@ export function OSRoot({ children }: OSRootProps) {
       forcedColors.removeEventListener("change", update);
       coarsePointer.removeEventListener("change", update);
     };
-  }, []);
+  }, [discoveryService, storage]);
 
   useEffect(() => {
     if (!hydrated) return;
-    writePreferences(window.localStorage, preferences);
-  }, [hydrated, preferences]);
+    writePreferences(storage.local, preferences);
+  }, [hydrated, preferences, storage]);
 
   useEffect(() => {
     if (!hydrated) return;
-    writeSession(window.sessionStorage, {
+    writeSession(storage.session, {
       ...toPocketSessionValues(pocket),
       readmeShown,
     });
-  }, [hydrated, pocket, readmeShown]);
+  }, [hydrated, pocket, readmeShown, storage]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    writeLocalNotesState(storage.local, localNotes);
+  }, [hydrated, localNotes, storage]);
 
   const effectiveAccessibility = resolveEffectiveAccessibility(preferences, {
     reducedMotion: environment.reducedMotion,
@@ -191,6 +222,7 @@ export function OSRoot({ children }: OSRootProps) {
     root.dataset.shell = activeShell;
     root.dataset.shellReady = "true";
     root.dataset.theme = preferences.themeId;
+    root.dataset.iconLighting = preferences.iconLighting ? "on" : "off";
     if (effectiveAccessibility.highContrast) {
       root.dataset.highContrast = "true";
     } else {
@@ -201,7 +233,12 @@ export function OSRoot({ children }: OSRootProps) {
     } else {
       delete root.dataset.reducedMotion;
     }
-  }, [activeShell, effectiveAccessibility, preferences.themeId]);
+  }, [
+    activeShell,
+    effectiveAccessibility,
+    preferences.iconLighting,
+    preferences.themeId,
+  ]);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -221,11 +258,18 @@ export function OSRoot({ children }: OSRootProps) {
     };
   }, [activeShell, hydrated, pathname]);
 
-  const normalViewHref = buildViewHref(pathname, searchParams, "normal");
-  const osViewHref = buildViewHref(pathname, searchParams, "os");
+  const osViewHref = buildOsViewHref(pathname, searchParams);
+  const activeTheme = getTheme(preferences.themeId) ?? getTheme("dusk");
   const routeDescriptor = getRouteDescriptor(pathname);
   const activeApp = getAppByPath(pathname);
-  const routeTitle = routeDescriptor?.title ?? activeApp?.name ?? "WestCose Labs";
+  const activeProject = pathname.startsWith("/projects/")
+    ? getProject(pathname.slice("/projects/".length))
+    : undefined;
+  const routeTitle =
+    activeProject?.title ??
+    routeDescriptor?.title ??
+    activeApp?.name ??
+    "WestCose Labs";
   const defaultPocketPage =
     activeApp && "defaultPocketPage" in activeApp
       ? (activeApp.defaultPocketPage ?? 0)
@@ -277,13 +321,19 @@ export function OSRoot({ children }: OSRootProps) {
   }, [defaultPocketPage, pathname, pocket.originPage, router]);
 
   const resetPreferences = () => {
-    safeRemoveStorage(window.localStorage, PREFERENCES_STORAGE_KEY);
+    resetPreferencesStorage(storage.local);
     preferencesDispatch({ type: "reset" });
   };
   const resetSession = () => {
-    safeRemoveStorage(window.sessionStorage, SESSION_STORAGE_KEY);
+    resetSessionStorage(storage.session);
     setReadmeShown(DEFAULT_SESSION.readmeShown);
     pocketDispatch({ type: "session/reset", pathname: "/" });
+    router.push("/");
+  };
+  const resetDiscoveries = () => discoveryService.reset();
+  const resetLocalNotes = () => {
+    resetLocalNotesStorage(storage.local);
+    localNotesDispatch({ type: "reset" });
   };
 
   const showPocketSystem = (
@@ -293,35 +343,12 @@ export function OSRoot({ children }: OSRootProps) {
     router.push("/");
   };
 
-  const preferencePanel = (
-    <PreferencePanel
-      effectiveReducedMotion={effectiveAccessibility.reducedMotion}
-      onDisplayPreference={(preference: DisplayPreference) =>
-        preferencesDispatch({ type: "display-preference/set", preference })
-      }
-      onHighContrast={(enabled) =>
-        preferencesDispatch({ type: "high-contrast/set", enabled })
-      }
-      onReducedMotion={(enabled) =>
-        preferencesDispatch({ type: "reduced-motion/set", enabled })
-      }
-      onResetPreferences={resetPreferences}
-      onResetSession={resetSession}
-      onLockPocket={() => showPocketSystem("system/lock")}
-      onPreviewLock={() => showPocketSystem("system/preview-lock")}
-      onReplayStartup={() => showPocketSystem("system/replay-startup")}
-      onSound={(enabled) =>
-        preferencesDispatch({ type: "sound/set", enabled })
-      }
-      preferences={preferences}
-    />
+  const settingsPanel = (
+    <ShellPresentationProvider shell="desktop">
+      <SettingsRoute />
+    </ShellPresentationProvider>
   );
-  const routeContent = (
-    <>
-      {children}
-      {pathname === "/settings" ? preferencePanel : null}
-    </>
-  );
+  const routeContent = children;
 
   const panelProps = (shell: typeof activeShell) => ({
     "aria-hidden": hydrated && activeShell !== shell ? true : undefined,
@@ -331,15 +358,37 @@ export function OSRoot({ children }: OSRootProps) {
   });
 
   return (
-    <div className={styles.root}>
+    <DiscoveryServiceProvider service={discoveryService}>
+      <LocalNotesProvider dispatch={localNotesDispatch} state={localNotes}>
+        <SettingsProvider
+          value={{
+            dispatch: preferencesDispatch,
+            effectiveAccessibility,
+            lockPocket: () => showPocketSystem("system/lock"),
+            preferences,
+            previewLock: () => showPocketSystem("system/preview-lock"),
+            replayStartup: () => showPocketSystem("system/replay-startup"),
+            resetAllLocalState: () => {
+              resetPreferences();
+              resetSession();
+              resetDiscoveries();
+              resetLocalNotes();
+            },
+            resetDiscoveries,
+            resetLocalNotes,
+            resetPreferences,
+            resetSession,
+          }}
+        >
+        <div className={styles.root}>
       <p aria-live="polite" className="sr-only">
-        {routeTitle} opened in {activeShell} view.
+        {routeTitle} opened in{" "}
+        {activeShell === "normal" ? "semantic document" : `${activeShell} view`}.
       </p>
 
       <div className={styles.desktopPanel} {...panelProps("desktop")}>
         {!hydrated || activeShell === "desktop" ? (
           <DesktopShell
-            normalViewHref={normalViewHref}
             onReadmeShown={() => setReadmeShown(true)}
             onSoundToggle={() =>
               preferencesDispatch({
@@ -349,13 +398,17 @@ export function OSRoot({ children }: OSRootProps) {
             }
             pathname={pathname}
             routeTitle={routeTitle}
-            settingsPanel={preferencePanel}
+            settingsPanel={settingsPanel}
             showInitialReadme={
               hydrated && activeShell === "desktop" && !readmeShown
             }
             soundEnabled={preferences.soundEnabled}
           >
-            {hydrated && activeShell === "desktop" ? routeContent : null}
+            {hydrated && activeShell === "desktop" ? (
+              <ShellPresentationProvider shell="desktop">
+                {routeContent}
+              </ShellPresentationProvider>
+            ) : null}
           </DesktopShell>
         ) : null}
       </div>
@@ -368,14 +421,14 @@ export function OSRoot({ children }: OSRootProps) {
               ? undefined
               : {
                   id: activeApp?.id ?? "projects",
-                  title: activeApp?.name ?? routeTitle,
+                  title: activeProject?.title ?? activeApp?.name ?? routeTitle,
                   backLabel: getParentPath(pathname) === "/" ? "Home" : "Back",
                   iconKey: activeApp?.iconKey ?? "projects",
                   subtitle:
-                    activeApp?.status === "fixture"
+                    activeProject?.status === "development-fixture"
                       ? "Development fixture"
                       : undefined,
-                  tone: activeApp?.tone ?? "blue",
+                  tone: activeProject?.accentTone ?? activeApp?.tone ?? "blue",
                 }
           }
           dismissedNotificationIds={pocket.dismissedNotificationIds}
@@ -391,7 +444,6 @@ export function OSRoot({ children }: OSRootProps) {
             detail: personalityRegistry.conditionMessages[0],
           }}
           menuTargetId={pocket.menuTarget?.id}
-          normalViewHref={normalViewHref}
           notifications={pocketNotifications}
           onBack={backFromPocketApp}
           onCloseAppMenu={() => pocketDispatch({ type: "menu/close" })}
@@ -418,25 +470,39 @@ export function OSRoot({ children }: OSRootProps) {
           reducedMotion={effectiveAccessibility.reducedMotion}
           startupPlayed={pocket.startupPlayed}
           unlocked={pocket.unlocked}
-            wallpaperUrl="/images/wallpapers/dusk-pocket.webp"
+            wallpaperUrl={
+              activeTheme?.pocketWallpaper ??
+              "/images/wallpapers/dusk-pocket.webp"
+            }
           >
-            {hydrated && activeShell === "pocket" ? routeContent : null}
+            {hydrated && activeShell === "pocket" ? (
+              <ShellPresentationProvider shell="pocket">
+                {routeContent}
+              </ShellPresentationProvider>
+            ) : null}
           </PocketShell>
         ) : null}
       </div>
 
       <div className={styles.normalPanel} {...panelProps("normal")}>
         {!hydrated || activeShell === "normal" ? (
-          <NormalShell
+          <SemanticShell
             osViewHref={osViewHref}
             pathname={pathname}
             preserveNormalQuery={searchParams.get("view") === "normal"}
             routeFallback={resolution.routeFallback}
           >
-            {!hydrated || activeShell === "normal" ? routeContent : null}
-          </NormalShell>
+            {!hydrated || activeShell === "normal" ? (
+              <ShellPresentationProvider shell="normal">
+                {routeContent}
+              </ShellPresentationProvider>
+            ) : null}
+          </SemanticShell>
         ) : null}
       </div>
-    </div>
+        </div>
+        </SettingsProvider>
+      </LocalNotesProvider>
+    </DiscoveryServiceProvider>
   );
 }

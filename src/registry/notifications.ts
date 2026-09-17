@@ -16,6 +16,6 @@ export const pocketNotifications = [
     id: "readme",
     appLabel: "Notes",
     title: "First time here?",
-    body: "Unlock to explore, or choose Normal View for conventional navigation.",
+    body: "Unlock to explore. Every destination also remains a real browser route.",
   },
 ] as const satisfies readonly PocketNotification[];

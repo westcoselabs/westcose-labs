@@ -1,10 +1,14 @@
 # WestCose Labs OS
 
-WestCose Labs OS is a route-backed portfolio presented through three shells:
+WestCose Labs OS is a route-backed portfolio presented through two public OS
+shells:
 
 - Desktop OS for pointer-oriented desktop interaction.
 - Pocket OS for touch-oriented phones and tablets.
-- Normal View for conventional, low-effect navigation.
+
+A server-rendered semantic document remains underneath both presentations for
+accessibility, indexing, direct routes, automated checks, and no-JavaScript
+behavior.
 
 The pathname owns the content; the shell only changes its presentation. Local
 MDX and typed registries remain the source of truth, and no database, auth,
@@ -33,11 +37,9 @@ npm run test:a11y
 Playwright requires Chromium, Firefox, and WebKit binaries. Install them once
 with `npx playwright install chromium firefox webkit`.
 
-## Presentation controls
+## Presentation behavior
 
-- `?view=normal` forces Normal View on the current pathname.
 - `?view=os` restores automatic Desktop/Pocket selection.
-- `/normal` redirects to `/?view=normal` for compatibility.
 - Display, motion, contrast, sound, and session reset controls live in Settings.
 
 ## Repository map
@@ -45,7 +47,7 @@ with `npx playwright install chromium firefox webkit`.
 - `src/app`: semantic routes, metadata, loading/error boundaries, sitemap, robots.
 - `src/content`: local MDX case studies and static content.
 - `src/registry`: typed apps, routes, projects, placements, notifications, site data.
-- `src/components`: shared applications plus Desktop, Pocket, Normal, and material UI.
+- `src/components`: shared applications plus Desktop, Pocket, semantic fallback, and material UI.
 - `src/state` and `src/lib`: reducers, storage, URI, routing, shell, and geometry helpers.
 - `src/styles`: exact Dusk tokens, typography, material, motion, and accessibility.
 - `tests`: unit, component, browser, accessibility, and visual coverage.
@@ -61,15 +63,16 @@ facts. Before production acceptance, provide or approve:
 - verified active social destinations
 - confirmed Estate Sales Bakersfield copy, status, technologies, links, and art
 - final desktop and portrait wallpaper approval
-- the remaining custom app icons and FightClub artwork/build status
+- approval for the FightClub concept cover and final project credits
 - any approved local sound assets
 
 The documented telephone actions use `+1 612-741-7277`. Contact submission is a
 native `mailto:` handoff; the site never claims a message was sent or stores it.
 
-## V1 boundaries
+## Runtime boundaries
 
-FightClub is a server-rendered launcher without a game engine. TV, World,
+FightClub remains remotely hosted and loads only after an explicit Play action;
+no game engine is bundled with the portfolio. TV, World,
 Arcade, Archive, PWA/offline support, multiple decorative themes, persistent
 window layouts, database infrastructure, and multi-route live desktop windows
 remain intentionally outside V1.

@@ -23,3 +23,30 @@
   --neu-floating-bg: var(--color-surface-base);
   --structural-edge: var(--color-text-secondary);
 }
+
+[data-theme="corporate-beige"] {
+  color-scheme: light;
+  --color-primary: #5d6f86;
+  --color-primary-hover: #465a73;
+  --color-primary-pressed: #34465b;
+  --color-secondary: #a69a83;
+  --color-tertiary: #6c7668;
+  --color-neutral: #d8d0c0;
+  --color-surface-base: #d8d0c0;
+  --color-surface-raised: #e4ddcf;
+  --color-surface-recessed: #c9c0af;
+  --color-surface-overlay: #eee8dc;
+  --color-surface-active: #bcc5ce;
+  --color-surface-light: #f5f1e8;
+  --color-text-primary: #242a2f;
+  --color-text-secondary: #4f5659;
+  --color-text-subdued: #6f746f;
+  --color-text-dark: #15191c;
+  --color-border-subtle: #a49c8d;
+  --color-shadow-dark: #aaa18f;
+  --color-shadow-light: #f4eee3;
+  --color-focus: #334f73;
+  --color-warning: #765e2f;
+  --color-success: #3d654a;
+  --color-danger: #8a4141;
+}

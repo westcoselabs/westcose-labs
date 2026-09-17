@@ -4,7 +4,7 @@ import { ArrowLeft, DotsThree, ShareNetwork } from "@phosphor-icons/react";
 import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 
-import { ButtonLink, IconButton } from "@/components/ui";
+import { IconButton } from "@/components/ui";
 import type { AppTone } from "@/registry";
 
 import { PocketAppGlyph } from "./PocketAppGlyph";
@@ -15,7 +15,6 @@ interface PocketAppFrameProps {
   readonly backLabel?: string;
   readonly children?: ReactNode;
   readonly iconKey: string;
-  readonly normalViewHref?: string;
   readonly onBack: () => void;
   readonly shareHref?: string;
   readonly subtitle?: string;
@@ -28,7 +27,6 @@ export function PocketAppFrame({
   backLabel = "Back",
   children,
   iconKey,
-  normalViewHref,
   onBack,
   shareHref,
   subtitle,
@@ -101,9 +99,6 @@ export function PocketAppFrame({
         </div>
         {menuOpen ? (
           <div className={styles.menu} role="menu">
-            {normalViewHref ? (
-              <ButtonLink href={normalViewHref} role="menuitem">Open Normal View</ButtonLink>
-            ) : null}
             <button
               autoFocus
               onClick={() => {

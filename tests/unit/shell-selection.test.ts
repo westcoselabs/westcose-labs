@@ -32,11 +32,11 @@ describe("shell selection precedence", () => {
     ).toMatchObject({ shell: "normal", source: "query" });
   });
 
-  it("lets view=os force automatic OS selection and ignore stored Normal", () => {
+  it("lets view=os force automatic OS selection and ignore a stored shell", () => {
     expect(
       resolveShell({
         view: "os",
-        storedPreference: "normal",
+        storedPreference: "desktop",
         viewportWidth: 390,
         coarsePointer: true,
       }),

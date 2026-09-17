@@ -1,18 +1,19 @@
 import type {
   Capability,
   Experiment,
-  Note,
   SystemFact,
 } from "./types";
 
 export const experimentRegistry = [
   {
     slug: "three-shell-router",
-    title: "Three-shell router",
-    purpose: "Present one semantic route through Desktop, Pocket, and Normal shells.",
+    title: "Route presentation router",
+    purpose:
+      "Present one semantic route through Desktop and Pocket shells with a document fallback.",
     status: "stable",
-    requirements: "Best explored by changing the view query on the same route.",
-    proof: "The route remains the source of truth while each shell controls presentation.",
+    requirements: "Best explored by opening the same route on desktop and mobile.",
+    proof:
+      "The route remains the source of truth while each OS shell controls presentation.",
     iconKey: "experiments",
     tone: "cyan",
   },
@@ -47,50 +48,6 @@ export const experimentRegistry = [
     tone: "indigo",
   },
 ] as const satisfies readonly Experiment[];
-
-export const noteRegistry = [
-  {
-    id: "readme",
-    title: "WestCose Labs README",
-    summary: "The shortest useful orientation to the workstation.",
-    tag: "README",
-    pinned: true,
-    body: [
-      "Building software. Designing systems. Making games. Exploring weird ideas.",
-      "Every important destination is a real route. The operating-system layer adds personality without trapping the content.",
-    ],
-  },
-  {
-    id: "do-not-redesign",
-    title: "Do not redesign this again",
-    summary: "A preservation note written immediately before a careful redesign.",
-    tag: "Process",
-    body: [
-      "Keep the route model, the three shells, the Dusk tokens, and the accessible alternatives.",
-      "Change the hierarchy where it feels generic. Keep the parts that already behave correctly.",
-    ],
-  },
-  {
-    id: "features-nobody-asked-for",
-    title: "Features nobody asked for",
-    summary: "A small inventory of harmless side quests.",
-    tag: "System humor",
-    body: [
-      "A Recycle Bin with emotional retention settings.",
-      "A lock screen for a website. A terminal that cannot damage anything. Window snapping for a portfolio.",
-    ],
-  },
-  {
-    id: "finish-first",
-    title: "Things to finish before starting another SaaS",
-    summary: "The list remains intentionally short and suspiciously reusable.",
-    tag: "Process",
-    body: [
-      "Finish the current project story. Verify the public links. Export the approved screenshots.",
-      "Only then is a new folder allowed to contain the word final.",
-    ],
-  },
-] as const satisfies readonly Note[];
 
 export const capabilityRegistry = [
   {
@@ -141,9 +98,12 @@ export const systemFacts = [
   { label: "Operator", value: "Brandon" },
   { label: "Mode", value: "Design + development" },
   { label: "Primary functions", value: "Software, web systems, games, experiments" },
-  { label: "Interface family", value: "Desktop OS, Pocket OS, Normal View" },
+  {
+    label: "Interface family",
+    value: "Desktop OS, Pocket OS, semantic document fallback",
+  },
   { label: "Build status", value: "Active", detail: "Validation baseline passing" },
-  { label: "Current focus", value: "WestCose Labs OS V2" },
+  { label: "Current focus", value: "WestCose Labs OS V3 foundation" },
   { label: "Framework", value: "Next.js App Router" },
   { label: "Presentation", value: "Route-driven" },
   { label: "Storage", value: "Local, versioned, reversible" },

@@ -2,18 +2,16 @@
 
 import { useEffect } from "react";
 
-import { Button, ButtonLink } from "@/components/ui";
+import { Button } from "@/components/ui";
 
 import styles from "./PocketStartup.module.css";
 
 interface PocketStartupProps {
-  readonly normalViewHref?: string;
   readonly onComplete: () => void;
   readonly reducedMotion: boolean;
 }
 
 export function PocketStartup({
-  normalViewHref,
   onComplete,
   reducedMotion,
 }: PocketStartupProps) {
@@ -46,9 +44,6 @@ export function PocketStartup({
           role="progressbar"
         />
         <Button onClick={onComplete}>Skip startup</Button>
-        {normalViewHref ? (
-          <ButtonLink href={normalViewHref}>Open Normal View</ButtonLink>
-        ) : null}
       </div>
     </main>
   );

@@ -15,6 +15,8 @@ type PreferencePanelProps = {
   onPreviewLock: () => void;
   onReducedMotion: (enabled: boolean) => void;
   onReplayStartup: () => void;
+  onResetDiscoveries: () => void;
+  onResetLocalNotes: () => void;
   onResetPreferences: () => void;
   onResetSession: () => void;
   onSound: (enabled: boolean) => void;
@@ -29,6 +31,8 @@ export function PreferencePanel({
   onPreviewLock,
   onReducedMotion,
   onReplayStartup,
+  onResetDiscoveries,
+  onResetLocalNotes,
   onResetPreferences,
   onResetSession,
   onSound,
@@ -76,7 +80,6 @@ export function PreferencePanel({
             <option value="auto">Automatic</option>
             <option value="desktop">Desktop OS</option>
             <option value="pocket">Pocket OS</option>
-            <option value="normal">Normal View</option>
           </select>
         </label>
       </SurfaceRecessed>
@@ -90,7 +93,6 @@ export function PreferencePanel({
           <Button onClick={onLockPocket}>Lock Pocket OS</Button>
           <Button onClick={onPreviewLock}>Preview lock screen</Button>
           <Button onClick={onReplayStartup}>Replay startup</Button>
-          <Button onClick={() => onDisplayPreference("normal")}>Open Normal View</Button>
         </div>
       </section>
 
@@ -103,6 +105,8 @@ export function PreferencePanel({
       <div className={styles.resetActions}>
         <Button onClick={onResetPreferences}>Reset preferences</Button>
         <Button onClick={onResetSession}>Reset Pocket session</Button>
+        <Button onClick={onResetDiscoveries}>Reset discoveries</Button>
+        <Button onClick={onResetLocalNotes}>Clear local notes</Button>
       </div>
     </section>
   );

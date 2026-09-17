@@ -113,8 +113,105 @@ export type Note = {
   title: string;
   summary: string;
   body: readonly string[];
-  tag: "README" | "Process" | "System humor";
+  preview: string;
+  updatedAt: string;
+  tag: string;
+  tags?: readonly string[];
+  attachmentCount?: number;
+  folderId: string;
   pinned?: boolean;
+  hidden?: boolean;
+  discoveryId?: string;
+  desktopFileName?: string;
+  titleMutation?: {
+    afterOpenCount: number;
+    alternateTitle: string;
+    discoveryId?: string;
+  };
+};
+
+export type Discovery = {
+  id: string;
+  title: string;
+  description: string;
+  category:
+    | "desktop"
+    | "notes"
+    | "settings"
+    | "terminal"
+    | "recycle"
+    | "fightclub"
+    | "theme";
+  hidden: boolean;
+  notificationCopy?: string;
+  badgeTarget?: string;
+};
+
+export type ThemeDefinition = {
+  id: string;
+  name: string;
+  description: string;
+  default: boolean;
+  hidden: boolean;
+  discoveryId?: string;
+  desktopWallpaper: string;
+  pocketWallpaper: string;
+  dataTheme: string;
+};
+
+export type AchievementDefinition = {
+  id: string;
+  title: string;
+  description: string;
+  category: Discovery["category"];
+  hidden: boolean;
+  discoveryId?: string;
+};
+
+export type TerminalCommandDefinition = {
+  id: string;
+  command: string;
+  description: string;
+  hidden: boolean;
+  aliases?: readonly string[];
+  route?: `/${string}`;
+  discoveryId?: string;
+};
+
+export type NoteFolderDefinition = {
+  id: string;
+  name: string;
+  description: string;
+  kind: "collection" | "smart";
+};
+
+export type FightClubDefinition = {
+  id: string;
+  title: string;
+  route: `/${string}`;
+  buildStatus: "unavailable" | "launcher" | "playable";
+  artwork: {
+    src: string;
+    alt: string;
+  };
+  hostedBuild: {
+    allowedOrigin: `https://${string}`;
+    buildLabel: string;
+    embedStatus: "verified" | "external-only";
+    embedUrl: `https://${string}`;
+    embedVerifiedAt: string;
+    launchUrl: `https://${string}`;
+    messageContract: "none";
+    provider: string;
+  };
+  controls: {
+    desktopPlayerOne: string;
+    desktopPlayerTwo: string;
+    pocket: string;
+  };
+  modes: readonly string[];
+  discoveryIds: readonly string[];
+  achievementIds: readonly string[];
 };
 
 export type Capability = {

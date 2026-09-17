@@ -74,10 +74,7 @@ export function resolveShell(input: ShellSelectionInput): ShellSelection {
   } else {
     const preference = input.storedPreference ?? "auto";
 
-    if (preference === "normal") {
-      requestedShell = "normal";
-      source = "preference";
-    } else if (preference === "desktop" || preference === "pocket") {
+    if (preference === "desktop" || preference === "pocket") {
       requestedShell = preference;
       source = "preference";
     } else {

@@ -17,7 +17,7 @@ const navigation = [
   ["/contact", "Contact"],
 ] as const;
 
-type NormalShellProps = {
+type SemanticShellProps = {
   children?: ReactNode;
   osViewHref: string;
   pathname: string;
@@ -25,13 +25,13 @@ type NormalShellProps = {
   routeFallback: boolean;
 };
 
-export function NormalShell({
+export function SemanticShell({
   children,
   osViewHref,
   pathname,
   preserveNormalQuery,
   routeFallback,
-}: NormalShellProps) {
+}: SemanticShellProps) {
   const router = useRouter();
 
   const preservePresentation = (event: MouseEvent<HTMLDivElement>) => {
@@ -53,7 +53,11 @@ export function NormalShell({
     }
 
     const url = new URL(anchor.href, window.location.href);
-    if (url.origin !== window.location.origin || url.pathname === "/normal") {
+    if (
+      url.origin !== window.location.origin ||
+      url.pathname === "/normal" ||
+      url.searchParams.get("view") === "os"
+    ) {
       return;
     }
 
@@ -68,20 +72,20 @@ export function NormalShell({
         Skip to content
       </a>
       <header className={styles.header}>
-        <Link className={styles.brand} href="/?view=normal">
+        <Link className={styles.brand} href="/">
           <span className={styles.brandMark} aria-hidden="true">
             WCL
           </span>
           <span>
             <strong>WestCose Labs</strong>
-            <small>Normal View</small>
+            <small>Accessible document</small>
           </span>
         </Link>
         <nav aria-label="Primary navigation" className={styles.navigation}>
           {navigation.map(([href, label]) => (
             <Link
               aria-current={pathname === href ? "page" : undefined}
-              href={`${href}?view=normal`}
+              href={href}
               key={href}
             >
               {label}
@@ -95,8 +99,8 @@ export function NormalShell({
 
       {routeFallback ? (
         <p className={styles.fallbackNotice} role="status">
-          This destination uses Normal View on Pocket devices so every control
-          remains conventional and accessible.
+          This destination uses the accessible document layout on Pocket devices
+          so every control remains conventional and accessible.
         </p>
       ) : null}
 
@@ -107,12 +111,12 @@ export function NormalShell({
       <footer className={styles.footer}>
         <div>
           <strong>WestCose Labs OS</strong>
-          <p>One content model. Three presentation shells.</p>
+          <p>One content model. Accessible at every route.</p>
         </div>
         <nav aria-label="Footer navigation">
-          <Link href="/notes?view=normal">README</Link>
-          <Link href="/settings?view=normal">Settings</Link>
-          <Link href="/contact?view=normal">Contact</Link>
+          <Link href="/notes">README</Link>
+          <Link href="/settings">Settings</Link>
+          <Link href="/contact">Contact</Link>
         </nav>
       </footer>
     </div>

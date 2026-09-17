@@ -11,7 +11,6 @@ describe("PocketAppFrame", () => {
       <PocketAppFrame
         appId="projects"
         iconKey="projects"
-        normalViewHref="/projects?view=normal"
         onBack={vi.fn()}
         title="Projects"
         tone="blue"
@@ -26,9 +25,7 @@ describe("PocketAppFrame", () => {
     await user.click(more);
     const menu = screen.getByRole("menu");
     expect(more.closest("header")).toContainElement(menu);
-    expect(
-      screen.getByRole("menuitem", { name: "Open Normal View" }),
-    ).toHaveAttribute("href", "/projects?view=normal");
+    expect(screen.queryByText(/normal view/iu)).not.toBeInTheDocument();
 
     await user.keyboard("{Escape}");
     expect(screen.queryByRole("menu")).not.toBeInTheDocument();

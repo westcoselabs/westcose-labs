@@ -8,7 +8,8 @@ import { createRouteMetadata } from "@/registry";
 
 export const metadata = createRouteMetadata({
   title: "FightClub",
-  description: "FightClub project launcher and development presentation.",
+  description:
+    "A WestCose Labs launcher for the remotely hosted Citryn Fight Club build.",
   path: "/games/fightclub",
 });
 
@@ -17,20 +18,22 @@ export default function FightClubPage() {
     <RouteDocument
       eyebrow="Game project"
       title="FightClub"
-      description="A lightweight project launcher with a future lazy game boundary."
-      status="Build unavailable"
+      description="A remotely hosted arcade fighter that loads only after an explicit Play action."
+      status="Hosted build available"
       presentation="game"
     >
       <FightClubLauncher />
       <DevelopmentFixture>
-        Approved artwork, controls, production notes, version, and playable build
-        status are still required. The Uninstall action is a harmless Easter egg.
+        The hosted build and controls are verified. Project credits, production
+        notes, and approval for the concept cover still require owner input. The
+        Uninstall action remains a harmless Easter egg.
       </DevelopmentFixture>
-      <RouteSection title="Load boundary">
+      <RouteSection title="Hosted runtime boundary">
         <ul>
-          <li>No game engine request on Home or the Games route.</li>
-          <li>No unverified Play action, score, achievement, or save state.</li>
-          <li>A future build mounts only after an explicit launch.</li>
+          <li>No remote game request on Home, boot, Games, or this launcher&apos;s initial render.</li>
+          <li>The iframe is created only after Play and always has OS-owned Exit controls.</li>
+          <li>An external launch remains available if embedding later becomes unreliable.</li>
+          <li>No remote messages are consumed because the hosted build publishes no message contract.</li>
         </ul>
       </RouteSection>
     </RouteDocument>

@@ -308,11 +308,6 @@
   justify-content: flex-end;
 }
 
-.normalButton {
-  min-block-size: var(--control-min-size);
-  padding-inline: var(--space-md);
-}
-
 .trayClock {
   display: grid;
   min-inline-size: 5.5rem;

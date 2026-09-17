@@ -50,6 +50,14 @@ export function getRouteParent(pathname: string): string | null {
     return `/${segments[0]}`;
   }
 
+  if (segments[0] === "notes" && segments.length > 1) {
+    return "/notes";
+  }
+
+  if (segments[0] === "settings" && segments.length > 1) {
+    return "/settings";
+  }
+
   return "/";
 }
 

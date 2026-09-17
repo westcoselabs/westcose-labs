@@ -1,26 +1,291 @@
-## Architecture proof, not a published project claim
+import {
+  CaseStudyComparison,
+  CaseStudyIndex,
+  CaseStudyNote,
+  CaseStudySection,
+  CaseStudyVisual,
+} from "@/components/projects/CaseStudy";
 
-This page is a **development fixture** for the first WestCose Labs OS vertical
-slice. The project name appears in the approved architecture documentation, but
-its production status, scope, technology stack, results, links, and artwork have
-not yet been confirmed by the owner.
+<CaseStudyIndex
+  items={[
+    { id: "overview", label: "Overview" },
+    { id: "context", label: "Context and problem" },
+    { id: "role", label: "Role and responsibilities" },
+    { id: "strategy", label: "Strategy" },
+    { id: "information-architecture", label: "Information architecture" },
+    { id: "interaction-design", label: "UX and interaction" },
+    { id: "visual-system", label: "Visual system" },
+    { id: "technical-architecture", label: "Technical architecture" },
+    { id: "tradeoffs", label: "Challenges and tradeoffs" },
+    { id: "status", label: "Status and next steps" },
+  ]}
+/>
 
-## What this fixture proves
+<div className="case-study-sections">
+  <CaseStudySection id="overview" number="01" title="Overview">
 
-- One MDX source renders at one stable URL.
-- Desktop OS can frame that source inside its route-backed content window.
-- Pocket OS can show it as an immediate full-screen app after a direct load.
-- Normal View can present the same source as a conventional case study.
-- Search engines and visitors without JavaScript still receive semantic content.
+Estate Sales Bakersfield is a documented product concept for local estate-sale
+discovery and listing. The repository architecture uses it as a fixture to prove that
+one long-form project source can render at a stable URL through Desktop OS, Pocket OS,
+and the semantic document layer.
 
-## Content still required
+It is not presented as a launched product. The owner has not yet approved the final
+summary, production role, collaborators, technology stack, screenshots, links, dates,
+or outcomes. This expanded case file therefore separates three kinds of information:
+facts present in the repository, product directions requested for exploration, and
+questions that still require evidence.
 
-Before this case study is presented as production work, the owner needs to
-approve its summary, role, constraints, process, outcomes, technology list,
-screenshots, project status, and any public live or repository links.
+<CaseStudyComparison
+  title="How to read this case file"
+  caption="Every section keeps the evidence boundary visible so a useful product model does not become an invented portfolio claim."
+  items={[
+    { title: "Documented", status: "Repository fact", detail: "The name, local-market premise, development-fixture status, route, and shared MDX architecture." },
+    { title: "Proposed", status: "Concept direction", detail: "Buyer discovery, map and list views, seller submission, moderation, and payment-related flows." },
+    { title: "Unverified", status: "Owner input", detail: "Research, shipped scope, role, stack, client decisions, production visuals, links, and measurable outcomes." },
+  ]}
+/>
 
-## Implementation note
+  </CaseStudySection>
 
-The route metadata and project card are driven by the typed project registry.
-Long-form prose lives here, in MDX. Neither the shells nor route pages duplicate
-the case-study copy.
+  <CaseStudySection id="context" number="02" title="Context and problem">
+
+The working opportunity is specific to Bakersfield: help people discover local estate
+sales and help sellers or organizers publish enough trustworthy information for a
+buyer to decide whether a trip is worthwhile. That framing appears in the product
+direction, but the repository does not contain approved interview notes, market
+research, client requirements, or analytics.
+
+The buyer problem is therefore a hypothesis, not a finding. A useful discovery tool
+would need to answer where a sale is, when it is open, what kinds of items may be
+available, and whether the listing is current. The seller problem is also a hypothesis:
+publishing an event must be manageable for someone with many photos and limited time,
+while the platform still protects listing quality.
+
+<CaseStudyNote label="Research boundary">
+
+No user interviews, competitive audit, traffic data, or client brief is available in
+the repository. The journeys below are design hypotheses to validate, not reported
+customer behavior.
+
+</CaseStudyNote>
+
+  </CaseStudySection>
+
+  <CaseStudySection id="role" number="03" title="Role and responsibilities">
+
+The production role and any collaborators remain unverified. It would be misleading to
+convert repository authorship into a client-project credit, so the project inspector
+continues to mark role as owner input needed.
+
+The scope that can be described today is the work of this development fixture:
+
+- structure a substantial case-study route without inventing launch facts;
+- model buyer and seller journeys as proposals that can be reviewed;
+- identify information, trust, moderation, and payment questions before implementation;
+- make planned and implemented status visible at the point of each claim; and
+- prove that the same source remains readable in Desktop, Pocket, and semantic presentations.
+
+Before this becomes a production case study, the owner must identify the actual role,
+decision authority, collaborators, client relationship, constraints, and work completed.
+
+  </CaseStudySection>
+
+  <CaseStudySection id="strategy" number="04" title="Strategy">
+
+The proposed strategy starts with two narrow jobs instead of attempting a broad local
+marketplace. Buyers need a reliable way to find relevant events and judge whether to
+visit. Sellers need a guided way to describe one event, attach useful imagery, verify
+contact information, and understand what will happen before a listing appears.
+
+That split suggests a discovery loop and a publishing loop connected by one event
+record. Search and map interactions should lead to the same listing detail. The seller
+flow should create the information that powers those buyer decisions. Moderation and
+freshness should be designed into the record lifecycle rather than added only after a
+listing is submitted.
+
+<CaseStudyVisual
+  title="Proposed marketplace loop"
+  caption="Concept direction only. The repository does not claim that this workflow has been built, tested with users, or launched."
+  items={[
+    { title: "Publish", status: "Proposed", detail: "A seller creates an event, supplies dates and location, and adds a representative gallery." },
+    { title: "Verify", status: "Proposed", detail: "Contact verification and moderation checks establish a minimum trust threshold." },
+    { title: "Discover", status: "Proposed", detail: "Buyers compare nearby events through list and map entry points." },
+    { title: "Decide", status: "Proposed", detail: "A complete listing helps a buyer judge timing, distance, categories, and relevance." },
+    { title: "Expire", status: "Proposed", detail: "Past events leave active discovery so stale inventory does not look current." },
+  ]}
+/>
+
+  </CaseStudySection>
+
+  <CaseStudySection id="information-architecture" number="05" title="Information architecture">
+
+The proposed information architecture centers on an estate-sale event. A buyer-facing
+event needs a title, date and time range, approximate location, item categories, image
+gallery, seller or organizer identity, and a clear freshness state. Exact addresses
+may require a timed disclosure rule if privacy is part of the approved brief.
+
+Discovery would provide map and list views over the same result set. Filters should
+narrow by date, distance, and category without producing two incompatible browsing
+models. Listing detail would become the durable shareable route. The seller area would
+separate draft, verification, review, published, expired, and removed states so the
+system can explain what is happening.
+
+<CaseStudyVisual
+  title="Proposed route and content model"
+  caption="This is an information-architecture model for review, not a map of shipped pages."
+  items={[
+    { title: "Discover", status: "Planned", detail: "A shared result set with map, list, date, distance, and category controls." },
+    { title: "Listing detail", status: "Planned", detail: "Event facts, location guidance, categories, gallery, and freshness or verification signals." },
+    { title: "Seller draft", status: "Planned", detail: "Guided event details, image management, preview, and submission readiness." },
+    { title: "Review queue", status: "Direction", detail: "Moderation state, policy decisions, edits, and super-admin escalation." },
+    { title: "Account record", status: "Unverified", detail: "Identity, verification, saved work, and payment history require an approved product model." },
+  ]}
+/>
+
+  </CaseStudySection>
+
+  <CaseStudySection id="interaction-design" number="06" title="UX and interaction design">
+
+The buyer path should support two starting behaviors. A location-led visitor can scan
+the map for nearby events, while an inventory-led visitor can scan a list for dates,
+categories, and gallery previews. Selecting a result should preserve the search state
+so returning from detail does not force the visitor to rebuild the query.
+
+The seller path should make completeness visible. Event basics come first, followed by
+location policy, schedule, categories, and a gallery. Image upload needs progress,
+reordering, alt or descriptive context, and recovery from individual failures. A final
+review step should distinguish saving a draft from submitting for publication.
+
+Email verification and checkout are directions in the implementation plan, not
+verified features. Their order must be tested carefully. Charging too early creates
+risk before a listing is reviewable; charging too late can make publication status
+ambiguous. The interface should never suggest that payment guarantees approval unless
+that policy is explicitly adopted.
+
+<CaseStudyComparison
+  title="Two proposed journeys"
+  caption="The paths meet at the event record, but their success criteria and recovery needs differ."
+  items={[
+    { title: "Buyer journey", status: "Discovery", detail: "Choose place and date, compare results, inspect a gallery, understand event status, and save navigation context." },
+    { title: "Seller journey", status: "Publishing", detail: "Create a draft, add complete event data, manage imagery, verify contact, review terms, and submit." },
+    { title: "Moderator journey", status: "Trust", detail: "Inspect flagged or new listings, request changes, record decisions, and keep an auditable state history." },
+  ]}
+/>
+
+  </CaseStudySection>
+
+  <CaseStudySection id="visual-system" number="07" title="Visual system and brand direction">
+
+No approved Estate Sales Bakersfield screenshots, brand system, or product comps are
+available. The case study therefore uses process diagrams rather than simulated UI.
+Those diagrams are labeled as concepts and do not imply a finished interface.
+
+A future visual direction should prioritize inventory clarity over marketplace gloss.
+Dates, distance, status, and item categories need stronger hierarchy than decoration.
+Map markers and list cards need the same status language. Galleries should make image
+quality and count legible without hiding event facts below a large hero image. Mobile
+layouts should keep date, location guidance, and primary action available without
+compressing touch targets.
+
+The requested brand-evolution and rejected-concept story cannot yet be written as
+history. No approved earlier brand artifacts or documented rejection decisions are in
+the repository. Useful criteria for future exploration include avoiding a full-screen
+map that hides inventory detail, avoiding antique styling that harms legibility, and
+avoiding urgent scarcity language unless it describes a real event deadline. These are
+evaluation criteria, not claims that a client rejected those concepts.
+
+<CaseStudyNote label="Asset status">
+
+Approved product screenshots and brand artifacts are still required. Concept diagrams
+on this page are code-rendered process visuals, not screenshots of Estate Sales
+Bakersfield.
+
+</CaseStudyNote>
+
+  </CaseStudySection>
+
+  <CaseStudySection id="technical-architecture" number="08" title="Technical architecture direction">
+
+The original architecture document illustrates a possible Next.js, TypeScript,
+PostgreSQL, and Stripe stack. The owner-input record explicitly says that the technology
+list is not verified, so those names remain a proposal rather than project metadata.
+
+If approved, the application boundary could separate public discovery, seller workflow,
+moderation, identity verification, media processing, and payment events. PostgreSQL
+would fit structured event and workflow state; object storage and image processing
+would be needed for galleries; Stripe could support a defined listing fee or checkout
+policy. None of those services are present in this portfolio repository.
+
+Super-admin and moderation are also directions, not implemented capabilities. Before
+development, the team would need to define roles, listing states, escalation, audit
+history, refunds, image retention, address privacy, expiration, deletion, and which
+actions require a reason. “Admin panel” is not a sufficient trust model on its own.
+
+<CaseStudyVisual
+  title="Proposed system boundaries"
+  caption="Architecture direction only. Technology selection and production implementation require owner confirmation and a product brief."
+  items={[
+    { title: "Web application", status: "Suggested", detail: "Responsive public discovery, seller workflow, and moderation interfaces." },
+    { title: "Application services", status: "To define", detail: "Validation, role checks, listing lifecycle, search, notifications, and audit events." },
+    { title: "Structured data", status: "Suggested", detail: "Events, users, workflow state, verification, decisions, and payment references." },
+    { title: "Media pipeline", status: "Required", detail: "Upload, validation, storage, derivatives, ordering, accessibility data, and removal." },
+    { title: "Payment provider", status: "Conditional", detail: "Only after pricing, approval, refund, failure, and webhook policies are defined." },
+  ]}
+/>
+
+  </CaseStudySection>
+
+  <CaseStudySection id="tradeoffs" number="09" title="Challenges and tradeoffs">
+
+Local-event data ages quickly. Discovery quality depends on expiration and correction,
+not just the number of listings. Location detail can help buyers while creating privacy
+or security concerns for occupied homes. A rich gallery improves confidence but adds
+upload complexity, review cost, storage cost, and potential rights issues.
+
+Map-first discovery makes geography tangible but can underrepresent event quality and
+accessibility. List-first discovery is easier to scan but can hide distance. Supporting
+both requires one source of filter state and carefully matched result feedback.
+
+Payment introduces another boundary. A checkout can fund the service, but it also
+creates expectations about approval, visibility, refunds, and support. Moderation
+protects trust, but an opaque queue can frustrate legitimate sellers. These are product
+policy decisions that need owner and user evidence before technical implementation.
+
+The key discipline is status honesty. A polished concept can look deceptively complete,
+so every planned flow on this page is labeled and the registry withholds unverified
+links, stack names, screenshots, and outcomes.
+
+  </CaseStudySection>
+
+  <CaseStudySection id="status" number="10" title="Current status, outcomes, and next steps">
+
+Current status is development fixture. The implemented outcome is limited but useful:
+this route proves that substantial MDX content, project metadata, semantic headings,
+and related-work navigation can remain shared across Desktop and Pocket presentations.
+It does not prove a production Estate Sales Bakersfield application exists.
+
+The next step is evidence collection, not feature implementation. The owner should
+approve the project summary and status, identify the role and collaborators, provide
+the client problem and research, verify the stack, document actual decisions and
+tradeoffs, and supply approved screenshots. Live and repository links should be added
+only if they are public and explicitly cleared.
+
+After that, the proposed journeys can be compared with the real scope. Planned and
+implemented features should be separated, visual evolution can use authentic artifacts,
+and outcomes can be described with observable evidence. Until then, this page remains
+a transparent product-direction case file inside the WestCose Labs OS architecture.
+
+<CaseStudyVisual
+  title="Publication readiness"
+  caption="The route and case-study structure are implemented. Product evidence remains the release gate."
+  items={[
+    { title: "Route architecture", status: "Implemented", detail: "Stable project URL, shared MDX, typed registry entry, shell presentation, and semantic rendering." },
+    { title: "Product brief", status: "Needed", detail: "Approved problem, audience, scope, constraints, role, collaborators, and status." },
+    { title: "Implementation evidence", status: "Needed", detail: "Verified stack, shipped behaviors, process record, testing evidence, and technical decisions." },
+    { title: "Visual evidence", status: "Needed", detail: "Approved screenshots, brand artifacts, captions, rights, and accurate alt text." },
+    { title: "Outcome evidence", status: "Needed", detail: "Observable results, lessons, launch state, and approved public destinations." },
+  ]}
+/>
+
+  </CaseStudySection>
+</div>

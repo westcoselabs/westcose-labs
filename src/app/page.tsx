@@ -82,8 +82,8 @@ export default function Home() {
           ))}
         </div>
         <p>
-          Desktop OS, Pocket OS, and Normal View share the same routes and
-          content. The interface changes. The facts do not.
+          Desktop OS and Pocket OS share the same routes and content. The
+          interface changes. The facts do not.
         </p>
         <Link className="route-action route-action--secondary" href="/about">
           About WestCose Labs

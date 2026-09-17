@@ -18,8 +18,8 @@ export default function GamesPage() {
     <RouteDocument
       eyebrow="Program library"
       title="Games"
-      description="Game work is presented without loading an engine until a verified build exists and you explicitly choose Play."
-      status="1 launcher"
+      description="Game work stays lightweight until you explicitly choose Play. The hosted runtime is never part of boot or this index route."
+      status="1 hosted launcher"
       presentation="games"
     >
       <RouteCardGrid>
@@ -33,13 +33,13 @@ export default function GamesPage() {
             />
             <span>Concept cover art</span>
           </div>
-          <p className="route-card__index">Development launcher</p>
+          <p className="route-card__index">Hosted launcher</p>
           <h2>
             <Link href="/games/fightclub">FightClub</Link>
           </h2>
           <p>
-            A production-facing project presentation and future lazy game mount.
-            Engine and playable build status are not yet confirmed.
+            Open the local launcher for verified controls, build information,
+            achievements, and an explicit remote Play boundary.
           </p>
           <Link className="route-card__open" href="/games/fightclub">
             Open launcher

@@ -1,4 +1,9 @@
+import { achievementRegistry } from "./achievements";
 import { appRegistry } from "./apps";
+import { discoveryRegistry } from "./discoveries";
+import { fightClubRegistry } from "./fightclub";
+import { noteFolderRegistry } from "./note-folders";
+import { noteRegistry } from "./notes";
 import {
   desktopPlacement,
   desktopTaskbarPinnedPlacement,
@@ -9,7 +14,18 @@ import {
 } from "./placements";
 import { projectRegistry } from "./projects";
 import { routeRegistry } from "./routes";
-import type { AppId, LaunchTarget, OSApp } from "./types";
+import { terminalCommandRegistry } from "./terminal-commands";
+import { themeRegistry } from "./themes";
+import type {
+  AchievementDefinition,
+  AppId,
+  FightClubDefinition,
+  LaunchTarget,
+  Note,
+  OSApp,
+  TerminalCommandDefinition,
+  ThemeDefinition,
+} from "./types";
 
 function duplicates(values: readonly string[]): string[] {
   const seen = new Set<string>();
@@ -21,6 +37,16 @@ function duplicates(values: readonly string[]): string[] {
   }
 
   return [...repeated];
+}
+
+function reportDuplicates(
+  issues: string[],
+  label: string,
+  values: readonly string[],
+): void {
+  for (const duplicate of duplicates(values)) {
+    issues.push(`Duplicate ${label}: ${duplicate}`);
+  }
 }
 
 function isValidLaunchTarget(target: LaunchTarget): boolean {
@@ -43,14 +69,35 @@ export function getRegistryIssues(): string[] {
   const appIds = appRegistry.map((app) => app.id);
   const routePaths = routeRegistry.map((route) => route.path);
   const projectSlugs = projectRegistry.map((project) => project.slug);
+  const discoveryIds = discoveryRegistry.map((discovery) => discovery.id);
+  const achievementIds = achievementRegistry.map((achievement) => achievement.id);
+  const themeIds = themeRegistry.map((theme) => theme.id);
+  const terminalCommandIds = terminalCommandRegistry.map((command) => command.id);
+  const terminalCommandNames = terminalCommandRegistry.flatMap((command) => [
+    command.command,
+    ...("aliases" in command ? command.aliases : []),
+  ]);
+  const noteIds = noteRegistry.map((note) => note.id);
+  const noteFolderIds = noteFolderRegistry.map((folder) => folder.id);
+  const fightClubIds = fightClubRegistry.map((game) => game.id);
+  const appIdSet = new Set<string>(appIds);
+  const routePathSet = new Set<string>(routePaths);
+  const projectSlugSet = new Set<string>(projectSlugs);
+  const discoveryIdSet = new Set<string>(discoveryIds);
+  const achievementIdSet = new Set<string>(achievementIds);
+  const noteFolderIdSet = new Set<string>(noteFolderIds);
 
-  for (const id of duplicates(appIds)) issues.push(`Duplicate app id: ${id}`);
-  for (const path of duplicates(routePaths)) {
-    issues.push(`Duplicate route path: ${path}`);
-  }
-  for (const slug of duplicates(projectSlugs)) {
-    issues.push(`Duplicate project slug: ${slug}`);
-  }
+  reportDuplicates(issues, "app id", appIds);
+  reportDuplicates(issues, "route path", routePaths);
+  reportDuplicates(issues, "project slug", projectSlugs);
+  reportDuplicates(issues, "discovery id", discoveryIds);
+  reportDuplicates(issues, "achievement id", achievementIds);
+  reportDuplicates(issues, "theme id", themeIds);
+  reportDuplicates(issues, "terminal command id", terminalCommandIds);
+  reportDuplicates(issues, "terminal command", terminalCommandNames);
+  reportDuplicates(issues, "note id", noteIds);
+  reportDuplicates(issues, "note folder id", noteFolderIds);
+  reportDuplicates(issues, "FightClub id", fightClubIds);
 
   for (const app of appRegistry as readonly OSApp[]) {
     if (!app.name || !app.desktopLabel || !app.pocketLabel) {
@@ -68,7 +115,7 @@ export function getRegistryIssues(): string[] {
 
     if (app.target.kind === "route") {
       const pathname = app.target.href.split(/[?#]/, 1)[0];
-      if (!routePaths.includes(pathname as (typeof routePaths)[number])) {
+      if (!routePathSet.has(pathname)) {
         issues.push(`App ${app.id} targets an unregistered route: ${pathname}`);
       }
     }
@@ -84,11 +131,9 @@ export function getRegistryIssues(): string[] {
   ];
 
   for (const [placementName, ids] of placements) {
-    for (const duplicate of duplicates(ids)) {
-      issues.push(`Duplicate ${placementName} placement: ${duplicate}`);
-    }
+    reportDuplicates(issues, `${placementName} placement`, ids);
     for (const id of ids) {
-      if (!appIds.includes(id)) {
+      if (!appIdSet.has(id)) {
         issues.push(`Unknown ${placementName} app: ${id}`);
       }
     }
@@ -98,6 +143,86 @@ export function getRegistryIssues(): string[] {
   for (const id of pocketPageTwoPlacement) {
     if (deferredIds.has(id)) {
       issues.push(`Deferred app leaked into Pocket Page Two: ${id}`);
+    }
+  }
+
+  for (const project of projectRegistry) {
+    for (const relatedSlug of project.relatedProjectSlugs) {
+      if (!projectSlugSet.has(relatedSlug)) {
+        issues.push(
+          `Project ${project.slug} references unknown project: ${relatedSlug}`,
+        );
+      }
+    }
+  }
+
+  const themes = themeRegistry as readonly ThemeDefinition[];
+  if (themes.filter((theme) => theme.default).length !== 1) {
+    issues.push("Theme registry must contain exactly one default theme");
+  }
+  for (const theme of themes) {
+    if (theme.discoveryId && !discoveryIdSet.has(theme.discoveryId)) {
+      issues.push(
+        `Theme ${theme.id} references unknown discovery: ${theme.discoveryId}`,
+      );
+    }
+  }
+
+  for (const achievement of achievementRegistry as readonly AchievementDefinition[]) {
+    if (
+      achievement.discoveryId &&
+      !discoveryIdSet.has(achievement.discoveryId)
+    ) {
+      issues.push(
+        `Achievement ${achievement.id} references unknown discovery: ${achievement.discoveryId}`,
+      );
+    }
+  }
+
+  for (const command of terminalCommandRegistry as readonly TerminalCommandDefinition[]) {
+    if (command.route && !routePathSet.has(command.route)) {
+      issues.push(
+        `Terminal command ${command.id} references unknown route: ${command.route}`,
+      );
+    }
+    if (command.discoveryId && !discoveryIdSet.has(command.discoveryId)) {
+      issues.push(
+        `Terminal command ${command.id} references unknown discovery: ${command.discoveryId}`,
+      );
+    }
+  }
+
+  for (const note of noteRegistry as readonly Note[]) {
+    if (!noteFolderIdSet.has(note.folderId)) {
+      issues.push(`Note ${note.id} references unknown folder: ${note.folderId}`);
+    }
+    if (note.discoveryId && !discoveryIdSet.has(note.discoveryId)) {
+      issues.push(
+        `Note ${note.id} references unknown discovery: ${note.discoveryId}`,
+      );
+    }
+  }
+
+  for (const game of fightClubRegistry as readonly FightClubDefinition[]) {
+    if (!appIdSet.has(game.id as AppId)) {
+      issues.push(`FightClub entry ${game.id} has no registered app`);
+    }
+    if (!routePathSet.has(game.route)) {
+      issues.push(`FightClub entry ${game.id} references unknown route: ${game.route}`);
+    }
+    for (const discoveryId of game.discoveryIds) {
+      if (!discoveryIdSet.has(discoveryId)) {
+        issues.push(
+          `FightClub entry ${game.id} references unknown discovery: ${discoveryId}`,
+        );
+      }
+    }
+    for (const achievementId of game.achievementIds) {
+      if (!achievementIdSet.has(achievementId)) {
+        issues.push(
+          `FightClub entry ${game.id} references unknown achievement: ${achievementId}`,
+        );
+      }
     }
   }
 

@@ -50,7 +50,6 @@ export interface PocketShellProps {
   readonly featuredProject: FeaturedProjectItem;
   readonly labsStatus: LabsStatusItem;
   readonly menuTargetId?: string | null;
-  readonly normalViewHref?: string;
   readonly notifications: readonly PocketNotificationItem[];
   readonly onBack: () => void;
   readonly onCloseAppMenu: () => void;

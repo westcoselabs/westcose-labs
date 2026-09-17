@@ -14,10 +14,45 @@ async function expectNoAxeViolations(page: Page) {
   ).toEqual([]);
 }
 
-test("Normal project view has no automated WCAG A/AA violations", async ({
+test("Semantic project fallback has no automated WCAG A/AA violations", async ({
   page,
 }) => {
   await page.goto("/projects/estate-sales-bakersfield?view=normal");
+  await expectNoAxeViolations(page);
+});
+
+test("Desktop case study has no automated WCAG A/AA violations", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/projects/westcose-labs-os?view=os");
+  await expectNoAxeViolations(page);
+});
+
+test("Pocket case study has no automated WCAG A/AA violations", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/projects/westcose-labs-os?view=os");
+  await expectNoAxeViolations(page);
+});
+
+test("FightClub launcher has no automated WCAG A/AA violations", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/games/fightclub?view=os");
+  await expectNoAxeViolations(page);
+});
+
+test("Pocket FightClub player chrome has no automated WCAG A/AA violations", async ({
+  page,
+}) => {
+  await page.route("https://rosy-oak-905.higgsfield.gg/**", (route) =>
+    route.fulfill({
+      body: "<!doctype html><title>Citryn Fight Club test build</title><canvas></canvas>",
+      contentType: "text/html",
+    }),
+  );
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/games/fightclub?view=os");
+  await page.getByRole("button", { name: "Play" }).click();
   await expectNoAxeViolations(page);
 });
 

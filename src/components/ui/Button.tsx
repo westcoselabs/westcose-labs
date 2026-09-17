@@ -1,6 +1,7 @@
 import type {
   AnchorHTMLAttributes,
   ButtonHTMLAttributes,
+  Ref,
   ReactNode,
 } from "react";
 
@@ -13,11 +14,13 @@ function cx(...values: Array<string | false | null | undefined>) {
 }
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  buttonRef?: Ref<HTMLButtonElement>;
   fullWidth?: boolean;
   tone?: ButtonTone;
 }
 
 export function Button({
+  buttonRef,
   children,
   className,
   fullWidth = false,
@@ -28,6 +31,7 @@ export function Button({
   return (
     <button
       {...props}
+      ref={buttonRef}
       className={cx(
         styles.button,
         styles[tone],

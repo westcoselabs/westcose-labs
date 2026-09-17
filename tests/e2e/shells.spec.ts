@@ -84,7 +84,7 @@ test.describe("Desktop OS", () => {
   });
 });
 
-test.describe("Normal View", () => {
+test.describe("Semantic document fallback", () => {
   test.use({ viewport: { width: 1280, height: 800 } });
 
   test("preserves its query override across content routes", async ({ page }) => {
@@ -101,6 +101,11 @@ test.describe("Normal View", () => {
     await expect(
       page.getByRole("heading", { name: "Estate Sales Bakersfield", level: 1 }),
     ).toBeVisible();
+    await page.getByRole("link", { name: "Open OS view" }).click();
+    await expect(page).toHaveURL(
+      "/projects/estate-sales-bakersfield?view=os",
+    );
+    await expect(page.locator("html")).toHaveAttribute("data-shell", "desktop");
   });
 
   test("redirects the compatibility route", async ({ page }) => {
@@ -169,12 +174,12 @@ test.describe("Pocket OS", () => {
     await expect(page.getByRole("main", { name: "Pocket OS Home" })).toBeVisible();
   });
 
-  test("uses a route-scoped Normal fallback for Contact", async ({ page }) => {
+  test("uses a route-scoped semantic fallback for Contact", async ({ page }) => {
     await page.goto("/contact?view=os");
     await expect(page.locator("html")).toHaveAttribute("data-shell", "normal");
     await expect(
       page.getByText(
-        "This destination uses Normal View on Pocket devices so every control remains conventional and accessible.",
+        "This destination uses the accessible document layout on Pocket devices so every control remains conventional and accessible.",
       ),
     ).toBeVisible();
     await expect(page.getByRole("link", { name: "Text +1 612-741-7277" })).toHaveAttribute(
@@ -205,18 +210,23 @@ test.describe("Pocket OS", () => {
       .locator("header")
       .getByRole("button", { name: "Open Settings" })
       .click();
-    await page.getByRole("button", { name: "Preview lock screen" }).click();
+    await page.getByRole("button", { name: "System", exact: true }).click();
+    await expect(page).toHaveURL("/settings/system");
+    page.once("dialog", (dialog) => dialog.accept());
+    await page
+      .getByRole("button", { name: "Reset home screen and session" })
+      .click();
     await expect(page.getByRole("button", { name: "Tap to unlock" })).toBeVisible();
     await page.getByRole("button", { name: "Tap to unlock" }).click();
     await expect(page.getByRole("main", { name: "Pocket OS Home" })).toBeVisible();
   });
 
-  test("keeps app overflow attached and switches to Normal View", async ({ page }) => {
+  test("keeps app overflow attached without exposing the document fallback", async ({ page }) => {
     await page.goto("/projects?view=os");
     await page.getByRole("button", { name: "More actions for Projects" }).click();
-    await page.getByRole("menuitem", { name: "Open Normal View" }).click();
-    await expect(page).toHaveURL("/projects?view=normal");
-    await expect(page.locator("html")).toHaveAttribute("data-shell", "normal");
+    await expect(page.getByRole("menu")).toBeVisible();
+    await expect(page.getByText(/normal view/iu)).toHaveCount(0);
+    await expect(page).toHaveURL("/projects?view=os");
   });
 });
 
@@ -255,6 +265,7 @@ test("does not request deferred heavy experiences", async ({ page }) => {
     if (
       url.includes("three") ||
       url.includes("game-engine") ||
+      url.includes("rosy-oak-905.higgsfield.gg") ||
       url.includes("/tv") ||
       url.includes("/world")
     ) {
@@ -262,6 +273,7 @@ test("does not request deferred heavy experiences", async ({ page }) => {
     }
   });
   await page.goto("/");
+  await page.goto("/games");
   await page.goto("/games/fightclub");
   expect(forbidden).toEqual([]);
 });

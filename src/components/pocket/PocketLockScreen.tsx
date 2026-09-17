@@ -9,13 +9,12 @@ import {
   useState,
 } from "react";
 
-import { Button, ButtonLink, IconButton } from "@/components/ui";
+import { Button, IconButton } from "@/components/ui";
 
 import styles from "./PocketLockScreen.module.css";
 import type { PocketNotificationItem } from "./types";
 
 interface PocketLockScreenProps {
-  readonly normalViewHref?: string;
   readonly notifications: readonly PocketNotificationItem[];
   readonly onDismissNotification: (notificationId: string) => void;
   readonly onUnlock: () => void;
@@ -52,7 +51,6 @@ function useClock() {
 }
 
 export function PocketLockScreen({
-  normalViewHref,
   notifications,
   onDismissNotification,
   onUnlock,
@@ -160,9 +158,6 @@ export function PocketLockScreen({
           {clock.time}
         </h1>
         <p className={styles.date}>{clock.date}</p>
-        {normalViewHref ? (
-          <ButtonLink href={normalViewHref}>Open Normal View</ButtonLink>
-        ) : null}
       </div>
 
       <div aria-label="Notifications" className={styles.notifications}>

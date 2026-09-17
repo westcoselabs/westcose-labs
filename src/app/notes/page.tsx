@@ -1,5 +1,4 @@
-import { NotesExplorer } from "@/components/apps/NotesExplorer";
-import { RouteDocument } from "@/components/apps/RouteDocument";
+import { NotesRoute } from "@/components/apps/notes/NotesRoute";
 import { createRouteMetadata, noteRegistry } from "@/registry";
 
 export const metadata = createRouteMetadata({
@@ -9,15 +8,5 @@ export const metadata = createRouteMetadata({
 });
 
 export default function NotesPage() {
-  return (
-    <RouteDocument
-      eyebrow="Notes"
-      title="Working notes"
-      description="Professional process notes, system orientation, and a few clearly labeled jokes."
-      status={`${noteRegistry.length} notes`}
-      presentation="notes"
-    >
-      <NotesExplorer notes={noteRegistry} />
-    </RouteDocument>
-  );
+  return <NotesRoute notes={noteRegistry} />;
 }

@@ -94,6 +94,21 @@
   box-shadow: none;
 }
 
+.body:has(> [data-app-presenter="desktop-notepad"]) {
+  overflow: hidden;
+  padding: 0;
+}
+
+.body:has(> [data-app-presenter="desktop-settings"]) {
+  overflow: hidden;
+  padding: 0;
+}
+
+.body:has([data-fightclub-player]) {
+  overflow: hidden;
+  padding: 0;
+}
+
 .menuWrap {
   position: relative;
 }

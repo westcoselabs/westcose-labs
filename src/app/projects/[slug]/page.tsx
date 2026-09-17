@@ -39,6 +39,7 @@ export async function generateMetadata({
     title: project.title,
     description: project.shortDescription,
     path: `/projects/${project.slug}`,
+    image: project.cover,
   });
 }
 
@@ -111,12 +112,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </figure>
       ) : null}
       <section className="project-inspector" aria-label="Project information">
-        {project.role ? (
-          <div><span>Role</span><strong>{project.role}</strong></div>
-        ) : null}
+        <div><span>Role</span><strong>{project.role ?? "Owner input needed"}</strong></div>
         <div><span>Status</span><strong>{project.status === "published" ? "Published" : "Development fixture"}</strong></div>
         <div><span>Category</span><strong>{project.category}</strong></div>
         <div><span>Stack</span><strong>{project.technologies.length ? project.technologies.join(", ") : "Owner input needed"}</strong></div>
+        {project.versionLabel ? <div><span>Version</span><strong>{project.versionLabel}</strong></div> : null}
       </section>
       <div className="case-study-prose">
         {projectContent}

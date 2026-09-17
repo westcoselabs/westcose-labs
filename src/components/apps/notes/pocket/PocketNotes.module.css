@@ -1,0 +1,356 @@
+.app {
+  min-block-size: 100%;
+  background:
+    radial-gradient(circle at 90% 0%, color-mix(in srgb, var(--color-warning) 8%, transparent), transparent 30%),
+    var(--color-surface-base);
+}
+
+.page,
+.detailPage,
+.missing {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: var(--space-xl);
+  min-block-size: 100%;
+  padding: var(--space-xl) var(--pocket-gutter) 6rem;
+}
+
+.largeHeader {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.largeHeader > small,
+.noteArticle > small {
+  color: var(--color-warning);
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+  letter-spacing: 0.1em;
+}
+
+.largeHeader h1,
+.noteArticle h1,
+.missing h1 {
+  margin: 0;
+  font-size: clamp(2.4rem, 12vw, 3.5rem);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.search {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-sm);
+  min-block-size: var(--control-min-size);
+  padding-inline: var(--space-base);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-full);
+  background: var(--neu-recessed-bg);
+  box-shadow: var(--neu-shadow-pressed);
+  color: var(--color-text-secondary);
+}
+
+.search input {
+  min-inline-size: 0;
+  min-block-size: var(--control-min-size);
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--color-text-primary);
+  font: inherit;
+}
+
+.section {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.section h2 {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--type-label-lg-size);
+}
+
+.folderList,
+.noteList {
+  display: grid;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-raised);
+  box-shadow: var(--neu-shadow-raised);
+  list-style: none;
+}
+
+.folderList li + li,
+.noteRow + .noteRow {
+  border-block-start: var(--border-thin) solid var(--color-border-subtle);
+}
+
+.folderList button,
+.noteRow > button {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: var(--space-md);
+  inline-size: 100%;
+  min-block-size: 3.75rem;
+  padding: var(--space-md) var(--space-base);
+  border: 0;
+  background: transparent;
+  color: var(--color-text-primary);
+  text-align: start;
+}
+
+.folderList button:active,
+.noteRow > button:active {
+  background: var(--color-surface-active);
+}
+
+.folderIcon {
+  display: grid;
+  place-items: center;
+  inline-size: 2rem;
+  block-size: 2rem;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--color-warning) 18%, transparent);
+  color: var(--color-warning);
+}
+
+.folderList small,
+.noteCopy small,
+.metadata {
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+}
+
+.noteCopy {
+  display: grid;
+  gap: var(--space-xs);
+  min-inline-size: 0;
+}
+
+.noteCopy strong,
+.noteCopy > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.noteCopy > span {
+  display: -webkit-box;
+  color: var(--color-text-secondary);
+  font-size: var(--type-label-md-size);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.attachment {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  margin-inline-start: var(--space-sm);
+}
+
+.restoreActions,
+.recycledDetailActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  padding: 0 var(--space-base) var(--space-md);
+}
+
+.restoreActions button,
+.recycledDetailActions button,
+.missing a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-block-size: var(--control-min-size);
+  padding: var(--space-sm) var(--space-md);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-active);
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+.compose {
+  position: sticky;
+  inset-block-end: var(--space-lg);
+  justify-self: end;
+  display: grid;
+  place-items: center;
+  inline-size: 3.5rem;
+  block-size: 3.5rem;
+  margin-block-start: -0.5rem;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  color: var(--color-text-dark);
+  box-shadow: var(--neu-shadow-floating);
+}
+
+.detailBack {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--layer-widgets);
+  margin: calc(var(--space-xl) * -1) calc(var(--pocket-gutter) * -1) 0;
+  padding: var(--space-md) var(--pocket-gutter);
+  border-block-end: var(--border-thin) solid var(--color-border-subtle);
+  background: color-mix(in srgb, var(--color-surface-base) 92%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.detailBack a {
+  min-block-size: var(--control-min-size);
+  color: var(--color-primary-hover);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.noteArticle {
+  display: grid;
+  gap: var(--space-base);
+  inline-size: min(100%, 42rem);
+  margin-inline: auto;
+}
+
+.noteArticle h1 {
+  font-size: clamp(2rem, 9vw, 3rem);
+  line-height: 1.08;
+}
+
+.titleInput {
+  inline-size: 100%;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--color-text-primary);
+  font: 700 clamp(2rem, 9vw, 3rem)/1.08 var(--font-sans);
+  letter-spacing: -0.04em;
+}
+
+.noteBody {
+  display: grid;
+  gap: var(--space-base);
+}
+
+.noteBody p {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: var(--type-body-lg-size);
+  line-height: 1.72;
+}
+
+.noteEditor {
+  inline-size: 100%;
+  min-block-size: 22rem;
+  resize: vertical;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--color-text-primary);
+  font: var(--type-body-lg-size)/1.72 var(--font-sans);
+}
+
+.toolbar {
+  position: sticky;
+  inset-block-end: 0;
+  z-index: var(--layer-widgets);
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--space-xs);
+  margin: 0 calc(var(--pocket-gutter) * -1) calc(-6rem + var(--space-xl));
+  padding: var(--space-sm) var(--pocket-gutter) max(var(--space-sm), env(safe-area-inset-bottom));
+  border-block-start: var(--border-thin) solid var(--color-border-subtle);
+  background: var(--color-surface-raised);
+}
+
+.toolbar button,
+.toolbar select {
+  inline-size: 100%;
+  min-block-size: var(--control-min-size);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-primary-hover);
+}
+
+.toolbar button {
+  display: grid;
+  place-items: center;
+}
+
+.toolbar select {
+  max-inline-size: 3.5rem;
+  font-size: 0;
+}
+
+.toolbar option {
+  color: var(--color-text-primary);
+  background: var(--color-surface-overlay);
+  font-size: 1rem;
+}
+
+.shareMessage {
+  min-block-size: 1.2rem;
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--type-caption-size);
+  text-align: center;
+}
+
+.discovery {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  border: var(--border-thin) solid color-mix(in srgb, var(--color-warning) 48%, var(--color-border-subtle));
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-warning) 9%, var(--color-surface-raised));
+}
+
+.discovery span {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.discovery small {
+  color: var(--color-text-secondary);
+}
+
+.discovery button {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  inline-size: var(--control-min-size);
+  block-size: var(--control-min-size);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-primary);
+}
+
+.empty {
+  padding: var(--space-xl);
+  border: var(--border-thin) dashed var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+@media (forced-colors: active) {
+  .folderIcon,
+  .compose,
+  .discovery {
+    border: var(--border-thin) solid CanvasText;
+  }
+}

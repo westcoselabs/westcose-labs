@@ -1,31 +1,298 @@
-## The brief
+import {
+  CaseStudyComparison,
+  CaseStudyIndex,
+  CaseStudyNote,
+  CaseStudySection,
+  CaseStudyVisual,
+} from "@/components/projects/CaseStudy";
 
-WestCose Labs OS turns a conventional portfolio into a fictional workstation and
-matching pocket device. The design goal is memorable presentation with modern,
-predictable browser behavior underneath.
+<CaseStudyIndex
+  items={[
+    { id: "overview", label: "Overview" },
+    { id: "context", label: "Context and problem" },
+    { id: "role", label: "Role and responsibilities" },
+    { id: "strategy", label: "Strategy" },
+    { id: "information-architecture", label: "Information architecture" },
+    { id: "interaction-design", label: "UX and interaction" },
+    { id: "visual-system", label: "Visual system" },
+    { id: "technical-architecture", label: "Technical architecture" },
+    { id: "tradeoffs", label: "Challenges and tradeoffs" },
+    { id: "status", label: "Status and next steps" },
+  ]}
+/>
 
-## The system decision
+<div className="case-study-sections">
+  <CaseStudySection id="overview" number="01" title="Overview">
 
-The URL selects the content. A typed shell resolver selects Desktop OS, Pocket
-OS, or Normal View around that same route. This keeps direct links, refresh,
-Back and Forward, metadata, and server-rendered content intact.
+WestCose Labs OS is a working portfolio presented through two fictional operating
+systems. Desktop OS treats projects and utilities as files and windows. Pocket OS
+treats the same information as touch-first applications. Both sit on top of real,
+stable web routes, so the memorable presentation never becomes the only way to
+reach the work.
 
-## Constraints
+The project is not a static mockup. Its current implementation includes route-backed
+project pages, movable Desktop windows, a Pocket launch and lock sequence, local
+Notes and Settings applications, persistent preferences, hidden discoveries, and a
+server-rendered semantic document underneath the interactive shells. The concept
+art above establishes atmosphere; it is not labeled as a product screenshot.
 
-- Keep route content out of duplicated shell-specific files.
-- Keep startup, lock, and Pocket Home inside the usable mobile viewport.
-- Keep game engines, large media, and unverified integrations out of the first load.
-- Preserve keyboard, reduced-motion, high-contrast, and visible alternatives.
+<CaseStudyComparison
+  title="One portfolio, three responsibilities"
+  caption="Desktop and Pocket are public presentations. The semantic document is the shared accessibility and resilience layer underneath them."
+  items={[
+    { title: "Desktop OS", status: "Pointer model", detail: "Windows, shortcuts, taskbar utilities, and dense project browsing for larger displays." },
+    { title: "Pocket OS", status: "Touch model", detail: "Full-screen apps, a persistent Back control, compact metadata, and phone-sized reading flows." },
+    { title: "Semantic document", status: "Foundation", detail: "Server-rendered headings, landmarks, links, metadata, and content that survive without shell interaction." },
+  ]}
+/>
 
-## What is implemented
+  </CaseStudySection>
 
-The repository contains typed app, route, project, placement, and notification
-registries; versioned local preferences and Pocket session state; draggable and
-resizable desktop windows; a two-page Pocket Home; and a conventional Normal
-View that renders without completing the operating-system interactions.
+  <CaseStudySection id="context" number="02" title="Context and problem">
 
-## Verification
+Portfolio sites often face a false choice. A conventional grid is easy to scan but
+can feel interchangeable. A highly theatrical interface can be memorable but make
+basic actions such as opening a direct link, using Back, or reading with assistive
+technology unpredictable. WestCose Labs needed a stronger point of view without
+turning navigation into a puzzle.
 
-The implementation is covered by unit, component, Playwright, visual, and
-automated accessibility tests. Public links and final production screenshots are
-shown only after owner verification.
+The core problem was therefore not “how can a website look like an OS?” It was “how
+can the OS metaphor add character while the browser remains authoritative?” The
+answer had to work for a prospective client who wants a fast project overview, a
+reviewer inspecting implementation quality, and a curious visitor willing to explore
+the utilities and hidden details.
+
+The repository also had practical limits: no database, account system, CMS, global
+state package, or duplicate mobile content model. Project facts and public links had
+to stay honest when owner approval was missing. Heavy experiences had to stay out of
+the initial route bundle until they were explicitly launched.
+
+<CaseStudyNote label="Design principle">
+
+The URL owns the content. The shell can change how that content feels, but it cannot
+change what the route means or whether the visitor can reach it.
+
+</CaseStudyNote>
+
+  </CaseStudySection>
+
+  <CaseStudySection id="role" number="03" title="Role and responsibilities">
+
+The documented role covers product design and front-end system implementation. The
+work spans interaction modeling, visual-system translation, information architecture,
+component implementation, client-side state, responsive behavior, accessibility, and
+automated verification.
+
+Responsibilities in the current repository include:
+
+- translating the Desktop and Pocket creative directions into reusable tokens and components;
+- keeping content in typed registries and local MDX instead of shell-specific copies;
+- defining separate interaction models for windowed desktop use and full-screen mobile use;
+- designing persistence boundaries for preferences, discoveries, and user-authored notes;
+- preserving keyboard access, reduced motion, high contrast, direct routes, and semantic reading order;
+- labeling concept artwork, development fixtures, and unverified links without turning them into portfolio claims; and
+- maintaining lint, type, unit, component, browser, accessibility, visual, and production-build gates.
+
+This is intentionally a system role rather than a single-page styling exercise. A
+small change to a route, registry, or preference can affect both shells and the
+semantic layer, so the implementation treats those relationships as product behavior.
+
+  </CaseStudySection>
+
+  <CaseStudySection id="strategy" number="04" title="Strategy">
+
+The strategy separates durable web behavior from expressive presentation. Route
+pages own headings, prose, metadata, and links. A shell resolver chooses Desktop or
+Pocket based on the viewport and saved preferences. Shell components frame the same
+route content with the controls and spatial model appropriate to that device.
+
+Typed registries act as the system directory. They define apps, routes, project
+metadata, placement, notes, settings categories, discoveries, themes, terminal
+commands, and FightClub status. Local reducers and versioned storage handle state
+that belongs to the current browser. This keeps the system inspectable and avoids a
+remote service for data that never needs to leave the device.
+
+<CaseStudyVisual
+  title="Route-to-presentation pipeline"
+  caption="The route remains the source of truth from request to interaction. Shell selection changes presentation, not content identity."
+  items={[
+    { title: "Request", status: "Browser", detail: "A stable pathname identifies the requested project, app, note, or setting." },
+    { title: "Route content", status: "Server", detail: "Next.js renders the semantic document, metadata, and shared MDX content." },
+    { title: "Shell resolution", status: "Client", detail: "Viewport and preferences select Desktop or Pocket without rewriting the URL." },
+    { title: "Presentation", status: "Interactive", detail: "The chosen shell supplies windows or full-screen app controls around the route." },
+  ]}
+/>
+
+  </CaseStudySection>
+
+  <CaseStudySection id="information-architecture" number="05" title="Information architecture">
+
+The public information architecture follows the portfolio rather than the OS chrome.
+Top-level routes cover projects, games, experiments, services, about, contact, notes,
+settings, and utilities. Nested project routes provide direct case-study URLs. Notes
+and Settings also use nested routes so a specific note, folder, or settings category
+can be refreshed, shared, and recovered through browser history.
+
+Desktop shortcuts and Pocket icons are projections of that route registry. They do
+not own separate destinations. Parent relationships provide predictable Back targets,
+while static parameters keep known project, note, folder, and settings routes present
+in the production output.
+
+<CaseStudyVisual
+  title="Shared content map"
+  caption="A typed registry connects navigation labels and shell placement to route modules. Long-form project copy remains in one MDX source."
+  items={[
+    { title: "Typed registries", status: "Directory", detail: "Names, routes, status, placement, and metadata relationships live in reviewable data." },
+    { title: "App Router pages", status: "Address", detail: "Each public destination has a stable route and server-rendered document." },
+    { title: "Shared content", status: "Source", detail: "Project MDX and application state are consumed by both shell presentations." },
+    { title: "Shell adapters", status: "View", detail: "Desktop and Pocket choose controls, density, and spatial behavior without forking facts." },
+  ]}
+/>
+
+  </CaseStudySection>
+
+  <CaseStudySection id="interaction-design" number="06" title="UX and interaction design">
+
+Desktop OS is organized around concurrent context. Route windows can move, resize,
+minimize, maximize, and return through the taskbar. Utility windows such as Terminal,
+Recycle, Notepad, and Settings behave like PC applications. Project content uses a
+wide editorial layout with a section index so the window can support both scanning
+and sustained reading.
+
+Pocket OS is organized around focused tasks. The shell opens a route as a full-screen
+app, keeps Back and sharing outside the scroll container, and reduces metadata into a
+compact stack. The same project sections remain in the same semantic order, but the
+layout becomes linear and thumb-friendly.
+
+Notes and Settings show why separate presenters matter. Both shells share the same
+saved preferences, curated notes, user-created notes, folders, and discovery state.
+Pocket Notes behaves like a phone notes app; Desktop presents the same library as PC
+Notepad. Pocket Settings uses grouped mobile rows; Desktop uses search, a category
+sidebar, control cards, and a system summary.
+
+<CaseStudyComparison
+  title="Shared data, device-specific behavior"
+  caption="The content and state contracts stay common while each shell owns its interaction model."
+  items={[
+    { title: "Desktop presenter", status: "Concurrent", detail: "Dense chrome, mouse and keyboard affordances, menus, resizable windows, and visible system context." },
+    { title: "Pocket presenter", status: "Focused", detail: "One app at a time, touch targets, compact summaries, and a persistent navigation header." },
+    { title: "Shared controller", status: "Consistent", detail: "Selection, editing, discovery triggers, validation, and persistence follow one behavioral contract." },
+  ]}
+/>
+
+  </CaseStudySection>
+
+  <CaseStudySection id="visual-system" number="07" title="Visual system">
+
+The visual direction is Retro Soft-Tech Neumorphism: graphite surfaces, soft light and
+dark shadow pairs, restrained blue and cyan accents, compact technical labels, and
+rounded controls that feel physical without becoming ornamental. The system is meant
+to resemble a believable custom workstation, not a direct copy of Windows, macOS, or
+iOS.
+
+Primitive tokens feed semantic surface, text, border, motion, radius, and depth tokens.
+Components then consume those semantic values, allowing the Dusk and earned Corporate
+Beige themes to remap color and shadows without changing application geometry.
+Phosphor icons provide a consistent interaction vocabulary, while project art is kept
+separate from functional iconography and is labeled by evidence type.
+
+Motion is short and purposeful. Press states communicate depth, startup sequences
+establish the fiction, and reduced-motion preferences remove unnecessary transitions.
+High-contrast and forced-color rules preserve borders and text relationships when the
+soft shadow language is unavailable.
+
+<CaseStudyVisual
+  title="Visual-system layers"
+  caption="Depth and color can change by theme. Spacing, type hierarchy, component geometry, and interaction meaning remain stable."
+  items={[
+    { title: "Primitives", status: "Foundation", detail: "Color values, spacing steps, radii, type scales, and timing values." },
+    { title: "Semantics", status: "Meaning", detail: "Raised, recessed, active, overlay, primary, warning, and text roles." },
+    { title: "Components", status: "Application", detail: "Windows, app frames, cards, menus, fields, buttons, and status surfaces." },
+    { title: "Themes", status: "Remap", detail: "Complete token substitutions that preserve hierarchy and accessible contrast." },
+  ]}
+/>
+
+  </CaseStudySection>
+
+  <CaseStudySection id="technical-architecture" number="08" title="Technical architecture">
+
+The implementation uses Next.js App Router, React, TypeScript, CSS Modules, and MDX.
+Server route modules render the durable document and metadata. A client OS root adds
+shell behavior and coordinates the Desktop and Pocket reducers. This boundary keeps
+project prose available before the interactive shell has initialized.
+
+State is intentionally local and divided by responsibility. Desktop window geometry
+is session interaction state. Pocket startup and navigation state are stored
+separately. Preferences, discoveries, and user-authored notes use versioned local
+storage readers with additive defaults, so a new setting does not erase an older
+visitor's choices. Curated notes and all registries remain source-controlled data.
+
+Large or optional experiences do not belong in the initial route path. FightClub keeps
+its remotely hosted runtime outside the portfolio bundle. The verified build mounts in
+a constrained iframe only after explicit Play, retains OS-owned Full Screen and Exit
+controls, and provides a reliable external fallback. That keeps portfolio navigation
+independent from the game runtime.
+
+<CaseStudyComparison
+  title="State and ownership boundaries"
+  caption="Each state category has one owner and a storage policy matched to its lifetime. No remote persistence is required."
+  items={[
+    { title: "Source-controlled", status: "Repository", detail: "Routes, registries, curated notes, case studies, themes, and verified metadata." },
+    { title: "Persistent local", status: "Browser", detail: "Preferences, discoveries, earned themes, and user-created or edited note data." },
+    { title: "Session interaction", status: "Shell", detail: "Open windows, active menus, Pocket app origin, startup state, and transient notices." },
+  ]}
+/>
+
+  </CaseStudySection>
+
+  <CaseStudySection id="tradeoffs" number="09" title="Challenges and tradeoffs">
+
+The central tradeoff is theatrical depth versus web predictability. If a shell owns
+navigation completely, direct links and history become fragile. If the document and
+shell are both interactive at the same time, controls can be duplicated for assistive
+technology. The current structure resolves this by keeping the server document as the
+content authority and treating the active shell as its presentation layer.
+
+Another challenge is responsive behavior. Desktop and Pocket are not simply wide and
+narrow CSS versions of one component tree. They have different state models and app
+chrome, yet must share route meaning and stored work. Presenters and controllers split
+that responsibility without introducing a global state framework.
+
+Neumorphism also carries an accessibility cost when boundaries rely only on shadows.
+The design compensates with explicit borders, text contrast, focus treatment,
+high-contrast support, and semantic landmarks. Finally, playful discoveries can reward
+exploration, but they cannot gate essential portfolio content or replace accurate
+status copy.
+
+  </CaseStudySection>
+
+  <CaseStudySection id="status" number="10" title="Current status, outcomes, and next steps">
+
+WestCose Labs OS is an implemented and tested portfolio system. Stable routes, two
+public shell presentations, semantic fallback content, versioned local state, Notes,
+Settings, discoveries, themes, and core Desktop utilities are present in the current
+repository. Automated checks cover code quality, types, state logic, component
+behavior, browser navigation, accessibility, visual baselines, and production output.
+
+The product has evolved in layers. V1 established the route-driven OS premise and its
+initial boundaries. V2 strengthened the content model, shells, registries, and
+verification baseline. V3 is expanding local applications, discoveries, full case
+studies, and the hosted FightClub boundary while preserving the same route authority.
+
+The hosted FightClub boundary is now implemented. Its origin and embed behavior are
+verified, the frame waits for explicit Play, Full Screen and Exit remain local controls,
+and arbitrary cross-origin messages are ignored because the build publishes no message
+contract. Its achievements describe only launches, full screen, and returning to the
+OS. Approved production screenshots and other public links remain owner-input gates
+and will not be inferred from the codebase.
+
+<CaseStudyNote label="Current evidence boundary">
+
+This case study describes behavior visible in the repository. It does not claim client
+outcomes, visitor conversion results, a public launch date, or external links that have
+not been approved.
+
+</CaseStudyNote>
+
+  </CaseStudySection>
+</div>

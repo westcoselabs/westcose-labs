@@ -3,17 +3,24 @@ export const SHELL_BOOTSTRAP = String.raw`(() => {
   const params = new URLSearchParams(location.search);
   const view = params.get("view");
   let preference = "auto";
+  let theme = "dusk";
   let highContrast = false;
   let reducedMotion = false;
 
   try {
-    const raw = localStorage.getItem("wcl.preferences.v1");
+    const currentRaw = localStorage.getItem("wcl.preferences.v2");
+    const legacyRaw = currentRaw === null
+      ? localStorage.getItem("wcl.preferences.v1")
+      : null;
+    const raw = currentRaw ?? legacyRaw;
     const parsed = raw ? JSON.parse(raw) : null;
-    if (parsed && parsed.version === 1 && parsed.data) {
+    const expectedVersion = currentRaw === null ? 1 : 2;
+    if (parsed && parsed.version === expectedVersion && parsed.data) {
       const candidate = parsed.data.displayPreference;
-      if (["auto", "desktop", "pocket", "normal"].includes(candidate)) {
+      if (["auto", "desktop", "pocket"].includes(candidate)) {
         preference = candidate;
       }
+      if (typeof parsed.data.themeId === "string") theme = parsed.data.themeId;
       highContrast = parsed.data.highContrast === true;
       reducedMotion = parsed.data.extraReducedMotion === true;
     }
@@ -28,7 +35,6 @@ export const SHELL_BOOTSTRAP = String.raw`(() => {
 
   if (view === "normal") shell = "normal";
   else if (view === "os") shell = automatic;
-  else if (preference === "normal") shell = "normal";
   else if (preference === "desktop" || preference === "pocket") shell = preference;
   else shell = automatic;
 
@@ -39,7 +45,7 @@ export const SHELL_BOOTSTRAP = String.raw`(() => {
 
   root.dataset.shell = shell;
   root.dataset.shellReady = "true";
-  root.dataset.theme = "dusk";
+  root.dataset.theme = theme;
   if (highContrast) root.dataset.highContrast = "true";
   if (reducedMotion || matchMedia("(prefers-reduced-motion: reduce)").matches) {
     root.dataset.reducedMotion = "true";

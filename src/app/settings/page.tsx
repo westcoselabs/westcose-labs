@@ -1,7 +1,4 @@
-import {
-  RouteDocument,
-  RouteSection,
-} from "@/components/apps/RouteDocument";
+import { SettingsRoute } from "@/components/apps/settings/SettingsRoute";
 import { createRouteMetadata } from "@/registry";
 
 export const metadata = createRouteMetadata({
@@ -11,34 +8,5 @@ export const metadata = createRouteMetadata({
 });
 
 export default function SettingsPage() {
-  return (
-    <RouteDocument
-      eyebrow="Control panel"
-      title="Settings"
-      description="Preferences are intentionally small, local, and reversible."
-      presentation="settings"
-    >
-      <RouteSection title="Display">
-        <p>
-          Dusk is the complete decorative theme. Normal View is a
-          presentation preference, not a separate content tree, and its links
-          preserve <code>?view=normal</code>.
-        </p>
-      </RouteSection>
-      <RouteSection title="Accessibility">
-        <p>
-          Extra reduced motion can be enabled, but never overrides an operating
-          system request to reduce motion. High contrast reduces shadow
-          dependence and adds explicit structural boundaries.
-        </p>
-      </RouteSection>
-      <RouteSection title="Local data">
-        <p>
-          Preferences use versioned local storage. Startup, unlock, README, and
-          Pocket home-page state use versioned session storage. Route content,
-          identity, contact messages, and game scores are never stored there.
-        </p>
-      </RouteSection>
-    </RouteDocument>
-  );
+  return <SettingsRoute />;
 }

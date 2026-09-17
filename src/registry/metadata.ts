@@ -6,13 +6,26 @@ export function createRouteMetadata({
   title,
   description,
   path,
+  image,
 }: {
   title: string;
   description: string;
   path: string;
+  image?: {
+    alt: string;
+    height: number;
+    src: string;
+    width: number;
+  };
 }): Metadata {
   const fullTitle =
     title === siteConfig.name ? title : `${title} | ${siteConfig.name}`;
+  const shareImage = image ?? {
+    src: "/images/wallpapers/dusk-desktop.webp",
+    width: 1536,
+    height: 1024,
+    alt: "WestCose Labs OS Dusk workstation landscape",
+  };
 
   return {
     title: title === siteConfig.name ? { absolute: title } : title,
@@ -28,10 +41,10 @@ export function createRouteMetadata({
       siteName: siteConfig.name,
       images: [
         {
-          url: absoluteUrl("/images/wallpapers/dusk-desktop.webp"),
-          width: 1536,
-          height: 1024,
-          alt: "WestCose Labs OS Dusk workstation landscape",
+          url: absoluteUrl(shareImage.src),
+          width: shareImage.width,
+          height: shareImage.height,
+          alt: shareImage.alt,
         },
       ],
     },
@@ -39,7 +52,7 @@ export function createRouteMetadata({
       card: "summary_large_image",
       title: fullTitle,
       description,
-      images: [absoluteUrl("/images/wallpapers/dusk-desktop.webp")],
+      images: [absoluteUrl(shareImage.src)],
     },
   };
 }

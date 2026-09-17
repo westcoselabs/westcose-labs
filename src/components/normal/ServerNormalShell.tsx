@@ -6,28 +6,28 @@ import { ButtonLink } from "@/components/ui";
 import styles from "./NormalShell.module.css";
 
 const navigation = [
-  ["/projects?view=normal", "Projects"],
-  ["/games?view=normal", "Games"],
-  ["/experiments?view=normal", "Experiments"],
-  ["/services?view=normal", "Services"],
-  ["/about?view=normal", "About"],
-  ["/contact?view=normal", "Contact"],
+  ["/projects", "Projects"],
+  ["/games", "Games"],
+  ["/experiments", "Experiments"],
+  ["/services", "Services"],
+  ["/about", "About"],
+  ["/contact", "Contact"],
 ] as const;
 
-export function ServerNormalShell({ children }: { children: ReactNode }) {
+export function ServerSemanticShell({ children }: { children: ReactNode }) {
   return (
     <div className={styles.shell} data-server-normal-fallback>
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
       <header className={styles.header}>
-        <Link className={styles.brand} href="/?view=normal">
+        <Link className={styles.brand} href="/">
           <span aria-hidden="true" className={styles.brandMark}>
             WCL
           </span>
           <span>
             <strong>WestCose Labs</strong>
-            <small>Normal View</small>
+            <small>Accessible document</small>
           </span>
         </Link>
         <nav aria-label="Primary navigation" className={styles.navigation}>
@@ -49,12 +49,12 @@ export function ServerNormalShell({ children }: { children: ReactNode }) {
       <footer className={styles.footer}>
         <div>
           <strong>WestCose Labs OS</strong>
-          <p>One content model. Three presentation shells.</p>
+          <p>One content model. Accessible at every route.</p>
         </div>
         <nav aria-label="Footer navigation">
-          <Link href="/notes?view=normal">README</Link>
-          <Link href="/settings?view=normal">Settings</Link>
-          <Link href="/contact?view=normal">Contact</Link>
+          <Link href="/notes">README</Link>
+          <Link href="/settings">Settings</Link>
+          <Link href="/contact">Contact</Link>
         </nav>
       </footer>
     </div>

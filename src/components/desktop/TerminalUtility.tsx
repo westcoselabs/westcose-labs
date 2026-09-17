@@ -3,6 +3,9 @@
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 
+import { useDiscoveryService } from "@/components/os/DiscoveryServiceContext";
+import { getTerminalCommand } from "@/registry";
+
 import styles from "./TerminalUtility.module.css";
 
 const INTRO = [
@@ -27,6 +30,7 @@ const HELP = [
 
 export function TerminalUtility() {
   const router = useRouter();
+  const discoveryService = useDiscoveryService();
   const [history, setHistory] = useState<readonly string[]>([]);
   const [lines, setLines] = useState<readonly string[]>(INTRO);
 
@@ -39,7 +43,15 @@ export function TerminalUtility() {
 
     if (!command) return;
     const nextHistory = [...history, command];
+    const registeredCommand = getTerminalCommand(command);
     setHistory(nextHistory);
+    discoveryService?.incrementCounter("terminalCommandsRun");
+    if (registeredCommand) {
+      discoveryService?.recordTerminalCommand(registeredCommand.id);
+      if ("discoveryId" in registeredCommand) {
+        discoveryService?.recordDiscovery(registeredCommand.discoveryId);
+      }
+    }
 
     if (command === "clear") {
       setLines([]);

@@ -4,7 +4,7 @@ import { Suspense, type ReactNode } from "react";
 
 import { OSRoot } from "@/components/os/OSRoot";
 import { SHELL_BOOTSTRAP } from "@/components/os/shell-bootstrap";
-import { ServerNormalShell } from "@/components/normal/ServerNormalShell";
+import { ServerSemanticShell } from "@/components/normal/ServerNormalShell";
 import { siteConfig } from "@/registry";
 
 import "./globals.css";
@@ -74,7 +74,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <Suspense
           fallback={
-            <ServerNormalShell>{children}</ServerNormalShell>
+            <ServerSemanticShell>{children}</ServerSemanticShell>
           }
         >
           <OSRoot>{children}</OSRoot>

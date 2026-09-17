@@ -3,11 +3,13 @@
 import { useState } from "react";
 
 import { Button } from "@/components/ui";
+import { useDiscoveryService } from "@/components/os/DiscoveryServiceContext";
 import { personalityRegistry } from "@/registry";
 
 import styles from "./InteractiveApps.module.css";
 
 export function RecycleExplorer() {
+  const discoveryService = useDiscoveryService();
   const [restoredIds, setRestoredIds] = useState<readonly string[]>([]);
   const [message, setMessage] = useState("");
 
@@ -26,6 +28,11 @@ export function RecycleExplorer() {
               onClick={() => {
                 setRestoredIds((ids) => [...ids, file.id]);
                 setMessage(personalityRegistry.discoveries.recycleRestore);
+                discoveryService?.recordRecycleRestoration(file.id);
+                discoveryService?.incrementCounter("recycleRestorations");
+                discoveryService?.recordDiscovery(
+                  "recycle.first-restoration",
+                );
               }}
             >
               {restored ? "Restored" : "Restore"}

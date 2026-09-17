@@ -25,7 +25,6 @@ export function PocketShell({
   featuredProject,
   labsStatus,
   menuTargetId,
-  normalViewHref,
   notifications,
   onBack,
   onCloseAppMenu,
@@ -69,7 +68,6 @@ export function PocketShell({
         appId={activeApp?.id ?? "route"}
         backLabel={activeApp?.backLabel}
         iconKey={activeApp?.iconKey ?? "projects"}
-        normalViewHref={normalViewHref}
         onBack={onBack}
         shareHref={pathname}
         subtitle={activeApp?.subtitle}
@@ -82,7 +80,6 @@ export function PocketShell({
   } else if (!startupPlayed) {
     content = (
       <PocketStartup
-        normalViewHref={normalViewHref}
         onComplete={onStartupComplete}
         reducedMotion={reducedMotion}
       />
@@ -90,7 +87,6 @@ export function PocketShell({
   } else if (!unlocked || previewingLock) {
     content = (
       <PocketLockScreen
-        normalViewHref={normalViewHref}
         notifications={visibleNotifications}
         onDismissNotification={onDismissNotification}
         onUnlock={onUnlock}

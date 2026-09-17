@@ -119,6 +119,33 @@ export const routeRegistry = [
     parentPath: "/",
   },
   {
+    path: "/settings/[category]",
+    kind: "utility",
+    title: "Settings category",
+    description: "A WestCose OS settings category.",
+    appId: "settings",
+    availableIn: ["desktop", "pocket", "normal"],
+    parentPath: "/settings",
+  },
+  {
+    path: "/notes/folder/[folderId]",
+    kind: "utility",
+    title: "Notes folder",
+    description: "A Notes folder.",
+    appId: "notes",
+    availableIn: ["desktop", "pocket", "normal"],
+    parentPath: "/notes",
+  },
+  {
+    path: "/notes/[noteId]",
+    kind: "utility",
+    title: "Note",
+    description: "A note in the shared Notes library.",
+    appId: "notes",
+    availableIn: ["desktop", "pocket", "normal"],
+    parentPath: "/notes",
+  },
+  {
     path: "/recycle",
     kind: "utility",
     title: "Recycle",
@@ -163,6 +190,20 @@ export function getRouteDescriptor(
 
   if (/^\/experiments\/[^/]+$/.test(normalizedPathname)) {
     return routeRegistry.find((route) => route.path === "/experiments/[slug]");
+  }
+
+  if (/^\/notes\/folder\/[^/]+$/.test(normalizedPathname)) {
+    return routeRegistry.find(
+      (route) => route.path === "/notes/folder/[folderId]",
+    );
+  }
+
+  if (/^\/notes\/[^/]+$/.test(normalizedPathname)) {
+    return routeRegistry.find((route) => route.path === "/notes/[noteId]");
+  }
+
+  if (/^\/settings\/[^/]+$/.test(normalizedPathname)) {
+    return routeRegistry.find((route) => route.path === "/settings/[category]");
   }
 
   return undefined;

@@ -144,6 +144,7 @@
   display: grid;
   align-content: center;
   gap: var(--space-base);
+  min-inline-size: 0;
 }
 
 .launcherPanel h2,
@@ -155,10 +156,142 @@
   color: var(--color-text-secondary);
 }
 
+.launcherTabs {
+  display: flex;
+  gap: var(--space-xs);
+  padding: var(--space-xs);
+  border-radius: var(--radius-md);
+  background: var(--neu-recessed-bg);
+  box-shadow: var(--neu-shadow-recessed);
+}
+
+.launcherTabs button {
+  flex: 1;
+  min-block-size: var(--control-min-size);
+  padding: var(--space-sm);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-weight: var(--type-label-md-weight);
+}
+
+.launcherTabs button[aria-pressed="true"] {
+  background: var(--color-surface-active);
+  box-shadow: var(--neu-shadow-raised);
+  color: var(--color-text-primary);
+}
+
+.launcherCopy {
+  display: grid;
+  gap: var(--space-base);
+}
+
+.launcherCopy ul {
+  display: grid;
+  gap: var(--space-xs);
+  margin: 0;
+  padding-inline-start: var(--space-xl);
+  color: var(--color-text-secondary);
+}
+
+.buildDetails,
+.controlList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-sm);
+  margin: 0;
+}
+
+.buildDetails > div,
+.controlList > div {
+  display: grid;
+  gap: var(--space-xs);
+  padding: var(--space-base);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-base);
+}
+
+.buildDetails dt,
+.controlList dt {
+  color: var(--color-tertiary);
+  font-family: var(--font-mono);
+  font-size: var(--type-mono-sm-size);
+  text-transform: uppercase;
+}
+
+.buildDetails dd,
+.controlList dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: var(--color-text-primary);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+}
+
 .launcherActions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-sm);
+}
+
+.achievements {
+  display: grid;
+  gap: var(--space-sm);
+  padding: var(--space-base);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-base);
+}
+
+.achievements > div {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--color-tertiary);
+}
+
+.achievements h3,
+.achievements > div span {
+  margin: 0;
+  font-size: var(--type-label-md-size);
+}
+
+.achievements > div span {
+  margin-inline-start: auto;
+  font-family: var(--font-mono);
+}
+
+.achievements ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.achievements li {
+  display: grid;
+  gap: var(--space-xs);
+  padding: var(--space-sm);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-recessed);
+  opacity: var(--surface-opacity-disabled);
+}
+
+.achievements li[data-earned="true"] {
+  border-inline-start: var(--space-micro) solid var(--color-success);
+  opacity: 1;
+}
+
+.achievements li strong {
+  font-size: var(--type-label-md-size);
+}
+
+.achievements li small {
+  color: var(--color-text-secondary);
+  line-height: var(--type-body-sm-leading);
 }
 
 .feedback {
@@ -166,6 +299,110 @@
   color: var(--color-warning) !important;
   font-family: var(--font-mono);
   font-size: var(--type-mono-sm-size);
+}
+
+.playerShell {
+  inline-size: 100%;
+  min-block-size: 0;
+  block-size: 100%;
+  overflow: hidden;
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--color-neutral);
+}
+
+.player {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  inline-size: 100%;
+  block-size: 100%;
+  min-block-size: min(36rem, 72dvh);
+  background: var(--color-neutral);
+}
+
+.player:fullscreen {
+  inline-size: 100vw;
+  block-size: 100dvh;
+  min-block-size: 100dvh;
+  padding-block-start: env(safe-area-inset-top);
+  padding-block-end: env(safe-area-inset-bottom);
+  background: var(--color-neutral);
+}
+
+.playerToolbar {
+  position: relative;
+  z-index: var(--layer-widgets);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-base);
+  min-block-size: calc(var(--control-min-size) + var(--space-sm));
+  padding: var(--space-sm) max(var(--space-base), env(safe-area-inset-right)) var(--space-sm) max(var(--space-base), env(safe-area-inset-left));
+  border-block-end: var(--border-thin) solid var(--color-border-subtle);
+  background: var(--color-surface-overlay);
+}
+
+.playerToolbar > span {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-inline-size: 0;
+  color: var(--color-primary);
+}
+
+.playerToolbar strong {
+  color: var(--color-text-primary);
+}
+
+.playerToolbar small {
+  overflow: hidden;
+  color: var(--color-text-secondary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.playerToolbar > div {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.frameBoundary {
+  position: relative;
+  min-block-size: 0;
+  overflow: hidden;
+  background: var(--color-neutral);
+}
+
+.frameBoundary iframe {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  border: 0;
+  background: var(--color-neutral);
+}
+
+.playerFallback {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-base);
+  min-block-size: var(--control-min-size);
+  padding: var(--space-sm) max(var(--space-base), env(safe-area-inset-right)) var(--space-sm) max(var(--space-base), env(safe-area-inset-left));
+  border-block-start: var(--border-thin) solid var(--color-border-subtle);
+  background: var(--color-surface-overlay);
+}
+
+.playerFallback p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--type-mono-sm-size);
+}
+
+.playerFallback a {
+  flex: 0 0 auto;
+  color: var(--color-primary-hover);
+  font-size: var(--type-label-md-size);
 }
 
 @media (max-width: 44rem) {
@@ -192,5 +429,61 @@
 
   .launcherArt {
     min-block-size: 14rem;
+  }
+
+  .launcher {
+    gap: var(--space-base);
+    padding: var(--space-base);
+  }
+
+  .buildDetails,
+  .controlList,
+  .achievements ul {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .playerShell,
+  .player {
+    min-block-size: 100%;
+    border: 0;
+    border-radius: var(--radius-none);
+  }
+
+  .playerToolbar {
+    align-items: stretch;
+  }
+
+  .playerToolbar > span small,
+  .playerToolbar > div button:first-child span {
+    display: none;
+  }
+
+  .playerFallback {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 23rem) {
+  .launcherTabs {
+    flex-direction: column;
+  }
+
+  .launcherActions > * {
+    inline-size: 100%;
+  }
+
+  .playerToolbar > span strong {
+    display: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .launcherTabs,
+  .achievements,
+  .playerShell,
+  .playerToolbar,
+  .playerFallback {
+    border: var(--border-thin) solid CanvasText;
   }
 }

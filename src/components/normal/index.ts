@@ -1,1 +1,1 @@
-export { NormalShell } from "./NormalShell";
+export { SemanticShell } from "./NormalShell";

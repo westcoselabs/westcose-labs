@@ -4,6 +4,7 @@ import { ArrowRight, CloudSun, GearSix } from "@phosphor-icons/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { IconButton, PressableSurface, SurfaceRaised } from "@/components/ui";
+import { useDiscoveryService } from "@/components/os/DiscoveryServiceContext";
 import { personalityRegistry } from "@/registry";
 
 import { PocketAppGlyph } from "./PocketAppGlyph";
@@ -78,6 +79,7 @@ export function PocketHome({
   const programmaticPageRef = useRef<PocketPageIndex | null>(null);
   const menuTriggerRef = useRef<HTMLButtonElement>(null);
   const [statusTaps, setStatusTaps] = useState(0);
+  const discoveryService = useDiscoveryService();
   const clock = usePocketClock();
   const verifiedPageTwoApps = useMemo(
     () => pageTwoApps.filter((app) => app.kind !== "social" || app.verified === true),
@@ -197,7 +199,17 @@ export function PocketHome({
                 <p className={styles.condition}>{condition}</p>
                 <button
                   className={styles.statusComplication}
-                  onClick={() => setStatusTaps((count) => count + 1)}
+                  onClick={() =>
+                    setStatusTaps((count) => {
+                      const nextCount = count + 1;
+                      if (nextCount === 5) {
+                        discoveryService?.recordDiscovery(
+                          "desktop.labs-status",
+                        );
+                      }
+                      return nextCount;
+                    })
+                  }
                   type="button"
                 >
                   <span aria-hidden="true" className={styles.statusMark} />

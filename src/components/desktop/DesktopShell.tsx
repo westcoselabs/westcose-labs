@@ -20,7 +20,7 @@ import {
 } from "react";
 
 import { AppGlyph } from "@/components/icons/AppGlyph";
-import { Button, ButtonLink, IconButton } from "@/components/ui";
+import { Button, IconButton } from "@/components/ui";
 import {
   centerRectInWorkspace,
   createWorkspaceBounds,
@@ -49,7 +49,6 @@ import { TerminalUtility } from "./TerminalUtility";
 
 type DesktopShellProps = {
   children?: ReactNode;
-  normalViewHref: string;
   onReadmeShown: () => void;
   onSoundToggle: () => void;
   pathname: string;
@@ -89,7 +88,6 @@ function useDesktopClock() {
 
 export function DesktopShell({
   children,
-  normalViewHref,
   onReadmeShown,
   onSoundToggle,
   pathname,
@@ -329,7 +327,7 @@ export function DesktopShell({
         <h2>WestCose Labs OS</h2>
         <p>
           Double-click an icon or select one and use Open. Every app is also a
-          real browser route, and Normal View is always available.
+          real browser route with semantic content underneath the desktop chrome.
         </p>
         <div className={styles.readmeActions}>
           <Button onClick={() => router.push("/projects")} tone="primary">
@@ -501,7 +499,6 @@ export function DesktopShell({
           </div>
           <footer>
             <div className={styles.startFooterActions}>
-              <ButtonLink href={normalViewHref}>Normal View</ButtonLink>
               <Button onClick={() => openUtility("settings")}>Settings</Button>
               <Button onClick={() => router.push("/github")}>GitHub</Button>
               <Button onClick={() => router.push("/contact")}>Contact</Button>
@@ -531,9 +528,6 @@ export function DesktopShell({
           <button onClick={() => openUtility("settings")} role="menuitem" type="button">
             Open Settings
           </button>
-          <a href={normalViewHref} role="menuitem">
-            Switch to Normal View
-          </a>
           <button onClick={() => router.refresh()} role="menuitem" type="button">
             Refresh route
           </button>
@@ -566,7 +560,6 @@ export function DesktopShell({
           <p>System actions</p>
           <Button onClick={() => openUtility("settings")}>Open Settings</Button>
           <Button onClick={() => router.push("/github")}>Open GitHub directory</Button>
-          <ButtonLink href={normalViewHref}>Open Normal View</ButtonLink>
           <small>WestCose Labs OS V2 / build mode active</small>
         </section>
       ) : null}
@@ -641,9 +634,6 @@ export function DesktopShell({
               <SpeakerSlash aria-hidden="true" />
             )}
           </IconButton>
-          <ButtonLink className={styles.normalButton} href={normalViewHref}>
-            Normal
-          </ButtonLink>
           <button
             aria-controls="desktop-clock-panel"
             aria-expanded={clockPanelOpen}
