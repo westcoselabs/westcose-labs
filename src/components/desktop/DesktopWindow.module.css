@@ -165,3 +165,93 @@
     padding: var(--space-base);
   }
 }
+
+:global([data-theme-chrome="classic-titlebar"]) .window {
+  padding: 3px;
+  border-color: var(--classic-edge-dark);
+  background: var(--color-surface-overlay);
+  box-shadow: var(--neu-shadow-floating);
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .titlebar {
+  min-block-size: 2.75rem;
+  gap: var(--space-xs);
+  padding: 0 var(--space-xs) 0 var(--space-sm);
+  border-block-end: 0;
+  background: var(--classic-title-inactive);
+  color: var(--classic-title-text);
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .window[data-active="true"] .titlebar {
+  background: var(--classic-title);
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .titleGroup h2 {
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .runningMark {
+  background: currentColor;
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .controls {
+  gap: var(--space-micro);
+}
+
+/* Keep 44px hit boxes; an inset border makes the keys LOOK compact. */
+:global([data-theme-chrome="classic-titlebar"]) .controls button {
+  border: 6px solid transparent;
+  padding: var(--space-xs);
+  background-clip: padding-box;
+  box-shadow: none;
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .controls button::before {
+  position: absolute;
+  inset: 6px;
+  box-shadow: var(--neu-shadow-raised);
+  content: "";
+  pointer-events: none;
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .controls button:active::before {
+  box-shadow: var(--neu-shadow-pressed);
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .controls button {
+  position: relative;
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .controls svg {
+  inline-size: 1rem;
+  block-size: 1rem;
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .controls button:focus-visible {
+  outline-offset: -8px;
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .body {
+  margin-block-start: 3px;
+  padding: var(--space-md);
+  border: 1px solid var(--classic-edge-mid);
+  box-shadow: var(--neu-shadow-recessed);
+  container-type: inline-size;
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .body:has(> [data-app-presenter]),
+:global([data-theme-chrome="classic-titlebar"]) .body:has([data-fightclub-player]) {
+  padding: 0;
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .windowMenu {
+  color: var(--color-text-primary);
+  padding: var(--space-xs);
+  border-color: var(--classic-edge-dark);
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .windowMenu button:is(:hover, :focus-visible) {
+  background: var(--classic-title);
+  color: var(--classic-title-text);
+}

@@ -1,0 +1,47 @@
+/*
+ * Shared appearance variables.
+ *
+ * These defaults mirror the default `dusk-cliffs` entry in the wallpaper
+ * registry so the document renders correctly before hydration and without
+ * JavaScript. At runtime the pre-paint bootstrap and the appearance state
+ * rewrite the same variables from the registry, which keeps Desktop OS and
+ * Pocket OS on one source of truth instead of two sets of shell styles.
+ *
+ * Wallpapers are decorative. Accessibility preferences override the property
+ * where the variable is consumed, never the variable itself, so a theme cannot
+ * outrank high contrast or forced colours from the document element.
+ */
+:root {
+  /* Wallpaper-owned colors: these remain teal under ANY theme. */
+  --wallpaper-95-base: #387c7b;
+  --wallpaper-95-panel: #3c8280;
+  --wallpaper-95-line: #619693;
+  --wallpaper-95-weave: rgb(9 49 52 / 5%);
+  --wallpaper-desktop-image: url("/images/wallpapers/dusk-desktop.webp");
+  --wallpaper-pocket-image: url("/images/wallpapers/dusk-pocket.webp");
+  --wallpaper-desktop-scrim: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--color-neutral) 12%, transparent),
+    color-mix(in srgb, var(--color-neutral) 48%, transparent)
+  );
+  --wallpaper-pocket-home-scrim: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--color-neutral) 28%, transparent),
+    color-mix(in srgb, var(--color-neutral) 78%, transparent)
+  );
+  --wallpaper-pocket-lock-scrim: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--color-neutral) 26%, transparent),
+    color-mix(in srgb, var(--color-neutral) 82%, transparent)
+  );
+
+  /*
+   * Applied by shell surfaces under high contrast. Deliberately not set from
+   * the registry: it must stay later in the cascade than any theme value.
+   */
+  --wallpaper-accessible-scrim: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--color-neutral) 88%, transparent),
+    var(--color-neutral)
+  );
+}

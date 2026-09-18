@@ -164,3 +164,45 @@
     border: var(--border-thin) solid CanvasText;
   }
 }
+
+:global([data-theme-chrome="classic-titlebar"]) .header {
+  gap: var(--space-xs);
+  padding-inline: var(--space-sm);
+  border: 3px solid var(--color-surface-overlay);
+  background: var(--classic-title);
+  color: var(--classic-title-text);
+  box-shadow: var(--neu-shadow-raised);
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .identity small {
+  color: inherit;
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .appIcon {
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  color: inherit;
+  background: transparent;
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .back {
+  padding-inline: var(--space-sm);
+  color: var(--color-text-primary);
+  background: var(--color-surface-overlay);
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .content {
+  border: 3px solid var(--color-surface-overlay);
+  border-block-start: 0;
+  box-shadow: var(--neu-shadow-recessed);
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .menu {
+  padding: var(--space-xs);
+  border-color: var(--classic-edge-dark);
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .menu :is(button, a):is(:hover, :focus-visible) {
+  background: var(--classic-title);
+  color: var(--classic-title-text);
+}

@@ -5,11 +5,14 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 import { IconButton, PressableSurface, SurfaceRaised } from "@/components/ui";
 import { useDiscoveryService } from "@/components/os/DiscoveryServiceContext";
+import { useAppearance } from "@/components/os/AppearanceContext";
+import { useLongPress } from "@/hooks/useLongPress";
 import { personalityRegistry } from "@/registry";
 
 import { PocketAppGlyph } from "./PocketAppGlyph";
 import { PocketAppMenu } from "./PocketAppMenu";
 import { PocketAppTile } from "./PocketAppTile";
+import { PocketCustomizeSheet } from "./PocketCustomizeSheet";
 import styles from "./PocketHome.module.css";
 import type {
   FeaturedProjectItem,
@@ -25,6 +28,7 @@ interface PocketHomeProps {
   readonly menuTargetId?: string | null;
   readonly onCloseAppMenu: () => void;
   readonly onLaunchApp: (app: PocketAppItem) => void;
+  readonly onOpenAppearanceSettings?: () => void;
   readonly onOpenAppMenu: (app: PocketAppItem) => void;
   readonly onPageChange: (page: PocketPageIndex) => void;
   readonly page: PocketPageIndex;
@@ -66,6 +70,7 @@ export function PocketHome({
   menuTargetId,
   onCloseAppMenu,
   onLaunchApp,
+  onOpenAppearanceSettings,
   onOpenAppMenu,
   onPageChange,
   page,
@@ -78,9 +83,12 @@ export function PocketHome({
   const currentPageRef = useRef(page);
   const programmaticPageRef = useRef<PocketPageIndex | null>(null);
   const menuTriggerRef = useRef<HTMLButtonElement>(null);
+  const customizeTriggerRef = useRef<HTMLButtonElement>(null);
+  const [customizeOpen, setCustomizeOpen] = useState(false);
   const [statusTaps, setStatusTaps] = useState(0);
   const discoveryService = useDiscoveryService();
   const clock = usePocketClock();
+  const { theme } = useAppearance();
   const verifiedPageTwoApps = useMemo(
     () => pageTwoApps.filter((app) => app.kind !== "social" || app.verified === true),
     [pageTwoApps],
@@ -118,6 +126,12 @@ export function PocketHome({
     [],
   );
 
+  // Long press on empty home-screen space. Both pages share these handlers, and
+  // the visible Customize control below opens the same sheet.
+  const longPress = useLongPress({
+    onLongPress: () => setCustomizeOpen(true),
+  });
+
   const renderApps = (apps: readonly PocketAppItem[]) =>
     apps.map((app) => (
       <PocketAppTile
@@ -135,14 +149,14 @@ export function PocketHome({
     <main aria-label="Pocket OS Home" className={styles.home}>
       <h1 className="sr-only">WestCose Pocket OS Home</h1>
       <div
-        aria-hidden={menuApp ? true : undefined}
+        aria-hidden={menuApp || customizeOpen ? true : undefined}
         className={styles.homeContent}
-        inert={menuApp ? true : undefined}
+        inert={menuApp || customizeOpen ? true : undefined}
       >
         <header className={styles.homeHeader}>
           <div className={styles.brand}>
             <strong>WestCose Pocket</strong>
-            <span>DUSK SYSTEM</span>
+            <span>{theme.copy?.systemLabel ?? "DUSK"} SYSTEM</span>
           </div>
           <IconButton
             label="Open Settings"
@@ -154,6 +168,15 @@ export function PocketHome({
             <GearSix aria-hidden="true" weight="duotone" />
           </IconButton>
         </header>
+
+        <button
+          className={styles.customizeAffordance}
+          onClick={() => setCustomizeOpen(true)}
+          ref={customizeTriggerRef}
+          type="button"
+        >
+          Customize Home Screen
+        </button>
 
         <div
           aria-label="Home pages"
@@ -185,11 +208,16 @@ export function PocketHome({
           }}
           ref={pagesRef}
         >
-          <section aria-label="Home Page One" aria-roledescription="slide" className={styles.page}>
+          <section
+            aria-label="Home Page One"
+            aria-roledescription="slide"
+            className={styles.page}
+            {...longPress}
+          >
             <div className={styles.widgets}>
               <SurfaceRaised className={styles.todayWidget}>
                 <div className={styles.todayTopline}>
-                  <span>BAKERSFIELD / DUSK</span>
+                  <span>BAKERSFIELD / {theme.copy?.systemLabel ?? "DUSK"}</span>
                   <CloudSun aria-hidden="true" size={24} weight="duotone" />
                 </div>
                 <div>
@@ -237,7 +265,12 @@ export function PocketHome({
             <div className={styles.appGrid}>{renderApps(pageOneApps)}</div>
           </section>
 
-          <section aria-label="Home Page Two" aria-roledescription="slide" className={[styles.page, styles.pageTwo].join(" ")}>
+          <section
+            aria-label="Home Page Two"
+            aria-roledescription="slide"
+            className={[styles.page, styles.pageTwo].join(" ")}
+            {...longPress}
+          >
             <div className={styles.pageHeading}>
               <h2 className="type-headline-sm">Games and archive</h2>
               <p>Verified apps</p>
@@ -281,6 +314,14 @@ export function PocketHome({
 
       {menuApp ? (
         <PocketAppMenu app={menuApp} onClose={onCloseAppMenu} onLaunch={onLaunchApp} returnFocusRef={menuTriggerRef} />
+      ) : null}
+
+      {customizeOpen ? (
+        <PocketCustomizeSheet
+          onClose={() => setCustomizeOpen(false)}
+          onOpenAppearanceSettings={() => onOpenAppearanceSettings?.()}
+          returnFocusRef={customizeTriggerRef}
+        />
       ) : null}
     </main>
   );

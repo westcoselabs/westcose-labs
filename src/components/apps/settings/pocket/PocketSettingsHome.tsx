@@ -1,5 +1,7 @@
 "use client";
 
+import { RecommendedWallpaper } from "@/components/os/RecommendedWallpaper";
+
 import {
   Bell,
   CaretRight,
@@ -14,7 +16,7 @@ import {
   X,
 } from "@phosphor-icons/react";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 import type {
   FocusMode,
@@ -163,12 +165,27 @@ function CategoryControls({ controller }: { readonly controller: SettingsControl
           <SettingRow
             label="Theme"
             control={
-              <select aria-label="Theme" onChange={(event) => dispatch({ type: "theme/set", themeId: event.currentTarget.value })} value={preferences.themeId}>
+              <select aria-label="Theme" onChange={(event) => controller.setThemeId(event.currentTarget.value)} value={controller.activeThemeId}>
                 {controller.availableThemes.map((theme) => <option key={theme.id} value={theme.id}>{theme.name}</option>)}
               </select>
             }
           />
-          <SettingRow label="Wallpaper" detail="Dusk Cliffs · bundled" control={<span className={styles.value}>Current</span>} />
+          <RecommendedWallpaper />
+          <div aria-label="Wallpaper" className={styles.wallpaperList} role="radiogroup">
+            {controller.availableWallpapers.map((wallpaper) => (
+              <button
+                aria-checked={wallpaper.id === controller.activeWallpaperId}
+                key={wallpaper.id}
+                onClick={() => controller.setWallpaperId(wallpaper.id)}
+                role="radio"
+                style={{ "--preview-image": wallpaper.preview.image } as CSSProperties}
+                type="button"
+              >
+                <span aria-hidden="true" />
+                <span><strong>{wallpaper.name}</strong><small>{wallpaper.preview.label}</small></span>
+              </button>
+            ))}
+          </div>
           <SettingRow label="Icon lighting" detail="Adds a restrained highlight to app tiles." control={<Switch checked={preferences.iconLighting} label="Icon lighting" onChange={(enabled) => dispatch({ type: "icon-lighting/set", enabled })} />} />
           <SettingRow label="High contrast" detail="Reinforces edges and flattens shadows." control={<Switch checked={preferences.highContrast} label="High contrast" onChange={(enabled) => dispatch({ type: "high-contrast/set", enabled })} />} />
         </section>

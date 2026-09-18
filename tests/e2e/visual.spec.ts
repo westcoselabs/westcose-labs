@@ -220,6 +220,97 @@ test("Pocket FightClub launcher visual baseline", async ({ page }) => {
   });
 });
 
+test("desktop Corporate Beige visual baseline", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.addInitScript(() => {
+    sessionStorage.setItem(
+      "wcl.session.v2",
+      JSON.stringify({
+        version: 2,
+        data: {
+          readmeShown: true,
+          startupPlayed: true,
+          unlocked: true,
+          page: 0,
+          originPage: null,
+          dismissedNotificationIds: [],
+        },
+      }),
+    );
+    localStorage.setItem(
+      "wcl.discoveries.v1",
+      JSON.stringify({
+        version: 1,
+        data: {
+          discoveredSecretIds: ["settings.bad-ideas-max"],
+          unlockedThemeIds: ["corporate-beige"],
+          unlockedWallpaperIds: ["standard-issue"],
+        },
+      }),
+    );
+    localStorage.setItem(
+      "wcl.preferences.v2",
+      JSON.stringify({
+        version: 2,
+        data: {
+          themeId: "corporate-beige",
+          wallpaperId: "standard-issue",
+          soundEnabled: false,
+          extraReducedMotion: false,
+          highContrast: false,
+          displayPreference: "auto",
+        },
+      }),
+    );
+  });
+  await page.goto("/?view=os");
+  await page.evaluate(() => document.fonts.ready);
+  await expect(page).toHaveScreenshot("desktop-corporate-beige.png", {
+    animations: "disabled",
+    mask: [page.getByRole("complementary", { name: "Desktop build status" })],
+    maxDiffPixelRatio: 0.01,
+  });
+});
+
+test("Pocket Corporate Beige visual baseline", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.addInitScript(() => {
+    localStorage.setItem(
+      "wcl.discoveries.v1",
+      JSON.stringify({
+        version: 1,
+        data: {
+          discoveredSecretIds: ["settings.bad-ideas-max"],
+          unlockedThemeIds: ["corporate-beige"],
+          unlockedWallpaperIds: ["standard-issue"],
+        },
+      }),
+    );
+    localStorage.setItem(
+      "wcl.preferences.v2",
+      JSON.stringify({
+        version: 2,
+        data: {
+          themeId: "corporate-beige",
+          wallpaperId: "standard-issue",
+          soundEnabled: false,
+          extraReducedMotion: false,
+          highContrast: false,
+          displayPreference: "auto",
+        },
+      }),
+    );
+  });
+  await page.goto("/?view=os");
+  await page.getByRole("button", { name: "Tap to unlock" }).click();
+  await page.evaluate(() => document.fonts.ready);
+  await expect(page).toHaveScreenshot("pocket-corporate-beige.png", {
+    animations: "disabled",
+    maxDiffPixelRatio: 0.01,
+  });
+});
+
 test("Semantic fallback home visual baseline", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/?view=normal");

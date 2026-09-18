@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 
 import { Button } from "@/components/ui";
+import { useAppearance } from "@/components/os/AppearanceContext";
 
 import styles from "./PocketStartup.module.css";
 
@@ -15,6 +16,7 @@ export function PocketStartup({
   onComplete,
   reducedMotion,
 }: PocketStartupProps) {
+  const { theme } = useAppearance();
   useEffect(() => {
     if (reducedMotion) {
       onComplete();
@@ -33,9 +35,9 @@ export function PocketStartup({
         </div>
         <div className={styles.copy}>
           <h1 className="type-headline-sm" id="pocket-startup-title">
-            WestCose Pocket OS
+            {theme.copy?.startupTitle ?? "WestCose Pocket OS"}
           </h1>
-          <p>Checking routes and unfinished business</p>
+          <p>{theme.copy?.startupStatus ?? "Checking routes and unfinished business"}</p>
         </div>
         <div
           aria-label="Starting Pocket OS"

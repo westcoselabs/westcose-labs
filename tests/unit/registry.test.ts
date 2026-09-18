@@ -18,6 +18,7 @@ import {
   systemFacts,
   terminalCommandRegistry,
   themeRegistry,
+  wallpaperRegistry,
 } from "@/registry";
 import { noteRegistry as dedicatedNoteRegistry } from "@/registry/notes";
 import type {
@@ -26,6 +27,7 @@ import type {
   Note,
   TerminalCommandDefinition,
   ThemeDefinition,
+  WallpaperDefinition,
 } from "@/registry/types";
 
 const unique = (values: readonly string[]) => new Set(values).size === values.length;
@@ -39,6 +41,7 @@ describe("V3 registries", () => {
     expect(unique(discoveryRegistry.map((entry) => entry.id))).toBe(true);
     expect(unique(achievementRegistry.map((entry) => entry.id))).toBe(true);
     expect(unique(themeRegistry.map((entry) => entry.id))).toBe(true);
+    expect(unique(wallpaperRegistry.map((entry) => entry.id))).toBe(true);
     expect(unique(terminalCommandRegistry.map((entry) => entry.id))).toBe(true);
     expect(unique(noteRegistry.map((entry) => entry.id))).toBe(true);
     expect(unique(noteFolderRegistry.map((entry) => entry.id))).toBe(true);
@@ -59,8 +62,22 @@ describe("V3 registries", () => {
       routeRegistry.map((entry) => entry.path),
     );
 
+    const wallpaperIds = new Set<string>(
+      wallpaperRegistry.map((entry) => entry.id),
+    );
+    const themeIds = new Set<string>(themeRegistry.map((entry) => entry.id));
+
     for (const theme of themeRegistry as readonly ThemeDefinition[]) {
       if (theme.discoveryId) expect(discoveryIds.has(theme.discoveryId)).toBe(true);
+      expect(wallpaperIds.has(theme.recommendedWallpaperId)).toBe(true);
+    }
+    for (const wallpaper of wallpaperRegistry as readonly WallpaperDefinition[]) {
+      if (wallpaper.discoveryId) {
+        expect(discoveryIds.has(wallpaper.discoveryId)).toBe(true);
+      }
+      if (wallpaper.recommendedThemeId) {
+        expect(themeIds.has(wallpaper.recommendedThemeId)).toBe(true);
+      }
     }
     for (const achievement of achievementRegistry as readonly AchievementDefinition[]) {
       if (achievement.discoveryId) {
@@ -89,6 +106,8 @@ describe("V3 registries", () => {
   it("has one truthful default theme and only OS-observable achievements", () => {
     expect(themeRegistry.filter((theme) => theme.default)).toHaveLength(1);
     expect(themeRegistry[0]).toMatchObject({ id: "dusk", dataTheme: "dusk" });
+    expect(wallpaperRegistry.filter((wallpaper) => wallpaper.default)).toHaveLength(1);
+    expect(wallpaperRegistry[0]).toMatchObject({ id: "dusk-cliffs" });
     expect(achievementRegistry).toHaveLength(4);
     expect(
       achievementRegistry.every((achievement) =>

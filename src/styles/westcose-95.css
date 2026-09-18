@@ -1,0 +1,141 @@
+/*
+ * WestCose 95 treatment primitives. Palette: themes.css. Wallpaper: registry.
+ * Component geometry stays in its CSS module, keyed to these same treatment
+ * axes. No generated class-name selectors, shell forks, or theme-id branches.
+ * Accessibility rules follow this import and can flatten these primitives.
+ */
+[data-theme-surface="beveled"] {
+  --radius-xs: 0;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --radius-2xl: 0;
+  --radius-3xl: 0;
+  --radius-full: 0;
+  --hover-offset: 0px;
+  --press-offset: 1px;
+  --surface-opacity-disabled: 0.65;
+  --classic-outset: inset 1px 1px 0 var(--classic-edge-light),
+    inset -1px -1px 0 var(--classic-edge-dark),
+    inset 2px 2px 0 var(--color-surface-raised),
+    inset -2px -2px 0 var(--classic-edge-mid);
+  --classic-inset: inset 1px 1px 0 var(--classic-edge-dark),
+    inset -1px -1px 0 var(--classic-edge-light),
+    inset 2px 2px 0 var(--classic-edge-mid);
+}
+
+[data-theme-depth="hard-shadow"] {
+  --neu-shadow-raised: var(--classic-outset);
+  --neu-shadow-recessed: var(--classic-inset);
+  --neu-shadow-pressed: var(--classic-inset);
+  --neu-shadow-active: var(--classic-inset);
+  --neu-shadow-floating: var(--classic-outset), 3px 3px 0 rgb(16 27 27 / 32%);
+}
+
+[data-theme-type="system-ui"] {
+  --font-sans: Tahoma, "Microsoft Sans Serif", Arial, sans-serif;
+  --font-mono: "Courier New", Courier, monospace;
+  --type-display-lg-size: 2.5rem;
+  --type-display-md-size: 1.75rem;
+  --type-headline-lg-size: 1.5rem;
+  --type-headline-md-size: 1.125rem;
+  --type-headline-sm-size: 0.9375rem;
+  --type-body-lg-size: 0.875rem;
+  --type-body-md-size: 0.8125rem;
+  --type-body-sm-size: 0.75rem;
+  --type-label-lg-size: 0.8125rem;
+  --type-label-md-size: 0.75rem;
+  --type-mono-md-size: 0.8125rem;
+  --type-mono-sm-size: 0.8125rem;
+  --type-display-lg-tracking: 0;
+  --type-display-md-tracking: 0;
+  --type-headline-lg-tracking: 0;
+  --type-headline-md-tracking: 0;
+  --type-headline-sm-tracking: 0;
+  --type-label-lg-tracking: 0;
+  --type-label-md-tracking: 0;
+  --type-caption-tracking: 0;
+  --type-body-md-leading: 1.45;
+}
+
+[data-theme-chrome="classic-titlebar"] {
+  --motion-fast: 60ms;
+  --motion-base: 80ms;
+  --motion-slow: 120ms;
+  --ease-standard: linear;
+  --ease-enter: linear;
+  --ease-exit: linear;
+  scroll-behavior: auto;
+}
+
+[data-theme-taskbar="anchored-bar"] {
+  --desktop-taskbar-size: 3.5rem;
+  --desktop-gutter: 1rem;
+  --desktop-icon-size: 2.75rem;
+  --taskbar-app-size: 2.75rem;
+  --pocket-gutter: 0.75rem;
+  --pocket-icon-size: 3rem;
+  --pocket-dock-size: 4.75rem;
+  --dock-gap: 0.25rem;
+}
+
+/* Native controls retain platform semantics and keyboard behavior. */
+[data-theme-surface="beveled"] :is(input, select, textarea) {
+  accent-color: var(--color-primary);
+  border-radius: 0;
+}
+
+[data-theme-surface="beveled"] :is(select, input:not([type="checkbox"], [type="radio"], [type="range"], [type="hidden"]), textarea) {
+  border-color: var(--classic-edge-mid);
+  box-shadow: var(--neu-shadow-recessed);
+}
+
+[data-theme-border="outset"] :is(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px dotted var(--color-focus);
+  outline-offset: 2px;
+}
+
+[data-theme-surface="beveled"] ::selection {
+  background: var(--classic-title);
+  color: var(--classic-title-text);
+}
+
+/* The preference is authoritative over ALL theme-owned edge/depth tokens. */
+[data-theme-surface="beveled"][data-high-contrast="true"] {
+  --classic-outset: inset 0 0 0 1px currentColor;
+  --classic-inset: inset 0 0 0 1px currentColor;
+  --neu-shadow-raised: var(--neu-shadow-flat);
+  --neu-shadow-recessed: var(--neu-shadow-flat);
+  --neu-shadow-pressed: inset 0 0 0 2px var(--color-primary);
+  --neu-shadow-active: var(--neu-shadow-pressed);
+  --neu-shadow-floating: var(--neu-shadow-flat);
+  --color-border-subtle: var(--color-text-secondary);
+}
+
+@media (forced-colors: active) {
+  [data-theme-surface="beveled"],
+  [data-theme-surface="beveled"][data-high-contrast="true"] {
+    --classic-title: Highlight;
+    --classic-title-text: HighlightText;
+    --classic-title-inactive: Canvas;
+    --classic-desktop-label: CanvasText;
+    --classic-desktop-label-bg: Canvas;
+    --classic-terminal-bg: Canvas;
+    --classic-terminal-ink: CanvasText;
+    --classic-edge-light: ButtonText;
+    --classic-edge-dark: ButtonText;
+    --classic-edge-mid: ButtonText;
+    --classic-inset: none;
+    --classic-outset: none;
+    --neu-shadow-raised: none;
+    --neu-shadow-recessed: none;
+    --neu-shadow-pressed: none;
+    --neu-shadow-active: none;
+    --neu-shadow-floating: none;
+  }
+
+  [data-theme-border="outset"] :is(a, button, input, textarea, select, [tabindex]):focus-visible {
+    outline-color: Highlight;
+  }
+}

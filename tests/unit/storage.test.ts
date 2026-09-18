@@ -223,6 +223,28 @@ describe("versioned storage", () => {
     });
   });
 
+  it("keeps unlocked wallpapers beside unlocked themes in one saved store", () => {
+    const state = {
+      ...createInitialDiscoveryState(),
+      unlockedThemeIds: ["corporate-beige"],
+      unlockedWallpaperIds: ["standard-issue"],
+    };
+    expect(parseDiscoveriesStorage(serializeDiscoveries(state))).toEqual(state);
+
+    // A save written before wallpapers were unlockable still reads back.
+    const earlierSave = parseDiscoveriesStorage(
+      JSON.stringify({
+        version: 1,
+        data: {
+          discoveredSecretIds: ["settings.bad-ideas-max"],
+          unlockedThemeIds: ["corporate-beige"],
+        },
+      }),
+    );
+    expect(earlierSave.unlockedThemeIds).toEqual(["corporate-beige"]);
+    expect(earlierSave.unlockedWallpaperIds).toEqual([]);
+  });
+
   it("round-trips local notes and curated overrides independently", () => {
     expect(
       parseLocalNotesStorage(serializeLocalNotes(sampleLocalState.localNotes)),

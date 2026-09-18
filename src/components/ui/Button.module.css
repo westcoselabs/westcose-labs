@@ -89,3 +89,34 @@
     border: var(--border-thin) solid ButtonText;
   }
 }
+
+:global([data-theme-surface="beveled"]) :is(.button, .link) {
+  border: 1px solid var(--classic-edge-mid);
+  padding: var(--space-sm) var(--space-md);
+  color: var(--color-text-primary);
+  background: var(--color-surface-overlay);
+  box-shadow: var(--neu-shadow-raised);
+}
+
+:global([data-theme-surface="beveled"]) .primary {
+  font-weight: 700;
+  border-color: var(--color-text-primary);
+}
+
+:global([data-theme-surface="beveled"]) .danger {
+  color: var(--color-danger);
+}
+
+:global([data-theme-surface="beveled"]) :is(.button, .link):not(:disabled):hover {
+  background: var(--color-surface-raised);
+  color: var(--color-text-primary);
+}
+
+:global([data-theme-surface="beveled"]) :is(.button, .link):not(:disabled):active {
+  background: var(--color-surface-overlay);
+  box-shadow: var(--neu-shadow-pressed);
+}
+
+:global([data-theme-surface="beveled"]) .button:disabled {
+  box-shadow: var(--neu-shadow-flat);
+}

@@ -16,6 +16,7 @@ import { projectRegistry } from "./projects";
 import { routeRegistry } from "./routes";
 import { terminalCommandRegistry } from "./terminal-commands";
 import { themeRegistry } from "./themes";
+import { wallpaperRegistry } from "./wallpapers";
 import type {
   AchievementDefinition,
   AppId,
@@ -25,7 +26,47 @@ import type {
   OSApp,
   TerminalCommandDefinition,
   ThemeDefinition,
+  ThemeTreatments,
+  WallpaperDefinition,
+  WallpaperSource,
 } from "./types";
+
+/**
+ * The allowed value per appearance axis. A future skin selects from these
+ * instead of inventing a private vocabulary the shells cannot style.
+ */
+const THEME_TREATMENT_VALUES: {
+  readonly [Axis in keyof ThemeTreatments]: readonly ThemeTreatments[Axis][];
+} = {
+  surface: ["neumorphic", "flat", "beveled", "translucent", "matte"],
+  border: ["hairline", "none", "outset", "inset", "heavy"],
+  depth: ["soft-shadow", "flat", "hard-shadow", "drop-shadow", "glow"],
+  typography: [
+    "modern-sans",
+    "system-ui",
+    "bitmap",
+    "monospace",
+    "editorial",
+  ],
+  windowChrome: ["modern-flat", "classic-titlebar", "translucent", "bare"],
+  taskbar: ["floating-bar", "anchored-bar", "edge-strip"],
+  widget: ["raised-card", "flat-panel", "translucent-card", "suppressed"],
+  icon: ["duotone-glyph", "bitmap", "outline", "filled"],
+};
+
+const THEME_EFFECT_VALUES = [
+  "grain",
+  "scanlines",
+  "backdrop-blur",
+  "vignette",
+  "bloom",
+] as const;
+
+function isValidWallpaperSource(source: WallpaperSource): boolean {
+  return source.kind === "image"
+    ? source.src.startsWith("/") && source.width > 0 && source.height > 0
+    : source.image.trim().length > 0;
+}
 
 function duplicates(values: readonly string[]): string[] {
   const seen = new Set<string>();
@@ -157,6 +198,12 @@ export function getRegistryIssues(): string[] {
   }
 
   const themes = themeRegistry as readonly ThemeDefinition[];
+  const wallpapers = wallpaperRegistry as readonly WallpaperDefinition[];
+  const wallpaperIdSet = new Set<string>(
+    wallpapers.map((wallpaper) => wallpaper.id),
+  );
+  const themeIdSet = new Set<string>(themeIds);
+
   if (themes.filter((theme) => theme.default).length !== 1) {
     issues.push("Theme registry must contain exactly one default theme");
   }
@@ -166,6 +213,88 @@ export function getRegistryIssues(): string[] {
         `Theme ${theme.id} references unknown discovery: ${theme.discoveryId}`,
       );
     }
+    if (theme.hidden && !theme.discoveryId) {
+      issues.push(`Hidden theme ${theme.id} has no unlocking discovery`);
+    }
+    if (!wallpaperIdSet.has(theme.recommendedWallpaperId)) {
+      issues.push(
+        `Theme ${theme.id} recommends unknown wallpaper: ${theme.recommendedWallpaperId}`,
+      );
+    }
+    if (!theme.dataTheme) {
+      issues.push(`Theme ${theme.id} is missing a dataTheme selector`);
+    }
+    for (const axis of Object.keys(
+      THEME_TREATMENT_VALUES,
+    ) as (keyof ThemeTreatments)[]) {
+      const allowed: readonly string[] = THEME_TREATMENT_VALUES[axis];
+      if (!allowed.includes(theme.treatments[axis])) {
+        issues.push(
+          `Theme ${theme.id} uses an unknown ${axis} treatment: ${theme.treatments[axis]}`,
+        );
+      }
+    }
+    for (const effect of theme.effects) {
+      if (!(THEME_EFFECT_VALUES as readonly string[]).includes(effect)) {
+        issues.push(`Theme ${theme.id} uses an unknown effect: ${effect}`);
+      }
+    }
+    reportDuplicates(issues, `effect on theme ${theme.id}`, theme.effects);
+  }
+
+  reportDuplicates(
+    issues,
+    "wallpaper id",
+    wallpapers.map((wallpaper) => wallpaper.id),
+  );
+  if (wallpapers.filter((wallpaper) => wallpaper.default).length !== 1) {
+    issues.push("Wallpaper registry must contain exactly one default wallpaper");
+  }
+  for (const wallpaper of wallpapers) {
+    if (!wallpaper.name || !wallpaper.description) {
+      issues.push(`Wallpaper ${wallpaper.id} is missing a name or description`);
+    }
+    if (wallpaper.discoveryId && !discoveryIdSet.has(wallpaper.discoveryId)) {
+      issues.push(
+        `Wallpaper ${wallpaper.id} references unknown discovery: ${wallpaper.discoveryId}`,
+      );
+    }
+    if (wallpaper.hidden && !wallpaper.discoveryId) {
+      issues.push(`Hidden wallpaper ${wallpaper.id} has no unlocking discovery`);
+    }
+    if (
+      wallpaper.recommendedThemeId &&
+      !themeIdSet.has(wallpaper.recommendedThemeId)
+    ) {
+      issues.push(
+        `Wallpaper ${wallpaper.id} recommends unknown theme: ${wallpaper.recommendedThemeId}`,
+      );
+    }
+    if (!isValidWallpaperSource(wallpaper.desktop)) {
+      issues.push(`Wallpaper ${wallpaper.id} has an invalid desktop source`);
+    }
+    if (!isValidWallpaperSource(wallpaper.pocket)) {
+      issues.push(`Wallpaper ${wallpaper.id} has an invalid pocket source`);
+    }
+    for (const [surface, scrim] of Object.entries(wallpaper.scrim)) {
+      if (!scrim.trim()) {
+        issues.push(
+          `Wallpaper ${wallpaper.id} has an empty ${surface} scrim`,
+        );
+      }
+    }
+    if (!wallpaper.preview.image.trim() || !wallpaper.preview.label.trim()) {
+      issues.push(`Wallpaper ${wallpaper.id} is missing preview metadata`);
+    }
+  }
+
+  const defaultTheme = themes.find((theme) => theme.default);
+  const defaultWallpaper = wallpapers.find((wallpaper) => wallpaper.default);
+  if (defaultTheme?.hidden) {
+    issues.push("The default theme must not be hidden");
+  }
+  if (defaultWallpaper?.hidden) {
+    issues.push("The default wallpaper must not be hidden");
   }
 
   for (const achievement of achievementRegistry as readonly AchievementDefinition[]) {

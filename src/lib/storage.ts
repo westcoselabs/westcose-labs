@@ -290,6 +290,7 @@ export function parseDiscoveriesStorage(raw: string | null): DiscoveryState {
   return createInitialDiscoveryState({
     discoveredSecretIds: parseStringIds(data.discoveredSecretIds),
     unlockedThemeIds: parseStringIds(data.unlockedThemeIds),
+    unlockedWallpaperIds: parseStringIds(data.unlockedWallpaperIds),
     viewedHiddenFileIds: parseStringIds(data.viewedHiddenFileIds),
     fightClubAchievementIds: parseStringIds(data.fightClubAchievementIds),
     recycleRestorationIds: parseStringIds(data.recycleRestorationIds),

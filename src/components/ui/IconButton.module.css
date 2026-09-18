@@ -55,3 +55,9 @@
     border: var(--border-thin) solid ButtonText;
   }
 }
+
+:global([data-theme-surface="beveled"]) .button {
+  border: 1px solid var(--classic-edge-mid);
+  color: var(--color-text-primary);
+  background: var(--color-surface-overlay);
+}

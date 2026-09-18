@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 
 import { useDiscoveryService } from "@/components/os/DiscoveryServiceContext";
+import { useAppearance } from "@/components/os/AppearanceContext";
 import { getTerminalCommand } from "@/registry";
 
 import styles from "./TerminalUtility.module.css";
@@ -29,6 +30,7 @@ const HELP = [
 ].join("\n");
 
 export function TerminalUtility() {
+  const { theme } = useAppearance();
   const router = useRouter();
   const discoveryService = useDiscoveryService();
   const [history, setHistory] = useState<readonly string[]>([]);
@@ -81,7 +83,7 @@ export function TerminalUtility() {
         : command === "history"
           ? nextHistory.map((entry, index) => `${index + 1}  ${entry}`).join("\n")
           : command === "theme"
-            ? "Dusk is active. Open Settings for display and accessibility preferences."
+            ? `${theme.name} is active. Open Settings for display and accessibility preferences.`
             : command === "secret" || command === "westcose"
               ? "Hidden command found: good software should still work when the costume comes off."
               : command === "sudo impress-client"

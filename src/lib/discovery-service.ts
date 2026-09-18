@@ -28,6 +28,7 @@ export interface DiscoveryService {
   recordDiscovery(discoveryId: string): void;
   incrementCounter: IncrementDiscoveryCounter;
   unlockTheme(themeId: string): void;
+  unlockWallpaper(wallpaperId: string): void;
   recordAchievement(achievementId: string): void;
   recordViewedHiddenFile(fileId: string): void;
   recordRecycleRestoration(restorationId: string): void;
@@ -85,6 +86,8 @@ export function createDiscoveryService(
       commit({ type: "discovery/record", discoveryId }),
     incrementCounter,
     unlockTheme: (themeId) => commit({ type: "theme/unlock", themeId }),
+    unlockWallpaper: (wallpaperId) =>
+      commit({ type: "wallpaper/unlock", wallpaperId }),
     recordAchievement: (achievementId) =>
       commit({ type: "achievement/record", achievementId }),
     recordViewedHiddenFile: (fileId) =>

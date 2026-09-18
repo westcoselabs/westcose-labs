@@ -51,6 +51,33 @@
   color: var(--color-text-primary);
 }
 
+:global([data-theme-chrome="classic-titlebar"]) .terminal {
+  color: var(--classic-terminal-ink);
+  background: var(--classic-terminal-bg);
+  box-shadow: var(--neu-shadow-recessed);
+}
+
+:global([data-theme-chrome="classic-titlebar"]) :is(.form > label, .prompt span, .prompt input) {
+  color: var(--classic-terminal-ink);
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .prompt input {
+  background: var(--classic-terminal-bg);
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .prompt input:focus-visible {
+  outline-color: var(--classic-terminal-ink);
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .prompt button {
+  background: var(--color-surface-overlay);
+  box-shadow: var(--neu-shadow-raised);
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .prompt button:active {
+  box-shadow: var(--neu-shadow-pressed);
+}
+
 .prompt input {
   min-inline-size: 0;
   padding-inline: var(--space-md);

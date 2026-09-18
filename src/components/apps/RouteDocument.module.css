@@ -6,6 +6,61 @@
   color: var(--color-text-primary);
 }
 
+/* Shared document presenters: Projects, Games, About, Contact, and utilities. */
+:global([data-theme-surface="beveled"]) .document {
+  gap: var(--space-md);
+}
+
+:global([data-theme-surface="beveled"]) .document :global(.route-document__header) {
+  gap: var(--space-md);
+  padding: var(--space-base);
+  background: var(--color-surface-overlay);
+  box-shadow: var(--neu-shadow-raised);
+}
+
+:global([data-theme-surface="beveled"]) .document :global(.route-document__body) {
+  gap: var(--space-md);
+}
+
+:global([data-theme-surface="beveled"]) .document :global(.route-action) {
+  padding: var(--space-sm) var(--space-md);
+  border-color: var(--classic-edge-mid);
+  background: var(--color-surface-overlay);
+  color: var(--color-text-primary);
+  box-shadow: var(--neu-shadow-raised);
+}
+
+:global([data-theme-surface="beveled"]) .document :global(.route-action:active) {
+  box-shadow: var(--neu-shadow-pressed);
+}
+
+:global([data-theme-surface="beveled"]) .document :global(.route-section) {
+  padding: var(--space-base);
+  background: var(--color-surface-light);
+  box-shadow: var(--neu-shadow-recessed);
+}
+
+:global([data-theme-surface="beveled"]) .document :global(.route-card-grid) {
+  gap: var(--space-md);
+}
+
+:global([data-theme-surface="beveled"]) .document :global(.project-card__art) {
+  min-block-size: 8rem;
+  background: var(--color-surface-active);
+}
+
+:global([data-theme-surface="beveled"]) .document :global(.project-card__art > span) {
+  padding: var(--space-xs);
+  background: var(--color-surface-light);
+  color: var(--color-text-primary);
+}
+
+@container (max-width: 32rem) {
+  :global([data-theme-surface="beveled"]) .document :global(.route-card-grid) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .document :global(.route-document__header) {
   display: grid;
   gap: var(--space-xl);
@@ -837,10 +892,13 @@
   overflow: hidden;
   border: 0;
   border-radius: var(--radius-2xl);
-  background:
+  background-color: var(--color-neutral);
+  background-image:
     linear-gradient(to right, var(--color-neutral) 0 38%, color-mix(in srgb, var(--color-neutral) 18%, transparent) 72%),
     linear-gradient(to top, var(--color-neutral), transparent 55%),
-    url("/images/wallpapers/dusk-desktop.webp") center / cover;
+    var(--wallpaper-desktop-image, none);
+  background-position: center;
+  background-size: cover;
 }
 
 :global([data-shell="normal"]) .document[data-presentation="home"] :global(.route-document__title) {
@@ -1008,9 +1066,12 @@
   :global([data-shell="normal"]) .document[data-presentation="home"] :global(.route-document__header) {
     min-block-size: 34rem;
     padding: var(--space-xl);
-    background:
+    background-color: var(--color-neutral);
+    background-image:
       linear-gradient(to top, var(--color-neutral) 0 42%, color-mix(in srgb, var(--color-neutral) 18%, transparent) 72%),
-      url("/images/wallpapers/dusk-pocket.webp") center / cover;
+      var(--wallpaper-pocket-image, none);
+    background-position: center;
+    background-size: cover;
   }
 
   .document :global(.system-information > div) {

@@ -147,6 +147,94 @@ export type Discovery = {
   badgeTarget?: string;
 };
 
+/**
+ * Appearance treatments are named behaviours, not literal styles. A theme
+ * selects one value per axis and the shells expose the selection as
+ * `data-theme-*` attributes, so a future skin is a registry entry plus its own
+ * presentation styles rather than a new set of shell components.
+ */
+export type ThemeSurfaceMaterial =
+  | "neumorphic"
+  | "flat"
+  | "beveled"
+  | "translucent"
+  | "matte";
+
+export type ThemeBorderTreatment =
+  | "hairline"
+  | "none"
+  | "outset"
+  | "inset"
+  | "heavy";
+
+export type ThemeDepthTreatment =
+  | "soft-shadow"
+  | "flat"
+  | "hard-shadow"
+  | "drop-shadow"
+  | "glow";
+
+export type ThemeTypographyTreatment =
+  | "modern-sans"
+  | "system-ui"
+  | "bitmap"
+  | "monospace"
+  | "editorial";
+
+export type ThemeWindowChrome =
+  | "modern-flat"
+  | "classic-titlebar"
+  | "translucent"
+  | "bare";
+
+export type ThemeTaskbarTreatment =
+  | "floating-bar"
+  | "anchored-bar"
+  | "edge-strip";
+
+export type ThemeWidgetTreatment =
+  | "raised-card"
+  | "flat-panel"
+  | "translucent-card"
+  | "suppressed";
+
+export type ThemeIconTreatment =
+  | "duotone-glyph"
+  | "bitmap"
+  | "outline"
+  | "filled";
+
+export type ThemeEffect =
+  | "grain"
+  | "scanlines"
+  | "backdrop-blur"
+  | "vignette"
+  | "bloom";
+
+export type ThemeTreatments = {
+  readonly surface: ThemeSurfaceMaterial;
+  readonly border: ThemeBorderTreatment;
+  readonly depth: ThemeDepthTreatment;
+  readonly typography: ThemeTypographyTreatment;
+  readonly windowChrome: ThemeWindowChrome;
+  readonly taskbar: ThemeTaskbarTreatment;
+  readonly widget: ThemeWidgetTreatment;
+  readonly icon: ThemeIconTreatment;
+};
+
+/**
+ * `base-tokens` keeps the canonical Dusk palette. `theme-tokens` declares that
+ * the theme redefines semantic colour roles in a `[data-theme="<dataTheme>"]`
+ * stylesheet block, which keeps accessibility overrides later in the cascade.
+ */
+export type ThemePaletteSource = "base-tokens" | "theme-tokens";
+
+export type ThemePalette = {
+  readonly source: ThemePaletteSource;
+  readonly colorScheme: "dark" | "light";
+  readonly accentRole: "primary" | "secondary" | "tertiary";
+};
+
 export type ThemeDefinition = {
   id: string;
   name: string;
@@ -154,9 +242,59 @@ export type ThemeDefinition = {
   default: boolean;
   hidden: boolean;
   discoveryId?: string;
-  desktopWallpaper: string;
-  pocketWallpaper: string;
   dataTheme: string;
+  palette: ThemePalette;
+  treatments: ThemeTreatments;
+  effects: readonly ThemeEffect[];
+  recommendedWallpaperId: string;
+  /** Optional chrome copy; omitted entries retain the original shell copy. */
+  copy?: {
+    systemLabel: string;
+    launcherLabel: string;
+    startupTitle: string;
+    startupStatus: string;
+  };
+};
+
+/**
+ * A wallpaper is either a bundled asset or a token-built CSS image, so a skin
+ * can ship artwork without one, and Desktop and Pocket can render different
+ * sources for the same wallpaper id.
+ */
+export type WallpaperSource =
+  | {
+      readonly kind: "image";
+      readonly src: `/${string}`;
+      readonly width: number;
+      readonly height: number;
+    }
+  | { readonly kind: "generated"; readonly image: string };
+
+export type WallpaperDefinition = {
+  id: string;
+  name: string;
+  description: string;
+  default: boolean;
+  hidden: boolean;
+  discoveryId?: string;
+  recommendedThemeId?: string;
+  desktop: WallpaperSource;
+  pocket: WallpaperSource;
+  /**
+   * Decorative scrims layered over the wallpaper by each shell surface. High
+   * contrast and forced colours override the resulting property, so a scrim
+   * never wins over an accessibility preference.
+   */
+  scrim: {
+    readonly desktop: string;
+    readonly pocketHome: string;
+    readonly pocketLock: string;
+  };
+  /** Preview metadata for pickers; no extra asset required. */
+  preview: {
+    readonly image: string;
+    readonly label: string;
+  };
 };
 
 export type AchievementDefinition = {

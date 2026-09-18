@@ -111,7 +111,7 @@ describe("Notes applications", () => {
     const user = userEvent.setup();
     renderNotes("desktop", { kind: "note", noteId: "final-final-v8" });
 
-    expect(screen.getByRole("menubar", { name: "Pocket Notepad menu" })).toBeVisible();
+    expect(screen.getByRole("toolbar", { name: "Pocket Notepad menu" })).toBeVisible();
     expect(screen.queryByRole("heading", { name: "Folders" })).not.toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Edit" }));
     await user.click(screen.getByRole("menuitem", { name: "Rename" }));

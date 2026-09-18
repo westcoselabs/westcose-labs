@@ -188,6 +188,65 @@
 
 .value { color: var(--color-text-secondary); font-size: var(--type-label-md-size); }
 
+.wallpaperList {
+  display: grid;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-base);
+}
+
+.wallpaperList button {
+  display: grid;
+  grid-template-columns: var(--pocket-widget-min-size) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-md);
+  min-block-size: var(--control-min-size);
+  padding: var(--space-sm);
+  border: var(--border-thin) solid transparent;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-raised);
+  color: var(--color-text-primary);
+  text-align: start;
+}
+
+.wallpaperList button > span:first-child {
+  block-size: var(--space-4xl);
+  border: var(--border-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-neutral);
+  background-image: var(--preview-image, none);
+  background-position: center;
+  background-size: cover;
+}
+
+.wallpaperList button > span:last-child {
+  display: grid;
+  gap: var(--space-micro);
+  min-inline-size: 0;
+}
+
+.wallpaperList strong {
+  font-size: var(--type-label-lg-size);
+  font-weight: var(--type-label-lg-weight);
+}
+
+.wallpaperList small {
+  color: var(--color-text-secondary);
+  font-size: var(--type-caption-size);
+}
+
+.wallpaperList button[aria-checked="true"] {
+  border-color: var(--color-primary);
+  background: var(--color-surface-active);
+}
+
+@media (forced-colors: active) {
+  .wallpaperList button[aria-checked="true"] {
+    border-color: Highlight;
+    background: Highlight;
+    color: HighlightText;
+  }
+}
+
 .switch input { position: absolute; opacity: 0; pointer-events: none; }
 .switch > span:last-child {
   position: relative;
@@ -265,4 +324,80 @@
   .categoryIcon,
   .deviceCard,
   .discoveryNotice { border: var(--border-thin) solid CanvasText; }
+}
+
+:global([data-theme-type="system-ui"]) :is(.largeHeader, .categoryTitle) h1 {
+  font-size: 1.375rem;
+  letter-spacing: 0;
+}
+
+:global([data-theme-surface="beveled"]) :is(.nestedHeader, .deviceCard) {
+  background: var(--color-surface-overlay);
+  backdrop-filter: none;
+}
+
+:global([data-theme-surface="beveled"]) .nestedHeader a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--control-min-size);
+}
+
+:global([data-theme-surface="beveled"]) .controlGroups h2 {
+  margin: 0;
+  padding: var(--space-sm) var(--space-base);
+  border-block-end: 1px solid var(--classic-edge-mid);
+  background: var(--color-surface-overlay);
+}
+
+:global([data-theme-surface="beveled"]) .wallpaperList button {
+  grid-template-columns: 4rem minmax(0, 1fr);
+  box-shadow: var(--neu-shadow-raised);
+}
+
+:global([data-theme-surface="beveled"]) .wallpaperList button[aria-checked="true"] {
+  box-shadow: var(--neu-shadow-pressed);
+}
+
+:global([data-theme-surface="beveled"]) .switch > span:last-child {
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  background: var(--color-surface-light);
+  box-shadow: var(--neu-shadow-recessed);
+}
+
+:global([data-theme-surface="beveled"]) .switch > span:last-child::after {
+  inset: 6px;
+  inline-size: auto;
+  block-size: auto;
+  background: transparent;
+  transform: none;
+}
+
+:global([data-theme-surface="beveled"]) .switch input:checked + span::after {
+  background: var(--color-text-primary);
+}
+
+:global([data-theme-surface="beveled"]) .switch input:focus-visible + span {
+  outline: 2px dotted var(--color-focus);
+}
+
+:global([data-theme-surface="beveled"]) .settingRow select {
+  min-block-size: var(--control-min-size);
+  max-inline-size: min(10rem, 44vw);
+  background: var(--color-surface-light);
+  color: var(--color-text-primary);
+}
+
+:global([data-theme-surface="beveled"]) .discoveryNotice {
+  background: var(--color-surface-overlay);
+  box-shadow: var(--neu-shadow-raised);
+}
+
+:global([data-theme-surface="beveled"]) .discoveryNotice button {
+  background: var(--color-surface-raised);
+  box-shadow: var(--neu-shadow-raised);
+}
+
+:global([data-theme-surface="beveled"]) .discoveryNotice button:active {
+  box-shadow: var(--neu-shadow-pressed);
 }

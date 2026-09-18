@@ -189,6 +189,7 @@ export function DesktopNotepad({
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
+        rootRef.current?.querySelector<HTMLButtonElement>('[aria-expanded="true"]')?.focus();
         setOpenMenu(null);
         return;
       }
@@ -241,7 +242,22 @@ export function DesktopNotepad({
         <NotePencil aria-hidden="true" weight="fill" />
         <h1 tabIndex={-1}>{title} - Pocket Notepad</h1>
       </div>
-      <nav aria-label="Pocket Notepad menu" className={styles.menuBar} role="menubar">
+      <nav
+        aria-label="Pocket Notepad menu"
+        className={styles.menuBar}
+        role="toolbar"
+        onKeyDown={(event) => {
+          // These are native menu buttons, so expose a toolbar rather than an
+          // ARIA menubar (which requires menuitem children and roving focus).
+          if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+          const buttons = Array.from(event.currentTarget.querySelectorAll<HTMLButtonElement>('button[aria-haspopup="menu"]'));
+          const index = buttons.indexOf(event.target as HTMLButtonElement);
+          if (index < 0) return;
+          event.preventDefault();
+          setOpenMenu(null);
+          buttons[(index + (event.key === "ArrowRight" ? 1 : -1) + buttons.length) % buttons.length]?.focus();
+        }}
+      >
         <Menu id="file" label="File" onOpen={setOpenMenu} open={openMenu === "file"}>
           <MenuAction onClick={() => closeMenu(controller.compose)} shortcut="Ctrl+N">New Note</MenuAction>
           <MenuAction onClick={() => closeMenu(() => setSidebarVisible(true))}>Open</MenuAction>

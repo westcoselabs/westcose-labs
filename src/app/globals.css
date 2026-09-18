@@ -1,8 +1,10 @@
 @import "../styles/tokens.css";
 @import "../styles/reset.css";
 @import "../styles/themes.css";
+@import "../styles/appearance.css";
 @import "../styles/typography.css";
 @import "../styles/neumorphism.css";
+@import "../styles/westcose-95.css";
 @import "../styles/motion.css";
 @import "../styles/accessibility.css";
 

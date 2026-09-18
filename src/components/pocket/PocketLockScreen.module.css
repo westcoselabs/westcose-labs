@@ -13,14 +13,16 @@
   isolation: isolate;
   background-color: var(--color-neutral);
   background-image:
-    linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--color-neutral) 26%, transparent),
-      color-mix(in srgb, var(--color-neutral) 82%, transparent)
-    ),
-    var(--pocket-wallpaper-image, none);
+    var(--wallpaper-pocket-lock-scrim, none),
+    var(--pocket-wallpaper-image, var(--wallpaper-pocket-image, none));
   background-position: center;
   background-size: cover;
+}
+
+:global([data-high-contrast="true"]) .lock {
+  background-image:
+    var(--wallpaper-accessible-scrim),
+    var(--pocket-wallpaper-image, var(--wallpaper-pocket-image, none));
 }
 
 .clock {
@@ -232,4 +234,37 @@
   .unlockThumb {
     border: var(--border-thin) solid CanvasText;
   }
+}
+
+:global([data-theme-widget="flat-panel"]) .clock {
+  align-content: center;
+  min-block-size: 11rem;
+  padding: var(--space-base);
+  border: 1px solid var(--classic-edge-dark);
+  background: var(--color-surface-recessed);
+  box-shadow: var(--neu-shadow-recessed);
+  text-shadow: none;
+}
+
+:global([data-theme-type="system-ui"]) .time {
+  font-family: var(--font-mono);
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+:global([data-theme-widget="flat-panel"]) .notification {
+  padding: var(--space-sm);
+  border: 1px solid var(--classic-edge-dark);
+  background: var(--color-surface-overlay);
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .notificationSource {
+  padding: var(--space-xs);
+  background: var(--classic-title);
+  color: var(--classic-title-text);
+}
+
+:global([data-theme-surface="beveled"]) .unlockThumb {
+  background: var(--color-surface-overlay);
+  color: var(--color-text-primary);
 }

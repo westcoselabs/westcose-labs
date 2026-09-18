@@ -11,10 +11,10 @@ import {
   useSettings,
   type SettingsContextValue,
 } from "@/components/os/SettingsContext";
+import { useAppearance } from "@/components/os/AppearanceContext";
 import {
   discoveryRegistry,
   settingsCategoryRegistry,
-  themeRegistry,
   type Discovery,
   type SettingsCategoryId,
 } from "@/registry";
@@ -75,6 +75,7 @@ const discoveryTeasers: Record<string, string> = {
 export function useSettingsController(view: SettingsRouteView) {
   const router = useRouter();
   const settings = useSettings() ?? fallbackSettings;
+  const appearance = useAppearance();
   const discoveryService = useDiscoveryService();
   const discoveryState = useDiscoveryState();
 
@@ -92,6 +93,7 @@ export function useSettingsController(view: SettingsRouteView) {
       }
       discoveryService?.recordDiscovery("settings.bad-ideas-max");
       discoveryService?.unlockTheme("corporate-beige");
+      discoveryService?.unlockWallpaper("standard-issue");
     },
     [discoveryService, dispatch],
   );
@@ -135,10 +137,14 @@ export function useSettingsController(view: SettingsRouteView) {
     );
 
   return {
-    availableThemes: themeRegistry.filter(
-      (theme) =>
-        !theme.hidden || discoveryState?.unlockedThemeIds.includes(theme.id),
-    ),
+    // Appearance comes from the shared resolver, so an unknown or re-locked
+    // persisted id shows its recovered value instead of an empty control.
+    activeThemeId: appearance.theme.id,
+    activeWallpaperId: appearance.wallpaper.id,
+    availableThemes: appearance.availableThemes,
+    availableWallpapers: appearance.availableWallpapers,
+    setThemeId: appearance.setThemeId,
+    setWallpaperId: appearance.setWallpaperId,
     categories: settingsCategoryRegistry,
     discoveryGroups,
     discoveredCount: discoveryState?.discoveredSecretIds.length ?? 0,

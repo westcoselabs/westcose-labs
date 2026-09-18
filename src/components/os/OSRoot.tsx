@@ -8,6 +8,7 @@ import {
   useReducer,
   useRef,
   useState,
+  useSyncExternalStore,
   type ReactNode,
 } from "react";
 
@@ -21,16 +22,21 @@ import {
 import { SettingsRoute } from "@/components/apps/settings/SettingsRoute";
 import {
   DEFAULT_SESSION,
+  appearanceDataset,
   createDiscoveryService,
+  listAvailableThemes,
+  listAvailableWallpapers,
   readLocalNotesState,
   readPreferences,
   readSession,
   resetLocalNotesStorage,
   resetPreferencesStorage,
   resetSessionStorage,
+  resolveAppearance,
   resolvePocketBackTarget,
   resolveShell,
   safeResolveStorage,
+  wallpaperCssVariables,
   writeLocalNotesState,
   writePreferences,
   writeSession,
@@ -42,7 +48,6 @@ import {
   getParentPath,
   getProject,
   getRouteDescriptor,
-  getTheme,
   pocketDockPlacement,
   pocketNotifications,
   pocketPageOnePlacement,
@@ -63,6 +68,7 @@ import {
   toPocketSessionValues,
 } from "@/state";
 
+import { AppearanceProvider } from "./AppearanceContext";
 import { DiscoveryServiceProvider } from "./DiscoveryServiceContext";
 import { LocalNotesProvider } from "./LocalNotesContext";
 import { SettingsProvider } from "./SettingsContext";
@@ -199,6 +205,42 @@ export function OSRoot({ children }: OSRootProps) {
     writeLocalNotesState(storage.local, localNotes);
   }, [hydrated, localNotes, storage]);
 
+  const discoveryState = useSyncExternalStore(
+    discoveryService.subscribe,
+    discoveryService.getState,
+    discoveryService.getState,
+  );
+  const appearanceUnlocks = useMemo(
+    () => ({
+      unlockedThemeIds: discoveryState.unlockedThemeIds,
+      unlockedWallpaperIds: discoveryState.unlockedWallpaperIds,
+      discoveredSecretIds: discoveryState.discoveredSecretIds,
+    }),
+    [discoveryState],
+  );
+  const appearance = useMemo(
+    () =>
+      resolveAppearance(
+        preferences.themeId,
+        preferences.wallpaperId,
+        appearanceUnlocks,
+      ),
+    [appearanceUnlocks, preferences.themeId, preferences.wallpaperId],
+  );
+  const appearanceValue = useMemo(
+    () => ({
+      theme: appearance.theme,
+      wallpaper: appearance.wallpaper,
+      availableThemes: listAvailableThemes(appearanceUnlocks),
+      availableWallpapers: listAvailableWallpapers(appearanceUnlocks),
+      setThemeId: (themeId: string) =>
+        preferencesDispatch({ type: "theme/set", themeId }),
+      setWallpaperId: (wallpaperId: string) =>
+        preferencesDispatch({ type: "wallpaper/set", wallpaperId }),
+    }),
+    [appearance.theme, appearance.wallpaper, appearanceUnlocks],
+  );
+
   const effectiveAccessibility = resolveEffectiveAccessibility(preferences, {
     reducedMotion: environment.reducedMotion,
     highContrast: environment.highContrast,
@@ -221,8 +263,21 @@ export function OSRoot({ children }: OSRootProps) {
     const root = document.documentElement;
     root.dataset.shell = activeShell;
     root.dataset.shellReady = "true";
-    root.dataset.theme = preferences.themeId;
     root.dataset.iconLighting = preferences.iconLighting ? "on" : "off";
+
+    // Appearance is published once, from the resolved registry entries, so both
+    // shells and any future theme-specific styles read the same source.
+    for (const [key, value] of Object.entries(
+      appearanceDataset(appearance.theme, appearance.wallpaper),
+    )) {
+      root.dataset[key] = value;
+    }
+    for (const [name, value] of Object.entries(
+      wallpaperCssVariables(appearance.wallpaper),
+    )) {
+      root.style.setProperty(name, value);
+    }
+
     if (effectiveAccessibility.highContrast) {
       root.dataset.highContrast = "true";
     } else {
@@ -235,9 +290,10 @@ export function OSRoot({ children }: OSRootProps) {
     }
   }, [
     activeShell,
+    appearance.theme,
+    appearance.wallpaper,
     effectiveAccessibility,
     preferences.iconLighting,
-    preferences.themeId,
   ]);
 
   useEffect(() => {
@@ -259,7 +315,6 @@ export function OSRoot({ children }: OSRootProps) {
   }, [activeShell, hydrated, pathname]);
 
   const osViewHref = buildOsViewHref(pathname, searchParams);
-  const activeTheme = getTheme(preferences.themeId) ?? getTheme("dusk");
   const routeDescriptor = getRouteDescriptor(pathname);
   const activeApp = getAppByPath(pathname);
   const activeProject = pathname.startsWith("/projects/")
@@ -359,6 +414,7 @@ export function OSRoot({ children }: OSRootProps) {
 
   return (
     <DiscoveryServiceProvider service={discoveryService}>
+      <AppearanceProvider value={appearanceValue}>
       <LocalNotesProvider dispatch={localNotesDispatch} state={localNotes}>
         <SettingsProvider
           value={{
@@ -451,6 +507,7 @@ export function OSRoot({ children }: OSRootProps) {
             pocketDispatch({ type: "notification/dismiss", notificationId })
           }
           onLaunchApp={launchPocketApp}
+          onOpenAppearanceSettings={() => router.push("/settings/appearance")}
           onOpenAppMenu={(app) =>
             pocketDispatch({
               type: "menu/open",
@@ -470,10 +527,6 @@ export function OSRoot({ children }: OSRootProps) {
           reducedMotion={effectiveAccessibility.reducedMotion}
           startupPlayed={pocket.startupPlayed}
           unlocked={pocket.unlocked}
-            wallpaperUrl={
-              activeTheme?.pocketWallpaper ??
-              "/images/wallpapers/dusk-pocket.webp"
-            }
           >
             {hydrated && activeShell === "pocket" ? (
               <ShellPresentationProvider shell="pocket">
@@ -503,6 +556,7 @@ export function OSRoot({ children }: OSRootProps) {
         </div>
         </SettingsProvider>
       </LocalNotesProvider>
+      </AppearanceProvider>
     </DiscoveryServiceProvider>
   );
 }

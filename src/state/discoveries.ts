@@ -9,6 +9,7 @@ export type DiscoveryCounters = {
 export type DiscoveryState = {
   readonly discoveredSecretIds: readonly string[];
   readonly unlockedThemeIds: readonly string[];
+  readonly unlockedWallpaperIds: readonly string[];
   readonly viewedHiddenFileIds: readonly string[];
   readonly fightClubAchievementIds: readonly string[];
   readonly recycleRestorationIds: readonly string[];
@@ -26,6 +27,7 @@ export type DiscoveryAction =
   | { readonly type: "hydrate"; readonly state: DiscoveryState }
   | { readonly type: "discovery/record"; readonly discoveryId: string }
   | { readonly type: "theme/unlock"; readonly themeId: string }
+  | { readonly type: "wallpaper/unlock"; readonly wallpaperId: string }
   | { readonly type: "hidden-file/view"; readonly fileId: string }
   | { readonly type: "achievement/record"; readonly achievementId: string }
   | { readonly type: "recycle/restoration-record"; readonly restorationId: string }
@@ -45,6 +47,7 @@ const EMPTY_NOTE_OPENS = Object.freeze({}) as Readonly<Record<string, number>>;
 export const DEFAULT_DISCOVERY_STATE: DiscoveryState = Object.freeze({
   discoveredSecretIds: EMPTY_IDS,
   unlockedThemeIds: EMPTY_IDS,
+  unlockedWallpaperIds: EMPTY_IDS,
   viewedHiddenFileIds: EMPTY_IDS,
   fightClubAchievementIds: EMPTY_IDS,
   recycleRestorationIds: EMPTY_IDS,
@@ -70,6 +73,7 @@ export function createInitialDiscoveryState(
   return {
     discoveredSecretIds: uniqueIds(state?.discoveredSecretIds ?? []),
     unlockedThemeIds: uniqueIds(state?.unlockedThemeIds ?? []),
+    unlockedWallpaperIds: uniqueIds(state?.unlockedWallpaperIds ?? []),
     viewedHiddenFileIds: uniqueIds(state?.viewedHiddenFileIds ?? []),
     fightClubAchievementIds: uniqueIds(state?.fightClubAchievementIds ?? []),
     recycleRestorationIds: uniqueIds(state?.recycleRestorationIds ?? []),
@@ -115,6 +119,8 @@ export function discoveryReducer(
       return updateIds(state, "discoveredSecretIds", action.discoveryId);
     case "theme/unlock":
       return updateIds(state, "unlockedThemeIds", action.themeId);
+    case "wallpaper/unlock":
+      return updateIds(state, "unlockedWallpaperIds", action.wallpaperId);
     case "hidden-file/view":
       return updateIds(state, "viewedHiddenFileIds", action.fileId);
     case "achievement/record":

@@ -15,11 +15,11 @@ import {
   useReducer,
   useRef,
   useState,
-  type CSSProperties,
   type ReactNode,
 } from "react";
 
 import { AppGlyph } from "@/components/icons/AppGlyph";
+import { useAppearance } from "@/components/os/AppearanceContext";
 import { Button, IconButton } from "@/components/ui";
 import {
   centerRectInWorkspace,
@@ -43,6 +43,7 @@ import {
   type DesktopWindow as DesktopWindowModel,
 } from "@/state";
 
+import { DesktopContextMenu } from "./DesktopContextMenu";
 import { DesktopWindow } from "./DesktopWindow";
 import styles from "./DesktopShell.module.css";
 import { TerminalUtility } from "./TerminalUtility";
@@ -96,6 +97,7 @@ export function DesktopShell({
   showInitialReadme,
   soundEnabled,
 }: DesktopShellProps) {
+  const { theme } = useAppearance();
   const router = useRouter();
   const [state, dispatch] = useReducer(
     desktopReducer,
@@ -323,7 +325,7 @@ export function DesktopShell({
     if (desktopWindow.utility === "settings") return settingsPanel;
     return (
       <div className={styles.readme}>
-        <p className={styles.readmeEyebrow}>WELCOME / DUSK BUILD</p>
+        <p className={styles.readmeEyebrow}>WELCOME / {theme.copy?.systemLabel ?? "DUSK"} BUILD</p>
         <h2>WestCose Labs OS</h2>
         <p>
           Double-click an icon or select one and use Open. Every app is also a
@@ -355,6 +357,36 @@ export function DesktopShell({
           },
         });
       }}
+      onKeyDown={(event) => {
+        // Keyboard alternative to right-clicking empty desktop space.
+        const contextKey =
+          event.key === "ContextMenu" || (event.key === "F10" && event.shiftKey);
+        if (!contextKey) return;
+        const target = event.target as HTMLElement;
+        if (target.closest("[data-desktop-window]")) return;
+        event.preventDefault();
+        const appId = target.dataset.appId as AppId | undefined;
+        if (appId) setSelectedAppId(appId);
+        const anchor =
+          target === event.currentTarget
+            ? { x: workspace.x, y: workspace.y }
+            : (() => {
+                const rect = target.getBoundingClientRect();
+                return {
+                  x: rect.left + rect.width / 2,
+                  y: rect.top + rect.height / 2,
+                };
+              })();
+        dispatch({
+          type: "menu/open",
+          menu: {
+            kind: "desktop-context",
+            triggerId: appId ?? "desktop",
+            x: anchor.x,
+            y: anchor.y,
+          },
+        });
+      }}
       onPointerDown={(event) => {
         if (event.target === event.currentTarget) {
           dispatch({ type: "menu/close" });
@@ -377,6 +409,7 @@ export function DesktopShell({
               aria-label={`${app.accessibilityLabel}. ${selected ? "Selected." : ""}`}
               aria-pressed={selected}
               className={styles.desktopIcon}
+              data-app-id={app.id}
               data-selected={selected || undefined}
               data-tone={app.tone}
               key={app.id}
@@ -386,20 +419,6 @@ export function DesktopShell({
                 if (event.key === "Enter" || event.key === " ") {
                   event.preventDefault();
                   launchApp(app);
-                }
-                if (event.key === "F10" && event.shiftKey) {
-                  event.preventDefault();
-                  setSelectedAppId(app.id);
-                  const rect = event.currentTarget.getBoundingClientRect();
-                  dispatch({
-                    type: "menu/open",
-                    menu: {
-                      kind: "desktop-context",
-                      triggerId: app.id,
-                      x: rect.left + rect.width / 2,
-                      y: rect.top + rect.height / 2,
-                    },
-                  });
                 }
               }}
               type="button"
@@ -455,7 +474,7 @@ export function DesktopShell({
         <section aria-label="Start menu" className={styles.startMenu}>
           <header>
             <p>WestCose Labs</p>
-            <span>DUSK / V2</span>
+            <span>{theme.copy?.systemLabel ?? "DUSK"} / V2</span>
           </header>
           <label className={styles.search}>
             <MagnifyingGlass aria-hidden="true" />
@@ -512,26 +531,16 @@ export function DesktopShell({
       ) : null}
 
       {state.menu?.kind === "desktop-context" ? (
-        <div
-          className={styles.contextMenu}
-          role="menu"
-          style={
-            {
-              "--context-x": `${Math.min(state.menu.x, window.innerWidth - 220)}px`,
-              "--context-y": `${Math.min(state.menu.y, window.innerHeight - 220)}px`,
-            } as CSSProperties
-          }
-        >
-          <button autoFocus onClick={() => router.push("/projects")} role="menuitem" type="button">
-            Open Projects
-          </button>
-          <button onClick={() => openUtility("settings")} role="menuitem" type="button">
-            Open Settings
-          </button>
-          <button onClick={() => router.refresh()} role="menuitem" type="button">
-            Refresh route
-          </button>
-        </div>
+        <DesktopContextMenu
+          onClose={() => {
+            dispatch({ type: "menu/close" });
+            desktopRef.current?.focus();
+          }}
+          onOpenAppearanceSettings={() => router.push("/settings/appearance")}
+          onRefresh={() => router.refresh()}
+          x={state.menu.x}
+          y={state.menu.y}
+        />
       ) : null}
 
       {clockPanelOpen ? (
@@ -584,7 +593,7 @@ export function DesktopShell({
           type="button"
         >
           <SquaresFour aria-hidden="true" weight="fill" />
-          <span>Start</span>
+          <span>{theme.copy?.launcherLabel ?? "Start"}</span>
         </button>
         <div className={styles.taskbarCenter}>
           <div aria-label="Pinned apps" className={styles.pinnedApps} role="group">

@@ -13,14 +13,57 @@
   isolation: isolate;
   background-color: var(--color-neutral);
   background-image:
-    linear-gradient(to bottom, color-mix(in srgb, var(--color-neutral) 28%, transparent), color-mix(in srgb, var(--color-neutral) 78%, transparent)),
-    var(--pocket-wallpaper-image, none);
+    var(--wallpaper-pocket-home-scrim, none),
+    var(--pocket-wallpaper-image, var(--wallpaper-pocket-image, none));
   background-position: center;
   background-size: cover;
 }
 
+:global([data-high-contrast="true"]) .home {
+  background-image:
+    var(--wallpaper-accessible-scrim),
+    var(--pocket-wallpaper-image, var(--wallpaper-pocket-image, none));
+}
+
 .homeContent {
   display: contents;
+}
+
+/*
+ * Keyboard and screen-reader route to the Customize sheet. Absolutely
+ * positioned so it never takes a Home grid track, and revealed on focus so it
+ * is never an invisible focus target.
+ */
+.customizeAffordance {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  z-index: var(--layer-menus);
+  inline-size: var(--border-thin);
+  block-size: var(--border-thin);
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  background: transparent;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+.customizeAffordance:focus-visible {
+  inset-block-start: max(var(--pocket-gutter), env(safe-area-inset-top));
+  inset-inline: var(--pocket-gutter);
+  inline-size: auto;
+  block-size: auto;
+  min-block-size: var(--control-min-size);
+  padding-inline: var(--space-base);
+  overflow: visible;
+  clip: auto;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-raised);
+  box-shadow: var(--neu-shadow-floating);
+  font-size: var(--type-label-lg-size);
+  font-weight: var(--type-label-lg-weight);
 }
 
 .homeHeader {
@@ -417,5 +460,172 @@
   .indicator::after,
   .statusComplication {
     border: var(--border-thin) solid CanvasText;
+  }
+}
+
+/* Handheld organizer: header, display panels, and four physical soft keys. */
+:global([data-theme-taskbar="anchored-bar"]) .home {
+  --pocket-icon-size: 3rem;
+  --pocket-dock-size: 4.75rem;
+  padding-block-start: max(var(--space-xs), env(safe-area-inset-top));
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .homeHeader {
+  margin-inline: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--classic-edge-dark);
+  background: var(--classic-title);
+  color: var(--classic-title-text);
+  box-shadow: var(--neu-shadow-raised);
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .brand span {
+  color: inherit;
+  font-size: 0.6875rem;
+}
+
+:global([data-theme-widget="flat-panel"]) .widgets {
+  gap: var(--space-sm);
+}
+
+:global([data-theme-widget="flat-panel"]) :is(.todayWidget, .projectWidget) {
+  min-block-size: 8rem;
+  padding: var(--space-md);
+  border: 1px solid var(--classic-edge-dark);
+  background: var(--color-surface-raised);
+  box-shadow: var(--neu-shadow-raised);
+}
+
+:global([data-theme-widget="flat-panel"]) .todayWidget {
+  gap: var(--space-sm);
+}
+
+:global([data-theme-widget="flat-panel"]) .time {
+  font-family: var(--font-mono);
+  font-size: clamp(1.3rem, 7vw, 1.8rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+:global([data-theme-widget="flat-panel"]) .todayTopline {
+  font-size: 0.625rem;
+}
+
+:global([data-theme-widget="flat-panel"]) .projectWidget {
+  align-content: end;
+  padding-block-start: 4rem;
+}
+
+:global([data-theme-widget="flat-panel"]) .projectArt {
+  inset: var(--space-sm) auto auto var(--space-sm);
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  opacity: 1;
+  transform: none;
+}
+
+:global([data-theme-widget="flat-panel"]) .featureArrow {
+  inset-block-start: var(--space-sm);
+  inset-block-end: auto;
+  inset-inline-end: var(--space-sm);
+}
+
+:global([data-theme-widget="flat-panel"]) .statusComplication {
+  padding: var(--space-xs) var(--space-sm);
+  box-shadow: var(--neu-shadow-recessed);
+}
+
+:global([data-theme-widget="flat-panel"]) .pageHeading {
+  padding-inline: var(--space-sm);
+  background: var(--color-surface-overlay);
+  box-shadow: var(--neu-shadow-raised);
+}
+
+:global([data-theme-icons="outline"]) .appGrid {
+  gap: var(--space-sm) var(--space-xs);
+  align-content: start;
+}
+
+:global([data-theme-taskbar="anchored-bar"]) .dock {
+  gap: var(--space-xs);
+  margin-inline: var(--space-xs);
+  padding: var(--space-xs);
+  border: 1px solid var(--classic-edge-dark);
+  background: var(--color-surface-overlay);
+  box-shadow: var(--neu-shadow-raised);
+}
+
+:global([data-theme-taskbar="anchored-bar"]) .dockButton {
+  gap: 0;
+  border: 1px solid var(--classic-edge-mid);
+  background: var(--color-surface-overlay);
+  box-shadow: var(--neu-shadow-raised);
+}
+
+:global([data-theme-taskbar="anchored-bar"]) .dockIcon {
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  background: transparent;
+  box-shadow: none;
+}
+
+:global([data-theme-taskbar="anchored-bar"]) .dockIcon svg {
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+}
+
+:global([data-theme-taskbar="anchored-bar"]) .dockButton:active {
+  box-shadow: var(--neu-shadow-pressed);
+}
+
+:global([data-theme-taskbar="anchored-bar"]) .dockButton:active .dockIcon {
+  background: transparent;
+  box-shadow: none;
+}
+
+:global([data-theme-taskbar="anchored-bar"]) .indicator {
+  border: 6px solid transparent;
+  background: var(--color-surface-overlay);
+  background-clip: padding-box;
+}
+
+:global([data-theme-taskbar="anchored-bar"]) .indicator::after {
+  inline-size: var(--space-sm);
+  block-size: var(--space-sm);
+  background: var(--color-text-secondary);
+}
+
+:global([data-theme-taskbar="anchored-bar"]) .indicator[aria-current="page"] {
+  background-color: var(--classic-title);
+}
+
+:global([data-theme-taskbar="anchored-bar"]) .indicator[aria-current="page"]::after {
+  background: var(--classic-title-text);
+}
+
+/* A short display scrolls its page vertically; soft keys stay reachable. */
+:global([data-theme-taskbar="anchored-bar"]) .page {
+  overflow-y: auto;
+  touch-action: pan-x pan-y;
+  padding-block-end: var(--space-xs);
+}
+
+@media (orientation: landscape) and (max-height: 37.5rem) {
+  :global([data-theme-taskbar="anchored-bar"]) .home {
+    --pocket-dock-size: 3rem;
+    gap: var(--space-xs);
+  }
+
+  :global([data-theme-taskbar="anchored-bar"]) .dockButton {
+    grid-auto-flow: column;
+    align-items: center;
+  }
+
+  :global([data-theme-taskbar="anchored-bar"]) .page {
+    grid-template-columns: minmax(14rem, 0.85fr) minmax(0, 1.15fr);
+  }
+
+  :global([data-theme-widget="flat-panel"]) .discovery {
+    display: none;
   }
 }

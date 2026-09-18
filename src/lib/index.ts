@@ -1,3 +1,4 @@
+export * from "./appearance";
 export * from "./discovery-service";
 export * from "./fightclub";
 export * from "./native-uri";

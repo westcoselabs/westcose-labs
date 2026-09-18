@@ -52,7 +52,7 @@ test.describe("Phase 1 Notes", () => {
     await page.goto("/notes/final-final-v8?view=os");
     await expect(page.locator("html")).toHaveAttribute("data-shell", "desktop");
     const notepad = page.locator('[data-app-presenter="desktop-notepad"]');
-    await expect(notepad.getByRole("menubar", { name: "Pocket Notepad menu" })).toBeVisible();
+    await expect(notepad.getByRole("toolbar", { name: "Pocket Notepad menu" })).toBeVisible();
     await expect(notepad.getByRole("heading", { name: "Final_FINAL_v8", exact: true })).toBeVisible();
     await expect(notepad.getByRole("heading", { name: "Folders" })).toHaveCount(0);
 

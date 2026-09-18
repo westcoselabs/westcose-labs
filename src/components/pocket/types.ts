@@ -55,6 +55,7 @@ export interface PocketShellProps {
   readonly onCloseAppMenu: () => void;
   readonly onDismissNotification: (notificationId: string) => void;
   readonly onLaunchApp: (app: PocketAppItem) => void;
+  readonly onOpenAppearanceSettings?: () => void;
   readonly onOpenAppMenu: (app: PocketAppItem) => void;
   readonly onPageChange: (page: PocketPageIndex) => void;
   readonly onStartupComplete: () => void;

@@ -399,3 +399,78 @@
     background: Canvas;
   }
 }
+
+:global([data-theme-surface="beveled"]) .notepad {
+  min-block-size: 0;
+}
+
+:global([data-theme-surface="beveled"]) :is(.documentTitle, .menuBar, .metadata, .sidebar) {
+  background: var(--color-surface-overlay);
+  color: var(--color-text-primary);
+}
+
+:global([data-theme-surface="beveled"]) .editorPane {
+  box-shadow: var(--neu-shadow-recessed);
+}
+
+:global([data-theme-type="system-ui"]) :is(.readonlyEditor, .titleInput, .editorCanvas textarea) {
+  padding: var(--space-base);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+:global([data-theme-type="system-ui"]) .readonlyEditor h2 {
+  margin-block-end: var(--space-base);
+  font-size: 0.9375rem;
+}
+
+:global([data-theme-surface="beveled"]) .sidebar li button[aria-current="page"],
+:global([data-theme-surface="beveled"]) .menu button:is(:hover, :focus-visible) {
+  color: var(--classic-title-text);
+}
+
+:global([data-theme-surface="beveled"]) .statusBar > span {
+  padding-block: var(--space-xs);
+  box-shadow: var(--neu-shadow-recessed);
+}
+
+:global([data-theme-surface="beveled"]) :is(.undoBar, .discovery) {
+  background: var(--color-surface-overlay);
+  box-shadow: var(--neu-shadow-raised);
+}
+
+:global([data-theme-surface="beveled"]) .discovery button {
+  min-inline-size: var(--control-min-size);
+  min-block-size: var(--control-min-size);
+  background: var(--color-surface-raised);
+  box-shadow: var(--neu-shadow-raised);
+}
+
+:global([data-theme-surface="beveled"]) .discovery button:active {
+  box-shadow: var(--neu-shadow-pressed);
+}
+
+:global([data-theme-surface="beveled"]) .menu {
+  border-color: var(--classic-edge-dark);
+}
+
+:global([data-theme-surface="beveled"]) .menu button:focus-visible {
+  outline-color: var(--classic-title-text);
+  outline-offset: -3px;
+}
+
+@container (max-width: 32rem) {
+  :global([data-theme-surface="beveled"]) .workspace[data-sidebar="true"] {
+    grid-template-columns: 8rem minmax(0, 1fr);
+  }
+
+  :global([data-theme-surface="beveled"]) .statusBar {
+    grid-template-columns: auto auto minmax(0, 1fr) auto;
+  }
+
+  :global([data-theme-surface="beveled"]) .statusBar > span:nth-child(3),
+  :global([data-theme-surface="beveled"]) .statusBar > span:nth-child(4) {
+    display: none;
+  }
+}

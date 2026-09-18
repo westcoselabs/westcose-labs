@@ -96,3 +96,25 @@
     animation: none;
   }
 }
+
+:global([data-theme-chrome="classic-titlebar"]) .startup {
+  border: 6px solid var(--color-surface-overlay);
+  background: var(--classic-title);
+  color: var(--classic-title-text);
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .copy p {
+  color: inherit;
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .mark {
+  animation: none;
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .progress {
+  block-size: 1rem;
+}
+
+:global([data-theme-chrome="classic-titlebar"]) .progress::after {
+  animation-timing-function: steps(5, end);
+}

@@ -17,4 +17,5 @@ export * from "./site";
 export * from "./terminal-commands";
 export * from "./themes";
 export * from "./validate";
+export * from "./wallpapers";
 export type * from "./types";

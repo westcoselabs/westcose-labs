@@ -30,6 +30,7 @@ export function PocketShell({
   onCloseAppMenu,
   onDismissNotification,
   onLaunchApp,
+  onOpenAppearanceSettings,
   onOpenAppMenu,
   onPageChange,
   onStartupComplete,
@@ -101,6 +102,7 @@ export function PocketShell({
         menuTargetId={menuTargetId}
         onCloseAppMenu={onCloseAppMenu}
         onLaunchApp={onLaunchApp}
+        onOpenAppearanceSettings={onOpenAppearanceSettings}
         onOpenAppMenu={onOpenAppMenu}
         onPageChange={onPageChange}
         page={page}

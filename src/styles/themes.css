@@ -50,3 +50,42 @@
   --color-success: #3d654a;
   --color-danger: #8a4141;
 }
+
+/* WestCose 95 owns its palette; Corporate Beige is a separate visual system. */
+[data-theme="westcose-95"] {
+  color-scheme: light;
+  --color-primary: #203c7a;
+  --color-primary-hover: #163267;
+  --color-primary-pressed: #122650;
+  --color-secondary: #b5b5a9;
+  --color-tertiary: #245c60;
+  --color-neutral: #d3d1c5;
+  --color-surface-base: #deddd3;
+  --color-surface-raised: #e8e6db;
+  --color-surface-recessed: #f9f8f1;
+  --color-surface-overlay: #d3d1c5;
+  --color-surface-active: #c3ceda;
+  --color-surface-light: #fffef8;
+  --color-text-primary: #17202b;
+  --color-text-secondary: #434a4e;
+  --color-text-subdued: #555b5d;
+  --color-text-dark: #17202b;
+  --color-border-subtle: #81857e;
+  --color-shadow-dark: #5c625f;
+  --color-shadow-light: #fffef4;
+  --color-focus: #183d85;
+  --color-warning: #735018;
+  --color-success: #245d3e;
+  --color-danger: #932d2d;
+
+  --classic-title: #203c7a;
+  --classic-title-text: #ffffff;
+  --classic-title-inactive: #666c6e;
+  --classic-edge-light: #fffef4;
+  --classic-edge-dark: #505953;
+  --classic-edge-mid: #96998e;
+  --classic-desktop-label: #f9f8f1;
+  --classic-desktop-label-bg: #254f53;
+  --classic-terminal-bg: #101b1b;
+  --classic-terminal-ink: #b3e1b7;
+}
