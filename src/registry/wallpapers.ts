@@ -1,5 +1,10 @@
 import type { WallpaperDefinition } from "./types";
 
+// Light artwork needs a legibility veil in skins with unbacked light labels.
+// A skin with independently backed labels can opt out through this token.
+const lightArtworkScrim =
+  "linear-gradient(color-mix(in srgb, var(--color-neutral) var(--wallpaper-light-art-shade, 72%), transparent), color-mix(in srgb, var(--color-neutral) var(--wallpaper-light-art-shade, 72%), transparent))";
+
 /**
  * Wallpapers are shared by Desktop OS and Pocket OS. Each definition owns both
  * source images so one wallpaper id can present landscape artwork on the
@@ -106,6 +111,21 @@ export const wallpaperRegistry = [
     preview: {
       image: "repeating-linear-gradient(135deg, var(--wallpaper-95-base) 0 14px, var(--wallpaper-95-panel) 14px 20px, var(--wallpaper-95-line) 20px 21px)",
       label: "Teal workstation weave",
+    },
+  },
+  {
+    id: "liquid-glass",
+    name: "Tidal Light",
+    description: "Pacific light, held in suspension. No oceanfront rent required.",
+    default: false,
+    hidden: false,
+    recommendedThemeId: "liquid-glass",
+    desktop: { kind: "image", src: "/images/wallpapers/liquid-glass-desktop.svg", width: 1600, height: 1000 },
+    pocket: { kind: "image", src: "/images/wallpapers/liquid-glass-pocket.svg", width: 900, height: 1800 },
+    scrim: { desktop: lightArtworkScrim, pocketHome: lightArtworkScrim, pocketLock: lightArtworkScrim },
+    preview: {
+      image: 'url("/images/wallpapers/liquid-glass-pocket.svg")',
+      label: "Pacific light study",
     },
   },
   {

@@ -1,3 +1,5 @@
+.button { composes: control from "../../styles/glass.module.css"; }
+
 .button {
   display: inline-grid;
   place-items: center;

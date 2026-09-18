@@ -1,0 +1,122 @@
+[data-theme-surface="translucent"] {
+  --wallpaper-light-art-shade: 0%;
+  --radius-xs: 0.5rem;
+  --radius-sm: 0.75rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 1.75rem;
+  --radius-3xl: 2rem;
+  --glass-window-radius: calc(var(--radius-2xl) - 6px);
+  --type-headline-lg-size: 2rem;
+  --type-headline-md-size: 1.5rem;
+  --type-body-md-size: 1rem;
+  --type-label-lg-size: 0.875rem;
+  --type-label-md-size: 0.8125rem;
+  --type-caption-size: 0.75rem;
+  --type-label-md-tracking: 0;
+  --type-label-lg-tracking: 0;
+  --type-caption-tracking: 0.02em;
+  --motion-fast: 140ms;
+  --motion-base: 200ms;
+  --motion-slow: 280ms;
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --hover-offset: -1px;
+  --press-offset: 1px;
+
+  /* Opaque first. @supports below opts into transmission, never the reverse.
+   * Dark ink on the regular fill has >=5.18:1 even over a black backdrop.
+   * Clear is for monochrome controls only; content uses opaque paper. */
+  --glass-fallback: #eff6f8;
+  --glass-regular: var(--glass-fallback);
+  --glass-strong: var(--glass-fallback);
+  --glass-clear: var(--glass-fallback);
+  --glass-control: var(--color-surface-raised);
+  --glass-filter: none;
+  --glass-rim: #9ab2be;
+  --glass-sheen: none;
+  --glass-shadow: 0 14px 36px rgb(20 52 68 / 15%), 0 2px 5px rgb(20 52 68 / 12%);
+  --glass-inner: inset 0 1px 0 rgb(255 255 255 / 88%), inset 0 -1px 0 rgb(33 85 100 / 9%);
+  --glass-label-bg: #214a5d;
+  --glass-content: #f4f8fa;
+  --glass-terminal-bg: #132b37;
+  --glass-terminal-ink: #def3ee;
+  --neu-shadow-raised: 0 2px 4px rgb(20 52 68 / 8%), var(--glass-inner);
+  --neu-shadow-recessed: inset 0 1px 3px rgb(20 52 68 / 12%);
+  --neu-shadow-pressed: inset 0 2px 4px rgb(20 52 68 / 16%);
+  --neu-shadow-active: inset 0 0 0 1px var(--color-primary);
+  --neu-shadow-floating: var(--glass-shadow), var(--glass-inner);
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  [data-theme-surface="translucent"] {
+    --glass-regular: rgb(241 248 249 / 84%);
+    --glass-strong: rgb(244 248 250 / 94%);
+    --glass-clear: rgb(241 248 249 / 72%);
+    --glass-control: rgb(249 253 255 / 82%);
+    --glass-filter: blur(20px) saturate(1.18);
+    --glass-rim: rgb(255 255 255 / 75%);
+    --glass-sheen: linear-gradient(125deg, rgb(255 255 255 / 24%), transparent 38% 68%, rgb(216 244 242 / 15%));
+  }
+}
+
+/* Native controls share paper contrast, not another backdrop layer. */
+[data-theme-surface="translucent"] :is(input, textarea, select) {
+  accent-color: var(--color-primary);
+}
+[data-theme-surface="translucent"] :is(input, textarea, select):focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+[data-theme-surface="translucent"] .skip-link {
+  color: var(--color-text-on-accent);
+}
+
+/* Higher-specificity preference tokens beat the feature-query enhancement.
+ * The existing High contrast preference is also the manual opaque fallback
+ * in browsers that cannot expose prefers-reduced-transparency. */
+[data-theme-surface="translucent"][data-high-contrast="true"] {
+  --glass-regular: var(--glass-fallback);
+  --glass-strong: var(--glass-fallback);
+  --glass-clear: var(--glass-fallback);
+  --glass-control: var(--color-surface-raised);
+  --glass-filter: none;
+  --glass-sheen: none;
+  --glass-rim: var(--color-text-secondary);
+  --glass-inner: none;
+  --glass-shadow: none;
+  --neu-shadow-raised: var(--neu-shadow-flat);
+  --neu-shadow-recessed: var(--neu-shadow-flat);
+  --neu-shadow-floating: var(--neu-shadow-flat);
+}
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  [data-theme-surface="translucent"] {
+    --glass-regular: var(--glass-fallback);
+    --glass-strong: var(--glass-fallback);
+    --glass-clear: var(--glass-fallback);
+    --glass-control: var(--color-surface-raised);
+    --glass-filter: none;
+    --glass-sheen: none;
+    --glass-rim: var(--color-text-secondary);
+    --glass-inner: none;
+    --glass-shadow: none;
+  }
+}
+@media (forced-colors: active) {
+  [data-theme-surface="translucent"],
+  [data-theme-surface="translucent"][data-high-contrast="true"] {
+    --glass-fallback: Canvas;
+    --glass-control: ButtonFace;
+    --glass-label-bg: Canvas;
+    --glass-content: Canvas;
+    --glass-terminal-bg: Canvas;
+    --glass-terminal-ink: CanvasText;
+    --glass-rim: ButtonText;
+    --color-text-on-accent: HighlightText;
+    --color-text-on-media: CanvasText;
+    --glass-filter: none;
+    --glass-sheen: none;
+    --glass-shadow: none;
+    --glass-inner: none;
+  }
+}

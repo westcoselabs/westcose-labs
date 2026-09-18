@@ -5,6 +5,13 @@
     var(--color-surface-base);
 }
 
+:global([data-theme-surface="translucent"]) .app { background: var(--glass-content); }
+:global([data-theme-surface="translucent"]) .detailBack { background: var(--glass-content); -webkit-backdrop-filter: none; backdrop-filter: none; }
+:global([data-theme-surface="translucent"]) :is(.largeHeader h1, .noteArticle h1, .titleInput) { font-size: 1.75rem; }
+:global([data-theme-surface="translucent"]) .compose { color: var(--color-text-on-accent); }
+:global([data-theme-surface="translucent"]) .toolbar { background: var(--color-surface-raised); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-full); padding: var(--space-xs); }
+:global([data-theme-surface="translucent"]) .discovery { background: var(--glass-content); }
+
 .page,
 .detailPage,
 .missing {

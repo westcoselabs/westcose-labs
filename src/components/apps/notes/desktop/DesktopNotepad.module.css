@@ -9,6 +9,17 @@
   color: var(--color-text-primary);
 }
 
+:global([data-theme-surface="translucent"]) .notepad { min-block-size: 0; border: 0; }
+:global([data-theme-surface="translucent"]) .documentTitle { background: var(--glass-content); }
+:global([data-theme-surface="translucent"]) .menuBar { background: var(--color-surface-recessed); }
+:global([data-theme-surface="translucent"]) :is(.sidebar li button[aria-current="page"], .menu button:hover, .menu button:focus-visible) { color: var(--color-text-on-accent); }
+:global([data-theme-surface="translucent"]) .menu { border-radius: var(--radius-md); background: var(--glass-fallback); }
+:global([data-theme-surface="translucent"]) .discovery { background: var(--glass-content); }
+@container (max-width: 34rem) {
+  :global([data-theme-surface="translucent"]) .workspace[data-sidebar="true"] { grid-template-columns: 9rem minmax(0, 1fr); }
+  :global([data-theme-surface="translucent"]) .statusBar { flex-wrap: wrap; }
+}
+
 .documentTitle {
   display: flex;
   align-items: center;

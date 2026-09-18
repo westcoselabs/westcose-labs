@@ -75,6 +75,13 @@ the theme. Settings offers the recommended wallpaper as an explicit opt-in.
 See [the WestCose 95 implementation notes](docs/WESTCOSE_95.md) for its treatment
 map, changed files, verification, and constraints for the next skin.
 
+Liquid Glass adds coastal glass controls over opaque reading surfaces, with a
+distinct touch presentation on Pocket. Its original Tidal Light SVG wallpaper
+has separate Desktop and Pocket compositions. Shared CSS material classes keep
+blur on navigation and chrome, with opaque high-contrast, reduced-transparency,
+and unsupported-browser fallbacks. See [the Liquid Glass implementation notes](docs/LIQUID_GLASS.md)
+for the material contract, design rationale, verification, and limitations.
+
 ## Repository map
 
 - `src/app`: semantic routes, metadata, loading/error boundaries, sitemap, robots.
@@ -108,5 +115,5 @@ FightClub remains remotely hosted and loads only after an explicit Play action;
 no game engine is bundled with the portfolio. TV, World,
 Arcade, Archive, PWA/offline support, persistent window layouts, database
 infrastructure, and multi-route live desktop windows remain intentionally
-outside V1. The appearance system offers Dusk and WestCose 95 as public themes;
+outside V1. The appearance system offers Dusk, WestCose 95, and Liquid Glass as public themes;
 Corporate Beige stays hidden behind its existing discovery.

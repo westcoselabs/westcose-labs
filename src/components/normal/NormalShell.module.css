@@ -56,6 +56,10 @@
   font-weight: var(--type-label-lg-weight);
 }
 
+:global([data-theme-surface="translucent"]) .brandMark {
+  color: var(--color-text-on-accent);
+}
+
 .navigation {
   display: flex;
   align-items: center;

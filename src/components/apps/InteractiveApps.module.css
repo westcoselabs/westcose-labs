@@ -8,6 +8,16 @@
   background: var(--color-surface-base);
 }
 
+:global([data-theme-surface="translucent"]) .archive { gap: 0; border: 1px solid var(--color-border-subtle); border-radius: var(--radius-lg); overflow: hidden; }
+:global([data-theme-surface="translucent"]) .archiveRow { background: var(--color-surface-raised); border: 0; border-block-end: 1px solid var(--color-border-subtle); border-radius: var(--radius-none); }
+:global([data-theme-surface="translucent"]) .launcher { background: var(--color-surface-raised); box-shadow: none; border-radius: var(--radius-xl); }
+:global([data-theme-surface="translucent"]) .launcherTabs { padding: var(--space-xs); background: var(--color-surface-recessed); border-radius: var(--radius-full); }
+:global([data-theme-surface="translucent"]) .launcherTabs button { border: 0; box-shadow: none; background: transparent; }
+:global([data-theme-surface="translucent"]) .launcherTabs button[aria-pressed="true"] { background: var(--color-surface-raised); box-shadow: var(--neu-shadow-raised); }
+@container (max-width: 36rem) {
+  :global([data-theme-surface="translucent"]) .launcher { grid-template-columns: minmax(0, 1fr); }
+}
+
 :global([data-theme-surface="beveled"]) .archive {
   gap: 0;
   border: 1px solid var(--classic-edge-dark);

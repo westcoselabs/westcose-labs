@@ -90,6 +90,11 @@
   }
 }
 
+:global([data-theme-surface="translucent"]) :is(.button, .link) { border-radius: var(--radius-full); }
+:global([data-theme-surface="translucent"]) :is(.primary, .danger) { color: var(--color-text-on-accent); }
+:global([data-theme-surface="translucent"]) :is(.primary, .danger):not(:disabled):active { color: var(--color-text-on-accent); }
+:global([data-theme-surface="translucent"]) .secondary { border: 1px solid var(--color-border-subtle); }
+
 :global([data-theme-surface="beveled"]) :is(.button, .link) {
   border: 1px solid var(--classic-edge-mid);
   padding: var(--space-sm) var(--space-md);

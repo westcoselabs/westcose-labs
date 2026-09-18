@@ -1,3 +1,6 @@
+.header { composes: regular from "../../styles/glass.module.css"; }
+.menu { composes: strong from "../../styles/glass.module.css"; }
+
 .frame {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
@@ -7,6 +10,34 @@
   color: var(--color-text-primary);
   background: var(--color-surface-base);
 }
+
+:global([data-theme-chrome="translucent"]) .frame {
+  background-image: var(--wallpaper-pocket-image);
+  background-size: cover;
+  background-position: center;
+}
+:global([data-theme-chrome="translucent"]) .header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: max(0.5rem, env(safe-area-inset-top)) 0.5rem 0.5rem;
+  padding: 0.375rem 0.5rem;
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--glass-inner), 0 4px 12px rgb(20 52 68 / 10%);
+}
+:global([data-theme-chrome="translucent"]) .identity { flex: 1; min-inline-size: 4rem; }
+:global([data-theme-chrome="translucent"]) .actions { margin-inline-start: auto; }
+:global([data-theme-chrome="translucent"]) :is(.back, .appIcon) {
+  background: transparent;
+  box-shadow: none;
+  color: var(--color-text-primary);
+}
+:global([data-theme-chrome="translucent"]) .content {
+  background: var(--glass-content);
+  border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+}
+:global([data-theme-chrome="translucent"]) .back { border-radius: var(--radius-full); }
+:global([data-theme-chrome="translucent"]) .back:is(:active, :focus-visible) { background: var(--glass-control); }
 
 .header {
   position: relative;

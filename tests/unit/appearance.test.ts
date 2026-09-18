@@ -84,9 +84,9 @@ describe("theme registry", () => {
   it("keeps Dusk the default, WestCose 95 public, and Corporate Beige hidden", () => {
     expect(defaultTheme.id).toBe("dusk");
     expect(themes.filter((theme) => !theme.hidden).map((theme) => theme.id)).toEqual(
-      ["dusk", "westcose-95"],
+      ["dusk", "westcose-95", "liquid-glass"],
     );
-    expect(themes.map((theme) => theme.id)).toEqual(["dusk", "westcose-95", "corporate-beige"]);
+    expect(themes.map((theme) => theme.id)).toEqual(["dusk", "westcose-95", "liquid-glass", "corporate-beige"]);
     const beige = themes.find((theme) => theme.id === "corporate-beige");
     expect(beige?.hidden).toBe(true);
     expect(beige?.discoveryId).toBe("settings.bad-ideas-max");
@@ -193,11 +193,12 @@ describe("appearance resolution", () => {
 
 describe("shared unlock state", () => {
   it("hides locked entries from both shells until the discovery is earned", () => {
-    expect(listAvailableThemes().map((theme) => theme.id)).toEqual(["dusk", "westcose-95"]);
+    expect(listAvailableThemes().map((theme) => theme.id)).toEqual(["dusk", "westcose-95", "liquid-glass"]);
     expect(listAvailableWallpapers().map((wallpaper) => wallpaper.id)).toEqual([
       "dusk-cliffs",
       "graphite-field",
       "westcose-95",
+      "liquid-glass",
     ]);
 
     const earned = unlocks({

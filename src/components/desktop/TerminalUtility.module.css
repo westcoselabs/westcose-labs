@@ -51,6 +51,16 @@
   color: var(--color-text-primary);
 }
 
+:global([data-theme-chrome="translucent"]) .terminal {
+  background: var(--glass-terminal-bg);
+  color: var(--glass-terminal-ink);
+  border-radius: var(--radius-md);
+}
+:global([data-theme-chrome="translucent"]) :is(.form > label, .prompt span, .prompt input) { color: var(--glass-terminal-ink); }
+:global([data-theme-chrome="translucent"]) .prompt input { background: var(--glass-terminal-bg); }
+:global([data-theme-chrome="translucent"]) .prompt input:focus-visible { outline-color: var(--glass-terminal-ink); }
+:global([data-theme-chrome="translucent"]) .prompt button { background: var(--glass-fallback); color: var(--color-text-primary); }
+
 :global([data-theme-chrome="classic-titlebar"]) .terminal {
   color: var(--classic-terminal-ink);
   background: var(--classic-terminal-bg);

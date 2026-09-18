@@ -7,6 +7,28 @@
   background: var(--color-surface-base);
 }
 
+:global([data-theme-surface="translucent"]) .app { min-block-size: 0; }
+:global([data-theme-surface="translucent"]) .topbar { min-block-size: 3.5rem; background: var(--glass-content); }
+:global([data-theme-surface="translucent"]) .layout { grid-template-columns: 11rem minmax(0, 1fr); }
+:global([data-theme-surface="translucent"]) .sidebar { background: var(--color-surface-recessed); padding: var(--space-md); }
+:global([data-theme-surface="translucent"]) :is(.sidebar button[aria-current="page"], .systemSummary > span) { color: var(--color-text-on-accent); }
+:global([data-theme-surface="translucent"]) .toggle input:checked + span::after { background: var(--color-text-on-accent); }
+:global([data-theme-surface="translucent"]) .card { align-content: start; padding: var(--space-base); box-shadow: none; border-color: var(--color-border-subtle); }
+:global([data-theme-surface="translucent"]) .canvas { padding: var(--space-lg); }
+:global([data-theme-surface="translucent"]) .miniDevice { padding: var(--space-md); box-shadow: none; }
+:global([data-theme-surface="translucent"]) .wallpaperGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-sm); }
+:global([data-theme-surface="translucent"]) .wallpaperSwatch > span:first-child { min-block-size: 3.5rem; }
+:global([data-theme-surface="translucent"]) .notification { background: var(--glass-content); }
+:global([data-theme-surface="translucent"]) .notification button { min-inline-size: var(--control-min-size); min-block-size: var(--control-min-size); border-radius: var(--radius-full); background: var(--color-surface-raised); }
+@container (max-width: 42rem) {
+  :global([data-theme-surface="translucent"]) :is(.cardGrid, .discoveryGrid, .focusGrid) { grid-template-columns: minmax(0, 1fr); }
+}
+@container (max-width: 28rem) {
+  :global([data-theme-surface="translucent"]) .layout { grid-template-columns: minmax(0, 1fr); }
+  :global([data-theme-surface="translucent"]) .sidebar { max-block-size: 8rem; overflow: auto; }
+  :global([data-theme-surface="translucent"]) .miniDevice { display: none; }
+}
+
 .topbar {
   display: flex;
   align-items: center;

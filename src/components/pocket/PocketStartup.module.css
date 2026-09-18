@@ -97,6 +97,20 @@
   }
 }
 
+:global([data-theme-surface="translucent"]) .startup {
+  background-image: var(--wallpaper-pocket-image);
+  background-position: center;
+  background-size: cover;
+}
+:global([data-theme-surface="translucent"]) .sequence {
+  padding: var(--space-2xl) var(--space-base);
+  border-radius: var(--radius-3xl);
+  background: var(--glass-strong);
+  box-shadow: var(--neu-shadow-floating);
+}
+:global([data-theme-surface="translucent"]) .mark { animation: none; border-radius: var(--radius-lg); }
+:global([data-theme-surface="translucent"]) .copy p { font-family: var(--font-sans); }
+
 :global([data-theme-chrome="classic-titlebar"]) .startup {
   border: 6px solid var(--color-surface-overlay);
   background: var(--classic-title);

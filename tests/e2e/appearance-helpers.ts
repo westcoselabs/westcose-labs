@@ -18,7 +18,7 @@ export async function seedAppearance(page: Page, themeId = "westcose-95", wallpa
   }, { themeId, wallpaperId });
 }
 
-export async function selectDesktopTheme(page: Page, name: "Dusk" | "WestCose 95") {
+export async function selectDesktopTheme(page: Page, name: "Dusk" | "WestCose 95" | "Liquid Glass") {
   await page.getByRole("region", { name: "Desktop shortcuts" }).getByRole("button").first().focus();
   await page.keyboard.press("Shift+F10");
   await page.keyboard.press("ArrowRight");

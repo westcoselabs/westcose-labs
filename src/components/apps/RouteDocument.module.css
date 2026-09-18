@@ -6,6 +6,30 @@
   color: var(--color-text-primary);
 }
 
+:global([data-theme-surface="translucent"]) .document {
+  grid-template-columns: minmax(0, 1fr);
+  min-inline-size: 0;
+  gap: var(--space-xl);
+  overflow-wrap: anywhere;
+}
+:global([data-theme-surface="translucent"]) .document :global(.route-document__header) {
+  padding: var(--space-xl);
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+:global([data-theme-surface="translucent"]) .document :global(.route-document__title) { font-size: clamp(1.75rem, 4vw, 2.5rem); }
+:global([data-theme-surface="translucent"]) .document :global(.route-action) {
+  color: var(--color-text-primary);
+  border-radius: var(--radius-full);
+  box-shadow: none;
+}
+:global([data-theme-surface="translucent"]) .document :global(.route-action--primary) { color: var(--color-text-on-accent); }
+:global([data-theme-surface="translucent"]) .document :global(.route-section) { box-shadow: none; background: var(--color-surface-raised); }
+@container (max-width: 34rem) {
+  :global([data-theme-surface="translucent"][data-shell="desktop"]) .document[data-presentation] :global(.route-card-grid) { grid-template-columns: minmax(0, 1fr); }
+}
+
 /* Shared document presenters: Projects, Games, About, Contact, and utilities. */
 :global([data-theme-surface="beveled"]) .document {
   gap: var(--space-md);

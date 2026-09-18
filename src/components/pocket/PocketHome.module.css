@@ -1,3 +1,6 @@
+.homeHeader { composes: regular from "../../styles/glass.module.css"; }
+.dock { composes: clear from "../../styles/glass.module.css"; }
+
 .home {
   position: relative;
   display: grid;
@@ -17,6 +20,79 @@
     var(--pocket-wallpaper-image, var(--wallpaper-pocket-image, none));
   background-position: center;
   background-size: cover;
+}
+
+:global([data-theme-surface="translucent"]) .home {
+  --pocket-gutter: 1rem;
+  --pocket-icon-size: 3.75rem;
+  --pocket-dock-size: 5.25rem;
+  padding-block-start: max(0.75rem, env(safe-area-inset-top));
+}
+:global([data-theme-surface="translucent"]) .homeHeader {
+  margin-inline: var(--pocket-gutter);
+  padding: 0.5rem 0.75rem 0.5rem 1rem;
+  border-radius: var(--radius-xl);
+}
+:global([data-theme-surface="translucent"]) .brand span {
+  font-family: var(--font-sans);
+  letter-spacing: 0.12em;
+  font-size: 0.625rem;
+  font-weight: 700;
+}
+:global([data-theme-widget="translucent-card"]) :is(.todayWidget, .projectWidget) {
+  border: 1px solid var(--glass-rim);
+  border-radius: var(--radius-2xl);
+  background: var(--glass-content);
+  box-shadow: var(--neu-shadow-raised);
+}
+:global([data-theme-widget="translucent-card"]) .widgets { grid-template-columns: 1.3fr 1fr; }
+:global([data-theme-widget="translucent-card"]) .todayWidget { padding: 1rem; }
+:global([data-theme-widget="translucent-card"]) .projectWidget { padding: 1rem; }
+:global([data-theme-widget="translucent-card"]) .projectArt {
+  inset: 1rem auto auto 1rem;
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  opacity: 1;
+  transform: none;
+}
+:global([data-theme-widget="translucent-card"]) .featureArrow { inset-block: 1rem auto; }
+:global([data-theme-widget="translucent-card"]) .todayTopline { font-family: var(--font-sans); font-size: 0.6875rem; }
+:global([data-theme-widget="translucent-card"]) .statusComplication {
+  padding-inline: 0.5rem;
+  font-size: 0.6875rem;
+  background: var(--color-surface-active);
+  border-color: transparent;
+}
+:global([data-theme-surface="translucent"]) .dock {
+  border-radius: var(--radius-3xl);
+  padding: 0.375rem;
+  gap: 0;
+}
+:global([data-theme-surface="translucent"]) .dockButton { color: var(--color-text-primary); border-radius: var(--radius-xl); }
+:global([data-theme-surface="translucent"]) .dockButton > span:last-child { color: var(--color-text-primary); }
+:global([data-theme-surface="translucent"]) .dockIcon { background: transparent; box-shadow: none; }
+:global([data-theme-surface="translucent"]) .dockButton:is(:active, :focus-visible) { background: var(--glass-control); }
+:global([data-theme-surface="translucent"]) .dockButton:active .dockIcon { background: transparent; box-shadow: none; }
+:global([data-theme-surface="translucent"]) .page { overflow-y: auto; scrollbar-width: none; padding-block: 0.5rem; }
+:global([data-theme-surface="translucent"]) .pageHeading {
+  padding-inline: 0.75rem;
+  border-radius: var(--radius-md);
+  background: var(--glass-strong);
+}
+:global([data-theme-surface="translucent"]) .indicators {
+  justify-self: center;
+  gap: 0;
+  border-radius: var(--radius-full);
+  background: var(--glass-control);
+}
+@media (max-height: 40rem) {
+  :global([data-theme-surface="translucent"]) .home { --pocket-gutter: 0.75rem; --pocket-icon-size: 3rem; }
+  :global([data-theme-widget="translucent-card"]) .widgets { gap: 0.5rem; }
+}
+@media (orientation: landscape) and (max-height: 32rem) {
+  :global([data-theme-surface="translucent"]) .home { --pocket-dock-size: 3.5rem; gap: 0; }
+  :global([data-theme-surface="translucent"]) .dockButton { display: flex; justify-content: center; }
+  :global([data-theme-surface="translucent"]) .page { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
 }
 
 :global([data-high-contrast="true"]) .home {

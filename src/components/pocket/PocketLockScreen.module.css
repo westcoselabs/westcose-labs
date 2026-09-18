@@ -19,6 +19,28 @@
   background-size: cover;
 }
 
+:global([data-theme-surface="translucent"]) .clock {
+  padding: var(--space-xl) var(--space-base);
+  background: var(--glass-strong);
+  border: 1px solid var(--glass-rim);
+  border-radius: var(--radius-3xl);
+  text-shadow: none;
+}
+:global([data-theme-surface="translucent"]) .notification {
+  background: var(--glass-content);
+  border: 1px solid var(--glass-rim);
+  box-shadow: var(--neu-shadow-raised);
+  border-radius: var(--radius-xl);
+}
+:global([data-theme-surface="translucent"]) .unlockTrack {
+  background: var(--glass-regular);
+  border: 1px solid var(--glass-rim);
+  box-shadow: var(--neu-shadow-floating);
+  -webkit-backdrop-filter: var(--glass-filter);
+  backdrop-filter: var(--glass-filter);
+}
+:global([data-theme-surface="translucent"]) :is(.unlockFill, .unlockThumb) { color: var(--color-text-on-accent); }
+
 :global([data-high-contrast="true"]) .lock {
   background-image:
     var(--wallpaper-accessible-scrim),

@@ -1,3 +1,5 @@
+.tile { composes: control from "../../styles/glass.module.css"; }
+
 .cell {
   position: relative;
   display: grid;
@@ -35,6 +37,20 @@
     box-shadow var(--motion-base) var(--ease-standard),
     transform var(--motion-fast) var(--ease-standard);
 }
+
+:global([data-theme-icons="filled"]) .tile { border-radius: var(--radius-lg); }
+:global([data-theme-icons="filled"]) .label {
+  inline-size: auto;
+  max-inline-size: 100%;
+  padding: 0.2rem 0.25rem;
+  border-radius: var(--radius-full);
+  background: var(--glass-label-bg);
+  color: var(--color-text-on-media);
+  font-size: 0.71875rem;
+  font-weight: 500;
+}
+:global([data-theme-icons="filled"]) .menuButton { box-shadow: none; background: transparent; border: 0; }
+:global([data-theme-icons="filled"]) .launch:active .tile { background: var(--color-surface-active); }
 
 .tile[data-tone="blue"] { --app-icon-tone: var(--app-tone-blue); }
 .tile[data-tone="indigo"] { --app-icon-tone: var(--app-tone-indigo); }

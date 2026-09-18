@@ -1,3 +1,9 @@
+.taskbar { composes: clear from "../../styles/glass.module.css"; }
+.startMenu { composes: strong from "../../styles/glass.module.css"; }
+.clockPanel { composes: strong from "../../styles/glass.module.css"; }
+.systemActionsPanel { composes: strong from "../../styles/glass.module.css"; }
+.iconWell { composes: control from "../../styles/glass.module.css"; }
+
 .desktop {
   position: relative;
   min-block-size: 100dvh;
@@ -8,6 +14,59 @@
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+/* Liquid Glass keeps its launcher afloat; reading surfaces stay opaque. */
+:global([data-theme-surface="translucent"]) .taskbar {
+  max-inline-size: 76rem;
+  margin-inline: auto;
+  border-radius: var(--radius-2xl);
+  padding-inline: var(--space-md);
+}
+:global([data-theme-surface="translucent"]) :is(.startButton, .runningApp) {
+  border-radius: var(--radius-full);
+  background: transparent;
+  box-shadow: none;
+}
+:global([data-theme-surface="translucent"]) .startButton {
+  color: var(--color-text-on-accent);
+  background: var(--color-primary);
+}
+:global([data-theme-surface="translucent"]) .runningApp[aria-current="true"] {
+  background: var(--color-surface-raised);
+  box-shadow: var(--neu-shadow-raised);
+}
+:global([data-theme-surface="translucent"]) .desktopIcon {
+  gap: 0.625rem;
+  padding-block: var(--space-sm);
+}
+:global([data-theme-surface="translucent"]) .desktopIcon > span:last-child {
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-full);
+  background: var(--glass-label-bg);
+  color: var(--color-text-on-media);
+  font-size: 0.8125rem;
+  text-shadow: none;
+}
+:global([data-theme-surface="translucent"]) .desktopIcon[data-selected="true"] {
+  background: var(--glass-regular);
+  border-color: var(--color-primary);
+}
+:global([data-theme-surface="translucent"]) .iconWell { border-radius: var(--radius-lg); }
+:global([data-theme-widget="translucent-card"]) .clockWidget {
+  background: var(--glass-content);
+  box-shadow: var(--neu-shadow-raised);
+  border: 1px solid var(--glass-rim);
+  border-radius: var(--radius-xl);
+}
+:global([data-theme-surface="translucent"]) .startMenu {
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: var(--space-md);
+  border-radius: var(--radius-2xl);
+}
+:global([data-theme-surface="translucent"]) .startResults { min-block-size: 0; gap: var(--space-sm); }
+:global([data-theme-surface="translucent"]) .startResults button:is(:hover, :focus-visible) {
+  background: var(--color-surface-active);
 }
 
 .wallpaperShade {

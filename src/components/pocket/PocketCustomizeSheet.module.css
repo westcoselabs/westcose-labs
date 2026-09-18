@@ -1,3 +1,5 @@
+.sheet { composes: strong from "../../styles/glass.module.css"; }
+
 .backdrop {
   position: absolute;
   inset: 0;
@@ -10,6 +12,32 @@
     max(var(--pocket-gutter), env(safe-area-inset-bottom));
   background: color-mix(in srgb, var(--color-neutral) 72%, transparent);
 }
+
+:global([data-theme-surface="translucent"]) .backdrop { background: rgb(15 37 49 / 24%); }
+:global([data-theme-surface="translucent"]) .sheet {
+  grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  border-radius: var(--radius-3xl);
+}
+:global([data-theme-surface="translucent"]) .sheet > [role="tabpanel"] {
+  display: grid;
+  min-block-size: 0;
+}
+:global([data-theme-surface="translucent"]) .options {
+  grid-auto-rows: max-content;
+  align-content: start;
+}
+:global([data-theme-surface="translucent"]) .option {
+  grid-template-columns: 4rem minmax(0, 1fr);
+  background: transparent;
+  border-color: var(--color-border-subtle);
+}
+:global([data-theme-surface="translucent"]) .option[aria-checked="true"] {
+  background: var(--color-surface-active);
+  border-color: var(--color-primary);
+}
+:global([data-theme-surface="translucent"]) .tabs { background: var(--color-surface-recessed); }
+:global([data-theme-surface="translucent"]) .actions { grid-template-columns: 1fr auto; }
 
 .sheet {
   display: grid;

@@ -79,6 +79,7 @@ describe("Desktop personalization", () => {
       "Dusk CliffsBundled landscape photograph",
       "Graphite FieldToken-built graphite gradient",
       "WestCose 95Teal workstation weave",
+      "Tidal LightPacific light study",
     ]);
     expect(options[0]).toHaveAttribute("aria-checked", "true");
 
@@ -99,7 +100,7 @@ describe("Desktop personalization", () => {
       within(screen.getByRole("menu", { name: "Theme" }))
         .getAllByRole("menuitemradio")
         .map((option) => option.textContent),
-    ).toHaveLength(2);
+    ).toHaveLength(3);
 
     service.unlockTheme("corporate-beige");
     const beige = await screen.findByRole("menuitemradio", {

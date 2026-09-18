@@ -3,6 +3,30 @@
   background: var(--color-surface-base);
 }
 
+:global([data-theme-surface="translucent"]) .nestedHeader { background: var(--glass-content); -webkit-backdrop-filter: none; backdrop-filter: none; }
+:global([data-theme-surface="translucent"]) :is(.largeHeader, .categoryTitle) h1 { font-size: 2rem; }
+:global([data-theme-surface="translucent"]) .switch input:checked + span::after { background: var(--color-text-on-accent); }
+:global([data-theme-surface="translucent"]) .discoveryNotice { background: var(--glass-content); box-shadow: var(--neu-shadow-floating); }
+:global([data-theme-surface="translucent"]) .discoveryNotice button { border-radius: var(--radius-full); background: var(--color-surface-raised); }
+:global([data-theme-surface="translucent"]) .controlGroups h2 { margin: 0; padding: var(--space-md) var(--space-base); }
+:global([data-theme-surface="translucent"]) .settingRow select {
+  min-block-size: var(--control-min-size);
+  max-inline-size: min(10rem, 44vw);
+  padding-inline: var(--space-sm);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-raised);
+  color: var(--color-text-primary);
+}
+:global([data-theme-surface="translucent"]) .nestedHeader a { display: inline-flex; align-items: center; min-block-size: var(--control-min-size); }
+:global([data-theme-surface="translucent"]) .app { container-type: inline-size; overflow-wrap: anywhere; }
+:global([data-theme-surface="translucent"]) .nestedHeader { display: flex; flex-wrap: wrap; justify-content: space-between; }
+@container (max-width: 20rem) {
+  :global([data-theme-surface="translucent"]) .settingRow:has(select) { grid-template-columns: minmax(0, 1fr); }
+  :global([data-theme-surface="translucent"]) .settingRow select { justify-self: start; max-inline-size: 100%; }
+  :global([data-theme-surface="translucent"]) .wallpaperList button { grid-template-columns: minmax(0, 1fr); }
+}
+
 .page {
   display: grid;
   align-content: start;

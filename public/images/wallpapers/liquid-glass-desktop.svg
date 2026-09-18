@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <linearGradient id="sea" x2=".7" y2="1"><stop stop-color="#e3eeea"/><stop offset=".42" stop-color="#8fc6c9"/><stop offset="1" stop-color="#235f80"/></linearGradient>
+    <linearGradient id="shelf" x1=".1" y1="0" x2=".8" y2="1"><stop stop-color="#f9efe2"/><stop offset=".4" stop-color="#edf6ef"/><stop offset=".73" stop-color="#a9d5d4"/><stop offset="1" stop-color="#337e98"/></linearGradient>
+    <linearGradient id="deep" x2="1" y2="1"><stop stop-color="#225677"/><stop offset=".7" stop-color="#458e9f"/><stop offset="1" stop-color="#91c9c6"/></linearGradient>
+    <linearGradient id="rim" x2=".5" y2="1"><stop stop-color="#ffffff" stop-opacity=".9"/><stop offset=".52" stop-color="#ffffff" stop-opacity=".12"/><stop offset="1" stop-color="#d6fffa" stop-opacity=".8"/></linearGradient>
+  </defs>
+  <path fill="url(#sea)" d="M0 0h1600v1000H0z"/>
+  <path fill="url(#deep)" d="M-200 1050C150 640 620 1040 940 590S1390 0 1810 80V1100Z"/>
+  <path fill="url(#shelf)" d="M-140-120H1710V85C1360 12 1280 298 1010 495S443 615 235 879-146 1043-140 870Z"/>
+  <path fill="none" stroke="url(#rim)" stroke-width="4" d="M-95 882C234 1169 101 571 660 588S1212-78 1690 96"/>
+  <path fill="none" stroke="#e2fffc" stroke-opacity=".25" stroke-width="1.5" d="M-50 932C265 1150 160 635 677 642S1250-30 1660 140"/>
+  <path fill="url(#rim)" opacity=".3" d="M670 1000C1023 747 939 449 1600 453V495C1120 420 1035 838 774 1000Z"/>
+  <path fill="none" stroke="#f4fcf8" stroke-opacity=".42" stroke-width="2" d="M745 1000C1060 736 1001 446 1630 477"/>
+</svg>

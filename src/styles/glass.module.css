@@ -1,0 +1,35 @@
+/* Compose these into existing local classes. All rules are treatment-scoped,
+ * so composition changes no other skin. Each functional surface owns one blur;
+ * children use control, and content never composes a blurred material. */
+:global([data-theme-surface="translucent"]) .regular,
+:global([data-theme-surface="translucent"]) .strong,
+:global([data-theme-surface="translucent"]) .clear {
+  background-color: var(--glass-regular);
+  background-image: var(--glass-sheen);
+  border: 1px solid var(--glass-rim);
+  color: var(--color-text-primary);
+  box-shadow: var(--glass-shadow), var(--glass-inner);
+  -webkit-backdrop-filter: var(--glass-filter);
+  backdrop-filter: var(--glass-filter);
+}
+:global([data-theme-surface="translucent"]) .strong {
+  background-color: var(--glass-strong);
+}
+:global([data-theme-surface="translucent"]) .clear {
+  background-color: var(--glass-clear);
+}
+:global([data-theme-surface="translucent"]) .control {
+  background: var(--glass-sheen), var(--glass-control);
+  border: 1px solid var(--glass-rim);
+  color: var(--color-text-primary);
+  box-shadow: var(--neu-shadow-raised);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+@media (forced-colors: active) {
+  :global([data-theme-surface="translucent"]) :is(.regular, .strong, .clear, .control) {
+    background: Canvas;
+    color: CanvasText;
+    box-shadow: none;
+  }
+}

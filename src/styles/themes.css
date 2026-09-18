@@ -89,3 +89,34 @@
   --classic-terminal-bg: #101b1b;
   --classic-terminal-ink: #b3e1b7;
 }
+
+/* Palette ownership is distinct from material ownership. A light WestCose skin,
+ * independent of the OS color scheme and of the chosen wallpaper. */
+[data-theme="liquid-glass"] {
+  color-scheme: light;
+  --color-primary: #15607d;
+  --color-primary-hover: #104c66;
+  --color-primary-pressed: #123e52;
+  --color-secondary: #dce8ed;
+  --color-tertiary: #285d64;
+  --color-neutral: #e7eff2;
+  --color-surface-base: #f4f8fa;
+  --color-surface-raised: #ffffff;
+  --color-surface-recessed: #e7eff2;
+  --color-surface-overlay: #eff6f8;
+  --color-surface-active: #d9e9ee;
+  --color-surface-light: #ffffff;
+  --color-text-primary: #17303d;
+  --color-text-secondary: #3c5360;
+  --color-text-subdued: #50626e;
+  --color-text-dark: #17303d;
+  --color-text-on-accent: #ffffff;
+  --color-text-on-media: #ffffff;
+  --color-border-subtle: #abbec6;
+  --color-shadow-dark: #8dabb7;
+  --color-shadow-light: #ffffff;
+  --color-focus: #07546d;
+  --color-warning: #805a21;
+  --color-success: #27674c;
+  --color-danger: #a23848;
+}
