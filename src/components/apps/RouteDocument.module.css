@@ -679,6 +679,11 @@
   object-fit: cover;
 }
 
+.document :global(.game-cover-art--original) {
+  aspect-ratio: 3 / 2;
+  min-block-size: 0;
+}
+
 .document :global(.game-cover-art span) {
   position: absolute;
   inset-inline-start: var(--space-base);

@@ -170,6 +170,8 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.content:has(> [data-game]) { padding: 0; overflow: hidden; }
+
 @media (max-width: 23rem) {
   .header {
     grid-template-columns: auto minmax(0, 1fr) auto;

@@ -132,7 +132,7 @@ test("desktop FightClub hosted player chrome visual baseline", async ({ page }) 
     }),
   );
   await page.goto("/games/fightclub?view=os");
-  await page.getByRole("button", { name: "Play" }).click();
+  await page.getByRole("button", { name: "Start game" }).click();
   await expect(page.getByTitle("Citryn Fight Club hosted game")).toBeVisible();
   await expect(page).toHaveScreenshot("desktop-fightclub-player.png", {
     animations: "disabled",
@@ -178,6 +178,8 @@ test("Pocket Home Page Two visual baseline", async ({ page }) => {
         .evaluate((element) => element.scrollLeft),
     )
     .toBeGreaterThan(300);
+  await expect(page.getByRole("button", { name: "Open SHITBIRD", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Open LOW TIDE LOOT", exact: true })).toBeVisible();
   await expect(page).toHaveScreenshot("pocket-home-two.png", {
     animations: "disabled",
     maxDiffPixelRatio: 0.01,

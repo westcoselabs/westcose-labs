@@ -93,6 +93,9 @@
   inline-size: 100%;
 }
 
+/* Local arcade games own the available app body, while retaining OS chrome. */
+.body:has(> [data-game]) { padding: 0; overflow: hidden; }
+
 .body :global(.route-document__header) {
   box-shadow: none;
 }

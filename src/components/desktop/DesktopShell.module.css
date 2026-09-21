@@ -209,7 +209,8 @@
   position: absolute;
   inset-block-start: var(--desktop-gutter);
   inset-inline-end: var(--desktop-gutter);
-  z-index: var(--layer-widgets);
+  /* Passive desktop decoration must not cover application controls. */
+  z-index: var(--layer-desktop-icons);
   display: grid;
   gap: var(--space-xs);
   inline-size: 13rem;

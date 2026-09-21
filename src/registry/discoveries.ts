@@ -2,6 +2,13 @@ import type { Discovery } from "./types";
 
 export const discoveryRegistry = [
   {
+    id: "games.shitbird-cap",
+    title: "The coast has limits",
+    description: "Reached maximum difficulty in SHITBIRD. The score keeps going. The bullshit does not.",
+    category: "games",
+    hidden: true,
+  },
+  {
     id: "desktop.labs-status",
     title: "Labs status diagnostic",
     description: "The Pocket status widget reveals its less-certain diagnostic.",

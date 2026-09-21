@@ -293,6 +293,7 @@ export function parseDiscoveriesStorage(raw: string | null): DiscoveryState {
     unlockedWallpaperIds: parseStringIds(data.unlockedWallpaperIds),
     viewedHiddenFileIds: parseStringIds(data.viewedHiddenFileIds),
     fightClubAchievementIds: parseStringIds(data.fightClubAchievementIds),
+    achievementIds: parseStringIds(data.achievementIds),
     recycleRestorationIds: parseStringIds(data.recycleRestorationIds),
     terminalCommandIds: parseStringIds(data.terminalCommandIds),
     dismissedDiscoveryIds: parseStringIds(data.dismissedDiscoveryIds),

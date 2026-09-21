@@ -2,6 +2,8 @@ import type { PocketPage } from "../state/pocket";
 
 const NESTED_ROUTE_PARENTS = new Map<string, string>([
   ["games/fightclub", "/games"],
+  ["games/arcade", "/games"],
+  ["games/arcade/low-tide-loot", "/games"],
 ]);
 
 export interface PocketBackTarget {

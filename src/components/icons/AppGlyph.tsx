@@ -1,4 +1,6 @@
 import {
+  Anchor,
+  Bird,
   Briefcase,
   ChatCircle,
   EnvelopeSimple,
@@ -60,6 +62,10 @@ export function AppGlyph({
       return <EnvelopeSimple {...props} />;
     case "fightclub":
       return <Sword {...props} />;
+    case "low-tide-loot":
+      return <Anchor {...props} />;
+    case "shitbird":
+      return <Bird {...props} />;
     case "terminal":
       return <TerminalWindow {...props} />;
     case "github":

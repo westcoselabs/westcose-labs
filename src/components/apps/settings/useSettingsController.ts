@@ -59,6 +59,7 @@ const groupForDiscovery = (category: Discovery["category"]) => {
   if (category === "terminal") return "terminal";
   if (category === "recycle") return "recycle";
   if (category === "fightclub") return "fightclub";
+  if (category === "games") return "games";
   if (category === "theme") return "themes";
   return "system";
 };
@@ -69,6 +70,7 @@ const discoveryTeasers: Record<string, string> = {
   terminal: "A harmless command remains undiscovered.",
   recycle: "Recycle is keeping one detail to itself.",
   fightclub: "The launcher has not revealed everything.",
+  games: "The coast has not revealed its limits.",
   themes: "Another appearance option may exist.",
 };
 
@@ -105,6 +107,7 @@ export function useSettingsController(view: SettingsRouteView) {
       ["terminal", "Terminal"],
       ["recycle", "Recycle"],
       ["fightclub", "FightClub"],
+      ["games", "Games"],
       ["themes", "Themes"],
     ] as const;
     const discovered = new Set(discoveryState?.discoveredSecretIds ?? []);

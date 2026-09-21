@@ -84,6 +84,8 @@ export const pocketPageOnePlacement = [
 // Social shortcuts stay hidden until their destinations are verified.
 export const pocketPageTwoPlacement = [
   "fightclub",
+  "shitbird",
+  "low-tide-loot",
   "recycle",
 ] as const satisfies readonly AppId[];
 

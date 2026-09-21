@@ -22,3 +22,7 @@
 :global(html[data-shell="normal"]) .normalPanel {
   display: block;
 }
+
+.shells[hidden] {
+  display: none;
+}

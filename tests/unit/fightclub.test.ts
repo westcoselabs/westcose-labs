@@ -24,11 +24,12 @@ describe("FightClub hosted integration", () => {
   });
 
   it("registers only achievements observable by the OS launcher", () => {
-    expect(achievementRegistry.map((achievement) => achievement.id)).toEqual(
+    const achievements = achievementRegistry.filter((achievement) => achievement.category === "fightclub");
+    expect(achievements.map((achievement) => achievement.id)).toEqual(
       fightClubRegistry[0].achievementIds,
     );
     expect(
-      achievementRegistry.map((achievement) => achievement.description).join(" "),
+      achievements.map((achievement) => achievement.description).join(" "),
     ).not.toMatch(/win|score|round|fighter|match/i);
   });
 

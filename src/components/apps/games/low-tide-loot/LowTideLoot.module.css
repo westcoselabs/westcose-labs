@@ -1,0 +1,714 @@
+.game {
+  height: 100%;
+  min-height: 0;
+  background: var(--loot-ui-backdrop);
+  color: var(--loot-paper);
+  font-family: var(--font-manrope), sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+.game button {
+  font: inherit;
+  cursor: pointer;
+  border: 0;
+}
+.game button:disabled {
+  opacity: 0.48;
+  cursor: default;
+}
+.game button:focus-visible {
+  outline: 3px solid var(--loot-yellow);
+  outline-offset: 3px;
+}
+.well {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.arena {
+  position: relative;
+  width: 1280px;
+  height: 720px;
+  overflow: hidden;
+  container-type: size;
+  background: var(--loot-ink);
+}
+.arena canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+  z-index: 0;
+}
+.toolbar {
+  position: absolute;
+  z-index: 4;
+  inset: 0 0 auto;
+  min-height: 56px;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 8px 18px;
+  background: var(--loot-ui-toolbar);
+  border-bottom: 1px solid var(--loot-ui-divider);
+}
+.toolbar button,
+.rotate button {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  background: transparent;
+  color: var(--loot-paper);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+}
+.toolbar button:hover {
+  background: var(--loot-ui-hover);
+}
+.toolbarActions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.wordmark {
+  font-size: clamp(12px, 1.6cqw, 20px);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+.hud {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+  max-width: 900px;
+}
+.hud small {
+  display: block;
+  color: var(--loot-hud-muted);
+  font:
+    600 clamp(9px, 0.85cqw, 11px) var(--font-ibm-plex-mono),
+    monospace;
+  letter-spacing: 0.06em;
+}
+.location b {
+  display: block;
+  margin-top: 5px;
+  font-size: clamp(11px, 1.2cqw, 15px);
+  color: var(--loot-teal);
+}
+.hud strong {
+  display: block;
+  font:
+    700 clamp(20px, 2.6cqw, 32px)/1.15 var(--font-ibm-plex-mono),
+    monospace;
+  letter-spacing: -0.05em;
+}
+.quota {
+  flex: 1;
+  max-width: 400px;
+}
+.quota strong span {
+  font-size: clamp(10px, 1.1cqw, 14px);
+  color: var(--loot-muted);
+}
+.quota meter {
+  display: block;
+  width: 100%;
+  height: 4px;
+  margin-top: 4px;
+}
+.quota meter::-webkit-meter-bar {
+  background: var(--loot-ui-meter);
+  border: 0;
+}
+.quota meter::-webkit-meter-optimum-value {
+  background: var(--loot-yellow);
+}
+.warning {
+  color: var(--loot-ui-warning);
+}
+.overlay {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: max(65px, 10%) 24px 20px;
+  background: var(--loot-ui-overlay);
+  overflow-y: auto;
+}
+.panel {
+  width: min(480px, 100%);
+  border: 1px solid var(--loot-ui-panel-border);
+  border-radius: var(--radius-lg);
+  background: var(--loot-ui-panel);
+  padding: clamp(16px, 2.8cqw, 36px);
+  box-shadow: 0 20px 80px var(--loot-ui-panel-shadow);
+}
+.panel h2 {
+  margin: 0 0 12px;
+  font:
+    900 clamp(28px, 4.1cqw, 52px)/1 Georgia,
+    serif;
+  letter-spacing: -0.04em;
+}
+.panel h2 em {
+  color: var(--loot-teal);
+}
+.panel p {
+  font-size: clamp(12px, 1.25cqw, 16px);
+  line-height: 1.55;
+}
+.eyebrow {
+  color: var(--loot-teal);
+  font:
+    600 11px var(--font-ibm-plex-mono),
+    monospace !important;
+  letter-spacing: 0.15em;
+  margin: 0 0 12px;
+}
+.primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 20px;
+  color: var(--loot-ui-button-ink);
+  background: var(--loot-yellow);
+  font-weight: 800 !important;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 0 var(--loot-ui-button-shadow);
+  transition:
+    background 0.16s,
+    transform 0.16s;
+}
+.primary:hover {
+  background: var(--loot-ui-button-hover);
+}
+.primary:active {
+  transform: translateY(2px);
+}
+.titleScreen {
+  background:
+    linear-gradient(
+      90deg,
+      var(--loot-ui-title-dark) 0%,
+      var(--loot-ui-title-shade) 32%,
+      var(--loot-ui-title-fade) 76%
+    ),
+    url("/games/low-tide-loot/cover.webp") 78% center / cover;
+  justify-items: start;
+  padding-left: 7%;
+}
+.titleScreen .panel {
+  border: 0;
+  box-shadow: none;
+  background: none;
+  padding: 0;
+  width: 41%;
+}
+.panel .title {
+  font-size: clamp(42px, 7cqw, 90px);
+  line-height: 0.86;
+  margin: 18px 0;
+  text-shadow: 3px 4px var(--loot-ui-title-shadow);
+}
+.title em {
+  font-style: normal;
+}
+.tagline {
+  font-size: clamp(12px, 1.6cqw, 19px) !important;
+}
+.instructions {
+  color: var(--loot-muted);
+  font-size: clamp(11px, 1cqw, 13px) !important;
+}
+.loading {
+  padding: 16px 0;
+}
+.loading span {
+  font-size: 12px;
+  color: var(--loot-muted);
+}
+.loadingTrack {
+  height: 4px;
+  width: 100%;
+  background: var(--loot-ui-divider);
+  margin-top: 24px;
+  overflow: hidden;
+  border-radius: var(--radius-xs);
+}
+.loadingTrack::after {
+  content: "";
+  display: block;
+  width: 40%;
+  height: 100%;
+  background: var(--loot-yellow);
+  animation: load 1s ease-in-out infinite alternate;
+}
+@keyframes load {
+  to {
+    transform: translateX(150%);
+  }
+}
+.results {
+  display: flex;
+  gap: 24px;
+  padding: 14px 0;
+  border-block: 1px solid var(--loot-ui-divider);
+}
+.results span {
+  font:
+    10px var(--font-ibm-plex-mono),
+    monospace;
+  color: var(--loot-muted);
+}
+.results b {
+  display: block;
+  margin-top: 7px;
+  font:
+    800 clamp(22px, 3cqw, 36px) var(--font-manrope),
+    sans-serif;
+  color: var(--loot-yellow);
+}
+.menuActions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 12px;
+}
+.menuActions button {
+  background: none;
+  color: var(--loot-paper);
+  min-height: 44px;
+  padding: 8px;
+  font-size: 12px;
+}
+.controls {
+  position: absolute;
+  z-index: 1;
+  inset: auto 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 64px;
+  height: 11%;
+  padding: 8px 18px;
+  background: var(--loot-ui-controls);
+  border-top: 1px solid var(--loot-ui-divider);
+}
+.controls[hidden] {
+  display: none;
+}
+.feedback {
+  min-width: 0;
+}
+.feedback p {
+  font-size: clamp(11px, 1.2cqw, 15px);
+  margin: 0 0 4px;
+}
+.feedback small {
+  font:
+    9px var(--font-ibm-plex-mono),
+    monospace;
+  color: var(--loot-muted);
+}
+.controlButtons {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.controlButtons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  border-radius: var(--radius-sm);
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 800;
+}
+.bomb {
+  background: var(--loot-ui-bomb);
+  color: var(--loot-ui-bomb-text);
+}
+.fire {
+  background: var(--loot-yellow);
+  color: var(--loot-ink);
+  min-width: 144px;
+}
+.shopScene {
+  background:
+    linear-gradient(var(--loot-ui-shop-shade), var(--loot-ui-shop-shade)),
+    url("/games/low-tide-loot/surf-shop.webp") center/cover;
+  padding: max(66px, 10%) 3% 2% 24%;
+}
+.shopPanel {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+}
+.shopHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.shopHeader .eyebrow {
+  margin-bottom: 4px;
+}
+.shopHeader h2 {
+  font:
+    900 clamp(26px, 4cqw, 54px)/1 Georgia,
+    serif;
+  margin: 0;
+  letter-spacing: -0.04em;
+}
+.shopWallet {
+  display: flex;
+  gap: 22px;
+  background: var(--loot-ui-wallet);
+  border: 1px solid var(--loot-ui-wallet-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+}
+.shopWallet span {
+  font:
+    9px var(--font-ibm-plex-mono),
+    monospace;
+}
+.shopWallet b {
+  display: block;
+  font-size: clamp(16px, 2.2cqw, 28px);
+  color: var(--loot-yellow);
+  margin-top: 4px;
+}
+.shopItems {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.shopItem {
+  display: flex;
+  flex-direction: column;
+  background: var(--loot-ui-panel);
+  border: 1px solid var(--loot-ui-shop-border);
+  border-radius: var(--radius-md);
+  padding: clamp(8px, 1.4cqw, 18px);
+  text-align: center;
+  box-shadow: 0 6px 0 var(--loot-ui-card-shadow);
+}
+.shopMark {
+  display: grid;
+  place-items: center;
+  height: clamp(38px, 7cqw, 96px);
+  color: var(--loot-yellow);
+}
+.shopMark svg {
+  width: clamp(30px, 4.8cqw, 60px);
+  height: auto;
+}
+.shopItem h3 {
+  font-size: clamp(11px, 1.35cqw, 17px);
+  line-height: 1.2;
+  margin: 7px 0;
+}
+.shopItem p {
+  color: var(--loot-muted);
+  font-size: clamp(10px, 1cqw, 13px);
+  line-height: 1.4;
+  margin: 0 0 12px;
+  flex: 1;
+}
+.shopItem button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 44px;
+  font-size: clamp(10px, 1cqw, 13px);
+  font-weight: 800;
+  padding: 6px;
+  border-radius: var(--radius-xs);
+  color: var(--loot-ink);
+  background: var(--loot-yellow);
+}
+.shopItem[data-bought="true"] {
+  border-color: var(--loot-teal);
+}
+.shopItem[data-bought="true"] button {
+  opacity: 1;
+  background: var(--loot-ui-purchased);
+  color: var(--loot-ui-purchased-text);
+}
+.shopFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--loot-ui-toolbar);
+}
+.shopNote {
+  font-size: clamp(10px, 1.05cqw, 13px);
+  line-height: 1.5;
+  margin: 0;
+}
+.shopNote span {
+  color: var(--loot-muted);
+}
+.shopFooter .primary {
+  width: auto;
+  min-width: 160px;
+}
+.nextArrow {
+  transform: rotate(-90deg);
+}
+.rotate {
+  position: absolute;
+  z-index: 8;
+  inset: 0;
+  background:
+    linear-gradient(var(--loot-ui-rotate-shade), var(--loot-ui-rotate-dark)),
+    url("/games/low-tide-loot/cover.webp") center/cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 28px;
+  text-align: center;
+}
+.rotate > svg {
+  transform: rotate(90deg);
+  color: var(--loot-teal);
+}
+.rotate h2 {
+  font-size: 28px;
+  line-height: 1.2;
+  margin: 0;
+}
+.rotate p {
+  margin: 0;
+}
+.rotate small {
+  color: var(--loot-muted);
+}
+.rotateExit {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+}
+.scores {
+  margin-top: 16px;
+  max-height: 140px;
+  overflow: auto;
+}
+.scores table {
+  width: 100%;
+  font-size: 12px;
+  border-collapse: collapse;
+}
+.scores th,
+.scores td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--loot-ui-divider);
+}
+@container (max-width: 900px) {
+  .toolbar {
+    gap: 8px;
+    padding: 4px 8px;
+  }
+  .toolbar > button span {
+    display: none;
+  }
+  .toolbarActions {
+    gap: 0;
+  }
+  .toolbarActions > button[aria-label="Full screen"] {
+    display: none;
+  }
+  .hud {
+    gap: 12px;
+  }
+  .overlay {
+    padding-top: 62px;
+    padding-bottom: 12px;
+  }
+  .titleScreen {
+    padding-left: 6%;
+  }
+  .titleScreen .panel {
+    width: 44%;
+  }
+  .panel .title {
+    margin: 10px 0;
+  }
+  .eyebrow {
+    font-size: 9px !important;
+    margin-bottom: 8px;
+  }
+  .panel > p {
+    margin: 8px 0;
+  }
+  .panel .primary {
+    min-height: 44px;
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+  .panel h2 {
+    margin-bottom: 8px;
+  }
+  .results {
+    padding: 8px 0;
+  }
+  .controls {
+    padding: 6px 10px;
+    min-height: 56px;
+  }
+  .feedback small {
+    display: none;
+  }
+  .controlButtons {
+    gap: 8px;
+  }
+  .controlButtons button {
+    padding: 6px 10px;
+  }
+  .fire {
+    min-width: 120px;
+  }
+  .shopScene {
+    padding-left: 19%;
+    padding-right: 2%;
+  }
+  .shopPanel {
+    gap: 8px;
+  }
+  .shopItems {
+    gap: 7px;
+  }
+  .shopWallet {
+    padding: 6px 8px;
+    gap: 12px;
+  }
+  .shopItem {
+    padding: 7px;
+    border-radius: var(--radius-sm);
+  }
+  .shopItem h3 {
+    margin: 4px 0;
+  }
+  .shopItem p {
+    margin-bottom: 6px;
+  }
+  .shopFooter {
+    padding: 6px 8px;
+  }
+  .shopFooter .primary {
+    min-width: 124px;
+    min-height: 44px;
+    font-size: 12px;
+    padding: 8px;
+  }
+  .shopNote span {
+    display: none;
+  }
+}
+@container (max-width: 650px) {
+  .location b {
+    font-size: 10px;
+  }
+  .hud {
+    gap: 8px;
+  }
+  .shopScene {
+    padding-left: 2%;
+  }
+  .shopHeader h2 {
+    font-size: 25px;
+  }
+  .shopMark {
+    height: 30px;
+  }
+  .shopItem p {
+    font-size: 10px;
+  }
+  .shopHeader .eyebrow {
+    display: none;
+  }
+  .titleScreen .panel {
+    width: 52%;
+  }
+  .titleScreen .title {
+    font-size: 42px;
+  }
+  .titleScreen .instructions {
+    font-size: 10px !important;
+  }
+  .feedback p {
+    max-width: 22ch;
+  }
+  .panel h2 {
+    font-size: 28px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .primary {
+    transition: none;
+  }
+  .loadingTrack::after {
+    animation: none;
+  }
+  .primary:active {
+    transform: none;
+  }
+}
+
+.scoreboard {
+  margin-top: 18px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+.scoreboard h2 {
+  font-size: 23px;
+}
+.scoreboard ol {
+  padding: 0;
+  list-style: none;
+}
+.scoreboard li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--loot-ui-divider);
+  font:
+    12px var(--font-ibm-plex-mono),
+    monospace;
+}
+.scoreboard small {
+  display: block;
+  margin-top: 4px;
+  color: var(--loot-muted);
+}

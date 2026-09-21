@@ -212,7 +212,7 @@ function CategoryCanvas({ controller }: { readonly controller: SettingsControlle
         <button onClick={() => confirmAction("Reset the Pocket session and home screen?", controller.systemActions.resetSession)} type="button">Reset Session</button>
         <button onClick={() => confirmAction("Clear every local note and curated-note override?", controller.systemActions.resetLocalNotes)} type="button">Clear Local Notes</button>
         <button onClick={() => confirmAction("Reset discoveries and unlocked themes?", controller.systemActions.resetDiscoveries)} type="button">Reset Discoveries</button>
-        <button className={styles.danger} onClick={() => confirmAction("Reset preferences, session, local notes, and discoveries on this device?", controller.systemActions.resetAllLocalState)} type="button">Reset All Local State</button>
+        <button className={styles.danger} onClick={() => confirmAction("Reset preferences, session, local notes, game progress, and discoveries on this device?", controller.systemActions.resetAllLocalState)} type="button">Reset All Local State</button>
       </div>
     </SettingCard>
   </div>;

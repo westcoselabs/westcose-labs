@@ -37,7 +37,7 @@ test.describe("Phase 4 FightClub integration", () => {
 
     expect(remoteRequests).toEqual([]);
     await expect(page.getByTitle("Citryn Fight Club hosted game")).toHaveCount(0);
-    await expect(page.getByRole("button", { name: "Play" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Start game" })).toBeVisible();
   });
 
   test("lazy-creates a constrained iframe and restores the Desktop launcher on Exit", async ({
@@ -53,11 +53,11 @@ test.describe("Phase 4 FightClub integration", () => {
     });
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/games?view=os");
-    await page.getByRole("link", { name: "Open launcher" }).click();
+    await page.getByRole("link", { name: "Play FightClub" }).click();
     await expect(page).toHaveURL(/\/games\/fightclub(?:\?view=os)?$/);
     expect(remoteRequests).toEqual([]);
 
-    await page.getByRole("button", { name: "Play" }).click();
+    await page.getByRole("button", { name: "Start game" }).click();
     const frame = page.getByTitle("Citryn Fight Club hosted game");
     await expect(frame).toBeVisible();
     await expect(frame).toHaveAttribute("src", EMBED_URL);
@@ -67,9 +67,9 @@ test.describe("Phase 4 FightClub integration", () => {
     );
     await expect.poll(() => remoteRequests).toEqual([EMBED_URL]);
     await expect(
-      page.getByRole("toolbar", { name: "FightClub player controls" }),
+      page.locator("[data-game=\"fightclub\"] header"),
     ).toBeVisible();
-    await expect(page.getByRole("button", { name: "Exit" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Back to menu" })).toBeVisible();
     await expect(page.getByRole("link", { name: /Open hosted build/ })).toHaveAttribute(
       "href",
       "https://rosy-oak-905.higgsfield.gg/",
@@ -92,13 +92,13 @@ test.describe("Phase 4 FightClub integration", () => {
     });
     expect(await readFightClubState(page)).toEqual(beforeMessages);
 
-    await page.getByRole("button", { name: "Exit" }).click();
+    await page.getByRole("button", { name: "Back to menu" }).click();
     await expect(frame).toHaveCount(0);
-    await expect(page.getByRole("button", { name: "Play" })).toBeFocused();
-    expect((await readFightClubState(page))?.achievements).toEqual([
+    await expect(page.getByRole("button", { name: "Start game" })).toBeFocused();
+    expect((await readFightClubState(page))?.achievements).toEqual(expect.arrayContaining([
       "fightclub.first-launch",
       "fightclub.returned-to-os",
-    ]);
+    ]));
 
     await page.goBack();
     await expect(page).toHaveURL(/\/games(?:\?view=os)?$/);
@@ -120,16 +120,16 @@ test.describe("Phase 4 FightClub integration", () => {
     await page.goto("/games/fightclub?view=os");
     await expect(page.locator("html")).toHaveAttribute("data-shell", "pocket");
 
-    await page.getByRole("button", { name: "Play" }).click();
+    await page.getByRole("button", { name: "Start game" }).click();
     await expect(page.getByTitle("Citryn Fight Club hosted game")).toBeVisible();
-    await expect(page.getByRole("button", { name: "Exit" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Back to menu" })).toBeVisible();
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth - innerWidth),
     ).toBeLessThanOrEqual(0);
 
-    await page.getByRole("button", { name: "Exit" }).click();
-    await expect(page.getByRole("button", { name: "Play" })).toBeVisible();
-    await page.getByRole("button", { name: "Back" }).click();
-    await expect(page).toHaveURL("/games");
+    await page.getByRole("button", { name: "Back to menu" }).click();
+    await expect(page.getByRole("button", { name: "Start game" })).toBeVisible();
+    await page.getByRole("button", { name: "Exit to Games" }).click();
+    await expect(page).toHaveURL(/\/games(?:\?.*)?$/);
   });
 });

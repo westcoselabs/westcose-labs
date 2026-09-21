@@ -29,6 +29,8 @@ export type AppId =
   | "about"
   | "contact"
   | "fightclub"
+  | "shitbird"
+  | "low-tide-loot"
   | "terminal"
   | "github"
   | "recycle"
@@ -141,6 +143,7 @@ export type Discovery = {
     | "terminal"
     | "recycle"
     | "fightclub"
+    | "games"
     | "theme";
   hidden: boolean;
   notificationCopy?: string;
@@ -374,6 +377,7 @@ export type RouteKind =
   | "utility";
 
 export type RouteDescriptor = {
+  presentation?: "game";
   path: `/${string}` | "/";
   kind: RouteKind;
   title: string;

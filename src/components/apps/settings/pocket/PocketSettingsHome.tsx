@@ -257,7 +257,7 @@ function CategoryControls({ controller }: { readonly controller: SettingsControl
           <button onClick={() => confirmAction("Clear every local note and curated-note override on this device?", controller.systemActions.resetLocalNotes)} type="button">Clear Local Notes</button>
           <button onClick={() => confirmAction("Reset all earned discoveries and unlocked themes?", controller.systemActions.resetDiscoveries)} type="button">Reset Discoveries</button>
           <button onClick={() => confirmAction("Reset preferences to their defaults?", controller.systemActions.resetPreferences)} type="button">Reset Preferences</button>
-          <button className={styles.danger} onClick={() => confirmAction("Reset preferences, session, local notes, and discoveries on this device?", controller.systemActions.resetAllLocalState)} type="button">Reset All Local State</button>
+          <button className={styles.danger} onClick={() => confirmAction("Reset preferences, session, local notes, game progress, and discoveries on this device?", controller.systemActions.resetAllLocalState)} type="button">Reset All Local State</button>
         </div>
       </section>
       <section className={styles.about}><h2>About WestCose OS</h2><p>WestCose Labs OS v3</p><p>Build Status: Stable Enough</p><p>Local-first preferences. No account required.</p></section>

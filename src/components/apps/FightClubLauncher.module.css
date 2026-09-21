@@ -1,0 +1,312 @@
+.game {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 56px minmax(0, 1fr);
+  background: var(--fightclub-ink);
+  color: var(--fightclub-paper);
+  font-family: var(--font-manrope), sans-serif;
+}
+.game button,
+.game a {
+  cursor: pointer;
+  font: inherit;
+}
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 24px;
+  background: var(--fightclub-toolbar);
+  border-bottom: 1px solid var(--fightclub-divider-soft);
+}
+.toolbar > span {
+  font-weight: 900;
+}
+.toolbar button {
+  color: inherit;
+  background: none;
+  border: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+}
+.toolbar > div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.toolbar button:hover {
+  background: var(--fightclub-hover-wash);
+}
+.titleScreen {
+  position: relative;
+  overflow-y: auto;
+  display: grid;
+  align-items: center;
+  padding: 40px 8%;
+}
+.art {
+  position: absolute;
+  inset: 0;
+}
+.art img {
+  object-fit: cover;
+  object-position: 75% center;
+  opacity: 0.55;
+}
+.art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--fightclub-ink),
+    var(--fightclub-art-shade) 38%,
+    var(--fightclub-art-fade) 80%
+  );
+}
+.titleContent {
+  position: relative;
+  width: min(470px, 100%);
+}
+.eyebrow {
+  font:
+    600 10px var(--font-ibm-plex-mono),
+    monospace;
+  color: var(--fightclub-eyebrow);
+  letter-spacing: 0.13em;
+}
+.titleContent h1 {
+  font-size: clamp(54px, 7vw, 102px);
+  line-height: 0.95;
+  letter-spacing: -0.07em;
+  margin: 22px 0;
+}
+.titleContent h1 span {
+  display: block;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  color: var(--fightclub-secondary);
+  margin-top: 15px;
+  font-weight: 500;
+}
+.tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--fightclub-divider);
+}
+.tabs button {
+  min-height: 44px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  padding: 10px 12px;
+  background: none;
+  color: var(--fightclub-secondary);
+  font-size: 13px;
+}
+.tabs button[aria-pressed="true"] {
+  color: var(--fightclub-paper);
+  border-color: var(--fightclub-accent);
+}
+.copy {
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 18px 0;
+}
+.copy dl {
+  font-size: 12px;
+}
+.copy dt {
+  color: var(--fightclub-accent);
+  font-weight: 800;
+}
+.copy dd {
+  margin: 0 0 8px;
+}
+.primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 50px;
+  padding: 12px 32px;
+  width: 100%;
+  background: var(--fightclub-button);
+  border: 0;
+  border-radius: var(--radius-sm);
+  color: var(--fightclub-button-ink);
+  font-weight: 800 !important;
+  box-shadow: 0 4px 0 var(--fightclub-button-shadow);
+}
+.primary:hover {
+  background: var(--fightclub-hover);
+}
+.note {
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--fightclub-secondary);
+}
+.achievements {
+  margin-top: 20px;
+  border-top: 1px solid var(--fightclub-divider);
+  padding-top: 12px;
+}
+.achievements summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  min-height: 44px;
+}
+.achievements summary span {
+  margin-left: auto;
+}
+.achievements ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  font-size: 12px;
+}
+.achievements small {
+  display: block;
+  color: var(--fightclub-muted);
+  margin-top: 5px;
+}
+.textButton {
+  min-height: 44px;
+  background: none;
+  border: 0;
+  color: var(--fightclub-link);
+}
+.player {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-height: 0;
+}
+.frameBoundary {
+  position: relative;
+  min-height: 0;
+}
+.frameBoundary iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 24px;
+  gap: 14px;
+  text-align: center;
+  background: var(--fightclub-loading);
+}
+.loading h2,
+.loading p {
+  margin: 0;
+}
+.loading h2 {
+  font-size: 28px;
+}
+.loading p {
+  font-size: 13px;
+  color: var(--fightclub-secondary);
+}
+.loading .primary {
+  width: auto;
+}
+.loadingBar {
+  width: 200px;
+  height: 4px;
+  background: var(--fightclub-accent);
+  animation: pulse 1s infinite alternate;
+}
+.playerFooter {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 18px;
+  font-size: 11px;
+  background: var(--fightclub-toolbar);
+}
+.playerFooter a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--fightclub-hover);
+  min-height: 44px;
+}
+@keyframes pulse {
+  to {
+    opacity: 0.3;
+  }
+}
+@media (max-width: 600px) {
+  .toolbar {
+    padding: 4px 8px;
+  }
+  .toolbar > span {
+    display: none;
+  }
+  .titleScreen {
+    padding: 22px;
+    align-items: start;
+  }
+  .titleContent h1 {
+    font-size: 56px;
+    margin: 18px 0;
+  }
+  .copy {
+    font-size: 13px;
+    margin: 12px 0;
+  }
+  .achievements {
+    margin-top: 12px;
+  }
+  .art::after {
+    background: var(--fightclub-art-scrim);
+  }
+  .playerFooter {
+    font-size: 10px;
+  }
+}
+@media (max-height: 500px) and (min-width: 601px) {
+  .titleScreen {
+    padding-block: 20px;
+  }
+  .titleContent {
+    width: min(420px, 70%);
+  }
+  .titleContent h1 {
+    font-size: 48px;
+    margin: 12px 0;
+  }
+  .titleContent h1 span,
+  .achievements,
+  .note {
+    display: none;
+  }
+  .copy {
+    margin: 8px 0;
+  }
+  .titleContent .eyebrow {
+    margin: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loadingBar {
+    animation: none;
+  }
+}

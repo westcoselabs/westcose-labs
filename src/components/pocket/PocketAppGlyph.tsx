@@ -1,6 +1,8 @@
+import Image from "next/image";
 import type { Icon } from "@phosphor-icons/react";
 import {
   ArrowSquareOut,
+  Bird,
   BoxingGlove,
   ChatCircle,
   Flask,
@@ -21,6 +23,7 @@ const glyphs = {
   about: IdentificationCard,
   experiments: Flask,
   fightclub: BoxingGlove,
+  shitbird: Bird,
   games: GameController,
   github: GithubLogo,
   messages: ChatCircle,
@@ -40,6 +43,22 @@ export function PocketAppGlyph({
   iconKey,
   size = "grid",
 }: PocketAppGlyphProps) {
+  if (iconKey === "low-tide-loot")
+    return (
+      <Image
+        src="/games/low-tide-loot/cover.webp"
+        alt=""
+        width={64}
+        height={64}
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          borderRadius: "inherit",
+        }}
+      />
+    );
+
   if (iconKey === "projects") {
     return <ProjectsAppIcon size={size === "dock" ? "system" : "pocket"} />;
   }

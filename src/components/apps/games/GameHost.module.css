@@ -1,0 +1,32 @@
+.host {
+  position: fixed;
+  inset: 0;
+  z-index: var(--layer-modal, 100);
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--arcade-backdrop);
+  color: var(--arcade-paper);
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px)
+    env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+  isolation: isolate;
+}
+.host:fullscreen {
+  height: 100dvh;
+}
+.host *,
+.host *::before,
+.host *::after {
+  box-sizing: border-box;
+}
+.host button,
+.host a {
+  min-height: 44px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.host button:focus-visible,
+.host a:focus-visible {
+  outline: 3px solid var(--arcade-focus);
+  outline-offset: 3px;
+}

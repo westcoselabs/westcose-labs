@@ -20,6 +20,8 @@ import {
   type PocketPageIndex,
 } from "@/components/pocket";
 import { SettingsRoute } from "@/components/apps/settings/SettingsRoute";
+import { GameHost } from "@/components/apps/games/GameHost";
+import { resetGamesProgress } from "@/components/apps/games/storage";
 import {
   DEFAULT_SESSION,
   appearanceDataset,
@@ -112,6 +114,7 @@ export function OSRoot({ children }: OSRootProps) {
         : safeResolveStorage(() => window.sessionStorage),
   }));
   const initialPathnameRef = useRef(pathname);
+  const lastGamePath = useRef<string | null>(null);
   const [hydrated, setHydrated] = useState(false);
   const [readmeShown, setReadmeShown] = useState(
     () => readSession(storage.session).readmeShown,
@@ -258,6 +261,7 @@ export function OSRoot({ children }: OSRootProps) {
     },
   });
   const activeShell = resolution.shell;
+  const immersiveGame = getRouteDescriptor(pathname)?.presentation === "game";
 
   useEffect(() => {
     const root = document.documentElement;
@@ -297,22 +301,34 @@ export function OSRoot({ children }: OSRootProps) {
   ]);
 
   useEffect(() => {
+    if (immersiveGame) {
+      lastGamePath.current = pathname;
+      return;
+    }
     if (!hydrated) return;
     let secondFrame = 0;
     const firstFrame = window.requestAnimationFrame(() => {
       secondFrame = window.requestAnimationFrame(() => {
-        document
-          .querySelector<HTMLElement>(
+        const returnTarget =
+          pathname === "/games" && lastGamePath.current
+            ? document.querySelector<HTMLElement>(
+                `[data-game-library] a[href^="${lastGamePath.current}"]`,
+              )
+            : null;
+        (
+          returnTarget ??
+          document.querySelector<HTMLElement>(
             "[data-shell-panel]:not([hidden]) [data-route-content] h1",
           )
-          ?.focus();
+        )?.focus();
+        if (returnTarget) lastGamePath.current = null;
       });
     });
     return () => {
       window.cancelAnimationFrame(firstFrame);
       if (secondFrame) window.cancelAnimationFrame(secondFrame);
     };
-  }, [activeShell, hydrated, pathname]);
+  }, [activeShell, hydrated, pathname, immersiveGame]);
 
   const osViewHref = buildOsViewHref(pathname, searchParams);
   const routeDescriptor = getRouteDescriptor(pathname);
@@ -345,9 +361,8 @@ export function OSRoot({ children }: OSRootProps) {
 
   const launchPocketApp = useCallback(
     (item: PocketAppItem) => {
-      const app = appRegistry.find(
-        (candidate) => candidate.id === item.id,
-      ) as OSApp | undefined;
+      const app = appRegistry.find((candidate) => candidate.id === item.id) as
+        OSApp | undefined;
       if (!app) return;
       if (app.target.kind === "route") {
         pocketDispatch({ type: "launch/record-origin", page: pocket.page });
@@ -370,7 +385,10 @@ export function OSRoot({ children }: OSRootProps) {
       defaultPage: defaultPocketPage,
     });
     if (target.kind === "home") {
-      pocketDispatch({ type: "home/return", defaultPage: target.homePage ?? 0 });
+      pocketDispatch({
+        type: "home/return",
+        defaultPage: target.homePage ?? 0,
+      });
     }
     router.push(target.pathname);
   }, [defaultPocketPage, pathname, pocket.originPage, router]);
@@ -403,7 +421,7 @@ export function OSRoot({ children }: OSRootProps) {
       <SettingsRoute />
     </ShellPresentationProvider>
   );
-  const routeContent = children;
+  const routeContent = immersiveGame ? null : children;
 
   const panelProps = (shell: typeof activeShell) => ({
     "aria-hidden": hydrated && activeShell !== shell ? true : undefined,
@@ -415,147 +433,186 @@ export function OSRoot({ children }: OSRootProps) {
   return (
     <DiscoveryServiceProvider service={discoveryService}>
       <AppearanceProvider value={appearanceValue}>
-      <LocalNotesProvider dispatch={localNotesDispatch} state={localNotes}>
-        <SettingsProvider
-          value={{
-            dispatch: preferencesDispatch,
-            effectiveAccessibility,
-            lockPocket: () => showPocketSystem("system/lock"),
-            preferences,
-            previewLock: () => showPocketSystem("system/preview-lock"),
-            replayStartup: () => showPocketSystem("system/replay-startup"),
-            resetAllLocalState: () => {
-              resetPreferences();
-              resetSession();
-              resetDiscoveries();
-              resetLocalNotes();
-            },
-            resetDiscoveries,
-            resetLocalNotes,
-            resetPreferences,
-            resetSession,
-          }}
-        >
-        <div className={styles.root}>
-      <p aria-live="polite" className="sr-only">
-        {routeTitle} opened in{" "}
-        {activeShell === "normal" ? "semantic document" : `${activeShell} view`}.
-      </p>
-
-      <div className={styles.desktopPanel} {...panelProps("desktop")}>
-        {!hydrated || activeShell === "desktop" ? (
-          <DesktopShell
-            onReadmeShown={() => setReadmeShown(true)}
-            onSoundToggle={() =>
-              preferencesDispatch({
-                type: "sound/set",
-                enabled: !preferences.soundEnabled,
-              })
-            }
-            pathname={pathname}
-            routeTitle={routeTitle}
-            settingsPanel={settingsPanel}
-            showInitialReadme={
-              hydrated && activeShell === "desktop" && !readmeShown
-            }
-            soundEnabled={preferences.soundEnabled}
+        <LocalNotesProvider dispatch={localNotesDispatch} state={localNotes}>
+          <SettingsProvider
+            value={{
+              dispatch: preferencesDispatch,
+              effectiveAccessibility,
+              lockPocket: () => showPocketSystem("system/lock"),
+              preferences,
+              previewLock: () => showPocketSystem("system/preview-lock"),
+              replayStartup: () => showPocketSystem("system/replay-startup"),
+              resetAllLocalState: () => {
+                resetPreferences();
+                resetSession();
+                resetDiscoveries();
+                resetLocalNotes();
+                resetGamesProgress(storage.local);
+              },
+              resetDiscoveries,
+              resetLocalNotes,
+              resetPreferences,
+              resetSession,
+            }}
           >
-            {hydrated && activeShell === "desktop" ? (
-              <ShellPresentationProvider shell="desktop">
-                {routeContent}
-              </ShellPresentationProvider>
-            ) : null}
-          </DesktopShell>
-        ) : null}
-      </div>
+            <div className={styles.root}>
+              <p aria-live="polite" className="sr-only">
+                {routeTitle} opened in{" "}
+                {activeShell === "normal"
+                  ? "semantic document"
+                  : `${activeShell} view`}
+                .
+              </p>
 
-      <div className={styles.pocketPanel} {...panelProps("pocket")}>
-        {!hydrated || activeShell === "pocket" ? (
-          <PocketShell
-          activeApp={
-            pathname === "/"
-              ? undefined
-              : {
-                  id: activeApp?.id ?? "projects",
-                  title: activeProject?.title ?? activeApp?.name ?? routeTitle,
-                  backLabel: getParentPath(pathname) === "/" ? "Home" : "Back",
-                  iconKey: activeApp?.iconKey ?? "projects",
-                  subtitle:
-                    activeProject?.status === "development-fixture"
-                      ? "Development fixture"
-                      : undefined,
-                  tone: activeProject?.accentTone ?? activeApp?.tone ?? "blue",
-                }
-          }
-          dismissedNotificationIds={pocket.dismissedNotificationIds}
-          dockApps={pocketDockApps}
-          featuredProject={{
-            appId: "projects",
-            title: projectRegistry[0]?.title ?? "Projects",
-            description:
-              projectRegistry[0]?.shortDescription ?? "Selected product work.",
-          }}
-          labsStatus={{
-            label: personalityRegistry.statusMessages[0],
-            detail: personalityRegistry.conditionMessages[0],
-          }}
-          menuTargetId={pocket.menuTarget?.id}
-          notifications={pocketNotifications}
-          onBack={backFromPocketApp}
-          onCloseAppMenu={() => pocketDispatch({ type: "menu/close" })}
-          onDismissNotification={(notificationId) =>
-            pocketDispatch({ type: "notification/dismiss", notificationId })
-          }
-          onLaunchApp={launchPocketApp}
-          onOpenAppearanceSettings={() => router.push("/settings/appearance")}
-          onOpenAppMenu={(app) =>
-            pocketDispatch({
-              type: "menu/open",
-              target: { id: app.id, kind: app.kind === "social" ? "shortcut" : "app" },
-            })
-          }
-          onPageChange={(page: PocketPageIndex) =>
-            pocketDispatch({ type: "page/set", page })
-          }
-          onStartupComplete={() => pocketDispatch({ type: "startup/complete" })}
-          onUnlock={() => pocketDispatch({ type: "unlock" })}
-          page={pocket.page}
-          pageOneApps={pocketPageOneApps}
-          pageTwoApps={pocketPageTwoApps}
-          pathname={pathname}
-          previewingLock={pocket.previewingLock}
-          reducedMotion={effectiveAccessibility.reducedMotion}
-          startupPlayed={pocket.startupPlayed}
-          unlocked={pocket.unlocked}
-          >
-            {hydrated && activeShell === "pocket" ? (
-              <ShellPresentationProvider shell="pocket">
-                {routeContent}
-              </ShellPresentationProvider>
-            ) : null}
-          </PocketShell>
-        ) : null}
-      </div>
+              <div
+                className={styles.shells}
+                hidden={immersiveGame}
+                inert={immersiveGame}
+              >
+                <div className={styles.desktopPanel} {...panelProps("desktop")}>
+                  {!hydrated || activeShell === "desktop" ? (
+                    <DesktopShell
+                      onReadmeShown={() => setReadmeShown(true)}
+                      onSoundToggle={() =>
+                        preferencesDispatch({
+                          type: "sound/set",
+                          enabled: !preferences.soundEnabled,
+                        })
+                      }
+                      pathname={pathname}
+                      routeTitle={routeTitle}
+                      settingsPanel={settingsPanel}
+                      showInitialReadme={
+                        hydrated && activeShell === "desktop" && !readmeShown
+                      }
+                      soundEnabled={preferences.soundEnabled}
+                    >
+                      {hydrated && activeShell === "desktop" ? (
+                        <ShellPresentationProvider shell="desktop">
+                          {routeContent}
+                        </ShellPresentationProvider>
+                      ) : null}
+                    </DesktopShell>
+                  ) : null}
+                </div>
 
-      <div className={styles.normalPanel} {...panelProps("normal")}>
-        {!hydrated || activeShell === "normal" ? (
-          <SemanticShell
-            osViewHref={osViewHref}
-            pathname={pathname}
-            preserveNormalQuery={searchParams.get("view") === "normal"}
-            routeFallback={resolution.routeFallback}
-          >
-            {!hydrated || activeShell === "normal" ? (
-              <ShellPresentationProvider shell="normal">
-                {routeContent}
-              </ShellPresentationProvider>
-            ) : null}
-          </SemanticShell>
-        ) : null}
-      </div>
-        </div>
-        </SettingsProvider>
-      </LocalNotesProvider>
+                <div className={styles.pocketPanel} {...panelProps("pocket")}>
+                  {!hydrated || activeShell === "pocket" ? (
+                    <PocketShell
+                      activeApp={
+                        pathname === "/"
+                          ? undefined
+                          : {
+                              id: activeApp?.id ?? "projects",
+                              title:
+                                activeProject?.title ??
+                                activeApp?.name ??
+                                routeTitle,
+                              backLabel:
+                                getParentPath(pathname) === "/"
+                                  ? "Home"
+                                  : "Back",
+                              iconKey: activeApp?.iconKey ?? "projects",
+                              subtitle:
+                                activeProject?.status === "development-fixture"
+                                  ? "Development fixture"
+                                  : undefined,
+                              tone:
+                                activeProject?.accentTone ??
+                                activeApp?.tone ??
+                                "blue",
+                            }
+                      }
+                      dismissedNotificationIds={pocket.dismissedNotificationIds}
+                      dockApps={pocketDockApps}
+                      featuredProject={{
+                        appId: "projects",
+                        title: projectRegistry[0]?.title ?? "Projects",
+                        description:
+                          projectRegistry[0]?.shortDescription ??
+                          "Selected product work.",
+                      }}
+                      labsStatus={{
+                        label: personalityRegistry.statusMessages[0],
+                        detail: personalityRegistry.conditionMessages[0],
+                      }}
+                      menuTargetId={pocket.menuTarget?.id}
+                      notifications={pocketNotifications}
+                      onBack={backFromPocketApp}
+                      onCloseAppMenu={() =>
+                        pocketDispatch({ type: "menu/close" })
+                      }
+                      onDismissNotification={(notificationId) =>
+                        pocketDispatch({
+                          type: "notification/dismiss",
+                          notificationId,
+                        })
+                      }
+                      onLaunchApp={launchPocketApp}
+                      onOpenAppearanceSettings={() =>
+                        router.push("/settings/appearance")
+                      }
+                      onOpenAppMenu={(app) =>
+                        pocketDispatch({
+                          type: "menu/open",
+                          target: {
+                            id: app.id,
+                            kind: app.kind === "social" ? "shortcut" : "app",
+                          },
+                        })
+                      }
+                      onPageChange={(page: PocketPageIndex) =>
+                        pocketDispatch({ type: "page/set", page })
+                      }
+                      onStartupComplete={() =>
+                        pocketDispatch({ type: "startup/complete" })
+                      }
+                      onUnlock={() => pocketDispatch({ type: "unlock" })}
+                      page={pocket.page}
+                      pageOneApps={pocketPageOneApps}
+                      pageTwoApps={pocketPageTwoApps}
+                      pathname={pathname}
+                      previewingLock={pocket.previewingLock}
+                      reducedMotion={effectiveAccessibility.reducedMotion}
+                      startupPlayed={pocket.startupPlayed}
+                      unlocked={pocket.unlocked}
+                    >
+                      {hydrated && activeShell === "pocket" ? (
+                        <ShellPresentationProvider shell="pocket">
+                          {routeContent}
+                        </ShellPresentationProvider>
+                      ) : null}
+                    </PocketShell>
+                  ) : null}
+                </div>
+
+                <div className={styles.normalPanel} {...panelProps("normal")}>
+                  {!hydrated || activeShell === "normal" ? (
+                    <SemanticShell
+                      osViewHref={osViewHref}
+                      pathname={pathname}
+                      preserveNormalQuery={
+                        searchParams.get("view") === "normal"
+                      }
+                      routeFallback={resolution.routeFallback}
+                    >
+                      {!hydrated || activeShell === "normal" ? (
+                        <ShellPresentationProvider shell="normal">
+                          {routeContent}
+                        </ShellPresentationProvider>
+                      ) : null}
+                    </SemanticShell>
+                  ) : null}
+                </div>
+              </div>
+              {immersiveGame ? (
+                <ShellPresentationProvider shell={activeShell}>
+                  <GameHost key={pathname}>{children}</GameHost>
+                </ShellPresentationProvider>
+              ) : null}
+            </div>
+          </SettingsProvider>
+        </LocalNotesProvider>
       </AppearanceProvider>
     </DiscoveryServiceProvider>
   );

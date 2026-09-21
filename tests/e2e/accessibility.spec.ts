@@ -52,7 +52,7 @@ test("Pocket FightClub player chrome has no automated WCAG A/AA violations", asy
   await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/games/fightclub?view=os");
-  await page.getByRole("button", { name: "Play" }).click();
+  await page.getByRole("button", { name: "Start game" }).click();
   await expectNoAxeViolations(page);
 });
 

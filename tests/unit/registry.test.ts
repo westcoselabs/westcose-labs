@@ -108,10 +108,11 @@ describe("V3 registries", () => {
     expect(themeRegistry[0]).toMatchObject({ id: "dusk", dataTheme: "dusk" });
     expect(wallpaperRegistry.filter((wallpaper) => wallpaper.default)).toHaveLength(1);
     expect(wallpaperRegistry[0]).toMatchObject({ id: "dusk-cliffs" });
-    expect(achievementRegistry).toHaveLength(4);
+    expect(achievementRegistry.filter((entry) => entry.category === "fightclub")).toHaveLength(4);
+    expect(achievementRegistry.filter((entry) => entry.category === "games")).toHaveLength(6);
     expect(
       achievementRegistry.every((achievement) =>
-        achievement.id.startsWith("fightclub."),
+        /^(fightclub|shitbird)\./.test(achievement.id),
       ),
     ).toBe(true);
   });
@@ -134,7 +135,7 @@ describe("V3 registries", () => {
   });
 
   it("does not leak deferred apps or routes", () => {
-    expect(pocketPageTwoPlacement).toEqual(["fightclub", "recycle"]);
+    expect(pocketPageTwoPlacement).toEqual(["fightclub", "shitbird", "low-tide-loot", "recycle"]);
     const paths = routeRegistry.map((route) => route.path);
     expect(paths).not.toContain("/tv");
     expect(paths).not.toContain("/world");

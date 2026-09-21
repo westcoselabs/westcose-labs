@@ -12,6 +12,7 @@ export type DiscoveryState = {
   readonly unlockedWallpaperIds: readonly string[];
   readonly viewedHiddenFileIds: readonly string[];
   readonly fightClubAchievementIds: readonly string[];
+  readonly achievementIds: readonly string[];
   readonly recycleRestorationIds: readonly string[];
   readonly terminalCommandIds: readonly string[];
   readonly dismissedDiscoveryIds: readonly string[];
@@ -50,6 +51,7 @@ export const DEFAULT_DISCOVERY_STATE: DiscoveryState = Object.freeze({
   unlockedWallpaperIds: EMPTY_IDS,
   viewedHiddenFileIds: EMPTY_IDS,
   fightClubAchievementIds: EMPTY_IDS,
+  achievementIds: EMPTY_IDS,
   recycleRestorationIds: EMPTY_IDS,
   terminalCommandIds: EMPTY_IDS,
   dismissedDiscoveryIds: EMPTY_IDS,
@@ -76,6 +78,10 @@ export function createInitialDiscoveryState(
     unlockedWallpaperIds: uniqueIds(state?.unlockedWallpaperIds ?? []),
     viewedHiddenFileIds: uniqueIds(state?.viewedHiddenFileIds ?? []),
     fightClubAchievementIds: uniqueIds(state?.fightClubAchievementIds ?? []),
+    achievementIds: uniqueIds([
+      ...(state?.achievementIds ?? []),
+      ...(state?.fightClubAchievementIds ?? []),
+    ]),
     recycleRestorationIds: uniqueIds(state?.recycleRestorationIds ?? []),
     terminalCommandIds: uniqueIds(state?.terminalCommandIds ?? []),
     dismissedDiscoveryIds: uniqueIds(state?.dismissedDiscoveryIds ?? []),
@@ -124,10 +130,12 @@ export function discoveryReducer(
     case "hidden-file/view":
       return updateIds(state, "viewedHiddenFileIds", action.fileId);
     case "achievement/record":
+      // Preserve the legacy FightClub view while all games share one service.
       return updateIds(
-        state,
-        "fightClubAchievementIds",
-        action.achievementId,
+        action.achievementId.startsWith("fightclub.")
+          ? updateIds(state, "fightClubAchievementIds", action.achievementId)
+          : state,
+        "achievementIds", action.achievementId,
       );
     case "recycle/restoration-record":
       return updateIds(
