@@ -8,7 +8,6 @@ import {
   Play,
   SpeakerHigh,
   SpeakerSlash,
-  DeviceMobileCamera,
   Lightning,
   Clover,
   Diamond,
@@ -40,7 +39,6 @@ export default function LowTideLootMount() {
   const settings = useSettings(),
     shell = useShellPresentation();
   const { enterFullscreen } = useGamePresentation();
-  const [portrait, setPortrait] = useState(false);
   const [state, setState] = useState(() => snapshot(createRun(1))),
     [ready, setReady] = useState(false),
     [error, setError] = useState<string | null>(null);
@@ -62,16 +60,6 @@ export default function LowTideLootMount() {
   const sound = settings?.preferences.soundEnabled ?? localSound;
   const reducedMotion = settings?.effectiveAccessibility.reducedMotion ?? false;
   useFullscreenPause(() => engine.current?.pause());
-  useEffect(() => {
-    const query = window.matchMedia("(orientation: portrait)");
-    const update = () => {
-      setPortrait(query.matches);
-      if (query.matches) engine.current?.pause();
-    };
-    update();
-    query.addEventListener("change", update);
-    return () => query.removeEventListener("change", update);
-  }, []);
   useEffect(() => {
     options.current = { sound, reducedMotion };
     engine.current?.configure(options.current);
@@ -146,8 +134,8 @@ export default function LowTideLootMount() {
           bounds.width / WORLD.width,
           bounds.height / WORLD.height,
         );
-      field.style.width = `${Math.max(1, Math.floor(WORLD.width * scale))}px`;
-      field.style.height = `${Math.max(1, Math.floor(WORLD.height * scale))}px`;
+      field.style.width = `${Math.max(1, WORLD.width * scale)}px`;
+      field.style.height = `${Math.max(1, WORLD.height * scale)}px`;
       engine.current?.pause();
     };
     resize();
@@ -169,7 +157,7 @@ export default function LowTideLootMount() {
     }
   }, [state.phase]);
   const act = (method: "start" | "resume" | "fire" | "bomb" | "next") => {
-    if (portrait || !ready || error) return;
+    if (!ready || error) return;
     canvas.current?.focus({ preventScroll: true });
     setShowScores(false);
     setShowControls(false);
@@ -184,7 +172,7 @@ export default function LowTideLootMount() {
     overlay = !live;
   const quotaMet = state.cash >= state.target;
   const start = async () => {
-    if (portrait || !ready || error) return;
+    if (!ready || error) return;
     await enterFullscreen();
     requestAnimationFrame(() => requestAnimationFrame(() => act("start")));
   };
@@ -223,13 +211,13 @@ export default function LowTideLootMount() {
       <h1 className="sr-only" tabIndex={-1}>
         LOW TIDE LOOT
       </h1>
-      <div className={styles.well} ref={well} inert={portrait}>
+      <div className={styles.well} ref={well}>
         <div className={styles.arena} ref={arena} data-loot-stage>
           <canvas
             key={attempt}
             ref={canvas}
-            tabIndex={live && !portrait ? 0 : -1}
-            inert={overlay || portrait || Boolean(error)}
+            tabIndex={live ? 0 : -1}
+            inert={overlay || Boolean(error)}
             aria-label="Salvage playfield. Space, Down Arrow or tap to fire. Up Arrow or B for Beach Bomb. Escape to pause."
             aria-describedby="loot-controls"
           />
@@ -536,7 +524,7 @@ export default function LowTideLootMount() {
           <footer
             className={styles.controls}
             id="loot-controls"
-            inert={overlay || portrait || Boolean(error)}
+            inert={overlay || Boolean(error)}
             hidden={overlay || Boolean(error)}
           >
             <div className={styles.feedback}>
@@ -575,22 +563,6 @@ export default function LowTideLootMount() {
           </footer>
         </div>
       </div>
-      {portrait ? (
-        <div className={styles.rotate} role="status">
-          <div className={styles.rotateExit}>
-            <GameExit />
-          </div>
-          <DeviceMobileCamera size={64} weight="duotone" />
-          <p className={styles.eyebrow}>LOW TIDE LOOT</p>
-          <h2>A wider kind of adventure.</h2>
-          <p>Turn your phone sideways to play.</p>
-          <small>
-            {state.phase === "paused"
-              ? "Your haul is safe. Rotate, then resume."
-              : "One rusty claw. A whole beach to dig."}
-          </small>
-        </div>
-      ) : null}
     </section>
   );
 }

@@ -168,7 +168,7 @@ test.describe("Phase 0 local-state migration", () => {
     await page.goto("/projects?view=os");
     await expect(page.locator("html")).toHaveAttribute("data-shell", "desktop");
     await expect(
-      page.getByRole("heading", { level: 1, name: "Projects" }),
+      page.getByRole("heading", { level: 1, name: "Websites & software" }),
     ).toBeVisible();
     expect(pageErrors).toEqual([]);
   });

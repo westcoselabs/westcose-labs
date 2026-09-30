@@ -19,6 +19,9 @@ import {
 } from "react";
 
 import { AppGlyph } from "@/components/icons/AppGlyph";
+import { EggPanel } from "@/components/eggs/EggPanel";
+import { usePersonality } from "@/components/eggs/PersonalityProvider";
+import { EGG_PANEL_TITLES } from "@/lib/personality-eggs";
 import { useAppearance } from "@/components/os/AppearanceContext";
 import { Button, IconButton } from "@/components/ui";
 import {
@@ -32,6 +35,7 @@ import {
   getAppById,
   startMenuGroups,
   startMenuPlacement,
+  twoColumnStartMenuGroups,
   type AppId,
   type OSApp,
 } from "@/registry";
@@ -98,6 +102,7 @@ export function DesktopShell({
   soundEnabled,
 }: DesktopShellProps) {
   const { theme } = useAppearance();
+  const eggs = usePersonality();
   const router = useRouter();
   const [state, dispatch] = useReducer(
     desktopReducer,
@@ -110,6 +115,7 @@ export function DesktopShell({
   const [clockPanelOpen, setClockPanelOpen] = useState(false);
   const [systemMenuOpen, setSystemMenuOpen] = useState(false);
   const [powerMessage, setPowerMessage] = useState("");
+  const twoColumnLauncher = "launcherLayout" in theme && theme.launcherLayout === "two-column";
   const startButtonRef = useRef<HTMLButtonElement>(null);
   const desktopRef = useRef<HTMLDivElement>(null);
   const launchFocusRef = useRef(new Map<string, HTMLElement>());
@@ -140,7 +146,7 @@ export function DesktopShell({
           ? { width: Math.min(640, workspace.width * 0.62), height: 420 }
           : utility === "settings"
             ? { width: Math.min(680, workspace.width * 0.68), height: 560 }
-            : { width: Math.min(460, workspace.width * 0.5), height: 340 };
+            : { width: Math.min(490, workspace.width * 0.6), height: utility === "personality" ? 470 : 340 };
       return centerRectInWorkspace(dimensions, workspace);
     },
     [workspace],
@@ -152,6 +158,7 @@ export function DesktopShell({
         readme: "README.txt",
         settings: "Settings",
         terminal: "Terminal",
+        personality: "WestCose system utility",
       } as const;
       rememberLaunchFocus(`utility-${utility}`);
       dispatch({
@@ -204,6 +211,21 @@ export function DesktopShell({
   const routeWindowStatus = state.windows.find(
     (desktopWindow) => desktopWindow.kind === "route",
   )?.status;
+
+  const eggPanelId = eggs?.panel?.id;
+  const launchedEggId = useRef<number | null>(null);
+  const eggPanelTitle = eggs?.panel ? EGG_PANEL_TITLES[eggs.panel.kind] : "";
+  useEffect(() => {
+    if (!eggPanelId) {
+      launchedEggId.current = null;
+      dispatch({ type: "window/close", id: "utility-personality" });
+      return;
+    }
+    if (!workspace.width || launchedEggId.current === eggPanelId) return;
+    launchedEggId.current = eggPanelId;
+    rememberLaunchFocus("utility-personality");
+    dispatch({ type: "utility/open", utility: "personality", title: eggPanelTitle, rect: utilityRect("personality") });
+  }, [eggPanelId, eggPanelTitle, rememberLaunchFocus, utilityRect, workspace.width]);
 
   useEffect(() => {
     if (workspace.width === 0 || pathname === "/") return;
@@ -281,7 +303,10 @@ export function DesktopShell({
         ].filter((group) => group.apps.length > 0);
       }
 
-      return startMenuGroups
+      const groups = twoColumnLauncher
+        ? twoColumnStartMenuGroups
+        : startMenuGroups;
+      return groups
         .map((group) => ({
           ...group,
           apps: group.apps
@@ -294,12 +319,13 @@ export function DesktopShell({
         }))
         .filter((group) => group.apps.length > 0);
     },
-    [search],
+    [search, twoColumnLauncher],
   );
   const selectedApp = selectedAppId ? getAppById(selectedAppId) : null;
   const closeWindow = (desktopWindow: DesktopWindowModel) => {
     const returnTarget = launchFocusRef.current.get(desktopWindow.id);
     dispatch({ type: "window/close", id: desktopWindow.id });
+    if (desktopWindow.id === "utility-personality") eggs?.closePanel();
     if (desktopWindow.kind === "route") router.push("/");
     window.requestAnimationFrame(() => {
       if (returnTarget?.isConnected) returnTarget.focus();
@@ -323,6 +349,7 @@ export function DesktopShell({
     if (desktopWindow.kind === "route") return children;
     if (desktopWindow.utility === "terminal") return <TerminalUtility />;
     if (desktopWindow.utility === "settings") return settingsPanel;
+    if (desktopWindow.utility === "personality") return <EggPanel />;
     return (
       <div className={styles.readme}>
         <p className={styles.readmeEyebrow}>WELCOME / {theme.copy?.systemLabel ?? "DUSK"} BUILD</p>
@@ -471,7 +498,7 @@ export function DesktopShell({
       </main>
 
       {state.menu?.kind === "start" ? (
-        <section aria-label="Start menu" className={styles.startMenu}>
+        <section aria-label="Start menu" className={styles.startMenu} data-launcher-layout={twoColumnLauncher ? "two-column" : undefined}>
           <header>
             <p>WestCose Labs</p>
             <span>{theme.copy?.systemLabel ?? "DUSK"} / V2</span>
@@ -487,9 +514,9 @@ export function DesktopShell({
               value={search}
             />
           </label>
-          <div className={styles.startResults}>
+          <div className={styles.startResults} data-searching={Boolean(search.trim()) || undefined}>
             {filteredStartGroups.map((group) => (
-              <section className={styles.startGroup} key={group.id}>
+              <section className={styles.startGroup} data-launcher-group={group.id} key={group.id}>
                 <h3>{group.label}</h3>
                 {group.apps.map((app) => (
                   <button

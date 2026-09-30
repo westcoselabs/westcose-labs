@@ -49,7 +49,7 @@ export const humorRegistry = {
     {
       id: "readme-meeting",
       name: "meeting-that-could-have-been-a-readme.txt",
-      note: "Recovered successfully. It is now a README.",
+      note: "Attendance mandatory. Outcome optional.",
     },
   ],
 } as const;

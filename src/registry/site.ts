@@ -1,9 +1,14 @@
 import type { SiteConfig } from "./types";
+import { parseSiteOrigin } from "../lib/site-origin";
 
-const siteUrlCandidate = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
-const configuredSiteUrl = isHttpsUrl(siteUrlCandidate)
-  ? siteUrlCandidate
-  : undefined;
+const configuredSiteUrl = parseSiteOrigin(
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://westcoselabs.com",
+);
+if (!configuredSiteUrl) {
+  throw new Error(
+    "NEXT_PUBLIC_SITE_URL must be a public HTTPS origin without a path, query, or credentials. The default is https://westcoselabs.com.",
+  );
+}
 const configuredContactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim();
 const configuredGitHubUrl = process.env.NEXT_PUBLIC_GITHUB_URL?.trim();
 
@@ -26,8 +31,8 @@ export const siteConfig = {
   name: "WestCose Labs OS",
   ownerName: "Brandon",
   description:
-    "A tactile, late-2000s-inspired portfolio for software, games, and experiments.",
-  siteUrl: configuredSiteUrl || "http://localhost:3000",
+    "WestCose Labs designs and builds custom websites for businesses. Explore website design, web development, and recent projects, then discuss your website.",
+  siteUrl: configuredSiteUrl,
   siteUrlConfigured: Boolean(configuredSiteUrl),
   contactEmail: isEmail(configuredContactEmail)
     ? configuredContactEmail

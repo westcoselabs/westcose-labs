@@ -1,6 +1,40 @@
 .homeHeader { composes: regular from "../../styles/glass.module.css"; }
 .dock { composes: clear from "../../styles/glass.module.css"; }
 
+:global([data-theme-taskbar="blue-taskbar"]) .homeHeader {
+  margin-inline: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--xp-blue-dark);
+  background: var(--xp-title);
+  color: var(--xp-ink-on-blue);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--xp-bevel);
+}
+:global([data-theme-taskbar="blue-taskbar"]) .brand span { color: inherit; }
+:global([data-theme-taskbar="blue-taskbar"]) .homeHeader button { color: var(--xp-ink-on-blue); background: transparent; box-shadow: none; }
+:global([data-theme-taskbar="blue-taskbar"]) .dock {
+  margin-inline: 0;
+  border-radius: var(--radius-none);
+  background: var(--xp-taskbar);
+  border: 0;
+  box-shadow: var(--xp-bevel);
+}
+:global([data-theme-taskbar="blue-taskbar"]) .dockIcon { background: transparent; box-shadow: none; }
+:global([data-theme-taskbar="blue-taskbar"]) .dockButton > span:last-child { color: var(--xp-ink-on-blue); }
+:global([data-theme-taskbar="blue-taskbar"]) .pageHeading {
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-overlay);
+}
+:global([data-theme-taskbar="blue-taskbar"]) :is(.todayWidget, .projectWidget) {
+  background: var(--color-surface-base);
+  border: 1px solid var(--xp-edge-dark);
+  box-shadow: var(--xp-bevel);
+}
+:global([data-theme-taskbar="blue-taskbar"]) .page { overflow-y: auto; touch-action: pan-x pan-y; }
+:global([data-theme-taskbar="blue-taskbar"]) .indicator::after { background: var(--xp-label-bg); }
+:global([data-theme-taskbar="blue-taskbar"]) .indicator[aria-current="page"]::after { background: var(--color-text-on-media); border: 1px solid var(--xp-label-bg); }
+
 .home {
   position: relative;
   display: grid;

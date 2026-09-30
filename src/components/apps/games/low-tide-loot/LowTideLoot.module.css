@@ -58,8 +58,7 @@
   background: var(--loot-ui-toolbar);
   border-bottom: 1px solid var(--loot-ui-divider);
 }
-.toolbar button,
-.rotate button {
+.toolbar button {
   min-width: 44px;
   min-height: 44px;
   display: inline-flex;
@@ -483,41 +482,6 @@
 .nextArrow {
   transform: rotate(-90deg);
 }
-.rotate {
-  position: absolute;
-  z-index: 8;
-  inset: 0;
-  background:
-    linear-gradient(var(--loot-ui-rotate-shade), var(--loot-ui-rotate-dark)),
-    url("/games/low-tide-loot/cover.webp") center/cover;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  padding: 28px;
-  text-align: center;
-}
-.rotate > svg {
-  transform: rotate(90deg);
-  color: var(--loot-teal);
-}
-.rotate h2 {
-  font-size: 28px;
-  line-height: 1.2;
-  margin: 0;
-}
-.rotate p {
-  margin: 0;
-}
-.rotate small {
-  color: var(--loot-muted);
-}
-.rotateExit {
-  position: absolute;
-  top: 8px;
-  left: 10px;
-}
 .scores {
   margin-top: 16px;
   max-height: 140px;
@@ -711,4 +675,165 @@
   display: block;
   margin-top: 4px;
   color: var(--loot-muted);
+}
+
+/* Portrait keeps the same undistorted world, with touch controls in the free space. */
+@media (orientation: portrait) {
+  .arena {
+    position: relative;
+    container-type: normal;
+    overflow: visible;
+  }
+  .toolbar {
+    position: fixed;
+    top: env(safe-area-inset-top, 0px);
+    height: auto;
+    padding: 8px 12px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .toolbar > button span {
+    display: none;
+  }
+  .toolbarActions {
+    margin-left: auto;
+  }
+  .wordmark {
+    font-size: 14px;
+  }
+  .hud {
+    order: 3;
+    flex-basis: 100%;
+    max-width: none;
+    gap: 16px;
+    padding: 8px 0;
+  }
+  .hud small {
+    font-size: 10px;
+  }
+  .hud strong {
+    font-size: 25px;
+  }
+  .location b {
+    font-size: 12px;
+  }
+  .quota strong span {
+    font-size: 11px;
+  }
+  .controls {
+    position: fixed;
+    bottom: env(safe-area-inset-bottom, 0px);
+    height: auto;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px;
+    gap: 12px;
+  }
+  .feedback p {
+    max-width: none;
+    font-size: 13px;
+  }
+  .feedback small {
+    font-size: 10px;
+  }
+  .controlButtons {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 12px;
+  }
+  .controlButtons button {
+    min-height: 52px;
+  }
+  .overlay {
+    position: fixed;
+    padding: 80px 20px 24px;
+  }
+  .panel {
+    width: 100%;
+    padding: 24px;
+  }
+  .panel p {
+    font-size: 14px;
+  }
+  .panel h2 {
+    font-size: 40px;
+  }
+  .titleScreen {
+    background-position: 64% center;
+    align-items: end;
+    padding-bottom: 8vh;
+  }
+  .titleScreen .panel {
+    width: 100%;
+    padding: 22px;
+    border-radius: var(--radius-lg);
+    background: var(--loot-ui-panel);
+  }
+  .panel .title {
+    font-size: clamp(48px, 16vw, 76px);
+    margin: 22px 0;
+  }
+  .tagline {
+    font-size: 15px !important;
+  }
+  .instructions {
+    font-size: 12px !important;
+  }
+  .eyebrow {
+    font-size: 11px !important;
+  }
+  .shopScene {
+    padding: 76px 14px 20px;
+    align-items: start;
+    background-position: 30% center;
+  }
+  .shopPanel {
+    width: 100%;
+    gap: 14px;
+  }
+  .shopHeader {
+    gap: 8px;
+  }
+  .shopHeader h2 {
+    font-size: 32px;
+  }
+  .shopWallet {
+    gap: 10px;
+    padding: 10px;
+  }
+  .shopWallet b {
+    font-size: 20px;
+  }
+  .shopItems {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .shopItem {
+    padding: 12px;
+  }
+  .shopItem h3 {
+    font-size: 15px;
+  }
+  .shopItem p {
+    font-size: 12px;
+  }
+  .shopItem button {
+    font-size: 12px;
+  }
+  .shopMark {
+    height: 38px;
+  }
+  .shopMark svg {
+    width: 34px;
+  }
+  .shopFooter {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .shopFooter .primary {
+    width: 100%;
+  }
+  .shopNote {
+    font-size: 12px;
+  }
 }

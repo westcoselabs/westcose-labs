@@ -23,7 +23,9 @@ export function CaseStudyIndex({
         {items.map((item, index) => (
           <li key={item.id}>
             <a href={`#${item.id}`}>
-              <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+              <span aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
               {item.label}
             </a>
           </li>
@@ -45,7 +47,11 @@ export function CaseStudySection({
   readonly title: string;
 }) {
   return (
-    <section className="case-study-section" aria-labelledby={`${id}-title`} id={id}>
+    <section
+      className="case-study-section"
+      aria-labelledby={`${id}-title`}
+      id={id}
+    >
       <header>
         <p>Chapter {number}</p>
         <h2 id={`${id}-title`}>{title}</h2>

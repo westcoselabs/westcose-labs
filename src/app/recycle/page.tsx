@@ -22,8 +22,7 @@ export default function RecyclePage() {
       presentation="recycle"
     >
       <RecycleExplorer />
-      <RouteSection title="Quarantined item">
-        <p>This optional interaction is harmless and easy to dismiss.</p>
+      <RouteSection title="Quarantine">
         <DoNotOpen />
       </RouteSection>
     </RouteDocument>

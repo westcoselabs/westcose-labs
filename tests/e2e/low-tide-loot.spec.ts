@@ -127,11 +127,18 @@ test.describe("LOW TIDE LOOT", () => {
     const canvas = await game.locator("canvas").elementHandle();
     await page.setViewportSize({ width: 375, height: 667 });
     await expect(
-      page.getByText("Turn your phone sideways to play."),
+      page.getByRole("button", { name: "Resume salvaging" }),
     ).toBeVisible();
+    await expect(
+      page.getByText("Turn your phone sideways to play."),
+    ).toHaveCount(0);
     await expect(game).toHaveAttribute("data-phase", "paused");
     expect(await canvas!.evaluate((node) => node.isConnected)).toBe(true);
-    await page.screenshot({ path: info.outputPath("loot-rotate.png") });
+    await page.getByRole("button", { name: "Resume salvaging" }).click();
+    await expect(game).toHaveAttribute("data-phase", "playing");
+    await page.getByRole("button", { name: "Drop claw" }).click();
+    await expect(game).not.toHaveAttribute("data-claw", "swinging");
+    await page.screenshot({ path: info.outputPath("loot-portrait.png") });
     await page.setViewportSize({ width: 1180, height: 720 });
     await expect(
       page.getByText("Turn your phone sideways to play."),

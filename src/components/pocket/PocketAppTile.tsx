@@ -70,6 +70,7 @@ export function PocketAppTile({
       <button
         aria-label={app.accessibilityLabel}
         className={styles.launch}
+        data-egg-surface="icon"
         onClick={(event) => {
           if (longPressedRef.current) {
             event.preventDefault();

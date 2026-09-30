@@ -9,8 +9,8 @@ import {
 } from "@/registry";
 
 export const metadata = createRouteMetadata({
-  title: "About",
-  description: "About WestCose Labs and the portfolio operating system.",
+  title: "About Our Website Design & Development Work",
+  description: "Meet WestCose Labs, a Bakersfield-based design and development practice. Explore the approach behind our custom websites, software, and creative projects.",
   path: "/about",
 });
 
@@ -18,8 +18,8 @@ export default function AboutPage() {
   return (
     <RouteDocument
       eyebrow="About this device"
-      title="WestCose Labs"
-      description="A design-led software practice presented as a personal workstation from an alternate 2009."
+      title="Website design and development at WestCose Labs"
+      description="A design-led practice based in Bakersfield, California, bringing custom websites, software, and creative development together."
       presentation="about"
       actions={[
         { href: "/projects", label: "View projects", variant: "primary" },

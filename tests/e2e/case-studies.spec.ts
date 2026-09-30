@@ -28,10 +28,9 @@ test.describe("Phase 3 case studies", () => {
     for (const name of chapterNames) {
       await expect(page.getByRole("heading", { name, level: 2 })).toBeVisible();
     }
-    await expect(page.getByRole("navigation", { name: "Case study sections" })).toHaveCSS(
-      "position",
-      "sticky",
-    );
+    await expect(
+      page.getByRole("navigation", { name: "Case study sections" }),
+    ).toHaveCSS("position", "sticky");
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
       "href",
       /\/projects\/westcose-labs-os$/,
@@ -42,17 +41,25 @@ test.describe("Phase 3 case studies", () => {
     );
   });
 
-  test("keeps Estate claims labeled and withholds unverified links", async ({ page }) => {
-    await page.setViewportSize({ width: 1280, height: 800 });
+  test("presents verified Estate beta details and live/source links", async ({
+    page,
+  }) => {
     await page.goto("/projects/estate-sales-bakersfield?view=normal");
-
-    await expect(page.locator(".case-study-section")).toHaveCount(10);
-    await expect(page.getByText("Development fixture", { exact: true }).first()).toBeVisible();
-    await expect(page.getByText("Owner input needed", { exact: true }).first()).toBeVisible();
-    await expect(page.getByRole("link", { name: "Visit live site" })).toHaveCount(0);
-    await expect(page.getByRole("link", { name: "View source" })).toHaveCount(0);
-    await expect(page.getByText("Proposed", { exact: true }).first()).toBeVisible();
-    await expect(page.getByText("Implemented", { exact: true }).first()).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Visit live site" }),
+    ).toHaveAttribute("href", "https://estate-sales-bakersfield.vercel.app");
+    await expect(
+      page.getByRole("link", { name: "View source" }),
+    ).toHaveAttribute(
+      "href",
+      "https://github.com/westcoselabs/estate-sales-bakersfield",
+    );
+    await expect(
+      page.getByText("Development fixture", { exact: true }),
+    ).toHaveCount(0);
+    await expect(
+      page.getByRole("heading", { name: "Public beta", exact: true }),
+    ).toBeVisible();
   });
 
   test("uses the same chapter content in Pocket without horizontal page overflow", async ({
@@ -68,7 +75,9 @@ test.describe("Phase 3 case studies", () => {
       page.getByRole("heading", { name: chapterNames[9], level: 2 }),
     ).toBeAttached();
     expect(
-      await page.evaluate(() => document.documentElement.scrollWidth - innerWidth),
+      await page.evaluate(
+        () => document.documentElement.scrollWidth - innerWidth,
+      ),
     ).toBeLessThanOrEqual(0);
   });
 

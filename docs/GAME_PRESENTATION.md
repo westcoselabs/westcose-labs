@@ -10,7 +10,7 @@ Original engines load only after their route is selected. Artwork loading and er
 
 FightClub loads no remote iframe before Start. The existing embed URL, sandbox, permissions and achievement service are preserved. The full-screen player includes loading, a 20-second retry state, external launch and Exit. The remote game has no pause message contract; its gameplay remains hosted.
 
-SHITBIRD keeps the 360 × 540 simulation, physics, obstacles, milestones and portrait proportions. LOW TIDE LOOT uses a real 1280 × 720 simulation and proportional 16:9 stage. Portrait presents a rotation gate while keeping the run mounted and paused. Its HUD uses independently sized HTML controls. Layout generation and cable travel reserve the bottom of the world for touch controls and labels.
+SHITBIRD keeps the 360 × 540 simulation, physics, obstacles, milestones and portrait proportions. LOW TIDE LOOT uses a real 1280 × 720 simulation and proportional 16:9 stage. Portrait now permits immediate play, with independently sized HUD and touch controls in the space outside the canvas. Rotation preserves the mounted run and pauses it for an explicit Resume. Layout generation and cable travel reserve the bottom of the world for touch controls and labels.
 
 The 60-second salvage round continues after quota. A successful day leads to results, then the optional Surf Shop, then the next level. Four rotating offers preserve the existing prices and effects. Purchases reduce cash, not lifetime score; duplicate purchases and insufficient funds are rejected; bombs carry up to five; other buffs last exactly the next day.
 

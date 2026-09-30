@@ -129,6 +129,21 @@ export const wallpaperRegistry = [
     },
   },
   {
+    id: "coastal-hills",
+    name: "Coastal Hills",
+    description: "An original sunny green coast, made for WestCose XP.",
+    default: false,
+    hidden: false,
+    recommendedThemeId: "westcose-xp",
+    desktop: { kind: "image", src: "/images/wallpapers/xp-coastal-hills-desktop.webp", width: 1536, height: 1024 },
+    pocket: { kind: "image", src: "/images/wallpapers/xp-coastal-hills-pocket.webp", width: 683, height: 1024 },
+    scrim: { desktop: lightArtworkScrim, pocketHome: lightArtworkScrim, pocketLock: lightArtworkScrim },
+    preview: {
+      image: 'url("/images/wallpapers/xp-coastal-hills-desktop.webp")',
+      label: "Original green hills and blue coastal sky",
+    },
+  },
+  {
     id: "standard-issue",
     name: "Standard Issue",
     description:

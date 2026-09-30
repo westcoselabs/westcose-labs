@@ -47,15 +47,28 @@ export const experimentRegistry = [
     iconKey: "projects",
     tone: "indigo",
   },
+  {
+    slug: "westcose-world",
+    title: "WestCose World / 3D Experiment",
+    purpose:
+      "Explore the original Designs, Labs, and Shop planets individually in full-screen 3D.",
+    status: "beta",
+    requirements:
+      "Choose a planet to rotate, move, zoom, and inspect its original materials, named parts, or wireframe. The source inventory remains readable without WebGL.",
+    proof:
+      "Each planet uses the exact model and textures consumed by WestCose Designs’ original orbit scene.",
+    iconKey: "experiments",
+    tone: "teal",
+  },
 ] as const satisfies readonly Experiment[];
 
 export const capabilityRegistry = [
   {
     id: "web",
-    title: "Web design and development",
-    description: "Responsive sites built around real content, semantic routes, and measurable performance limits.",
-    proofLabel: "See the Labs OS architecture",
-    proofHref: "/projects/westcose-labs-os",
+    title: "Website design and web development",
+    description: "Custom websites built around your brand, your content, and your customers.",
+    proofLabel: "Explore website services",
+    proofHref: "/services",
   },
   {
     id: "product",

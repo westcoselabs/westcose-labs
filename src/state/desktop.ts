@@ -5,7 +5,7 @@ import {
 } from "../lib/window-geometry";
 
 export const ROUTE_WINDOW_ID = "route-content" as const;
-export const DESKTOP_UTILITY_IDS = ["readme", "terminal", "settings"] as const;
+export const DESKTOP_UTILITY_IDS = ["readme", "terminal", "settings", "personality"] as const;
 
 export type DesktopUtilityId = (typeof DESKTOP_UTILITY_IDS)[number];
 export type DesktopWindowStatus = "open" | "minimized" | "maximized";

@@ -8,7 +8,7 @@
   background-image: var(--glass-sheen);
   border: 1px solid var(--glass-rim);
   color: var(--color-text-primary);
-  box-shadow: var(--glass-shadow), var(--glass-inner);
+  box-shadow: var(--glass-shadow), var(--glass-inner), var(--glass-edge);
   -webkit-backdrop-filter: var(--glass-filter);
   backdrop-filter: var(--glass-filter);
 }

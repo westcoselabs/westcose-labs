@@ -5,6 +5,7 @@ import {
   RouteDocument,
   RouteSection,
 } from "@/components/apps/RouteDocument";
+import { PlanetExperiment } from "@/components/experiments/planet/PlanetExperiment";
 import {
   createRouteMetadata,
   experimentRegistry,
@@ -40,12 +41,18 @@ export default async function ExperimentPage({ params }: ExperimentPageProps) {
       status={experiment.status}
       presentation="experiments"
     >
-      <RouteSection title="Interaction requirements">
-        <p>{experiment.requirements}</p>
-      </RouteSection>
-      <RouteSection title="Verified proof">
-        <p>{experiment.proof}</p>
-      </RouteSection>
+      {experiment.slug === "westcose-world" ? (
+        <PlanetExperiment />
+      ) : (
+        <>
+          <RouteSection title="Interaction requirements">
+            <p>{experiment.requirements}</p>
+          </RouteSection>
+          <RouteSection title="Verified proof">
+            <p>{experiment.proof}</p>
+          </RouteSection>
+        </>
+      )}
     </RouteDocument>
   );
 }

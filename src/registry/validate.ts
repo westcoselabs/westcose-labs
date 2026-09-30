@@ -38,7 +38,7 @@ import type {
 const THEME_TREATMENT_VALUES: {
   readonly [Axis in keyof ThemeTreatments]: readonly ThemeTreatments[Axis][];
 } = {
-  surface: ["neumorphic", "flat", "beveled", "translucent", "matte"],
+  surface: ["neumorphic", "flat", "beveled", "translucent", "matte", "glossy-plastic"],
   border: ["hairline", "none", "outset", "inset", "heavy"],
   depth: ["soft-shadow", "flat", "hard-shadow", "drop-shadow", "glow"],
   typography: [
@@ -48,10 +48,10 @@ const THEME_TREATMENT_VALUES: {
     "monospace",
     "editorial",
   ],
-  windowChrome: ["modern-flat", "classic-titlebar", "translucent", "bare"],
-  taskbar: ["floating-bar", "anchored-bar", "edge-strip"],
+  windowChrome: ["modern-flat", "classic-titlebar", "translucent", "bare", "sculpted-titlebar"],
+  taskbar: ["floating-bar", "anchored-bar", "edge-strip", "blue-taskbar"],
   widget: ["raised-card", "flat-panel", "translucent-card", "suppressed"],
-  icon: ["duotone-glyph", "bitmap", "outline", "filled"],
+  icon: ["duotone-glyph", "bitmap", "outline", "filled", "rendered-object"],
 };
 
 const THEME_EFFECT_VALUES = [

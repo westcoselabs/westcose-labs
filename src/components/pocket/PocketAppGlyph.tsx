@@ -18,6 +18,7 @@ import {
 } from "@phosphor-icons/react";
 
 import { ProjectsAppIcon } from "@/components/icons/app";
+import { ThemeGlyph } from "@/components/icons/ThemeGlyph";
 
 const glyphs = {
   about: IdentificationCard,
@@ -40,6 +41,15 @@ interface PocketAppGlyphProps {
 }
 
 export function PocketAppGlyph({
+  iconKey,
+  size = "grid",
+}: PocketAppGlyphProps) {
+  return <ThemeGlyph iconKey={iconKey} size={size === "dock" ? 36 : 48}>
+    <StandardPocketAppGlyph iconKey={iconKey} size={size} />
+  </ThemeGlyph>;
+}
+
+function StandardPocketAppGlyph({
   iconKey,
   size = "grid",
 }: PocketAppGlyphProps) {

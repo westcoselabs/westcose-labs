@@ -1,93 +1,59 @@
 import Link from "next/link";
 
 import { ProjectCard } from "@/components/apps/ProjectCard";
-import {
-  RouteCardGrid,
-  RouteDocument,
-  RouteSection,
-} from "@/components/apps/RouteDocument";
-import {
-  capabilityRegistry,
-  createRouteMetadata,
-  experimentRegistry,
-  projectRegistry,
-  siteConfig,
-  systemFacts,
-} from "@/registry";
+import { RouteCardGrid, RouteDocument, RouteSection } from "@/components/apps/RouteDocument";
+import { createRouteMetadata, projectRegistry, siteConfig } from "@/registry";
+import { homeTitle } from "@/registry/seo";
+import { serviceRegistry } from "@/registry/services";
 
 export const metadata = createRouteMetadata({
-  title: siteConfig.name,
+  title: homeTitle,
   description: siteConfig.description,
   path: "/",
 });
 
 export default function Home() {
-  const featured = projectRegistry.find((project) => project.featured);
-
+  const clientProjects = projectRegistry.filter((project) => project.collection === "Client sites");
   return (
     <RouteDocument
-      eyebrow="Personal creative workstation"
-      title="Software, systems, games, and useful experiments."
-      description="WestCose Labs designs and builds digital products with a strong point of view and a practical core."
+      eyebrow="WestCose Labs · Website design & development"
+      title="Custom websites built around your business"
+      description="Work with a website designer and developer who connects your brand, your content, and the way your customers use the web. WestCose Labs creates business websites, custom interfaces, and practical web applications."
       presentation="home"
       actions={[
-        { href: "/projects", label: "View projects", variant: "primary" },
-        { href: "/contact", label: "Contact" },
+        { href: "/contact", label: "Discuss your website", variant: "primary" },
+        { href: "/projects", label: "View website projects" },
       ]}
     >
-      {featured ? (
-        <RouteSection title="Featured project">
-          <ProjectCard project={featured} />
-        </RouteSection>
-      ) : null}
-
-      <RouteSection title="Selected experiments">
+      <RouteSection title="Website design and web development services">
         <RouteCardGrid>
-          {experimentRegistry.slice(0, 4).map((experiment) => (
-            <article className="route-card experiment-card" key={experiment.slug}>
-              <p className="route-card__index">{experiment.status}</p>
-              <h2>
-                <Link href={`/experiments/${experiment.slug}`}>
-                  {experiment.title}
-                </Link>
-              </h2>
-              <p>{experiment.purpose}</p>
-              <Link className="route-card__open" href={`/experiments/${experiment.slug}`}>
-                Open study
-              </Link>
+          {serviceRegistry.map((service) => (
+            <article className="route-card" key={service.slug}>
+              <h3><Link href={`/services/${service.slug}`}>{service.name}</Link></h3>
+              <p>{service.summary}</p>
+              <Link href={`/services/${service.slug}`}>Explore {service.name.toLowerCase()}</Link>
             </article>
           ))}
         </RouteCardGrid>
+        <p><Link href="/services">See all website services</Link></p>
       </RouteSection>
-
-      <RouteSection title="Capabilities">
-        <div className="capability-index">
-          {capabilityRegistry.map((capability) => (
-            <article key={capability.id}>
-              <h2>{capability.title}</h2>
-              <p>{capability.description}</p>
-              <Link href={capability.proofHref}>{capability.proofLabel}</Link>
-            </article>
-          ))}
-        </div>
+      <RouteSection title="Selected client website projects">
+        <p>Explore websites for service businesses, healthcare, and creative work. Each project explains its scope and identifies whether you are viewing a live site or a design preview.</p>
+        <RouteCardGrid>{clientProjects.map((project) => <ProjectCard key={project.slug} project={project} />)}</RouteCardGrid>
       </RouteSection>
-
-      <RouteSection title="About the system">
-        <div className="system-fact-grid">
-          {systemFacts.slice(0, 6).map((fact) => (
-            <div key={fact.label}>
-              <span>{fact.label}</span>
-              <strong>{fact.value}</strong>
-            </div>
-          ))}
-        </div>
-        <p>
-          Desktop OS and Pocket OS share the same routes and content. The
-          interface changes. The facts do not.
-        </p>
-        <Link className="route-action route-action--secondary" href="/about">
-          About WestCose Labs
-        </Link>
+      <RouteSection title="A clear path from idea to website">
+        <p>Start with your audience, the information they need, and the action you want them to take. Those priorities guide the page structure, visual direction, and development approach.</p>
+        <p>Whether you need a new business website, a redesign, or a custom web application, we can discuss the right scope, content responsibilities, and next steps before work begins.</p>
+        <Link className="route-action route-action--primary" href="/contact">Tell us what you are building</Link>
+      </RouteSection>
+      <RouteSection title="Meet WestCose Labs">
+        <p>Based in Bakersfield, California, WestCose Labs brings design and development together. Alongside client websites, the portfolio includes publishing tools, games, and technical experiments.</p>
+        <nav aria-label="Explore WestCose Labs">
+          <Link href="/about">About the studio</Link>{" · "}
+          <Link href="/projects">All projects</Link>{" · "}
+          <Link href="/experiments">Experiments</Link>{" · "}
+          <Link href="/games">Games</Link>
+        </nav>
       </RouteSection>
     </RouteDocument>
   );

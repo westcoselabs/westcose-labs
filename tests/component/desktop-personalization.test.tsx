@@ -10,6 +10,7 @@ vi.mock("next/navigation", () => ({
 }));
 
 import { DesktopShell } from "@/components/desktop";
+import { PersonalityProvider, usePersonality } from "@/components/eggs/PersonalityProvider";
 import { createDiscoveryService } from "@/lib/discovery-service";
 
 import { AppearanceHarness, appearanceState } from "./appearance-harness";
@@ -44,7 +45,51 @@ const openDesktopMenu = () => {
   return screen.getByRole("menu", { name: "Desktop personalization" });
 };
 
+function WeekendRestoreTrigger() {
+  const eggs = usePersonality();
+  return (
+    <button onClick={() => eggs?.restoreFile("weekend-project")}>
+      Restore weekend process
+    </button>
+  );
+}
+
 describe("Desktop personalization", () => {
+  it("keeps a personality utility minimized when the viewport changes", async () => {
+    const user = userEvent.setup();
+    render(
+      <AppearanceHarness>
+        <PersonalityProvider shell="desktop">
+          <WeekendRestoreTrigger />
+          <DesktopShell
+            onReadmeShown={() => undefined}
+            onSoundToggle={() => undefined}
+            pathname="/"
+            routeTitle="WestCose Labs"
+            settingsPanel={<div />}
+            showInitialReadme={false}
+            soundEnabled={false}
+          />
+        </PersonalityProvider>
+      </AppearanceHarness>,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Restore weekend process" }));
+    expect(screen.getByRole("region", { name: "WestCose Process Monitor" })).toBeVisible();
+    await user.click(screen.getByRole("button", { name: "Minimize WestCose Process Monitor" }));
+    expect(screen.queryByRole("region", { name: "WestCose Process Monitor" })).not.toBeInTheDocument();
+
+    vi.stubGlobal("innerWidth", window.innerWidth + 80);
+    try {
+      fireEvent.resize(window);
+      expect(screen.queryByRole("region", { name: "WestCose Process Monitor" })).not.toBeInTheDocument();
+      await user.click(screen.getByRole("button", { name: "WestCose Process Monitor" }));
+      expect(screen.getByRole("region", { name: "WestCose Process Monitor" })).toBeVisible();
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
   it("offers Theme, Wallpaper, Refresh, and Appearance Settings on empty space", () => {
     renderDesktop();
     const menu = openDesktopMenu();
@@ -80,6 +125,7 @@ describe("Desktop personalization", () => {
       "Graphite FieldToken-built graphite gradient",
       "WestCose 95Teal workstation weave",
       "Tidal LightPacific light study",
+      "Coastal HillsOriginal green hills and blue coastal sky",
     ]);
     expect(options[0]).toHaveAttribute("aria-checked", "true");
 
@@ -100,7 +146,7 @@ describe("Desktop personalization", () => {
       within(screen.getByRole("menu", { name: "Theme" }))
         .getAllByRole("menuitemradio")
         .map((option) => option.textContent),
-    ).toHaveLength(3);
+    ).toHaveLength(4);
 
     service.unlockTheme("corporate-beige");
     const beige = await screen.findByRole("menuitemradio", {

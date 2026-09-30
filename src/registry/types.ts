@@ -54,7 +54,14 @@ export type OSApp = {
   defaultPocketPage?: 0 | 1;
 };
 
-export type ProjectStatus = "development-fixture" | "published";
+export type ProjectStatus =
+  | "development-fixture"
+  | "published"
+  | "beta"
+  | "preview"
+  | "prototype"
+  | "source"
+  | "empty";
 
 export type Project = {
   slug: string;
@@ -69,6 +76,17 @@ export type Project = {
     width: number;
     height: number;
   };
+  coverCaption?: string;
+  collection?: "Client sites" | "Web" | "Tools" | "Play" | "Archive";
+  preview?: {
+    desktop: NonNullable<Project["cover"]>;
+    mobile: NonNullable<Project["cover"]>;
+    caption: string;
+  };
+  previewUrl?: `https://${string}`;
+  repositoryPrivate?: boolean;
+  repositoryName?: string;
+  highlights?: readonly string[];
   gallery: readonly {
     src: string;
     alt: string;
@@ -93,11 +111,7 @@ export type Project = {
 };
 
 export type ExperimentStatus =
-  | "stable"
-  | "beta"
-  | "unfinished"
-  | "archived"
-  | "broken-on-purpose";
+  "stable" | "beta" | "unfinished" | "archived" | "broken-on-purpose";
 
 export type Experiment = {
   slug: string;
@@ -157,62 +171,31 @@ export type Discovery = {
  * presentation styles rather than a new set of shell components.
  */
 export type ThemeSurfaceMaterial =
-  | "neumorphic"
-  | "flat"
-  | "beveled"
-  | "translucent"
-  | "matte";
+  "neumorphic" | "flat" | "beveled" | "translucent" | "matte" | "glossy-plastic";
 
 export type ThemeBorderTreatment =
-  | "hairline"
-  | "none"
-  | "outset"
-  | "inset"
-  | "heavy";
+  "hairline" | "none" | "outset" | "inset" | "heavy";
 
 export type ThemeDepthTreatment =
-  | "soft-shadow"
-  | "flat"
-  | "hard-shadow"
-  | "drop-shadow"
-  | "glow";
+  "soft-shadow" | "flat" | "hard-shadow" | "drop-shadow" | "glow";
 
 export type ThemeTypographyTreatment =
-  | "modern-sans"
-  | "system-ui"
-  | "bitmap"
-  | "monospace"
-  | "editorial";
+  "modern-sans" | "system-ui" | "bitmap" | "monospace" | "editorial";
 
 export type ThemeWindowChrome =
-  | "modern-flat"
-  | "classic-titlebar"
-  | "translucent"
-  | "bare";
+  "modern-flat" | "classic-titlebar" | "translucent" | "bare" | "sculpted-titlebar";
 
 export type ThemeTaskbarTreatment =
-  | "floating-bar"
-  | "anchored-bar"
-  | "edge-strip";
+  "floating-bar" | "anchored-bar" | "edge-strip" | "blue-taskbar";
 
 export type ThemeWidgetTreatment =
-  | "raised-card"
-  | "flat-panel"
-  | "translucent-card"
-  | "suppressed";
+  "raised-card" | "flat-panel" | "translucent-card" | "suppressed";
 
 export type ThemeIconTreatment =
-  | "duotone-glyph"
-  | "bitmap"
-  | "outline"
-  | "filled";
+  "duotone-glyph" | "bitmap" | "outline" | "filled" | "rendered-object";
 
 export type ThemeEffect =
-  | "grain"
-  | "scanlines"
-  | "backdrop-blur"
-  | "vignette"
-  | "bloom";
+  "grain" | "scanlines" | "backdrop-blur" | "vignette" | "bloom";
 
 export type ThemeTreatments = {
   readonly surface: ThemeSurfaceMaterial;
@@ -250,6 +233,8 @@ export type ThemeDefinition = {
   treatments: ThemeTreatments;
   effects: readonly ThemeEffect[];
   recommendedWallpaperId: string;
+  /** Optional launcher arrangement; applications still come from the registry. */
+  launcherLayout?: "grouped" | "two-column";
   /** Optional chrome copy; omitted entries retain the original shell copy. */
   copy?: {
     systemLabel: string;
@@ -370,11 +355,7 @@ export type SystemFact = {
 };
 
 export type RouteKind =
-  | "landing"
-  | "app-index"
-  | "project"
-  | "experiment"
-  | "utility";
+  "landing" | "app-index" | "project" | "experiment" | "utility";
 
 export type RouteDescriptor = {
   presentation?: "game";

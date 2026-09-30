@@ -1,6 +1,11 @@
 .header { composes: regular from "../../styles/glass.module.css"; }
 .menu { composes: strong from "../../styles/glass.module.css"; }
 
+:global([data-theme-chrome="sculpted-titlebar"]) .header { background: var(--xp-title); color: var(--xp-ink-on-blue); }
+:global([data-theme-chrome="sculpted-titlebar"]) :is(.identity small, .back) { color: var(--xp-ink-on-blue); }
+:global([data-theme-chrome="sculpted-titlebar"]) .back { background: var(--xp-blue-dark); box-shadow: var(--xp-bevel); }
+:global([data-theme-chrome="sculpted-titlebar"]) .menu { background: var(--color-surface-overlay); }
+
 .frame {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);

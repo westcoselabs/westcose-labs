@@ -72,7 +72,7 @@ export function PocketAppFrame({
   return (
     <section aria-label={`${title} app`} className={styles.frame} data-app-id={appId} data-tone={tone}>
       <header className={styles.header}>
-        <button className={styles.back} onClick={onBack} type="button">
+        <button aria-label={backLabel} className={styles.back} onClick={onBack} type="button">
           <ArrowLeft aria-hidden="true" size={18} weight="bold" />
           <span>{backLabel}</span>
         </button>

@@ -1,0 +1,11 @@
+.standard { display: contents; }
+.rendered { display: none; }
+:global([data-theme-icons="rendered-object"]) .standard { display: none; }
+:global([data-theme-icons="rendered-object"]) .rendered {
+  display: block;
+  flex: none;
+  filter: drop-shadow(1px 2px 1px rgb(14 35 65 / 30%));
+}
+@media (forced-colors: active) {
+  :global([data-theme-icons="rendered-object"]) .rendered { filter: none; }
+}

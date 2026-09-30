@@ -52,9 +52,7 @@ test("LOW TIDE LOOT sits beside SHITBIRD on the second Pocket page", async ({
   expect(b!.x).toBeGreaterThan(a!.x);
   await page.screenshot({ path: info.outputPath("pocket-games.png") });
   await loot.click();
-  await expect(
-    page.getByText("Turn your phone sideways to play."),
-  ).toBeVisible();
+  await expect(page.getByRole("button", { name: "Start game" })).toBeVisible();
 });
 test("native fullscreen starts from the user gesture and exit pauses the original", async ({
   page,

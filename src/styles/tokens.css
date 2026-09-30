@@ -25,6 +25,8 @@
   --color-success: #55c58a;
   --color-warning: #d99a43;
   --color-danger: #ef5b5b;
+  --projects-paper: #f5f6ee;
+  --projects-ink: #132e29;
 
   --app-tone-blue: var(--color-primary);
   --app-tone-indigo: color-mix(in srgb, var(--color-primary) 70%, #7f74d8);

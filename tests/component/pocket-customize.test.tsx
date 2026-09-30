@@ -122,6 +122,7 @@ describe("Pocket customization", () => {
       "Graphite FieldA quiet token-built gradient for people who would rather read the windows.",
       "WestCose 95Optimized for CRTs and bad financial decisions.",
       "Tidal LightPacific light, held in suspension. No oceanfront rent required.",
+      "Coastal HillsAn original sunny green coast, made for WestCose XP.",
     ]);
     expect(options[0]).toHaveAttribute("aria-checked", "true");
 
@@ -146,14 +147,14 @@ describe("Pocket customization", () => {
       within(screen.getByRole("radiogroup", { name: "Wallpaper" })).getAllByRole(
         "radio",
       ),
-    ).toHaveLength(4);
+    ).toHaveLength(5);
 
     act(() => service.unlockWallpaper("standard-issue"));
     const options = within(
       screen.getByRole("radiogroup", { name: "Wallpaper" }),
     ).getAllByRole("radio");
-    expect(options).toHaveLength(5);
-    expect(options[4]?.textContent).toContain("Standard Issue");
+    expect(options).toHaveLength(6);
+    expect(options.at(-1)?.textContent).toContain("Standard Issue");
   });
 
   it("switches the theme from the Theme tab", () => {

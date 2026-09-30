@@ -1,0 +1,9 @@
+import { ServicePage } from "@/components/services/ServicePage";
+import { createRouteMetadata } from "@/registry/metadata";
+import { serviceRegistry } from "@/registry/services";
+
+const service = serviceRegistry[1];
+export const metadata = createRouteMetadata({ title: service.title, description: service.description, path: `/services/${service.slug}` });
+export default function WebDevelopmentPage() {
+  return <ServicePage service={service} />;
+}

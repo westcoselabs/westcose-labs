@@ -139,7 +139,7 @@ export function DesktopContextMenu({
           description: theme.description,
           id: theme.id,
           name: theme.name,
-          swatch: undefined as string | undefined,
+          swatch: appearance.availableWallpapers.find((wallpaper) => wallpaper.id === theme.recommendedWallpaperId)?.preview.image,
           select: () => appearance.setThemeId(theme.id),
         }))
       : appearance.availableWallpapers.map((wallpaper) => ({

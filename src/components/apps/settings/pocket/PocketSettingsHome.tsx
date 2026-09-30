@@ -1,6 +1,6 @@
 "use client";
 
-import { RecommendedWallpaper } from "@/components/os/RecommendedWallpaper";
+import { AppearanceSettings } from "../AppearanceSettings";
 
 import {
   Bell,
@@ -16,7 +16,7 @@ import {
   X,
 } from "@phosphor-icons/react";
 import Link from "next/link";
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import type {
   FocusMode,
@@ -158,39 +158,7 @@ function CategoryControls({ controller }: { readonly controller: SettingsControl
   const { dispatch, preferences } = controller;
 
   if (categoryId === "appearance") {
-    return (
-      <div className={styles.controlGroups}>
-        <section>
-          <h2>Look and feel</h2>
-          <SettingRow
-            label="Theme"
-            control={
-              <select aria-label="Theme" onChange={(event) => controller.setThemeId(event.currentTarget.value)} value={controller.activeThemeId}>
-                {controller.availableThemes.map((theme) => <option key={theme.id} value={theme.id}>{theme.name}</option>)}
-              </select>
-            }
-          />
-          <RecommendedWallpaper />
-          <div aria-label="Wallpaper" className={styles.wallpaperList} role="radiogroup">
-            {controller.availableWallpapers.map((wallpaper) => (
-              <button
-                aria-checked={wallpaper.id === controller.activeWallpaperId}
-                key={wallpaper.id}
-                onClick={() => controller.setWallpaperId(wallpaper.id)}
-                role="radio"
-                style={{ "--preview-image": wallpaper.preview.image } as CSSProperties}
-                type="button"
-              >
-                <span aria-hidden="true" />
-                <span><strong>{wallpaper.name}</strong><small>{wallpaper.preview.label}</small></span>
-              </button>
-            ))}
-          </div>
-          <SettingRow label="Icon lighting" detail="Adds a restrained highlight to app tiles." control={<Switch checked={preferences.iconLighting} label="Icon lighting" onChange={(enabled) => dispatch({ type: "icon-lighting/set", enabled })} />} />
-          <SettingRow label="High contrast" detail="Reinforces edges and flattens shadows." control={<Switch checked={preferences.highContrast} label="High contrast" onChange={(enabled) => dispatch({ type: "high-contrast/set", enabled })} />} />
-        </section>
-      </div>
-    );
+    return <AppearanceSettings controller={controller} />;
   }
 
   if (categoryId === "sounds") {
@@ -278,8 +246,8 @@ function SettingsCategoryPage({ controller }: { readonly controller: SettingsCon
         <span>{category?.label ?? "Settings"}</span>
       </header>
       <div className={styles.categoryTitle}>
-        <small>{category?.description}</small>
         <h1 tabIndex={-1}>{category?.label ?? "Settings"}</h1>
+        <small>{category?.description}</small>
       </div>
       <DiscoveryNotice controller={controller} />
       <CategoryControls controller={controller} />

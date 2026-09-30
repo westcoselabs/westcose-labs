@@ -8,6 +8,58 @@ export interface DesktopRect {
 export type WorkspaceBounds = DesktopRect;
 
 export type SnapPosition = "left" | "right" | "center" | "maximize";
+export type ResizeCorner = "nw" | "ne" | "sw" | "se";
+
+/** Move the selected corner while keeping its opposite corner anchored. */
+export function resizeRectFromCorner(
+  rect: DesktopRect,
+  corner: ResizeCorner,
+  dx: number,
+  dy: number,
+  workspace: WorkspaceBounds,
+): DesktopRect {
+  const start = clampRectToWorkspace(rect, workspace);
+  const west = corner.includes("w"),
+    north = corner.includes("n");
+  const right = start.x + start.width,
+    bottom = start.y + start.height;
+  const minWidth = Math.min(DEFAULT_MIN_WINDOW_WIDTH, workspace.width);
+  const minHeight = Math.min(DEFAULT_MIN_WINDOW_HEIGHT, workspace.height);
+  const x = west
+    ? Math.max(
+        workspace.x,
+        Math.min(right - minWidth, start.x + finiteOr(dx, 0)),
+      )
+    : start.x;
+  const y = north
+    ? Math.max(
+        workspace.y,
+        Math.min(bottom - minHeight, start.y + finiteOr(dy, 0)),
+      )
+    : start.y;
+  return roundRect({
+    x,
+    y,
+    width: west
+      ? right - x
+      : Math.max(
+          minWidth,
+          Math.min(
+            workspace.x + workspace.width - x,
+            start.width + finiteOr(dx, 0),
+          ),
+        ),
+    height: north
+      ? bottom - y
+      : Math.max(
+          minHeight,
+          Math.min(
+            workspace.y + workspace.height - y,
+            start.height + finiteOr(dy, 0),
+          ),
+        ),
+  });
+}
 
 export const DESKTOP_TASKBAR_HEIGHT = 72;
 export const DESKTOP_GUTTER = 24;
@@ -166,10 +218,8 @@ export function isRectInsideWorkspace(
   return (
     safeRect.x >= safeWorkspace.x &&
     safeRect.y >= safeWorkspace.y &&
-    safeRect.x + safeRect.width <=
-      safeWorkspace.x + safeWorkspace.width &&
-    safeRect.y + safeRect.height <=
-      safeWorkspace.y + safeWorkspace.height
+    safeRect.x + safeRect.width <= safeWorkspace.x + safeWorkspace.width &&
+    safeRect.y + safeRect.height <= safeWorkspace.y + safeWorkspace.height
   );
 }
 

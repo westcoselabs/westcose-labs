@@ -2,6 +2,7 @@ import type { AppId } from "./types";
 
 export const desktopPlacement = [
   "projects",
+  "services",
   "games",
   "experiments",
   "about",
@@ -71,6 +72,12 @@ export const startMenuGroups = [
   label: string;
   apps: readonly AppId[];
 }[];
+
+/** A compact launcher arrangement selected by theme metadata. */
+export const twoColumnStartMenuGroups = [
+  { id: "workspace", label: "My workspace", apps: ["projects", "games", "experiments", "fightclub", "services"] },
+  { id: "utilities", label: "On this computer", apps: ["notes", "terminal", "settings", "recycle", "about", "github", "contact"] },
+] as const satisfies readonly { id: string; label: string; apps: readonly AppId[] }[];
 
 export const pocketPageOnePlacement = [
   "experiments",

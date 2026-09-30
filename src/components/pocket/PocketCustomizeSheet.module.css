@@ -47,6 +47,16 @@
   margin-inline: auto;
 }
 
+:global([data-theme-surface="glossy-plastic"]) .sheet { background: var(--color-surface-base); border: 2px solid var(--xp-blue); }
+:global([data-theme-surface="glossy-plastic"]) .heading {
+  padding: var(--space-md);
+  background: var(--xp-title);
+  color: var(--xp-ink-on-blue);
+  border-radius: var(--radius-md);
+}
+:global([data-theme-surface="glossy-plastic"]) .heading p { color: inherit; }
+:global([data-theme-surface="glossy-plastic"]) .tab[aria-selected="true"] { color: var(--color-text-on-accent); }
+
 .grabber {
   justify-self: center;
   inline-size: var(--space-3xl);

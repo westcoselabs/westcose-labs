@@ -243,7 +243,7 @@ export function createLowTideLoot(
     onReady();
     notify(true);
   });
-  const render = createRenderer(k);
+  const render = createRenderer(k, canvas);
   const update = k.onUpdate(() => {
     if (disposed || !ready) return;
     if (k.dt() > 0.25) {

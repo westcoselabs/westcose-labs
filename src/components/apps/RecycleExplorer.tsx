@@ -3,44 +3,50 @@
 import { useState } from "react";
 
 import { Button } from "@/components/ui";
-import { useDiscoveryService } from "@/components/os/DiscoveryServiceContext";
+import { useDiscoveryState } from "@/components/os/DiscoveryServiceContext";
+import { usePersonality } from "@/components/eggs/PersonalityProvider";
+import { FINAL_FILES, finalRevision } from "@/lib/personality-eggs";
 import { personalityRegistry } from "@/registry";
 
 import styles from "./InteractiveApps.module.css";
 
 export function RecycleExplorer() {
-  const discoveryService = useDiscoveryService();
-  const [restoredIds, setRestoredIds] = useState<readonly string[]>([]);
+  const discoveries = useDiscoveryState();
+  const eggs = usePersonality();
   const [message, setMessage] = useState("");
 
   return (
     <section aria-label="Recently deleted ideas" className={styles.archive}>
       {personalityRegistry.recycleFiles.map((file) => {
-        const restored = restoredIds.includes(file.id);
         return (
           <article className={styles.archiveRow} key={file.id}>
             <span>
-              <strong>{file.name}</strong>
-              <small>{restored ? "Restored to Questionable Ideas" : file.note}</small>
+              <strong style={{ overflowWrap: "anywhere" }}>
+                {file.id === "final-final"
+                  ? FINAL_FILES[
+                      finalRevision(discoveries?.recycleRestorationIds)
+                    ]
+                  : file.name}
+              </strong>
+              <small>{file.note}</small>
             </span>
             <Button
-              disabled={restored}
+              aria-label={`Restore ${file.id === "final-final" ? "final-final file" : file.name}`}
               onClick={() => {
-                setRestoredIds((ids) => [...ids, file.id]);
-                setMessage(personalityRegistry.discoveries.recycleRestore);
-                discoveryService?.recordRecycleRestoration(file.id);
-                discoveryService?.incrementCounter("recycleRestorations");
-                discoveryService?.recordDiscovery(
-                  "recycle.first-restoration",
+                setMessage(
+                  eggs?.restoreFile(file.id) ??
+                    "Restored. The idea remains questionable.",
                 );
               }}
             >
-              {restored ? "Restored" : "Restore"}
+              Restore
             </Button>
           </article>
         );
       })}
-      <p aria-live="polite" className={styles.feedback}>{message}</p>
+      <p aria-live="polite" className={styles.feedback}>
+        {message}
+      </p>
     </section>
   );
 }

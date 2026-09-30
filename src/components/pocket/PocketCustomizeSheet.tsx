@@ -76,7 +76,7 @@ export function PocketCustomizeSheet({
           description: theme.description,
           id: theme.id,
           name: theme.name,
-          preview: undefined as string | undefined,
+          preview: appearance.availableWallpapers.find((wallpaper) => wallpaper.id === theme.recommendedWallpaperId)?.preview.image,
           select: () => appearance.setThemeId(theme.id),
         }))
       : appearance.availableWallpapers.map((wallpaper) => ({

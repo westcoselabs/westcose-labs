@@ -2,16 +2,53 @@ import type { Discovery } from "./types";
 
 export const discoveryRegistry = [
   {
+    id: "egg.quarantine-outbreak",
+    title: "The label was clear",
+    description: "Released the contents of quarantine.zip.",
+    category: "recycle",
+    hidden: true,
+  },
+  {
+    id: "egg.final-final",
+    title: "One tiny revision",
+    description: "Restored a file that refuses to be final.",
+    category: "recycle",
+    hidden: true,
+  },
+  {
+    id: "egg.weekend-process",
+    title: "Basically done",
+    description: "Checked on the weekend project.",
+    category: "recycle",
+    hidden: true,
+  },
+  {
+    id: "egg.readme-meeting",
+    title: "Quick sync",
+    description: "Attended a meeting with no discernible outcome.",
+    category: "recycle",
+    hidden: true,
+  },
+  {
+    id: "egg.fake-update",
+    title: "One small change",
+    description: "Installed a fictional WestCose update.",
+    category: "terminal",
+    hidden: true,
+  },
+  {
     id: "games.shitbird-cap",
     title: "The coast has limits",
-    description: "Reached maximum difficulty in SHITBIRD. The score keeps going. The bullshit does not.",
+    description:
+      "Reached maximum difficulty in SHITBIRD. The score keeps going. The bullshit does not.",
     category: "games",
     hidden: true,
   },
   {
     id: "desktop.labs-status",
     title: "Labs status diagnostic",
-    description: "The Pocket status widget reveals its less-certain diagnostic.",
+    description:
+      "The Pocket status widget reveals its less-certain diagnostic.",
     category: "desktop",
     hidden: true,
     notificationCopy:
@@ -93,7 +130,8 @@ export const discoveryRegistry = [
   {
     id: "settings.bad-ideas-max",
     title: "Maximum bad-idea tolerance",
-    description: "The workstation accepted the highest available idea tolerance.",
+    description:
+      "The workstation accepted the highest available idea tolerance.",
     category: "theme",
     hidden: true,
     notificationCopy:

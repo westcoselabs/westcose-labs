@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <!-- Original WestCose object icons. No proprietary OS artwork. -->
+  <defs>
+    <linearGradient id="blue" x2=".8" y2="1"><stop stop-color="#c9f2ff"/><stop offset=".42" stop-color="#509ced"/><stop offset="1" stop-color="#1b4ba0"/></linearGradient>
+    <linearGradient id="gold" x2=".2" y2="1"><stop stop-color="#fff5b8"/><stop offset=".45" stop-color="#ffd15c"/><stop offset="1" stop-color="#d38827"/></linearGradient>
+    <linearGradient id="silver" x2=".8" y2="1"><stop stop-color="#fffef6"/><stop offset=".48" stop-color="#dce4e8"/><stop offset="1" stop-color="#7b8c9e"/></linearGradient>
+    <linearGradient id="green" x2=".6" y2="1"><stop stop-color="#d6ffa1"/><stop offset=".4" stop-color="#79c350"/><stop offset="1" stop-color="#257840"/></linearGradient>
+    <linearGradient id="red" x2=".4" y2="1"><stop stop-color="#ffdab3"/><stop offset=".4" stop-color="#ef794e"/><stop offset="1" stop-color="#a73038"/></linearGradient>
+  </defs>
+  <symbol id="folder" viewBox="0 0 64 64">
+    <path d="M7 17 25 14l6 7 24-1v32L9 56Z" fill="url(#gold)" stroke="#9a6725" stroke-width="1.5"/>
+    <path d="m15 19 30-5 8 31-33 6Z" fill="url(#silver)" stroke="#7e8b98"/>
+    <path d="m21 26 19-3m-18 9 20-4" stroke="#6696c3" stroke-width="2"/>
+    <path d="m5 30 49-6 6 5-10 25-41 2Z" fill="url(#gold)" stroke="#a46e26" stroke-width="1.5"/>
+    <path d="m8 32 45-5" stroke="#fff9d6" stroke-width="2"/>
+    <path d="m40 40 9-2-2 8-9 2Z" fill="url(#blue)" stroke="#4c749b"/>
+  </symbol>
+  <symbol id="computer" viewBox="0 0 64 64">
+    <path d="m12 9 39-3 7 7v32l-42 6-7-8V15Z" fill="url(#silver)" stroke="#5d708b" stroke-width="1.5"/>
+    <path d="m16 15 34-3v27l-34 5Z" fill="url(#blue)" stroke="#355576" stroke-width="2"/>
+    <path d="m19 34 9-10 8 5 11-9v15l-28 4Z" fill="url(#green)"/>
+    <path d="m29 47 12-2 2 10-19 2Z" fill="url(#silver)" stroke="#5d708b"/>
+    <path d="m12 55 34-3 7 7-38 3Z" fill="url(#silver)" stroke="#5d708b"/>
+    <circle cx="49" cy="43" r="1.5" fill="#65db59"/>
+    <path d="m19 18 27-3" stroke="#fff" opacity=".7" stroke-width="2"/>
+  </symbol>
+  <symbol id="controller" viewBox="0 0 64 64">
+    <path d="M32 21c0-9 15-7 10-16" fill="none" stroke="#38435c" stroke-width="3"/>
+    <path d="M16 19c-8 1-12 25-10 31 4 9 13-4 17-7h18c4 3 12 16 17 7 2-6-3-30-11-31Z" fill="url(#silver)" stroke="#536781" stroke-width="2"/>
+    <path d="M15 27h7v6h6v7h-6v6h-7v-6H9v-7h6Z" fill="#405b82"/>
+    <circle cx="46" cy="28" r="4" fill="url(#green)" stroke="#458250"/>
+    <circle cx="52" cy="36" r="4" fill="url(#red)" stroke="#a94343"/>
+    <circle cx="39" cy="37" r="4" fill="url(#blue)" stroke="#40629c"/>
+    <path d="m28 29 7-1" stroke="#fff" stroke-width="3"/>
+  </symbol>
+  <symbol id="flask" viewBox="0 0 64 64">
+    <path d="M25 6h17v7h-3v14l16 24c4 6-3 9-8 9H15c-7 0-10-4-6-10l18-23V13h-2Z" fill="url(#silver)" stroke="#4a718c" stroke-width="1.5"/>
+    <path d="m22 36 19-2 12 18c1 3-2 5-6 5H15c-4 0-5-2-3-5Z" fill="url(#green)" stroke="#4a925b"/>
+    <path d="M30 15v14L17 49" fill="none" stroke="#fff" stroke-width="3" opacity=".8"/>
+    <circle cx="35" cy="45" r="3" fill="#d6ffbd"/><circle cx="29" cy="52" r="2" fill="#d6ffbd"/>
+    <path d="m24 7 19-1v6H24Z" fill="url(#blue)" stroke="#4a718c"/>
+  </symbol>
+  <symbol id="document" viewBox="0 0 64 64">
+    <path d="m14 7 28-3 12 12v40l-40 5Z" fill="url(#silver)" stroke="#647389" stroke-width="1.5"/>
+    <path d="m42 4-1 15 13-3Z" fill="#fff" stroke="#647389"/>
+    <path d="m21 25 23-3m-23 10 23-3m-23 10 18-2m-18 9 16-2" stroke="#799bb9" stroke-width="2.5"/>
+    <path d="m40 45 13-25 5 3-13 25-6 5Z" fill="url(#gold)" stroke="#98632b"/>
+  </symbol>
+  <symbol id="mail" viewBox="0 0 64 64">
+    <path d="m6 19 47-7 6 6v34l-49 7-4-5Z" fill="url(#gold)" stroke="#a17b3b" stroke-width="1.5"/>
+    <path d="m10 24 49-6-23 23Z" fill="#fff3c9" stroke="#b99c63"/>
+    <path d="m10 57 17-19m32 12L42 36" fill="none" stroke="#b99c63" stroke-width="1.5"/>
+    <path d="m9 19 22 16 22-23" fill="none" stroke="#fffef5" stroke-width="2"/>
+  </symbol>
+  <symbol id="globe" viewBox="0 0 64 64">
+    <circle cx="32" cy="31" r="25" fill="url(#blue)" stroke="#326192" stroke-width="1.5"/>
+    <path d="m16 13 13-5 5 7-5 8-10-2-5 6-6-3m27-3 15-4 6 13-8 4-3 13-8 5-6-10 4-8-6-8Z" fill="url(#green)" stroke="#509053"/>
+    <ellipse cx="32" cy="31" rx="12" ry="25" fill="none" stroke="#fff" opacity=".35"/>
+    <path d="M8 30h48M12 44h40" stroke="#fff" opacity=".35"/>
+    <ellipse cx="23" cy="17" rx="11" ry="6" fill="#fff" opacity=".4" transform="rotate(-32 23 17)"/>
+  </symbol>
+  <symbol id="bin" viewBox="0 0 64 64">
+    <path d="m15 13 9-9 11 5 5-4 12 12-5 7H21Z" fill="url(#silver)" stroke="#7a8f9c"/>
+    <path d="m12 22 40-4-4 38c-8 6-23 7-30 1Z" fill="url(#silver)" stroke="#607f97" stroke-width="1.5"/>
+    <ellipse cx="32" cy="21" rx="20" ry="7" fill="#dbeff3" stroke="#607f97" stroke-width="2"/>
+    <path d="m23 29 2 23m9-24v25m10-27-2 24" stroke="#8da7b6" stroke-width="2"/>
+    <path d="m28 37 6-5 6 8-7 1 3-4m2 11-8 3-4-8 7 2-3 3" fill="none" stroke="#32834f" stroke-width="2.5"/>
+  </symbol>
+  <symbol id="terminal" viewBox="0 0 64 64">
+    <path d="m6 12 47-6 6 6v41L12 60l-6-6Z" fill="url(#silver)" stroke="#5c6a7c" stroke-width="1.5"/>
+    <path d="m12 20 41-5v34l-41 6Z" fill="#183238" stroke="#334e5a" stroke-width="2"/>
+    <path d="m17 29 7 5-7 6m12 3 12-2" fill="none" stroke="#a6f59b" stroke-width="3"/>
+    <path d="m11 14 41-5" stroke="#fff" stroke-width="2"/>
+  </symbol>
+  <symbol id="case" viewBox="0 0 64 64">
+    <path d="m23 18 1-10 18-3 4 11" fill="none" stroke="#8b592e" stroke-width="5"/>
+    <path d="m6 22 48-7 6 6v31l-48 8-6-7Z" fill="url(#gold)" stroke="#93642d" stroke-width="1.5"/>
+    <path d="m6 22 8 14 39-6 7-9" fill="none" stroke="#fff1be" stroke-width="2"/>
+    <path d="m30 32 9-1v10l-9 1Z" fill="url(#silver)" stroke="#8c704e"/>
+  </symbol>
+  <symbol id="swords" viewBox="0 0 64 64">
+    <path d="m10 5 13 8 26 30-6 6-29-30Z" fill="url(#silver)" stroke="#64758f" stroke-width="1.5"/>
+    <path d="m54 5-13 8-26 30 6 6 29-30Z" fill="url(#blue)" stroke="#385c8c" stroke-width="1.5"/>
+    <path d="m9 38 17 17m12 0 17-17" stroke="#ba882e" stroke-width="6"/>
+    <path d="m18 48-9 11m37-11 9 11" stroke="#9f4540" stroke-width="7"/>
+  </symbol>
+  <symbol id="phone" viewBox="0 0 64 64">
+    <path d="M18 6c-15 4-9 24-3 34s24 24 32 17l9-9-13-13-9 7c-7-5-10-11-12-17l8-7Z" fill="url(#green)" stroke="#37744a" stroke-width="2"/>
+    <path d="m16 11 8 9m19 21 8 8" stroke="#e6ffd4" stroke-width="3"/>
+  </symbol>
+  <symbol id="bird" viewBox="0 0 64 64">
+    <path d="M10 42c-5-17 7-24 18-20C30 8 50 6 52 24l8 6-10 5c0 20-24 29-40 7Z" fill="url(#gold)" stroke="#91632d" stroke-width="1.5"/>
+    <path d="M14 32c20-3 24 12 5 16" fill="url(#blue)" stroke="#487099"/>
+    <circle cx="44" cy="21" r="3" fill="#263654"/><path d="m26 54-3 7m14-9 2 8" stroke="#b58033" stroke-width="3"/>
+  </symbol>
+</svg>

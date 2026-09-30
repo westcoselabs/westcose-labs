@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-import { absoluteUrl, siteConfig } from "./site";
+import { absoluteUrl } from "./site";
+import { isIndexablePath, seoBrandName } from "./seo";
 
 export function createRouteMetadata({
   title,
@@ -18,8 +19,7 @@ export function createRouteMetadata({
     width: number;
   };
 }): Metadata {
-  const fullTitle =
-    title === siteConfig.name ? title : `${title} | ${siteConfig.name}`;
+  const fullTitle = `${title} | ${seoBrandName}`;
   const shareImage = image ?? {
     src: "/images/wallpapers/dusk-desktop.webp",
     width: 1536,
@@ -28,8 +28,9 @@ export function createRouteMetadata({
   };
 
   return {
-    title: title === siteConfig.name ? { absolute: title } : title,
+    title: { absolute: fullTitle },
     description,
+    ...(!isIndexablePath(path) ? { robots: { index: false, follow: true } } : {}),
     alternates: {
       canonical: absoluteUrl(path),
     },
@@ -38,7 +39,7 @@ export function createRouteMetadata({
       title: fullTitle,
       description,
       url: absoluteUrl(path),
-      siteName: siteConfig.name,
+      siteName: seoBrandName,
       images: [
         {
           url: absoluteUrl(shareImage.src),

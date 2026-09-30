@@ -1,5 +1,15 @@
 .tile { composes: control from "../../styles/glass.module.css"; }
 
+:global([data-theme-icons="rendered-object"]) .tile { background: transparent; box-shadow: none; }
+:global([data-theme-icons="rendered-object"]) .label {
+  inline-size: auto;
+  max-inline-size: 100%;
+  padding: 2px 4px;
+  border-radius: var(--radius-xs);
+  background: var(--xp-label-bg);
+  color: var(--color-text-on-media);
+}
+
 .cell {
   position: relative;
   display: grid;

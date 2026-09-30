@@ -1,0 +1,62 @@
+.experiment { display: grid; gap: 24px; min-inline-size: 0; }
+.launcher { display: grid; gap: 18px; }
+.launcher h2 { font-size: clamp(24px, 5vw, 38px); letter-spacing: -.04em; }
+.launcher p, .launcher h2 { margin: 0; }
+.launcher > p:not(.kicker) { max-inline-size: 60ch; line-height: 1.6; color: var(--color-text-secondary); }
+.kicker { font: 11px var(--font-mono); letter-spacing: .07em; color: var(--color-primary); }
+.launchActions { display: flex; align-items: end; flex-wrap: wrap; gap: 16px; }
+.planetList { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 16px; }
+.planetCard { display: flex; flex-direction: column; align-items: start; gap: 14px; padding: 20px; border: 1px solid var(--color-border-subtle); border-radius: var(--radius-lg); }
+.planetCard h3 { margin: 0; font-size: 20px; }
+.planetCard p { color: var(--color-text-secondary); font-size: 13px; line-height: 1.6; flex: 1; }
+.selectLabel { display: grid; gap: 8px; font-size: 13px; min-inline-size: 0; }
+.selectLabel select { inline-size: 100%; min-block-size: 44px; padding: 10px 12px; font: inherit; color: var(--color-text-primary); background: var(--color-surface-recessed); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-sm); }
+.launcher small, .inventory p, .inventory small { color: var(--color-text-secondary); font-size: 12px; line-height: 1.6; }
+.inventory { border-block-start: 1px solid var(--color-border-subtle); padding-block-start: 18px; }
+.inventory summary { cursor: pointer; font-size: 14px; padding-block: 8px; }
+.inventory p { margin-block: 12px; }
+.inventory ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+.inventory li { display: grid; gap: 4px; }
+.inventory code, .sourceName { overflow-wrap: anywhere; font-size: 11px; }
+.viewer { position: fixed; inset: 0; inline-size: 100%; block-size: 100dvh; max-inline-size: none; max-block-size: none; margin: 0; padding: 0; border: 0; border-radius: var(--radius-none); color: var(--color-text-primary); background: var(--color-surface-recessed); overflow: hidden; }
+.viewer[open] { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; }
+.viewer::backdrop { background: var(--color-surface-recessed); }
+.topBar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: max(16px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) 16px max(24px, env(safe-area-inset-left)); background: var(--color-surface-raised); }
+.topBar h2 { margin: 5px 0 0; font-size: clamp(18px, 3vw, 25px); }
+.topBar p { margin: 0; }
+.stage { position: relative; overflow: hidden; min-inline-size: 0; min-block-size: 0; }
+.stage:focus-visible { outline: 2px solid var(--color-focus); outline-offset: -3px; }
+.stage canvas { display: block; inline-size: 100%; block-size: 100%; touch-action: none; }
+.toolbar { padding: 16px max(24px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left)); display: grid; gap: 10px; background: var(--color-surface-raised); }
+.controls, .controlGroup { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.controls { gap: 12px 24px; justify-content: center; }
+.controlGroup button { min-inline-size: 44px; }
+.autoRotate { display: flex; gap: 8px; align-items: center; min-block-size: 44px; font-size: 13px; }
+.autoRotate input, .materialControls input { accent-color: var(--color-primary); inline-size: 17px; block-size: 17px; }
+.hint { font-size: 12px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; }
+.toolbar .hint { text-align: center; }
+.message { position: absolute; inset-inline: 24px; inset-block-start: 40%; margin: auto; max-inline-size: 440px; padding: 20px; background: var(--color-surface-raised); border-radius: var(--radius-lg); text-align: center; }
+.message p { margin: 0 0 12px; }
+.inspector { position: absolute; inset-block-start: 95px; inset-inline-end: max(20px, env(safe-area-inset-right)); inline-size: min(360px, calc(100% - 40px)); max-block-size: calc(100dvh - 270px); overflow: auto; padding: 20px; display: grid; gap: 20px; border: 1px solid var(--color-border-subtle); border-radius: var(--radius-lg); background: var(--color-surface-raised); box-shadow: var(--neu-shadow-raised); }
+.inspectorHeading { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.inspectorHeading h3 { font-size: 16px; margin: 0; }
+.inspectorHeading button { font-size: 12px; padding-inline: 10px; }
+.materialControls { padding: 0; margin: 0; border: 0; display: flex; flex-wrap: wrap; gap: 12px; }
+.materialControls legend { padding: 0 0 10px; font: 11px var(--font-mono); color: var(--color-text-secondary); text-transform: uppercase; }
+.materialControls label { display: flex; align-items: center; gap: 6px; font-size: 12px; min-block-size: 32px; }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 0; }
+.stats dt { font-size: 11px; color: var(--color-text-secondary); }
+.stats dd { font: 17px var(--font-mono); margin: 8px 0 0; }
+@media (max-width: 600px) {
+  .topBar { padding-inline: 16px; }
+  .topBar button, .toolbar button { padding-inline: 12px; font-size: 12px; }
+  .toolbar { padding-inline: 12px; padding-block-start: 10px; }
+  .controls { gap: 6px 12px; }
+  .toolbar .hint { font-size: 11px; }
+}
+@media (max-height: 480px) {
+  .topBar { padding-block: 8px; }
+  .topBar .kicker, .toolbar .hint { display: none; }
+  .toolbar { padding-block: 8px; }
+  .inspector { inset-block-start: 65px; max-block-size: calc(100dvh - 140px); }
+}

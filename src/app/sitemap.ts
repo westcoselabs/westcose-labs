@@ -2,25 +2,29 @@ import type { MetadataRoute } from "next";
 
 import {
   absoluteUrl,
+  experimentRegistry,
   projectRegistry,
   routeRegistry,
 } from "@/registry";
+import { isIndexablePath } from "@/registry/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = routeRegistry
-    .filter((route) => !route.path.includes("["))
+    .filter((route) => !route.path.includes("[") && route.path !== "/games/arcade" && isIndexablePath(route.path))
     .map((route) => ({
       url: absoluteUrl(route.path),
-      changeFrequency: route.path === "/" ? "weekly" : "monthly",
-      priority: route.path === "/" ? 1 : 0.7,
     })) satisfies MetadataRoute.Sitemap;
 
-  const projectRoutes = projectRegistry.map((project) => ({
+  const projectRoutes = projectRegistry.filter((project) =>
+    project.status !== "development-fixture" && project.status !== "empty",
+  ).map((project) => ({
     url: absoluteUrl(`/projects/${project.slug}`),
-    changeFrequency: "monthly" as const,
-    priority: project.featured ? 0.8 : 0.6,
     ...(project.publishedAt ? { lastModified: project.publishedAt } : {}),
   }));
 
-  return [...staticRoutes, ...projectRoutes];
+  const experimentRoutes = experimentRegistry
+    .filter((experiment) => experiment.status === "stable" || experiment.status === "beta")
+    .map((experiment) => ({ url: absoluteUrl(`/experiments/${experiment.slug}`) }));
+
+  return [...staticRoutes, ...projectRoutes, ...experimentRoutes];
 }

@@ -3,6 +3,10 @@ import { expect, test, type Page } from "@playwright/test";
 import { openCustomize, seedAppearance, selectDesktopTheme } from "./appearance-helpers";
 
 async function audit(page: Page) {
+  // Evaluate the settled reading surface, not a frame of an entrance fade.
+  await page.evaluate(() => Promise.all(document.getAnimations()
+    .filter((animation) => animation.effect?.getComputedTiming().iterations !== Infinity)
+    .map((animation) => animation.finished.catch(() => undefined))));
   const { violations } = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
   expect(violations.map(({ id, nodes }) => ({ id, nodes: nodes.map(({ target, failureSummary }) => ({ target, failureSummary })) }))).toEqual([]);
 }
@@ -243,8 +247,8 @@ for (const width of [1024, 1366, 1920]) {
     await seedAppearance(page, "liquid-glass", "liquid-glass");
     await page.setViewportSize({ width, height: width === 1920 ? 1080 : 768 });
     await page.goto("/settings/appearance?view=os");
-    const settings = page.getByRole("region", { name: "Settings category", exact: true });
-    await settings.getByRole("button", { name: "Window menu for Settings category" }).click();
+    const settings = page.getByRole("region", { name: "Appearance", exact: true }).filter({ has: page.getByRole("button", { name: "Window menu for Appearance" }) });
+    await settings.getByRole("button", { name: "Window menu for Appearance" }).click();
     await settings.getByRole("menuitem", { name: "Snap left" }).click();
     expect(await settings.evaluate((node) => node.scrollWidth <= node.clientWidth)).toBe(true);
     await page.getByRole("combobox", { name: "Theme", exact: true }).selectOption("dusk");

@@ -1,7 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import type { RegisteredProject } from "@/registry/projects";
+import {
+  projectStatusLabel,
+  type RegisteredProject,
+} from "@/registry/projects";
 
 export function ProjectCard({ project }: { project: RegisteredProject }) {
   return (
@@ -21,7 +24,7 @@ export function ProjectCard({ project }: { project: RegisteredProject }) {
       <div className="project-card__content">
         <p className="project-card__meta">
           <span>{project.category}</span>
-          <span>{formatProjectStatus(project.status)}</span>
+          <span>{projectStatusLabel(project)}</span>
         </p>
         <h2>
           <Link href={`/projects/${project.slug}`}>{project.title}</Link>
@@ -33,8 +36,4 @@ export function ProjectCard({ project }: { project: RegisteredProject }) {
       </div>
     </article>
   );
-}
-
-function formatProjectStatus(status: RegisteredProject["status"]): string {
-  return status === "development-fixture" ? "Development fixture" : "Published";
 }

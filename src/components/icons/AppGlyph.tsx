@@ -18,6 +18,7 @@ import {
 } from "@phosphor-icons/react";
 
 import { ProjectsAppIcon } from "@/components/icons/app";
+import { ThemeGlyph } from "./ThemeGlyph";
 
 type AppGlyphProps = {
   className?: string;
@@ -27,6 +28,17 @@ type AppGlyphProps = {
 };
 
 export function AppGlyph({
+  className,
+  iconKey,
+  size = 28,
+  variant = "system",
+}: AppGlyphProps) {
+  return <ThemeGlyph iconKey={iconKey} size={variant === "desktop" ? 52 : size}>
+    <StandardAppGlyph className={className} iconKey={iconKey} size={size} variant={variant} />
+  </ThemeGlyph>;
+}
+
+function StandardAppGlyph({
   className,
   iconKey,
   size = 28,

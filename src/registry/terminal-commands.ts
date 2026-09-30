@@ -2,6 +2,42 @@ import type { TerminalCommandDefinition } from "./types";
 
 export const terminalCommandRegistry = [
   {
+    id: "egg.remove-scope",
+    command: "sudo rm scope-creep",
+    description: "Request a change of ownership.",
+    hidden: true,
+  },
+  {
+    id: "egg.client-feedback",
+    command: "sudo fix-client-feedback",
+    description: "Validate a design specification.",
+    hidden: true,
+  },
+  {
+    id: "egg.quarantine",
+    command: "open quarantine",
+    description: "Request access to the quarantined archive.",
+    hidden: true,
+  },
+  {
+    id: "egg.contain",
+    command: "sudo contain",
+    description: "Ask containment nicely.",
+    hidden: true,
+  },
+  {
+    id: "egg.identity",
+    command: "whoami",
+    description: "Inspect the current operator.",
+    hidden: true,
+  },
+  {
+    id: "egg.update",
+    command: "sudo update",
+    description: "Install one entirely fictional change.",
+    hidden: true,
+  },
+  {
     id: "navigate.about",
     command: "about",
     description: "Open the About route.",

@@ -33,6 +33,14 @@ function renderAppearance(
 }
 
 describe("Settings appearance", () => {
+  it.each(["desktop", "pocket"] as const)("applies a visual theme preview without replacing the wallpaper on %s", shell => {
+    renderAppearance(shell);
+    const preview = screen.getByRole("button", { name: "Apply WestCose XP theme" });
+    fireEvent.click(preview);
+    expect(appearanceState()).toBe("westcose-xp|dusk-cliffs");
+    expect(preview).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByRole("combobox", { name: "Theme" })).toHaveValue("westcose-xp");
+  });
   it.each(["desktop", "pocket"] as const)("selects Liquid Glass and its optional recommendation on %s", (shell) => {
     renderAppearance(shell);
     fireEvent.change(screen.getByRole("combobox", { name: "Theme" }), { target: { value: "liquid-glass" } });
@@ -55,6 +63,7 @@ describe("Settings appearance", () => {
       "Graphite FieldToken-built graphite gradient",
       "WestCose 95Teal workstation weave",
       "Tidal LightPacific light study",
+      "Coastal HillsOriginal green hills and blue coastal sky",
     ]);
 
     fireEvent.click(within(group).getByRole("radio", { name: /Graphite Field/u }));
@@ -93,12 +102,12 @@ describe("Settings appearance", () => {
       within(screen.getByRole("combobox", { name: "Theme" })).queryAllByRole(
         "option",
       ),
-    ).toHaveLength(3);
+    ).toHaveLength(4);
     expect(
       within(screen.getByRole("radiogroup", { name: "Wallpaper" })).getAllByRole(
         "radio",
       ),
-    ).toHaveLength(4);
+    ).toHaveLength(5);
 
     act(() => {
       service.unlockTheme("corporate-beige");
@@ -109,12 +118,12 @@ describe("Settings appearance", () => {
       within(screen.getByRole("combobox", { name: "Theme" })).getAllByRole(
         "option",
       ),
-    ).toHaveLength(4);
+    ).toHaveLength(5);
     expect(
       within(screen.getByRole("radiogroup", { name: "Wallpaper" })).getAllByRole(
         "radio",
       ),
-    ).toHaveLength(5);
+    ).toHaveLength(6);
   });
 
   it("recovers a persisted appearance the registry no longer offers", () => {

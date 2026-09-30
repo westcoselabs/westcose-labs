@@ -47,7 +47,7 @@ export function getRouteParent(pathname: string): string | null {
 
   if (
     segments.length > 1 &&
-    (segments[0] === "projects" || segments[0] === "experiments")
+    (segments[0] === "projects" || segments[0] === "experiments" || segments[0] === "services")
   ) {
     return `/${segments[0]}`;
   }

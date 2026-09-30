@@ -69,7 +69,7 @@ export function lootSVG(id: string) {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="-4 -4 72 72"><defs><filter id="rim" x="-30%" y="-30%" width="160%" height="160%"><feMorphology in="SourceAlpha" operator="dilate" radius="1.4" result="expanded"/><feFlood flood-color="${cream}"/><feComposite in2="expanded" operator="in"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g stroke="${ink}" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" filter="url(#rim)">${shapes[id]}</g><g fill="${ink}" opacity=".22">${Array.from({ length: 22 }, (_, i) => `<circle cx="${12 + ((i * 17) % 40)}" cy="${16 + ((i * 11) % 35)}" r=".6"/>`).join("")}</g></svg>`;
 }
 
-export function createRenderer(k: KAPLAYCtx) {
+export function createRenderer(k: KAPLAYCtx, canvas: HTMLCanvasElement) {
   const color = (c: string) => k.Color.fromHex(c);
   const line = (
     x: number,
@@ -122,6 +122,16 @@ export function createRenderer(k: KAPLAYCtx) {
   return (run: Run, reducedMotion: boolean) => {
     const env = levelForDay(run.day).environment,
       time = reducedMotion ? 0 : run.elapsed;
+    // Landscape touch controls keep a 56px toolbar even when the world shrinks.
+    // In portrait, that toolbar sits outside the stage.
+    const toolbarTop =
+      window.innerWidth > window.innerHeight
+        ? Math.max(72, (56 * WORLD.width) / Math.max(1, canvas.clientWidth))
+        : 72;
+    const operatorHeight = Math.min(
+      127,
+      Math.max(64, (WORLD.surface - 3 - toolbarTop - 8) / (496 / 600)),
+    );
     k.drawSprite({
       sprite: "beach",
       pos: k.vec2(0, 0),
@@ -143,15 +153,64 @@ export function createRenderer(k: KAPLAYCtx) {
           y = (i * 29 + time * 80) % WORLD.surface;
         line(x, y, x - 4, y + 12, cream, 1, 0.3);
       }
-    // The operator and pivot retain their proportions in the new wide world.
+    // A shoreline deck grounds both the winch and chair. The sprite has transparent
+    // padding: its visible feet end at source y=553/600, aligned to the deck top.
+    // The deck has depth: chair feet sit at its back, shoes at its front edge.
+    rect(WORLD.originX + 12, WORLD.surface - 20, 224, 27, ink);
+    rect(WORLD.originX + 14, WORLD.surface - 18, 220, 19, "#a88658");
+    for (let plank = 0; plank < 3; plank++) {
+      line(
+        WORLD.originX + 14,
+        WORLD.surface - 15 + plank * 7,
+        WORLD.originX + 234,
+        WORLD.surface - 15 + plank * 7,
+        ink,
+        1.5,
+        0.6,
+      );
+    }
+    rect(WORLD.originX + 22, WORLD.surface + 5, 9, 12, ink);
+    rect(WORLD.originX + 214, WORLD.surface + 5, 9, 12, ink);
+    line(
+      WORLD.originX + 16,
+      WORLD.surface - 3,
+      WORLD.originX + 230,
+      WORLD.surface - 3,
+      cream,
+      3,
+    );
+    k.drawEllipse({
+      pos: k.vec2(WORLD.originX + 122, WORLD.surface - 4),
+      radiusX: 91,
+      radiusY: 5,
+      color: color(ink),
+      opacity: 0.38,
+    });
     k.drawSprite({
       sprite: "scavenger",
-      pos: k.vec2(WORLD.originX + 20, 80),
-      width: 190,
-      height: 127,
+      pos: k.vec2(
+        WORLD.originX + 20,
+        WORLD.surface - 3 - (553 / 600) * operatorHeight,
+      ),
+      width: operatorHeight * 1.5,
+      height: operatorHeight,
     });
-    line(WORLD.originX + 32, 185, WORLD.originX + 2, 120, ink, 9);
-    line(WORLD.originX + 2, 120, WORLD.originX, WORLD.originY, cream, 5);
+    line(
+      WORLD.originX + 32,
+      WORLD.surface - 3,
+      WORLD.originX + 2,
+      Math.max(120, toolbarTop + 5),
+      ink,
+      9,
+    );
+    line(
+      WORLD.originX + 2,
+      Math.max(120, toolbarTop + 5),
+      WORLD.originX,
+      WORLD.originY,
+      cream,
+      5,
+    );
     circle(WORLD.originX, WORLD.originY, 9, ink);
     circle(WORLD.originX, WORLD.originY, 4, env.accent);
     line(0, WORLD.surface, WORLD.width, WORLD.surface, ink, 7);

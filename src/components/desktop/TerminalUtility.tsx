@@ -1,10 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, type FormEvent } from "react";
+import { useId, useState, type FormEvent } from "react";
 
 import { useDiscoveryService } from "@/components/os/DiscoveryServiceContext";
 import { useAppearance } from "@/components/os/AppearanceContext";
+import { usePersonality } from "@/components/eggs/PersonalityProvider";
 import { getTerminalCommand } from "@/registry";
 
 import styles from "./TerminalUtility.module.css";
@@ -29,10 +30,12 @@ const HELP = [
   "open fightclub | theme | history | secret | clear",
 ].join("\n");
 
-export function TerminalUtility() {
+export function TerminalUtility({ embedded = false }: { embedded?: boolean }) {
+  const inputId = useId();
   const { theme } = useAppearance();
   const router = useRouter();
   const discoveryService = useDiscoveryService();
+  const eggs = usePersonality();
   const [history, setHistory] = useState<readonly string[]>([]);
   const [lines, setLines] = useState<readonly string[]>(INTRO);
 
@@ -40,7 +43,9 @@ export function TerminalUtility() {
     event.preventDefault();
     const form = event.currentTarget;
     const data = new FormData(form);
-    const command = String(data.get("command") ?? "").trim().toLowerCase();
+    const command = String(data.get("command") ?? "")
+      .trim()
+      .toLowerCase();
     form.reset();
 
     if (!command) return;
@@ -77,35 +82,39 @@ export function TerminalUtility() {
       return;
     }
 
+    const secretResponse = eggs?.runSecret(command);
     const response =
-      command === "help"
+      secretResponse ??
+      (command === "help"
         ? HELP
         : command === "history"
-          ? nextHistory.map((entry, index) => `${index + 1}  ${entry}`).join("\n")
+          ? nextHistory
+              .map((entry, index) => `${index + 1}  ${entry}`)
+              .join("\n")
           : command === "theme"
             ? `${theme.name} is active. Open Settings for display and accessibility preferences.`
             : command === "secret" || command === "westcose"
               ? "Hidden command found: good software should still work when the costume comes off."
               : command === "sudo impress-client"
                 ? "Permission denied. Try showing the work instead."
-                : `Unknown command: ${command}. Try help.`;
+                : `Unknown command: ${command}. Try help.`);
     setLines((current) => [...current, `> ${command}`, response]);
   };
 
   return (
-    <div className={styles.terminal}>
+    <div className={styles.terminal} data-embedded={embedded || undefined}>
       <div aria-live="polite" className={styles.output} role="log">
         {lines.map((line, index) => (
           <p key={`${index}-${line}`}>{line}</p>
         ))}
       </div>
       <form className={styles.form} onSubmit={runCommand}>
-        <label htmlFor="terminal-command">Command</label>
+        <label htmlFor={inputId}>Command</label>
         <div className={styles.prompt}>
           <span aria-hidden="true">wcl&gt;</span>
           <input
             autoComplete="off"
-            id="terminal-command"
+            id={inputId}
             name="command"
             spellCheck={false}
           />

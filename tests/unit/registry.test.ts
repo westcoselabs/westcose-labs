@@ -4,8 +4,11 @@ import {
   achievementRegistry,
   desktopTaskbarPinnedPlacement,
   discoveryRegistry,
+  experimentRegistry,
   fightClubRegistry,
+  getExperiment,
   getRegistryIssues,
+  getRouteDescriptor,
   humorRegistry,
   noteFolderRegistry,
   noteRegistry,
@@ -14,6 +17,7 @@ import {
   pocketPageTwoPlacement,
   projectRegistry,
   routeRegistry,
+  routeSupportsShell,
   startMenuGroups,
   systemFacts,
   terminalCommandRegistry,
@@ -38,6 +42,7 @@ describe("V3 registries", () => {
   });
 
   it("keeps every V3 registry id unique", () => {
+    expect(unique(experimentRegistry.map((entry) => entry.slug))).toBe(true);
     expect(unique(discoveryRegistry.map((entry) => entry.id))).toBe(true);
     expect(unique(achievementRegistry.map((entry) => entry.id))).toBe(true);
     expect(unique(themeRegistry.map((entry) => entry.id))).toBe(true);
@@ -141,6 +146,20 @@ describe("V3 registries", () => {
     expect(paths).not.toContain("/world");
     expect(paths).not.toContain("/arcade");
     expect(paths).not.toContain("/archive");
+  });
+
+  it("serves the original planet study through the existing experiment route in every shell", () => {
+    const experiment = getExperiment("westcose-world");
+    expect(experiment).toBeDefined();
+    const path = `/experiments/${experiment!.slug}`;
+    expect(getRouteDescriptor(path)).toMatchObject({
+      appId: "experiments",
+      kind: "experiment",
+      parentPath: "/experiments",
+    });
+    for (const shell of ["desktop", "pocket", "normal"] as const) {
+      expect(routeSupportsShell(path, shell)).toBe(true);
+    }
   });
 
   it("keeps desktop taskbar placement explicit and grouped", () => {

@@ -1,6 +1,17 @@
 .menu { composes: strong from "../../styles/glass.module.css"; }
 .submenu { composes: strong from "../../styles/glass.module.css"; }
 
+:global([data-theme-surface="glossy-plastic"]) :is(.menu, .submenu) {
+  padding: 3px;
+  border: 1px solid var(--xp-edge-dark);
+  background: var(--color-surface-overlay);
+  border-radius: var(--radius-sm);
+}
+:global([data-theme-surface="glossy-plastic"]) :is(.item, .option):is(:hover, :focus-visible, [aria-checked="true"]) {
+  background: var(--color-surface-active);
+  outline-offset: -2px;
+}
+
 .layer {
   position: fixed;
   z-index: var(--layer-menus);

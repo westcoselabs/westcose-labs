@@ -148,15 +148,16 @@ export function PocketLockScreen({
   );
 
   return (
-    <main aria-labelledby="lock-time" className={styles.lock}>
+    <main aria-label="Pocket lock screen" className={styles.lock}>
+      <h1 className="sr-only">WestCose Pocket OS Lock Screen</h1>
       <div className={styles.clock}>
         <p className={styles.identity}>
           <span aria-hidden="true"><LockSimple weight="duotone" /></span>
           WestCose Pocket
         </p>
-        <h1 className={styles.time} id="lock-time">
+        <p className={styles.time} id="lock-time">
           {clock.time}
-        </h1>
+        </p>
         <p className={styles.date}>{clock.date}</p>
       </div>
 

@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  ArrowsOutSimple,
-  DotsThree,
-  Minus,
-  Square,
-  X,
-} from "@phosphor-icons/react";
+import { DotsThree, Minus, Square, X } from "@phosphor-icons/react";
 import {
   useEffect,
   useId,
@@ -21,6 +15,8 @@ import {
 import { IconButton } from "@/components/ui";
 import {
   snapRectToWorkspace,
+  resizeRectFromCorner,
+  type ResizeCorner,
   type WorkspaceBounds,
 } from "@/lib";
 import type {
@@ -34,6 +30,7 @@ type PointerOperation = {
   dx: number;
   dy: number;
   mode: "drag" | "resize";
+  corner: ResizeCorner;
   pointerId: number;
   startX: number;
   startY: number;
@@ -76,6 +73,7 @@ export function DesktopWindow({
   const beginPointer = (
     event: ReactPointerEvent<HTMLElement>,
     mode: "drag" | "resize",
+    corner: ResizeCorner = "se",
   ) => {
     if (window.status === "maximized" || event.button !== 0) return;
     if (mode === "drag" && (event.target as Element).closest("button")) return;
@@ -84,6 +82,7 @@ export function DesktopWindow({
       dx: 0,
       dy: 0,
       mode,
+      corner,
       pointerId: event.pointerId,
       startX: event.clientX,
       startY: event.clientY,
@@ -103,8 +102,16 @@ export function DesktopWindow({
       return;
     }
 
-    frame.style.width = `${Math.max(320, window.rect.width + operation.dx)}px`;
-    frame.style.height = `${Math.max(220, window.rect.height + operation.dy)}px`;
+    const rect = resizeRectFromCorner(
+      window.rect,
+      operation.corner,
+      operation.dx,
+      operation.dy,
+      workspace,
+    );
+    frame.style.transform = `translate3d(${rect.x - window.rect.x}px, ${rect.y - window.rect.y}px, 0)`;
+    frame.style.width = `${rect.width}px`;
+    frame.style.height = `${rect.height}px`;
   };
 
   const movePointer = (event: ReactPointerEvent<HTMLElement>) => {
@@ -117,6 +124,16 @@ export function DesktopWindow({
         renderPointerOperation,
       );
     }
+  };
+
+  const handleResizePointerDown = (
+    event: ReactPointerEvent<HTMLButtonElement>,
+  ) => {
+    beginPointer(
+      event,
+      "resize",
+      event.currentTarget.dataset.corner as ResizeCorner,
+    );
   };
 
   const finishPointer = (event: ReactPointerEvent<HTMLElement>) => {
@@ -134,11 +151,13 @@ export function DesktopWindow({
             x: window.rect.x + operation.dx,
             y: window.rect.y + operation.dy,
           }
-        : {
-            ...window.rect,
-            width: Math.max(320, window.rect.width + operation.dx),
-            height: Math.max(220, window.rect.height + operation.dy),
-          };
+        : resizeRectFromCorner(
+            window.rect,
+            operation.corner,
+            operation.dx,
+            operation.dy,
+            workspace,
+          );
     operationRef.current = null;
     frameRef.current?.style.removeProperty("transform");
     frameRef.current?.style.removeProperty("width");
@@ -225,7 +244,9 @@ export function DesktopWindow({
               event.preventDefault();
               event.stopPropagation();
               setMenuOpen(false);
-              menuWrapRef.current?.querySelector<HTMLButtonElement>("button")?.focus();
+              menuWrapRef.current
+                ?.querySelector<HTMLButtonElement>("button")
+                ?.focus();
             }}
             ref={menuWrapRef}
           >
@@ -238,13 +259,25 @@ export function DesktopWindow({
             </IconButton>
             {menuOpen ? (
               <div className={styles.windowMenu} role="menu">
-                <button onClick={() => snap("center")} role="menuitem" type="button">
+                <button
+                  onClick={() => snap("center")}
+                  role="menuitem"
+                  type="button"
+                >
                   Center
                 </button>
-                <button onClick={() => snap("left")} role="menuitem" type="button">
+                <button
+                  onClick={() => snap("left")}
+                  role="menuitem"
+                  type="button"
+                >
                   Snap left
                 </button>
-                <button onClick={() => snap("right")} role="menuitem" type="button">
+                <button
+                  onClick={() => snap("right")}
+                  role="menuitem"
+                  type="button"
+                >
                   Snap right
                 </button>
                 <button onClick={toggleMaximize} role="menuitem" type="button">
@@ -271,19 +304,45 @@ export function DesktopWindow({
         </div>
       </header>
       <div className={styles.body}>{children}</div>
-      {window.status !== "maximized" ? (
-        <button
-          aria-label={`Resize ${window.title}`}
-          className={styles.resizeHandle}
-          onPointerCancel={finishPointer}
-          onPointerDown={(event) => beginPointer(event, "resize")}
-          onPointerMove={movePointer}
-          onPointerUp={finishPointer}
-          type="button"
-        >
-          <ArrowsOutSimple aria-hidden="true" />
-        </button>
-      ) : null}
+      {window.status !== "maximized"
+        ? (["nw", "ne", "sw", "se"] as const).map((corner) => (
+            <button
+              key={corner}
+              aria-label={`Resize ${window.title} from ${corner.includes("n") ? "top" : "bottom"} ${corner.includes("w") ? "left" : "right"}`}
+              className={styles.resizeHandle}
+              data-corner={corner}
+              onPointerCancel={finishPointer}
+              onPointerDown={handleResizePointerDown}
+              onPointerMove={movePointer}
+              onPointerUp={finishPointer}
+              onKeyDown={(event) => {
+                const delta = event.shiftKey ? 40 : 10;
+                const directions: Record<string, [number, number]> = {
+                  ArrowLeft: [-delta, 0],
+                  ArrowRight: [delta, 0],
+                  ArrowUp: [0, -delta],
+                  ArrowDown: [0, delta],
+                };
+                const movement = directions[event.key];
+                if (!movement) return;
+                event.preventDefault();
+                event.stopPropagation();
+                dispatch({
+                  type: "window/commit-geometry",
+                  id: window.id,
+                  workspace,
+                  rect: resizeRectFromCorner(
+                    window.rect,
+                    corner,
+                    ...movement,
+                    workspace,
+                  ),
+                });
+              }}
+              type="button"
+            />
+          ))
+        : null}
     </section>
   );
 }

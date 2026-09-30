@@ -147,12 +147,12 @@ export function PocketHome({
 
   return (
     <main aria-label="Pocket OS Home" className={styles.home}>
-      <h1 className="sr-only">WestCose Pocket OS Home</h1>
       <div
         aria-hidden={menuApp || customizeOpen ? true : undefined}
         className={styles.homeContent}
         inert={menuApp || customizeOpen ? true : undefined}
       >
+        <h1 className="sr-only">WestCose Pocket OS Home</h1>
         <header className={styles.homeHeader}>
           <div className={styles.brand}>
             <strong>WestCose Pocket</strong>

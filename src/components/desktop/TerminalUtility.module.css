@@ -51,6 +51,8 @@
   color: var(--color-text-primary);
 }
 
+.terminal[data-embedded="true"] { block-size: min(360px, 60dvh); min-block-size: 240px; border-radius: var(--radius-md); }
+
 :global([data-theme-chrome="translucent"]) .terminal {
   background: var(--glass-terminal-bg);
   color: var(--glass-terminal-ink);

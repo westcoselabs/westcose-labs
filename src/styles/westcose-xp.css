@@ -1,0 +1,97 @@
+/* WestCose XP material tokens. Geometry belongs to component CSS modules. */
+[data-theme-surface="glossy-plastic"] {
+  --wallpaper-light-art-shade: 0%;
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 5px;
+  --radius-lg: 7px;
+  --radius-xl: 9px;
+  --radius-2xl: 10px;
+  --radius-3xl: 12px;
+  --xp-start-radius: 17px;
+  --xp-window-radius: 10px 10px 5px 5px;
+  --xp-title-radius: 7px 7px 0 0;
+  --xp-control-radius: 4px;
+  --hover-offset: 0px;
+  --press-offset: 1px;
+  --motion-fast: 80ms;
+  --motion-base: 120ms;
+  --desktop-taskbar-size: 3.5rem;
+  --desktop-icon-size: 3.5rem;
+  --pocket-icon-size: 3.5rem;
+  --pocket-dock-size: 5rem;
+  --xp-blue: #1b53bb;
+  --xp-blue-dark: #123e8f;
+  --xp-ink-on-blue: #ffffff;
+  --xp-title: linear-gradient(#67a2f7 0%, #2464cf 12%, #1d52b3 65%, #245eca 92%, #123e8f);
+  --xp-title-inactive: linear-gradient(#a9c3e7, #5f80b1 20%, #5377ad);
+  --xp-taskbar: linear-gradient(#74a7f0, #326ed5 10%, #1d52b3 25%, #15469f 92%, #10377e);
+  --xp-start: linear-gradient(#a0d889, #39823b 15%, #26682e 65%, #2d7934 90%, #164c24);
+  --xp-close: linear-gradient(135deg, #ffac8d, #c7472e 45%, #a92e21);
+  --xp-control: linear-gradient(#fffefb 40%, #eeecdc 75%, #d9d5c1);
+  --xp-tray: linear-gradient(#418ae2, #205daa 20%, #164c94);
+  --xp-sidebar: #e0edff;
+  --xp-label-bg: #16456f;
+  --xp-edge-light: #ffffff;
+  --xp-edge-dark: #808697;
+  --xp-bevel: inset 1px 1px 0 var(--xp-edge-light), inset -1px -1px 0 var(--xp-edge-dark);
+  --xp-inset: inset 1px 1px 2px rgb(31 48 82 / 28%), inset -1px -1px 0 var(--xp-edge-light);
+  --xp-window-shadow: 0 7px 18px rgb(13 35 70 / 30%), var(--xp-bevel);
+  --neu-shadow-raised: var(--xp-bevel);
+  --neu-shadow-recessed: var(--xp-inset);
+  --neu-shadow-pressed: var(--xp-inset);
+  --neu-shadow-active: inset 0 0 0 2px var(--color-primary);
+  --neu-shadow-floating: var(--xp-bevel), 3px 4px 8px rgb(20 37 62 / 22%);
+}
+
+[data-theme-surface="glossy-plastic"] :is(input, select, textarea) {
+  accent-color: var(--color-primary);
+}
+[data-theme-surface="glossy-plastic"] :is(select, textarea, input:not([type="checkbox"], [type="radio"], [type="range"], [type="hidden"])) {
+  border-radius: var(--radius-xs);
+  box-shadow: var(--xp-inset);
+}
+[data-theme-surface="glossy-plastic"] ::selection {
+  background: var(--color-primary);
+  color: var(--color-text-on-accent);
+}
+[data-theme-surface="glossy-plastic"] .skip-link {
+  color: var(--color-text-on-accent);
+}
+
+/* Accessibility preferences remove decoration, never controls. */
+[data-theme-surface="glossy-plastic"][data-high-contrast="true"] {
+  --xp-title: var(--xp-blue-dark);
+  --xp-taskbar: var(--xp-blue-dark);
+  --xp-start: #164c24;
+  --xp-tray: var(--xp-blue-dark);
+  --xp-control: var(--color-surface-raised);
+  --xp-bevel: inset 0 0 0 1px currentColor;
+  --xp-inset: inset 0 0 0 1px currentColor;
+  --xp-window-shadow: none;
+  --neu-shadow-floating: var(--neu-shadow-flat);
+}
+@media (forced-colors: active) {
+  [data-theme-surface="glossy-plastic"],
+  [data-theme-surface="glossy-plastic"][data-high-contrast="true"] {
+    --xp-blue: Highlight;
+    --xp-blue-dark: Highlight;
+    --xp-ink-on-blue: CanvasText;
+    --xp-title: Canvas;
+    --xp-title-inactive: Canvas;
+    --xp-taskbar: Canvas;
+    --xp-start: ButtonFace;
+    --xp-close: ButtonFace;
+    --xp-tray: Canvas;
+    --xp-control: ButtonFace;
+    --xp-sidebar: Canvas;
+    --xp-label-bg: Canvas;
+    --xp-edge-light: ButtonText;
+    --xp-edge-dark: ButtonText;
+    --color-text-on-media: CanvasText;
+    --xp-bevel: none;
+    --xp-inset: none;
+    --xp-window-shadow: none;
+    --neu-shadow-floating: none;
+  }
+}

@@ -1,22 +1,79 @@
 .panel {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-base);
-}
-
-.copy {
   display: grid;
-  gap: var(--space-xs);
+  gap: 18px;
+  padding: 20px;
+  overflow: hidden;
+  scroll-margin-block: 32px;
 }
-
-.copy p {
+.copy { display: grid; gap: 7px; }
+.fileHeading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.copy strong { font-family: var(--font-mono); font-size: 13px; }
+.copy p { margin: 0; color: var(--color-text-secondary); font-size: 12px; }
+.badge {
+  padding: 4px 6px;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 4px;
   color: var(--color-text-secondary);
+  font: 9px var(--font-mono);
+  letter-spacing: .08em;
 }
-
+.experiment {
+  padding: 12px;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-surface-base), transparent 35%);
+}
+.buttonBounds {
+  display: grid;
+  place-items: center;
+  min-block-size: 250px;
+  background-image: radial-gradient(circle, var(--color-border-subtle) .8px, transparent 1px);
+  background-size: 16px 16px;
+}
+.panel .buttonBounds .danger {
+  inline-size: min(214px, 100%);
+  min-inline-size: 0;
+  block-size: 74px;
+  padding: 12px;
+  border: 1px solid #ff968b;
+  border-radius: 12px;
+  color: #fff7ef;
+  background: linear-gradient(180deg, #c3423b, #a52628);
+  box-shadow: inset 0 1px 0 #ffffff38, 0 5px 0 #64191e, 0 9px 16px #190a1233;
+  white-space: normal;
+  transition: background-color .15s, box-shadow .15s;
+}
+.panel .buttonBounds .danger:hover {
+  color: #fff7ef;
+  background: linear-gradient(180deg, #cd4a40, #ad292b);
+}
+.panel .buttonBounds .danger:active {
+  color: #fff7ef;
+  background: #9c272a;
+  box-shadow: inset 0 2px 3px #64191e, 0 2px 0 #64191e;
+}
+.panel .buttonBounds .danger:focus-visible { outline: 3px solid var(--color-text-primary); outline-offset: 6px; }
+.buttonFace { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.warning { flex-shrink: 0; }
+.buttonWords { display: grid; gap: 3px; text-align: start; }
+.buttonWords strong { font-size: 15px; font-weight: 800; letter-spacing: .04em; line-height: 1.2; }
+.buttonWords > span { font-size: 10px; font-weight: 500; line-height: 1.4; letter-spacing: .01em; }
+.reaction { display: grid; justify-items: center; gap: 10px; padding: 20px 4px 4px; text-align: center; }
+.reaction p { margin: 0; min-block-size: 2.8em; max-inline-size: 32ch; font-size: 12px; line-height: 1.4; color: var(--color-text-primary); }
+.escapeMeter { display: flex; align-items: center; gap: 8px; font: 10px var(--font-mono); color: var(--color-text-secondary); }
+.pips { display: flex; gap: 3px; }
+.pips i { inline-size: 12px; block-size: 5px; border-radius: 1px; background: var(--color-text-secondary); }
+.pips i[data-spent="true"] { background: transparent; box-shadow: inset 0 0 0 1px var(--color-border-subtle); }
+.failed { display: grid; gap: 12px; padding-block: 14px; }
+.failed > strong { font-size: 27px; }
+.failed p { margin: 0; }
 @media (max-width: 40rem) {
-  .panel {
-    align-items: stretch;
-    flex-direction: column;
-  }
+  .panel { padding: 14px; gap: 14px; }
+  .experiment { padding: 8px; }
+  .buttonBounds { min-block-size: 210px; }
+}
+@media (forced-colors: active) {
+  .panel .buttonBounds .danger { border: 2px solid ButtonText; background: ButtonFace; color: ButtonText; }
+  .pips i { background: CanvasText; }
+  .pips i[data-spent="true"] { background: Canvas; border: 1px solid CanvasText; }
 }

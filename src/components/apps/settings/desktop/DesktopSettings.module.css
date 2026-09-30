@@ -1,11 +1,14 @@
 .app {
   display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
   block-size: 100%;
-  min-block-size: 30rem;
+  min-block-size: 0;
+  container-type: inline-size;
   overflow: hidden;
   background: var(--color-surface-base);
 }
+
+.app:has(> .notification) { grid-template-rows: auto auto minmax(0, 1fr); }
 
 :global([data-theme-surface="translucent"]) .app { min-block-size: 0; }
 :global([data-theme-surface="translucent"]) .topbar { min-block-size: 3.5rem; background: var(--glass-content); }
@@ -38,6 +41,24 @@
   padding: var(--space-md) var(--space-xl);
   border-block-end: var(--border-thin) solid var(--color-border-subtle);
   background: var(--color-surface-raised);
+}
+
+:global([data-theme-surface="glossy-plastic"]) .layout { grid-template-columns: 10.5rem minmax(0, 1fr); }
+:global([data-theme-surface="glossy-plastic"]) .sidebar { padding: var(--space-sm); background: var(--xp-sidebar); }
+:global([data-theme-surface="glossy-plastic"]) :is(.sidebar button[aria-current="page"], .systemSummary > span) { color: var(--color-text-on-accent); }
+:global([data-theme-surface="glossy-plastic"]) .topbar { background: var(--xp-control); padding: var(--space-sm) var(--space-base); }
+:global([data-theme-surface="glossy-plastic"]) .canvas { padding: var(--space-base); }
+:global([data-theme-surface="glossy-plastic"]) .card { box-shadow: var(--xp-bevel); padding: var(--space-base); }
+:global([data-theme-surface="glossy-plastic"]) .selectControl { flex-wrap: wrap; }
+:global([data-theme-surface="glossy-plastic"]) .selectControl select { min-inline-size: 0; max-inline-size: 100%; }
+:global([data-theme-surface="glossy-plastic"]) .toggle input:checked + span::after { background: var(--color-text-on-accent); }
+@container (max-width: 42rem) {
+  :global([data-theme-surface="glossy-plastic"]) :is(.cardGrid, .discoveryGrid, .focusGrid) { grid-template-columns: minmax(0, 1fr); }
+}
+@container (max-width: 28rem) {
+  :global([data-theme-surface="glossy-plastic"]) .layout { grid-template-columns: minmax(0, 1fr); }
+  :global([data-theme-surface="glossy-plastic"]) .sidebar { max-block-size: 8rem; }
+  :global([data-theme-surface="glossy-plastic"]) .miniDevice { display: none; }
 }
 
 .topbar > div,
@@ -288,4 +309,33 @@
   :global([data-theme-surface="beveled"]) .miniDevice {
     flex-wrap: wrap;
   }
+}
+
+/* Settings responds to its window, including a snapped or resized desktop. */
+.app .layout { grid-template-columns: 11.5rem minmax(0, 1fr); }
+.app .sidebar { padding: 12px 8px; }
+.app .sidebar button { min-block-size: 44px; padding-inline: 12px; font-size: 13px; }
+.app .miniDevice { gap: 10px; padding: 12px 8px; margin-block-end: 12px; background: transparent; }
+.app .miniDevice strong { font-size: 12px; }
+.app .miniDevice small { font-size: 11px; }
+.app .canvas { padding: 24px; overscroll-behavior: contain; }
+.app .canvasHeader { gap: 6px; margin-block-end: 26px; }
+.app .canvasHeader h2 { font-size: 24px; }
+.app .canvasHeader > span { font-size: 13px; line-height: 1.5; }
+.app .card { align-content: start; }
+@container (max-width: 42rem) {
+  .app .layout { grid-template-columns: 9rem minmax(0, 1fr); }
+  .app .canvas { padding: 16px; }
+  .app .miniDevice { display: none; }
+  .app .sidebar button { padding-inline: 8px; font-size: 12px; }
+  .app :is(.cardGrid, .discoveryGrid, .focusGrid) { grid-template-columns: minmax(0, 1fr); }
+}
+@container (max-width: 28rem) {
+  .app .layout { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
+  .app .sidebar { padding: 6px; border-inline-end: 0; border-block-end: 1px solid var(--color-border-subtle); overflow-x: auto; }
+  .app .sidebar ul { display: flex; inline-size: max-content; }
+  .app .sidebar button { min-block-size: 40px; }
+  .app .topbar { padding: 10px 12px; gap: 12px; }
+  .app .topbar h1 { font-size: 17px; }
+  .app .topbar label { inline-size: 50%; }
 }

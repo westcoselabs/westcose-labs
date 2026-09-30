@@ -3,6 +3,7 @@ import {
   RouteSection,
 } from "@/components/apps/RouteDocument";
 import { createRouteMetadata } from "@/registry";
+import { TerminalUtility } from "@/components/desktop/TerminalUtility";
 
 export const metadata = createRouteMetadata({
   title: "Terminal",
@@ -15,9 +16,10 @@ export default function TerminalPage() {
     <RouteDocument
       eyebrow="Utility"
       title="Terminal"
-      description="The Desktop shell may provide an interactive utility window. This route is the conventional command reference and Pocket fallback."
+      description="A local command line. Navigation, diagnostics, and a few things the manual left out."
       presentation="terminal"
     >
+      <TerminalUtility embedded />
       <RouteSection title="Available commands">
         <dl className="command-list">
           <div>

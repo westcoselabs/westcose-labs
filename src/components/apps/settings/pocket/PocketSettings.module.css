@@ -3,6 +3,14 @@
   background: var(--color-surface-base);
 }
 
+:global([data-theme-surface="glossy-plastic"]) .switch input:checked + span::after { background: var(--color-text-on-accent); }
+:global([data-theme-surface="glossy-plastic"]) .settingRow select {
+  min-inline-size: 0;
+  max-inline-size: min(10rem, 44vw);
+  background: var(--color-surface-raised);
+  color: var(--color-text-primary);
+}
+
 :global([data-theme-surface="translucent"]) .nestedHeader { background: var(--glass-content); -webkit-backdrop-filter: none; backdrop-filter: none; }
 :global([data-theme-surface="translucent"]) :is(.largeHeader, .categoryTitle) h1 { font-size: 2rem; }
 :global([data-theme-surface="translucent"]) .switch input:checked + span::after { background: var(--color-text-on-accent); }
@@ -425,3 +433,12 @@
 :global([data-theme-surface="beveled"]) .discoveryNotice button:active {
   box-shadow: var(--neu-shadow-pressed);
 }
+
+/* Keep the theme gallery close to the title, within the OS app scroller. */
+.app .categoryTitle { gap: 8px; }
+.app .categoryTitle h1 { font-size: 28px; line-height: 1.15; letter-spacing: -.025em; }
+.app .categoryTitle small { font-family: var(--font-sans); font-size: 13px; line-height: 1.5; letter-spacing: 0; }
+.app .nestedHeader { position: static; display: flex; justify-content: space-between; padding-block: 8px; background: transparent; backdrop-filter: none; }
+.app .nestedHeader a { min-block-size: 36px; display: inline-flex; align-items: center; font-size: 13px; }
+.app .nestedHeader > span { display: none; }
+.app .page { gap: 20px; }

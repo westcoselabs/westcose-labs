@@ -84,6 +84,12 @@ for the material contract, design rationale, verification, and limitations.
 
 ## Repository map
 
+The Projects folder presents 14 curated projects, including four client websites
+and GitPress. The interactive showcase includes actual website captures, desktop
+and mobile previews, search, category filters, gallery/list views, and quick look.
+Source access and beta/preview status are labeled. See [project source and design notes](docs/PROJECT_SOURCES.md) for asset
+provenance and the reviewed content snapshot.
+
 - `src/app`: semantic routes, metadata, loading/error boundaries, sitemap, robots.
 - `src/content`: local MDX case studies and static content.
 - `src/registry`: typed apps, routes, projects, placements, notifications, site data.
@@ -94,20 +100,58 @@ for the material contract, design rationale, verification, and limitations.
 
 ## Production configuration gates
 
+The **WestCose World / 3D Experiment** at `/experiments/westcose-world` loads the
+original WestCose Designs planets individually on demand. It uses the source checkout's
+existing exports, including embedded textures, without copying or re-exporting
+models. Designs, Labs, and Shop each open in a full-screen viewer with slow spin,
+rotate/move controls, zoom, reset, and a compact inspector for named parts,
+clay/wireframe, and runtime statistics. Only the selected planet is loaded.
+See the [source audit](docs/PLANET_SOURCE_AUDIT.md) and
+[asset delivery configuration](docs/PLANET_ASSET_PIPELINE.md). Deployment needs
+the original source checkout or an existing host serving those exact files;
+`npm run planet:check` checks the recorded source hashes.
+
 Development fixtures are deliberately labeled and must not ship as invented
 facts. Before production acceptance, provide or approve:
 
-- `NEXT_PUBLIC_SITE_URL`
+- `NEXT_PUBLIC_SITE_URL` (optional override; defaults to the confirmed `https://westcoselabs.com` origin)
 - `NEXT_PUBLIC_CONTACT_EMAIL`
 - `NEXT_PUBLIC_GITHUB_URL`
 - verified active social destinations
-- confirmed Estate Sales Bakersfield copy, status, technologies, links, and art
 - final desktop and portrait wallpaper approval
 - approval for the FightClub concept cover and final project credits
 - any approved local sound assets
 
 The documented telephone actions use `+1 612-741-7277`. Contact submission is a
 native `mailto:` handoff; the site never claims a message was sent or stores it.
+
+## Search visibility
+
+Canonical URLs, social metadata, robots.txt, and the sitemap use
+`https://westcoselabs.com`. An invalid `NEXT_PUBLIC_SITE_URL` override fails
+instead of silently producing localhost canonical URLs. An override must be a
+public HTTPS origin, without credentials, a path, a query, or a fragment.
+
+The interactive homepage stays within the OS viewport. Services opens from a
+desktop shortcut, the Start menu, or the first Pocket home page. Its content
+scrolls inside the app window or mobile app frame. The explicit document view
+and JavaScript-disabled fallback retain the homepage's service overview.
+
+Website design and web development have dedicated routes under `/services`.
+Settings, Notes, Recycle, Terminal, and GitHub utility pages use `noindex, follow`
+and are excluded from the sitemap. Public project and experiment pages are
+included; `/games/arcade` declares `/games` as its canonical to consolidate the
+shared game directory. Keep robots.txt permissive so crawlers can read these
+page-level directives.
+
+Before release, run `npm run check` and
+`npx playwright test tests/e2e/seo.spec.ts --project=chromium --project=mobile-chromium`.
+After deployment, verify the HTTPS/www redirect policy at the host, fetch the
+live robots.txt and sitemap, and inspect the homepage plus both service pages
+in Google Search Console. Submit `https://westcoselabs.com/sitemap.xml` and
+confirm Google's mobile rendering of the service pages includes their text. Track relevant
+non-brand impressions, clicks, and qualified inquiries; deployment and Search
+Console submission are separate from the repository changes.
 
 ## Runtime boundaries
 

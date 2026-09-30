@@ -6,17 +6,17 @@ import {
 import { createRouteMetadata, siteConfig } from "@/registry";
 
 export const metadata = createRouteMetadata({
-  title: "Contact",
-  description: "Contact WestCose Labs by native email, text, or phone handoff.",
+  title: "Discuss Your Website Project",
+  description: "Contact WestCose Labs about website design, custom web development, or a redesign. Share your business goals, current website, and project requirements.",
   path: "/contact",
 });
 
 export default function ContactPage() {
   return (
     <RouteDocument
-      eyebrow="Native handoff"
-      title="Contact"
-      description="Start a conversation without creating an account or sending form data to this website."
+      eyebrow="Start a conversation"
+      title="Let’s talk about your website"
+      description="Tell us about your business, your current website, and what you want to build or improve. Include any timing, budget, and content requirements that will help shape the project."
       status={
         siteConfig.contactEmailConfigured
           ? "Email handoff ready"

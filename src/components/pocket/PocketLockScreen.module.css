@@ -19,6 +19,16 @@
   background-size: cover;
 }
 
+:global([data-theme-surface="glossy-plastic"]) .clock {
+  padding: var(--space-lg);
+  border: 1px solid var(--xp-edge-dark);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-overlay);
+  box-shadow: var(--xp-bevel);
+  text-shadow: none;
+}
+:global([data-theme-surface="glossy-plastic"]) :is(.unlockFill, .unlockThumb) { color: var(--color-text-on-accent); }
+
 :global([data-theme-surface="translucent"]) .clock {
   padding: var(--space-xl) var(--space-base);
   background: var(--glass-strong);

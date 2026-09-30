@@ -6,6 +6,7 @@ import { OSRoot } from "@/components/os/OSRoot";
 import { SHELL_BOOTSTRAP } from "@/components/os/shell-bootstrap";
 import { ServerSemanticShell } from "@/components/normal/ServerNormalShell";
 import { siteConfig } from "@/registry";
+import { homeTitle, seoBrandName } from "@/registry/seo";
 
 import "./globals.css";
 
@@ -25,13 +26,13 @@ const ibmPlexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
   title: {
-    default: siteConfig.name,
-    template: `%s | ${siteConfig.name}`,
+    default: `${homeTitle} | ${seoBrandName}`,
+    template: `%s | ${seoBrandName}`,
   },
   description: siteConfig.description,
   applicationName: siteConfig.name,
   openGraph: {
-    title: siteConfig.name,
+    title: `${homeTitle} | ${seoBrandName}`,
     description: siteConfig.description,
     type: "website",
     images: [
@@ -45,7 +46,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: siteConfig.name,
+    title: `${homeTitle} | ${seoBrandName}`,
     description: siteConfig.description,
     images: ["/images/wallpapers/dusk-desktop.webp"],
   },

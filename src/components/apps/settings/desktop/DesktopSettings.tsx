@@ -15,7 +15,7 @@ import {
   X,
 } from "@phosphor-icons/react";
 import Link from "next/link";
-import { useMemo, useState, type CSSProperties, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 
 import type {
   FocusMode,
@@ -23,7 +23,7 @@ import type {
 } from "@/state/preferences";
 
 import type { SettingsController } from "../useSettingsController";
-import { RecommendedWallpaper } from "@/components/os/RecommendedWallpaper";
+import { AppearanceSettings } from "../AppearanceSettings";
 import styles from "./DesktopSettings.module.css";
 
 const iconMap = {
@@ -100,34 +100,7 @@ function CategoryCanvas({ controller }: { readonly controller: SettingsControlle
   const { dispatch, preferences } = controller;
 
   if (categoryId === "appearance") {
-    return (
-      <div className={styles.cardGrid}>
-        <SettingCard title="Current theme" description="Shared across Desktop and Pocket.">
-          <label className={styles.selectControl}><span>Theme</span><select aria-label="Theme" onChange={(event) => controller.setThemeId(event.currentTarget.value)} value={controller.activeThemeId}>{controller.availableThemes.map((theme) => <option key={theme.id} value={theme.id}>{theme.name}</option>)}</select></label>
-          <RecommendedWallpaper />
-        </SettingCard>
-        <SettingCard title="Current wallpaper" description="Applies to Desktop and Pocket, each using its own source image.">
-          <div aria-label="Wallpaper" className={styles.wallpaperGrid} role="radiogroup">
-            {controller.availableWallpapers.map((wallpaper) => (
-              <button
-                aria-checked={wallpaper.id === controller.activeWallpaperId}
-                className={styles.wallpaperSwatch}
-                key={wallpaper.id}
-                onClick={() => controller.setWallpaperId(wallpaper.id)}
-                role="radio"
-                style={{ "--swatch-image": wallpaper.preview.image } as CSSProperties}
-                type="button"
-              >
-                <span aria-hidden="true" />
-                <span><strong>{wallpaper.name}</strong><small>{wallpaper.preview.label}</small></span>
-              </button>
-            ))}
-          </div>
-        </SettingCard>
-        <SettingCard title="Icon lighting" description="A restrained edge highlight on app tiles."><Toggle checked={preferences.iconLighting} label="Icon lighting" onChange={(enabled) => dispatch({ type: "icon-lighting/set", enabled })} /></SettingCard>
-        <SettingCard title="High contrast" description="Flattens depth and reinforces boundaries."><Toggle checked={preferences.highContrast} label="High contrast" onChange={(enabled) => dispatch({ type: "high-contrast/set", enabled })} /></SettingCard>
-      </div>
-    );
+    return <AppearanceSettings controller={controller} />;
   }
 
   if (categoryId === "sounds") {
@@ -245,10 +218,10 @@ export function DesktopSettings({
           <section className={styles.miniDevice}><ComputerTower aria-hidden="true" /><span><strong>WestCose Labs Workstation</strong><small>Local device</small></span></section>
           <nav aria-label="Settings categories"><ul>{visibleCategories.map((category) => { const Icon = iconMap[category.id]; return <li key={category.id}><button aria-current={activeId === category.id ? "page" : undefined} onClick={() => controller.openCategory(category.id)} type="button"><Icon aria-hidden="true" /><span>{category.label}</span></button></li>; })}</ul></nav>
         </aside>
-        <main className={styles.canvas}>
-          <header className={styles.canvasHeader}><p>Settings / {activeCategory?.label ?? "System"}</p><h2>{activeCategory?.label ?? "System"}</h2><span>{activeCategory?.description}</span></header>
+        <section aria-label={`${activeCategory?.label ?? "System"} settings`} className={styles.canvas}>
+          <header className={styles.canvasHeader}><h2>{activeCategory?.label ?? "System"}</h2><span>{activeCategory?.description}</span></header>
           <CategoryCanvas controller={controller} />
-        </main>
+        </section>
       </div>
     </div>
   );

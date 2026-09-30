@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   clampRectToWorkspace,
+  resizeRectFromCorner,
   createWorkspaceBounds,
   isRectInsideWorkspace,
   snapRectToWorkspace,
@@ -61,3 +62,44 @@ describe("desktop window geometry", () => {
   });
 });
 
+describe("corner resizing", () => {
+  const rect = { x: 180, y: 140, width: 600, height: 400 };
+  const workspace = { x: 24, y: 24, width: 1100, height: 700 };
+  it.each(["nw", "ne", "sw", "se"] as const)(
+    "anchors the opposite corner when resizing %s",
+    (corner) => {
+      const next = resizeRectFromCorner(rect, corner, -50, -30, workspace);
+      if (corner.includes("w"))
+        expect(next.x + next.width).toBe(rect.x + rect.width);
+      else expect(next.x).toBe(rect.x);
+      if (corner.includes("n"))
+        expect(next.y + next.height).toBe(rect.y + rect.height);
+      else expect(next.y).toBe(rect.y);
+      expect(next.width).toBe(corner.includes("w") ? 650 : 550);
+      expect(next.height).toBe(corner.includes("n") ? 430 : 370);
+    },
+  );
+  it.each(["nw", "ne", "sw", "se"] as const)(
+    "limits %s at the workspace and minimum size without moving its anchor",
+    (corner) => {
+      for (const delta of [-5000, 5000]) {
+        const next = resizeRectFromCorner(
+          rect,
+          corner,
+          delta,
+          delta,
+          workspace,
+        );
+        expect(isRectInsideWorkspace(next, workspace)).toBe(true);
+        expect(next.width).toBeGreaterThanOrEqual(320);
+        expect(next.height).toBeGreaterThanOrEqual(220);
+        expect(corner.includes("w") ? next.x + next.width : next.x).toBe(
+          corner.includes("w") ? rect.x + rect.width : rect.x,
+        );
+        expect(corner.includes("n") ? next.y + next.height : next.y).toBe(
+          corner.includes("n") ? rect.y + rect.height : rect.y,
+        );
+      }
+    },
+  );
+});
