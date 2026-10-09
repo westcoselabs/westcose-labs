@@ -3,6 +3,9 @@ import type { AchievementDefinition } from "./types";
 // Local games report verified gameplay events. FightClub is hosted and only
 // reports OS-observable launcher actions, never unverified remote game state.
 export const achievementRegistry = [
+  { id: "shitbird.direct-hit", title: "Air mail", description: "Hit a target. Unlocks the Chip thief bird.", category: "games", hidden: false },
+  { id: "shitbird.nuisance", title: "Public nuisance", description: "Chain 3 target hits without a miss. Unlocks the Punk bird.", category: "games", hidden: false },
+  { id: "shitbird.parking", title: "Parking violation", description: "Hit 3 cars in one flight.", category: "games", hidden: false },
   { id: "shitbird.first-flight", title: "Unlicensed pilot", description: "Begin your first SHITBIRD flight.", category: "games", hidden: false },
   { id: "shitbird.first-death", title: "Direct collision with feedback", description: "Complete a flight. Badly.", category: "games", hidden: false },
   { id: "shitbird.zero", title: "Failed the onboarding", description: "Hit something within three seconds, without scoring.", category: "games", hidden: true },

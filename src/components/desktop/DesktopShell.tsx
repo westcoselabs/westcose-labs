@@ -1,5 +1,7 @@
 "use client";
 
+import { LiquidGlass } from "@/components/ui/LiquidGlass";
+
 import {
   CaretUp,
   MagnifyingGlass,
@@ -499,6 +501,7 @@ export function DesktopShell({
 
       {state.menu?.kind === "start" ? (
         <section aria-label="Start menu" className={styles.startMenu} data-launcher-layout={twoColumnLauncher ? "two-column" : undefined}>
+          <LiquidGlass tone="strong" />
           <header>
             <p>WestCose Labs</p>
             <span>{theme.copy?.systemLabel ?? "DUSK"} / V2</span>
@@ -576,6 +579,7 @@ export function DesktopShell({
           className={styles.clockPanel}
           id="desktop-clock-panel"
         >
+          <LiquidGlass tone="strong" />
           <p>Local system</p>
           <strong>{clock.time}</strong>
           <span>{clock.date}</span>
@@ -593,6 +597,7 @@ export function DesktopShell({
           className={styles.systemActionsPanel}
           id="desktop-system-actions"
         >
+          <LiquidGlass tone="strong" />
           <p>System actions</p>
           <Button onClick={() => openUtility("settings")}>Open Settings</Button>
           <Button onClick={() => router.push("/github")}>Open GitHub directory</Button>
@@ -601,6 +606,7 @@ export function DesktopShell({
       ) : null}
 
       <nav aria-label="Desktop taskbar" className={styles.taskbar}>
+        <LiquidGlass tone="clear" />
         <button
           aria-expanded={state.menu?.kind === "start"}
           className={styles.startButton}

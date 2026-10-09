@@ -4,6 +4,7 @@ import type { RefObject } from "react";
 import { useEffect, useRef } from "react";
 
 import { Button, SurfaceFloating } from "@/components/ui";
+import { LiquidGlass } from "@/components/ui/LiquidGlass";
 
 import styles from "./PocketAppMenu.module.css";
 import type { PocketAppItem } from "./types";
@@ -75,6 +76,7 @@ export function PocketAppMenu({
         className={styles.menu}
         role="dialog"
       >
+        <LiquidGlass tone="strong" />
         <div className={styles.heading}>
           <h2 className="type-headline-sm" id="pocket-app-menu-title">
             {app.label}

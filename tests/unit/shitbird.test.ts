@@ -81,7 +81,7 @@ describe("SHITBIRD OS progress", () => {
     let raw: string | null = null;
     const storage = { getItem: () => raw, setItem: (_key: string, value: string) => { raw = value; }, removeItem: () => { raw = null; } };
     saveShitbirdProgress(storage, 25); saveShitbirdProgress(storage, 10);
-    expect(readGamesProgress(storage).shitbird).toEqual({ best: 25, hasFlown: true });
+    expect(readGamesProgress(storage).shitbird).toMatchObject({ best: 25, hasFlown: true, skin: "gull", bestBonus: 0, daily: {} });
     for (const value of ["oops", "null", '{"version":99}', '{"version":1,"data":{"shitbird":{"best":-10}}}']) {
       expect(parseGamesProgress(value).shitbird.best).toBe(0);
     }

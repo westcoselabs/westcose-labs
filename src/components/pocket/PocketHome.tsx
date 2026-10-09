@@ -1,5 +1,7 @@
 "use client";
 
+import { LiquidGlass } from "@/components/ui/LiquidGlass";
+
 import { ArrowRight, CloudSun, GearSix } from "@phosphor-icons/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -154,6 +156,7 @@ export function PocketHome({
       >
         <h1 className="sr-only">WestCose Pocket OS Home</h1>
         <header className={styles.homeHeader}>
+          <LiquidGlass />
           <div className={styles.brand}>
             <strong>WestCose Pocket</strong>
             <span>{theme.copy?.systemLabel ?? "DUSK"} SYSTEM</span>
@@ -296,6 +299,7 @@ export function PocketHome({
         </nav>
 
         <nav aria-label="Pocket Dock" className={styles.dock}>
+          <LiquidGlass tone="clear" />
           {dockApps.map((app) => (
             <button
               aria-label={app.accessibilityLabel}

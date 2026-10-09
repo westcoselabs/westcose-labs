@@ -114,7 +114,7 @@ describe("V3 registries", () => {
     expect(wallpaperRegistry.filter((wallpaper) => wallpaper.default)).toHaveLength(1);
     expect(wallpaperRegistry[0]).toMatchObject({ id: "dusk-cliffs" });
     expect(achievementRegistry.filter((entry) => entry.category === "fightclub")).toHaveLength(4);
-    expect(achievementRegistry.filter((entry) => entry.category === "games")).toHaveLength(6);
+    expect(achievementRegistry.filter((entry) => entry.category === "games")).toHaveLength(9);
     expect(
       achievementRegistry.every((achievement) =>
         /^(fightclub|shitbird)\./.test(achievement.id),

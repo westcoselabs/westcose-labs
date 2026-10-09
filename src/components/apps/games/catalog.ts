@@ -7,7 +7,7 @@ export const originalGames = [
     title: "SHITBIRD",
     href: "/games/shitbird",
     description:
-      "One bird. No prospects. A one-button flight through the wrong end of the coast.",
+      "Dodge poles. Shit on tourists. Chain mischief, unlock your flock, and take on the daily coast.",
     edition: "WestCose original / No. 001",
     cover: "/games/shitbird/cover.webp",
     alt: "A scruffy gull above a carved teal wave and the West Cose Motel, in a weathered cream and orange surf print.",

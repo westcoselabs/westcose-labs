@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import {
-  RouteDocument,
-  RouteSection,
-} from "@/components/apps/RouteDocument";
-import { PlanetExperiment } from "@/components/experiments/planet/PlanetExperiment";
+import { ExperimentStudy } from "@/components/experiments/ExperimentStudy";
 import {
   createRouteMetadata,
   experimentRegistry,
@@ -33,26 +29,5 @@ export default async function ExperimentPage({ params }: ExperimentPageProps) {
   const experiment = getExperiment(slug);
   if (!experiment) notFound();
 
-  return (
-    <RouteDocument
-      eyebrow="Technical study"
-      title={experiment.title}
-      description={experiment.purpose}
-      status={experiment.status}
-      presentation="experiments"
-    >
-      {experiment.slug === "westcose-world" ? (
-        <PlanetExperiment />
-      ) : (
-        <>
-          <RouteSection title="Interaction requirements">
-            <p>{experiment.requirements}</p>
-          </RouteSection>
-          <RouteSection title="Verified proof">
-            <p>{experiment.proof}</p>
-          </RouteSection>
-        </>
-      )}
-    </RouteDocument>
-  );
+  return <ExperimentStudy experiment={experiment} />;
 }

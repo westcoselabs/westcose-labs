@@ -19,10 +19,10 @@ import { useSettings } from "@/components/os/SettingsContext";
 import { useShellPresentation } from "@/components/os/ShellPresentationContext";
 import { safeResolveStorage } from "@/lib/storage";
 import { getAchievement } from "@/registry/achievements";
-import { readGamesProgress, saveShitbirdProgress } from "../storage";
-import type { GameEngine, GameSnapshot } from "./engine";
-import { MAX_DIFFICULTY_SCORE } from "./model";
-import { deathMessages, recordFlightProgress } from "./progress";
+import { readGamesProgress, saveShitbirdRun, saveShitbirdSkin } from "../storage";
+import type { GameEngine, GameOptions, GameSnapshot } from "./engine";
+import { COASTS, coastIndex, comboMultiplier, createFlight, dailyId, validDailyId, type BirdSkin } from "./model";
+import { BIRDS, deathMessage, emptyShitbirdProgress, nextGoal, recordFlightProgress, shareFlight } from "./progress";
 import styles from "./ShitbirdGame.module.css";
 
 export function ShitbirdGame() {
@@ -41,21 +41,28 @@ export function ShitbirdGame() {
   const arenaRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<GameEngine | null>(null);
   const actionRef = useRef<HTMLButtonElement>(null);
-  const optionsRef = useRef({ reducedMotion: false, sound: false });
-  const [snapshot, setSnapshot] = useState<GameSnapshot>({
-    phase: "ready",
-    score: 0,
-    elapsed: 0,
-  });
-  const [best, setBest] = useState(0);
-  const [hasFlown, setHasFlown] = useState(false);
+  const optionsRef = useRef<GameOptions>({ reducedMotion: false, sound: false, skin: "gull", daily: null, best: 0 });
+  const [snapshot, setSnapshot] = useState<GameSnapshot>(createFlight);
+  const [progress, setProgress] = useState(emptyShitbirdProgress);
+  const progressRef = useRef(progress);
+  const [mode, setMode] = useState<"free" | "daily">("free");
+  const [day, setDay] = useState("");
+  const [hangarOpen, setHangarOpen] = useState(false);
+  const hangarRef = useRef<HTMLDivElement>(null);
+  const hangarTrigger = useRef<HTMLButtonElement | null>(null);
+  const [record, setRecord] = useState("");
+  const [shareStatus, setShareStatus] = useState("");
+  const [shareText, setShareText] = useState("");
   const [ready, setReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loadAttempt, setLoadAttempt] = useState(0);
-  const [message, setMessage] = useState<string>(deathMessages[0]);
+  const [message, setMessage] = useState("");
   const [awards, setAwards] = useState<string[]>([]);
   const [tooShort, setTooShort] = useState(false);
   const isPlaying = snapshot.phase === "playing";
+  const best = progress.best;
+  const displayedDay = snapshot.phase === "ready" ? day : snapshot.daily ?? day;
+  const dailyBest = progress.daily[displayedDay];
   useFullscreenPause(() => engineRef.current?.pause());
   useEffect(() => {
     if (isPlaying) canvasRef.current?.focus({ preventScroll: true });
@@ -65,10 +72,27 @@ export function ShitbirdGame() {
     const options = {
       reducedMotion: settings?.effectiveAccessibility.reducedMotion ?? false,
       sound,
+      skin: progress.skin,
+      daily: mode === "daily" ? day : null,
+      best: mode === "daily" ? progress.daily[day]?.score ?? 0 : progress.best,
     };
     optionsRef.current = options;
     engineRef.current?.configure(options);
-  }, [settings?.effectiveAccessibility.reducedMotion, sound]);
+  }, [settings?.effectiveAccessibility.reducedMotion, sound, progress, mode, day]);
+
+  useEffect(() => {
+    const refresh = () => {
+      const requested = new URLSearchParams(window.location.search).get("daily");
+      setDay(validDailyId(requested) ? requested : dailyId());
+    };
+    const timer = window.setInterval(refresh, 30_000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    if (hangarOpen) hangarRef.current?.focus();
+    else hangarTrigger.current?.focus();
+  }, [hangarOpen]);
 
   useEffect(() => {
     const well = wellRef.current,
@@ -95,40 +119,50 @@ export function ShitbirdGame() {
     let canceled = false;
     let engine: GameEngine | undefined;
     const storage = safeResolveStorage(() => window.localStorage);
-    let progress = readGamesProgress(storage).shitbird;
+    let saved = readGamesProgress(storage).shitbird;
     const earned = new Set<string>();
-    let deathIndex = Math.floor(Math.random() * deathMessages.length);
+    let deathIndex = 0;
+    let previousPhase = "ready";
+    let baseline = { score: saved.best, bonus: saved.bestBonus };
     // Imports WebGL only on the game route, never during OS boot or Games browsing.
     import("./engine")
       .then(({ createShitbird }) => {
         if (canceled) return;
-        setBest(progress.best);
-        setHasFlown(progress.hasFlown);
+        const requested = new URLSearchParams(window.location.search).get("daily");
+        setDay(validDailyId(requested) ? requested : dailyId());
+        if (validDailyId(requested)) setMode("daily");
+        progressRef.current = saved;
+        setProgress(saved);
         engine = createShitbird(
           canvas,
           (next) => {
             if (canceled) return;
+            if (next.phase === "playing" && (previousPhase === "ready" || previousPhase === "dead")) {
+              saved = progressRef.current;
+              baseline = next.daily ? { score: saved.daily[next.daily]?.score ?? 0, bonus: saved.daily[next.daily]?.bonus ?? 0 } : { score: saved.best, bonus: saved.bestBonus };
+              earned.clear(); setRecord(""); setShareStatus(""); setShareText("");
+            }
             if (next.phase !== "ready") {
               for (const id of recordFlightProgress(service, next))
                 earned.add(id);
-              if (!progress.hasFlown || next.score > progress.best) {
-                progress = saveShitbirdProgress(
-                  storage,
-                  Math.max(progress.best, next.score),
-                ).shitbird;
-                setBest(progress.best);
-                setHasFlown(true);
-              }
+              const before = progressRef.current;
+              saved = saveShitbirdRun(storage, next, before);
+              for (const bird of BIRDS) if (bird.unlocked(saved) && !bird.unlocked(before)) earned.add(`Unlocked: ${bird.name}`);
+              progressRef.current = saved;
+              setProgress(saved);
             }
             if (next.phase === "dead") {
-              setMessage(deathMessages[deathIndex++ % deathMessages.length]);
+              setMessage(deathMessage(next.deathCause, deathIndex++));
+              setRecord(next.score > baseline.score ? `New ${next.daily ? "daily" : "personal"} best! +${next.score - baseline.score} poles` :
+                next.bonus > baseline.bonus ? `New mischief best! +${next.bonus - baseline.bonus} points` : "");
               setAwards(
                 [...earned]
-                  .slice(-2)
+                  .slice(-3)
                   .map((id) => getAchievement(id)?.title ?? id),
               );
               earned.clear();
             }
+            previousPhase = next.phase;
             setSnapshot(next);
           },
           (message) => {
@@ -142,7 +176,7 @@ export function ShitbirdGame() {
             if (!canceled) setReady(true);
           },
         );
-        engine.configure(optionsRef.current);
+        engine.configure({ ...optionsRef.current, skin: saved.skin, best: saved.best });
         engineRef.current = engine;
       })
       .catch((reason: unknown) => {
@@ -193,6 +227,22 @@ export function ShitbirdGame() {
     requestAnimationFrame(() => requestAnimationFrame(act));
   };
 
+  const chooseSkin = (skin: BirdSkin) => {
+    const next = saveShitbirdSkin(safeResolveStorage(() => window.localStorage), { ...progressRef.current, skin });
+    progressRef.current = next; setProgress(next);
+  };
+  const closeHangar = () => setHangarOpen(false);
+  const openHangar = (button: HTMLButtonElement) => { hangarTrigger.current = button; setHangarOpen(true); };
+  const copyResult = async () => {
+    const text = shareFlight(snapshot, window.location.origin);
+    try {
+      await navigator.clipboard.writeText(text);
+      setShareStatus("Result copied. Send it to your flock.");
+    } catch {
+      setShareText(text); setShareStatus("Select and copy your result below.");
+    }
+  };
+
   return (
     <section
       className={styles.game}
@@ -205,7 +255,7 @@ export function ShitbirdGame() {
       <h1 className="sr-only" tabIndex={-1}>
         SHITBIRD
       </h1>
-      <header className={styles.toolbar}>
+      <header className={styles.toolbar} inert={hangarOpen}>
         <GameExit onExit={() => engineRef.current?.pause()} />
         <span className={styles.wordmark}>SHITBIRD</span>
         <div className={styles.toolbarActions}>
@@ -250,24 +300,27 @@ export function ShitbirdGame() {
           {ready && snapshot.phase !== "ready" ? (
             <div className={styles.hud} aria-label="Flight score">
               <div>
-                <span>SCORE</span>
+                <span>POLES</span>
                 <strong data-testid="shitbird-score">
                   {snapshot.score.toString().padStart(2, "0")}
                 </strong>
               </div>
               <div>
-                <span>BEST</span>
+                <span>{snapshot.daily ? "DAILY" : "BEST"}</span>
                 <b data-testid="shitbird-best">
-                  {best.toString().padStart(2, "0")}
+                  {(snapshot.daily ? dailyBest?.score ?? 0 : best).toString().padStart(2, "0")}
                 </b>
-                {snapshot.score >= MAX_DIFFICULTY_SCORE ? (
-                  <small>MAX HEAT</small>
-                ) : null}
+              </div>
+              <div><span>MISCHIEF</span><b data-testid="shitbird-bonus">{snapshot.bonus}</b><small data-testid="shitbird-combo">x{comboMultiplier(snapshot.combo)}</small>
               </div>
             </div>
           ) : null}
+          {ready && snapshot.phase !== "ready" ? <div className={styles.coastBar} aria-label="Current coast">
+            <span>{COASTS[coastIndex(snapshot.score)]}</span>
+            <span>{snapshot.daily ? `DAILY ${snapshot.daily}` : snapshot.score >= 40 ? "MAX HEAT" : `${10 - snapshot.score % 10} TO NEXT DISTRICT`}</span>
+          </div> : null}
           {snapshot.phase === "ready" && !error ? (
-            <div className={styles.titleScreen}>
+            <div className={styles.titleScreen} inert={hangarOpen}>
               <div className={styles.titleCopy}>
                 <p>
                   WEST COSE <span>ORIGINAL Nº 001</span>
@@ -296,6 +349,11 @@ export function ShitbirdGame() {
                 <em>One bird. No prospects.</em>
               </div>
               <div className={styles.startCopy}>
+                <div className={styles.modeSwitch} role="group" aria-label="Flight mode">
+                  <button type="button" aria-pressed={mode === "free"} onClick={() => setMode("free")}>Free flight</button>
+                  <button type="button" aria-pressed={mode === "daily"} onClick={() => setMode("daily")}>Daily coast</button>
+                </div>
+                <p className={styles.howTo}>Tap / Space to flap. Fly through <strong>SHIT</strong> targets to drop automatically.</p>
                 <button
                   type="button"
                   className={styles.primary}
@@ -310,17 +368,14 @@ export function ShitbirdGame() {
                     "Loading the coast…"
                   )}
                 </button>
-                <p>
-                  {hasFlown
-                    ? `Personal best: ${best}.`
-                    : "Tap or press Space to flap. Miss the poles."}
-                </p>
+                <p className={styles.goal}>{mode === "daily" ? `${day} · Same course for everyone. Best: ${progress.daily[day]?.score ?? 0} poles / ${progress.daily[day]?.bonus ?? 0} mischief.` : nextGoal(progress)}</p>
+                <button className={styles.textButton} type="button" onClick={(e) => openHangar(e.currentTarget)}>Birds & missions · {BIRDS.filter((b) => b.unlocked(progress)).length}/4</button>
               </div>
             </div>
           ) : null}
           {(snapshot.phase === "dead" || snapshot.phase === "paused") &&
           !error ? (
-            <div className={styles.overlay}>
+            <div className={styles.overlay} inert={hangarOpen}>
               <div className={styles.panel}>
                 <p className={styles.eyebrow}>
                   {snapshot.phase === "dead"
@@ -338,14 +393,20 @@ export function ShitbirdGame() {
                     : "Your bad decisions can wait. Resume gives you a flap."}
                 </p>
                 {snapshot.phase === "dead" ? (
+                  <>
+                  {record ? <p className={styles.record} role="status">★ {record}</p> : null}
                   <div className={styles.results}>
                     <span>
-                      THIS DISASTER <strong>{snapshot.score}</strong>
+                      POLES <strong>{snapshot.score}</strong>
                     </span>
                     <span>
-                      PERSONAL BEST <strong>{best}</strong>
+                      MISCHIEF <strong>{snapshot.bonus}</strong>
                     </span>
+                    <span>BEST STREAK <strong>{snapshot.bestCombo}</strong></span>
                   </div>
+                  <p className={styles.goal}>Next: {nextGoal(progress)}</p>
+                  <p className={styles.eyebrow}>{mode === "daily" ? `NEXT FLIGHT · DAILY COAST ${day}` : "NEXT FLIGHT · FREE FLIGHT"}</p>
+                  </>
                 ) : null}
                 <button
                   ref={actionRef}
@@ -364,6 +425,12 @@ export function ShitbirdGame() {
                     </>
                   )}
                 </button>
+                {snapshot.phase === "dead" ? <div className={styles.reportActions}>
+                  <button className={styles.textButton} type="button" onClick={() => void copyResult()}>Copy result</button>
+                  <button className={styles.textButton} type="button" onClick={(e) => openHangar(e.currentTarget)}>Birds & flight plan</button>
+                </div> : null}
+                {shareStatus ? <p className={styles.shareStatus} role="status">{shareStatus}</p> : null}
+                {shareText ? <textarea className={styles.shareText} aria-label="Shareable flight result" readOnly value={shareText} onFocus={(e) => e.currentTarget.select()} /> : null}
                 {snapshot.phase === "dead" && awards.length ? (
                   <p className={styles.awards}>
                     Filed under: {awards.join(" / ")}
@@ -372,6 +439,40 @@ export function ShitbirdGame() {
               </div>
             </div>
           ) : null}
+          {hangarOpen ? <div className={styles.hangar} role="dialog" aria-modal="true" aria-label="Birds and flight plan" tabIndex={-1} ref={hangarRef}
+            onKeyDown={(event) => {
+              if (event.key === "Escape") { event.stopPropagation(); closeHangar(); }
+              if (event.key === "Tab") {
+                const controls = hangarRef.current?.querySelectorAll<HTMLElement>('button:not(:disabled), [href], textarea');
+                const first = controls?.[0], last = controls?.[controls.length - 1];
+                if (event.shiftKey && (document.activeElement === first || document.activeElement === hangarRef.current)) { event.preventDefault(); last?.focus(); }
+                else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+              }
+            }}>
+            <div className={styles.hangarHeading}><div><p className={styles.eyebrow}>DEPARTMENT OF BAD DECISIONS</p><h2>The flock.</h2></div><button type="button" className={styles.textButton} onClick={closeHangar}>Done</button></div>
+            <p className={styles.hangarIntro}>Same wings. Different problems. Every bird flies the same.</p>
+            <div className={styles.birds}>
+              {BIRDS.map((bird) => <button key={bird.id} type="button" aria-pressed={progress.skin === bird.id} disabled={!bird.unlocked(progress)} onClick={() => chooseSkin(bird.id)}>
+                <span className={styles.birdPortrait} data-skin={bird.id} aria-hidden="true"><i>{bird.id === "chips" ? "≋" : bird.id === "business" ? "♦" : bird.id === "punk" ? "✦" : ""}</i></span>
+                <strong>{bird.name}</strong><small>{bird.unlocked(progress) ? progress.skin === bird.id ? "Equipped" : "Equip bird" : bird.requirement}</small>
+              </button>)}
+            </div>
+            <h3>Flight plan</h3>
+            <div className={styles.modeSwitch} role="group" aria-label="Next flight mode">
+              <button type="button" aria-pressed={mode === "free"} onClick={() => setMode("free")}>Free flight</button>
+              <button type="button" aria-pressed={mode === "daily"} onClick={() => setMode("daily")}>Daily coast</button>
+            </div>
+            <p className={styles.hangarIntro}>{mode === "daily" ? `${day} · Unlimited retries on the same course. New daily coast at 00:00 UTC. Records stay on this device.` : `Personal best: ${best} poles · ${progress.bestBonus} mischief. SHIT targets are optional. Missing one ends your streak, not your flight.`}</p>
+            <h3>Open cases</h3>
+            <ul className={styles.missions}>
+              <li><span>Air mail · Hit a target</span><b>{Math.min(1, progress.bestHits)}/1</b></li>
+              <li><span>Public nuisance · Chain hits</span><b>{Math.min(3, progress.bestCombo)}/3</b></li>
+              <li><span>Parking violation · Cars in one flight</span><b>{Math.min(3, progress.bestCars)}/3</b></li>
+              <li><span>Local nuisance · Poles in one flight</span><b>{Math.min(10, best)}/10</b></li>
+              <li><span>Coastal management · Poles</span><b>{Math.min(25, best)}/25</b></li>
+              <li><span>Peak bullshit · Poles</span><b>{Math.min(40, best)}/40</b></li>
+            </ul>
+          </div> : null}
         </div>
         {tooShort ? (
           <div className={styles.sizeNotice} role="status">

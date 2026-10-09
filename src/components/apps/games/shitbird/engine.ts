@@ -1,11 +1,13 @@
 import kaboom from "kaboom";
 import { createCoastRenderer } from "./art";
-import { createFlight, flap, PHYSICS, startFlight, stepFlight, WORLD, type Flight } from "./model";
+import { COAST_ART } from "./scenery";
+import { courseRandom, createFlight, flap, PHYSICS, startFlight, stepFlight, WORLD, type BirdSkin, type Flight } from "./model";
 
-export type GameSnapshot = Pick<Flight, "phase" | "score" | "elapsed">;
+export type GameSnapshot = Pick<Flight, "phase" | "score" | "elapsed" | "bonus" | "hits" | "combo" | "bestCombo" | "carHits" | "deathCause" | "daily">;
+export type GameOptions = { reducedMotion: boolean; sound: boolean; skin: BirdSkin; daily: string | null; best: number };
 export type GameEngine = {
   act: () => void; pause: () => void; destroy: () => void;
-  configure: (options: { reducedMotion: boolean; sound: boolean }) => void;
+  configure: (options: GameOptions) => void;
 };
 
 export function createShitbird(
@@ -23,18 +25,23 @@ export function createShitbird(
     throw new Error("WebGL is unavailable. Enable graphics acceleration or try another browser.");
   }
   const k = kaboom({ canvas, root: canvas.parentElement!, width: WORLD.width, height: WORLD.height,
-    stretch: true, texFilter: "linear", pixelDensity: Math.min(window.devicePixelRatio || 1, 2),
+    // Kaboom's fixed world also fixes its internal framebuffer. Supersample desktop
+    // and retain up to 3× detail on phones instead of stretching a 360px render.
+    stretch: true, texFilter: "linear", pixelDensity: Math.min(3, Math.max(2, window.devicePixelRatio || 1)),
     global: false, debug: false, touchToMouse: false, loadingScreen: false, background: "#0b100d" });
   let flight = createFlight();
   let accumulator = 0;
   let deadAt = 0;
   let destroyed = false;
   let assetsReady = false;
+  let random = Math.random;
+  let deathAge = 0;
+  let runBest = 0;
   const loadingTimeout = window.setTimeout(() => {
     if (!destroyed && !assetsReady) onFailure("The coast is taking too long to arrive. Check your connection and reload the game.");
   }, 15000);
-  for (const name of ["coast", "gull"]) {
-    k.loadSprite(name, `/games/shitbird/${name}.webp`).onError(() => {
+  for (const name of ["coast", ...Object.values(COAST_ART), "gull", "targets-west-cose"]) {
+    k.loadSprite(name, `/games/shitbird/${name === "coast" ? "coast-refined" : name}.webp`).onError(() => {
       if (!destroyed) onFailure("The game artwork could not load. Check your connection and reload the game.");
     });
   }
@@ -42,19 +49,22 @@ export function createShitbird(
     window.clearTimeout(loadingTimeout);
     if (!destroyed) { assetsReady = true; onReady(); }
   });
-  let settings = { reducedMotion: false, sound: false };
+  let settings: GameOptions = { reducedMotion: false, sound: false, skin: "gull", daily: null, best: 0 };
   const render = createCoastRenderer(k);
-  const notify = () => onChange({ phase: flight.phase, score: flight.score, elapsed: flight.elapsed });
+  const notify = () => onChange({ phase: flight.phase, score: flight.score, elapsed: flight.elapsed,
+    bonus: flight.bonus, hits: flight.hits, combo: flight.combo, bestCombo: flight.bestCombo,
+    carHits: flight.carHits, deathCause: flight.deathCause, daily: flight.daily });
   // Tiny original oscillator sounds through Kaboom's existing AudioContext.
   const voices = new Set<OscillatorNode>();
   const silence = () => { for (const voice of voices) { try { voice.stop(); } catch {} } voices.clear(); };
-  const sound = (kind: "flap" | "score" | "impact") => {
+  const sound = (kind: "flap" | "score" | "impact" | "splat" | "record") => {
     if (!settings.sound || destroyed || k.audioCtx.state !== "running") return;
     const ctx = k.audioCtx, oscillator = ctx.createOscillator(), gain = ctx.createGain();
-    const t = ctx.currentTime, duration = kind === "impact" ? 0.16 : 0.065;
-    oscillator.type = kind === "impact" ? "sawtooth" : "triangle";
-    oscillator.frequency.setValueAtTime(kind === "score" ? 740 : kind === "flap" ? 240 : 110, t);
-    oscillator.frequency.exponentialRampToValueAtTime(kind === "score" ? 1000 : 65, t + duration);
+    const t = ctx.currentTime, duration = kind === "record" ? 0.3 : kind === "splat" ? 0.18 : kind === "impact" ? 0.16 : 0.065;
+    oscillator.type = kind === "impact" || kind === "splat" ? "sawtooth" : "triangle";
+    const frequency = kind === "record" ? 660 : kind === "splat" ? 170 + flight.combo * 45 : kind === "score" ? 740 : kind === "flap" ? 240 : 110;
+    oscillator.frequency.setValueAtTime(frequency, t);
+    oscillator.frequency.exponentialRampToValueAtTime(kind === "record" ? 1320 : kind === "score" ? 1000 : 65, t + duration);
     gain.gain.setValueAtTime(0.035, t); gain.gain.exponentialRampToValueAtTime(0.001, t + duration);
     oscillator.connect(gain); gain.connect(ctx.destination); voices.add(oscillator);
     oscillator.onended = () => { oscillator.disconnect(); gain.disconnect(); voices.delete(oscillator); };
@@ -68,7 +78,8 @@ export function createShitbird(
     if (destroyed || !assetsReady || document.hidden) return;
     if (settings.sound) void k.audioCtx.resume().catch(() => undefined);
     if (flight.phase === "ready" || (flight.phase === "dead" && performance.now() - deadAt > 200)) {
-      flight = startFlight(); accumulator = 0; notify(); sound("flap");
+      random = settings.daily ? courseRandom(settings.daily) : Math.random;
+      flight = startFlight(settings.daily); accumulator = 0; deathAge = 0; runBest = settings.best; notify(); sound("flap");
     } else if (flight.phase === "paused") {
       flight.phase = "playing"; accumulator = 0; flap(flight); notify(); sound("flap");
     } else if (flight.phase === "playing") { flap(flight); sound("flap"); }
@@ -104,16 +115,23 @@ export function createShitbird(
     const dt = k.dt();
     // Discard long stalls; explicit resume supplies a flap, never a hidden time jump.
     if (dt > 0.2) { pause(); return; }
+    if (flight.phase === "dead") { deathAge = Math.min(2, deathAge + dt); return; }
     if (flight.phase !== "playing") return;
-    const score = flight.score;
+    const score = flight.score, hits = flight.hits, combo = flight.combo;
     accumulator += dt;
     while (accumulator >= PHYSICS.step && flight.phase === "playing") {
-      stepFlight(flight, PHYSICS.step); accumulator -= PHYSICS.step;
+      stepFlight(flight, PHYSICS.step, random); accumulator -= PHYSICS.step;
     }
     if ((flight as Flight).phase === "dead") { deadAt = performance.now(); sound("impact"); notify(); }
-    else if (flight.score !== score) { sound("score"); notify(); }
+    else if (flight.score !== score || flight.hits !== hits || flight.combo !== combo) {
+      if (flight.score > runBest && score <= runBest && runBest > 0) {
+        flight.notice = "NEW PERSONAL BEST!"; flight.noticeTime = 2; sound("record");
+      } else if (flight.hits !== hits) sound("splat");
+      else if (flight.score !== score) sound("score");
+      notify();
+    }
   });
-  const draws = k.onDraw(() => { if (!destroyed && assetsReady) render(flight, settings.reducedMotion); });
+  const draws = k.onDraw(() => { if (!destroyed && assetsReady) render(flight, settings.reducedMotion, settings.skin, deathAge); });
   notify();
   return {
     act, pause,

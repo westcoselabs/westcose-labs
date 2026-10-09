@@ -1,0 +1,7 @@
+{
+  "asset": "coast-palm.webp",
+  "tool": "OpenAI built-in image_gen",
+  "reference": "coast-refined.webp",
+  "prompt": "Use case: stylized-concept. Asset: ONE isolated palm tree sprite for the foreground parallax layer of the West Cose SHITBIRD game. Reference supplied is style only. Produce a single beautiful tall California palm tree, gently curved trunk leaning slightly right, asymmetric windblown fan of long drooping fronds at top, elegant silhouette, entire tree visible including trunk base, portrait 2:3 canvas, 1024x1536, 8 percent clear padding. EXACT style of the supplied coastal surf poster: highly controlled hand-inked woodcut illustration, near-black forest-green silhouettes with muted rich teal frond faces and fine warm-ivory directional highlights, warm tan bark marks. Natural slender tapered leaves, convincing curved trunk, polished detailed contours readable at small size. This is a background sprite: dark body, restrained highlights, no glowing outline, no orange parts, no overly bright highlights. Tree only, no ground, no island, no other objects, no sky, no scenery, no sun, no text, no frame or watermark. Real transparent alpha background, no painted checkerboard, no shadow. It should match the palms in the reference, not a geometric vector, wireframe, clipart or 3D render.",
+  "integration": "WebP conversion preserves alpha. Drawn at two sizes with alternating orientation for the nearest parallax layer."
+}

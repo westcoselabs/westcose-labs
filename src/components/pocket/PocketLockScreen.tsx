@@ -1,5 +1,7 @@
 "use client";
 
+import { LiquidGlass } from "@/components/ui/LiquidGlass";
+
 import { CaretRight, LockSimple, X } from "@phosphor-icons/react";
 import {
   type KeyboardEvent,
@@ -183,6 +185,7 @@ export function PocketLockScreen({
 
       <div className={styles.unlockRegion}>
         <div className={styles.unlockTrack} ref={trackRef}>
+          <LiquidGlass />
           <div aria-hidden="true" className={styles.unlockFill} />
           <span className={styles.unlockLabel} id="unlock-instructions">
             Slide to unlock

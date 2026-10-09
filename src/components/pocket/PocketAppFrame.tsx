@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 
 import { IconButton } from "@/components/ui";
+import { LiquidGlass } from "@/components/ui/LiquidGlass";
 import type { AppTone } from "@/registry";
 
 import { PocketAppGlyph } from "./PocketAppGlyph";
@@ -72,6 +73,7 @@ export function PocketAppFrame({
   return (
     <section aria-label={`${title} app`} className={styles.frame} data-app-id={appId} data-tone={tone}>
       <header className={styles.header}>
+        <LiquidGlass />
         <button aria-label={backLabel} className={styles.back} onClick={onBack} type="button">
           <ArrowLeft aria-hidden="true" size={18} weight="bold" />
           <span>{backLabel}</span>
@@ -99,6 +101,7 @@ export function PocketAppFrame({
         </div>
         {menuOpen ? (
           <div className={styles.menu} role="menu">
+            <LiquidGlass tone="strong" />
             <button
               autoFocus
               onClick={() => {

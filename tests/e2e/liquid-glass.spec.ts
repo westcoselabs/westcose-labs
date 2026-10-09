@@ -33,6 +33,36 @@ test.beforeEach(async ({ page }, info) => {
   await page.setViewportSize({ width: 1440, height: 900 });
 });
 
+test("library lenses render on shell chrome and follow window geometry", async ({ page, browserName }) => {
+  await seedAppearance(page, "liquid-glass", "liquid-glass");
+  await page.goto("/settings/appearance?view=os");
+  const taskbar = page.getByRole("navigation", { name: "Desktop taskbar" });
+  const lens = taskbar.locator(":scope > [data-liquid-glass]");
+  await expect(lens).toBeVisible();
+  await expect(lens.locator("feImage").first()).toHaveAttribute("href", /^data:image/);
+  if (browserName === "chromium") {
+    await expect(lens).toHaveCSS("backdrop-filter", /url\(.*lg-mat-/);
+  } else {
+    await expect(lens).toHaveCSS("backdrop-filter", /blur\(/);
+  }
+  const titlebar = page.getByRole("region", { name: "Appearance", exact: true })
+    .filter({ has: page.getByRole("button", { name: "Window menu for Appearance" }) })
+    .locator("header").first();
+  const titleLens = titlebar.locator(":scope > [data-liquid-glass]");
+  await expect(titleLens).toBeVisible();
+  await page.getByRole("button", { name: "Window menu for Appearance" }).click();
+  await page.getByRole("menuitem", { name: "Snap left" }).click();
+  await expect.poll(async () => {
+    const host = await titlebar.boundingBox();
+    const glass = await titleLens.boundingBox();
+    return Math.abs(host!.width - glass!.width);
+  }).toBeLessThanOrEqual(2);
+  await page.getByRole("combobox", { name: "Theme", exact: true }).selectOption("dusk");
+  await expect(page.locator("[data-liquid-glass]")).toHaveCount(0);
+  await page.getByRole("combobox", { name: "Theme", exact: true }).selectOption("liquid-glass");
+  await expect(lens).toBeVisible();
+});
+
 test("keyboard personalization preserves live utilities and independent wallpaper across shells", async ({ page }) => {
   await seedAppearance(page, "dusk", "dusk-cliffs");
   await page.goto("/?view=os");
@@ -102,6 +132,7 @@ for (const shell of ["desktop", "pocket"] as const) {
     if (shell === "pocket") await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/?view=os");
     await glassAttributes(page, shell);
+    await expect(page.locator("[data-liquid-glass]").first()).toBeVisible();
     const surfaces = await blurSurfaces(page);
     expect(surfaces.length).toBeGreaterThan(0);
     expect(surfaces.length).toBeLessThanOrEqual(shell === "desktop" ? 1 : 2);

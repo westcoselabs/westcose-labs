@@ -13,6 +13,7 @@ import {
 } from "react";
 
 import { IconButton } from "@/components/ui";
+import { LiquidGlass } from "@/components/ui/LiquidGlass";
 import {
   snapRectToWorkspace,
   resizeRectFromCorner,
@@ -232,6 +233,7 @@ export function DesktopWindow({
         onPointerMove={movePointer}
         onPointerUp={finishPointer}
       >
+        <LiquidGlass />
         <div className={styles.titleGroup}>
           <span aria-hidden="true" className={styles.runningMark} />
           <h2 id={titleId}>{window.title}</h2>
@@ -259,6 +261,7 @@ export function DesktopWindow({
             </IconButton>
             {menuOpen ? (
               <div className={styles.windowMenu} role="menu">
+                <LiquidGlass tone="strong" />
                 <button
                   onClick={() => snap("center")}
                   role="menuitem"

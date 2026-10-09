@@ -1,5 +1,7 @@
 "use client";
 
+import { LiquidGlass } from "@/components/ui/LiquidGlass";
+
 import { useEffect, useRef, useState, type CSSProperties, type RefObject } from "react";
 
 import { useAppearance } from "@/components/os/AppearanceContext";
@@ -102,6 +104,7 @@ export function PocketCustomizeSheet({
         className={styles.sheet}
         role="dialog"
       >
+        <LiquidGlass tone="strong" />
         <span aria-hidden="true" className={styles.grabber} />
         <div className={styles.heading}>
           <h2 className="type-headline-sm" id="pocket-customize-title">

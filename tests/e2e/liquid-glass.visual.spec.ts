@@ -1,5 +1,14 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import { openCustomize, seedAppearance } from "./appearance-helpers";
+
+async function waitForGlass(page: Page) {
+  // The optical engine is lazy-loaded; capture the material, not its CSS fallback.
+  await expect(page.locator("[data-liquid-glass]").first()).toBeVisible();
+  for (const lens of await page.locator("[data-liquid-glass]").all()) {
+    await expect(lens.locator("feImage").first()).toHaveAttribute("href", /^data:image/);
+    await expect(lens).toHaveCSS("backdrop-filter", /url\(.*lg-mat-/);
+  }
+}
 
 test.beforeEach(async ({ page }, info) => {
   test.skip(info.project.name !== "chromium", "Windows Chromium visual baselines");
@@ -22,6 +31,7 @@ for (const [name, route] of [
       await page.getByRole("menuitem", { name: "Theme", exact: true }).click();
     }
     if (name === "desktop-start-menu") await page.getByRole("button", { name: "WestCose", exact: true }).click();
+    await waitForGlass(page);
     await expect(page).toHaveScreenshot(`${name}.png`, { animations: "disabled", maxDiffPixelRatio: 0.005 });
   });
 }
@@ -45,6 +55,7 @@ for (const [name, route] of [
       await page.reload();
       await expect(page.getByRole("button", { name: "Tap to unlock" })).toBeVisible();
     }
+    await waitForGlass(page);
     await expect(page).toHaveScreenshot(`${name}.png`, { animations: "disabled", maxDiffPixelRatio: 0.005 });
   });
 }

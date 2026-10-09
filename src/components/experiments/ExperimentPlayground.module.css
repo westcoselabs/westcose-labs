@@ -1,0 +1,604 @@
+.playground {
+  --playground-edge: color-mix(in srgb, var(--color-border-subtle) 78%, transparent);
+  display: grid;
+  gap: 16px;
+  min-inline-size: 0;
+  color: var(--color-text-primary);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.playground button {
+  min-block-size: 44px;
+  min-inline-size: 44px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: transform 180ms ease;
+}
+
+.playground button:active:not(:disabled) {
+  transform: scale(.97);
+}
+.playground :is(button, input):focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+.playground button:disabled {
+  opacity: .65;
+}
+.playground :is(p, h3, dl, dd) {
+  margin: 0;
+}
+
+.segmented {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--playground-edge);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-recessed);
+}
+
+.segmented button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  padding: 8px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-secondary);
+}
+
+.segmented button[aria-pressed="true"] {
+  color: var(--color-text-primary);
+  border-color: var(--playground-edge);
+  background: var(--color-surface-raised);
+}
+
+.segmented button[aria-pressed="true"] svg {
+  color: var(--color-primary);
+}
+.segmented button:hover {
+  color: var(--color-text-primary);
+}
+
+.shellStage {
+  position: relative;
+  min-inline-size: 0;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  block-size: 330px;
+  padding: 20px 20px 48px;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-recessed);
+}
+
+.sampleRoute {
+  inline-size: min(82%, 480px);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--playground-edge);
+  border-radius: var(--radius-md);
+  box-shadow: 0 12px 24px color-mix(in srgb, var(--color-shadow-dark) 25%, transparent);
+  transform: translate(-8px, -4px);
+  transition: transform 300ms ease;
+}
+
+.sampleHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  border-block-end: 1px solid var(--playground-edge);
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.sampleHeader svg {
+  color: var(--color-primary);
+}
+.sampleContent {
+  padding: 25px;
+}
+.sampleContent h3 {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -.04em;
+}
+.sampleContent p {
+  max-inline-size: 26ch;
+  margin-block-start: 10px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+.routePath {
+  display: block;
+  margin-block-start: 16px;
+  font: 12px var(--font-mono);
+  color: var(--color-text-secondary);
+}
+.shellStage[data-shell="pocket"] .sampleRoute {
+  inline-size: min(64%, 240px);
+  transform: translate(0, 0);
+  border-radius: var(--radius-xl);
+}
+.shellStage[data-shell="pocket"] .sampleContent {
+  padding: 20px;
+}
+.shellStage[data-shell="pocket"] .sampleContent h3 {
+  font-size: 22px;
+}
+.shellStage[data-shell="document"] .sampleRoute {
+  inline-size: min(100%, 540px);
+  border-radius: var(--radius-sm);
+  transform: translate(0, 0);
+  box-shadow: none;
+}
+.shellStage[data-shell="document"] .sampleHeader {
+  border-block-end: 0;
+  padding-block-end: 0;
+}
+.shellStage[data-shell="document"] .sampleContent {
+  padding-block-start: 16px;
+}
+.shellAnnotation {
+  position: absolute;
+  inset-block-end: 18px;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+.feedback {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+.feedback svg {
+  flex: none;
+  color: var(--color-primary);
+}
+.note {
+  max-inline-size: 64ch;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.viewportStage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(24px, 7vw, 72px);
+  block-size: 360px;
+  padding: 18px;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-recessed);
+}
+
+.viewportDevice {
+  display: grid;
+  flex: none;
+  block-size: auto;
+  max-block-size: 100%;
+  max-inline-size: 48%;
+  overflow: hidden;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-raised);
+  box-shadow: 0 12px 24px color-mix(in srgb, var(--color-shadow-dark) 22%, transparent);
+}
+
+.browserTop {
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+.usableViewport {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: color-mix(in srgb, var(--color-primary) 9%, var(--color-surface-base));
+  border-block: 1px solid color-mix(in srgb, var(--color-primary) 25%, var(--color-border-subtle));
+}
+.usableViewport svg {
+  color: var(--color-primary);
+}
+.usableViewport strong {
+  font: 600 30px var(--font-mono);
+  letter-spacing: -.06em;
+  line-height: 1.1;
+}
+.usableViewport span {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+.browserBottom {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.browserBottom span {
+  inline-size: 34%;
+  block-size: 3px;
+  border-radius: var(--radius-full);
+  background: var(--color-text-secondary);
+}
+.safeArea {
+  background: repeating-linear-gradient(135deg, transparent 0 4px, color-mix(in srgb, var(--color-text-secondary) 20%, transparent) 4px 5px);
+}
+.viewportReadout {
+  display: grid;
+  gap: 14px;
+  min-inline-size: 90px;
+}
+.viewportReadout dt {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+.viewportReadout dd {
+  font: 500 22px var(--font-mono);
+  letter-spacing: -.04em;
+}
+.viewportReadout dd span {
+  font-size: 12px;
+  letter-spacing: 0;
+  color: var(--color-text-secondary);
+}
+.usableReadout {
+  padding-block-start: 12px;
+  border-block-start: 1px solid var(--playground-edge);
+}
+.usableReadout dd {
+  color: var(--color-primary);
+}
+
+.rangeControl {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 2px 12px;
+}
+.rangeControl label {
+  color: var(--color-text-primary);
+  font-size: 13px;
+}
+.rangeControl output {
+  color: var(--color-text-secondary);
+  font: 12px var(--font-mono);
+}
+.rangeControl input {
+  grid-column: 1 / -1;
+  inline-size: 100%;
+  min-block-size: 44px;
+  margin: 0;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+.checkboxControl {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-block-size: 44px;
+  inline-size: fit-content;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  cursor: pointer;
+}
+.checkboxControl input {
+  inline-size: 18px;
+  block-size: 18px;
+  accent-color: var(--color-primary);
+}
+
+.unlockStage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 265px;
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-recessed);
+  text-align: center;
+}
+.lockSymbol {
+  display: grid;
+  place-items: center;
+  inline-size: 88px;
+  block-size: 88px;
+  border: 1px solid var(--playground-edge);
+  border-radius: var(--radius-full);
+  color: var(--color-text-primary);
+  transition: transform 300ms ease;
+}
+.unlockStage[data-unlocked="true"] .lockSymbol {
+  transform: rotate(-8deg);
+  background: color-mix(in srgb, var(--color-primary) 12%, var(--color-surface-recessed));
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+.unlockStage .unlockStatus {
+  margin-block: 17px 5px;
+  font-size: 27px;
+  font-weight: 600;
+  letter-spacing: -.04em;
+  line-height: 1.2;
+  color: var(--color-text-primary);
+}
+.unlockStage > p:last-child {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+.actionPair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.button, .primaryButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 14px;
+  border: 1px solid var(--playground-edge);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+  background: var(--color-surface-raised);
+}
+.button:hover, .button[aria-pressed="true"] {
+  background: var(--color-surface-active);
+  border-color: var(--color-primary);
+}
+.button[aria-pressed="true"] svg {
+  color: var(--color-primary);
+}
+.primaryButton {
+  background: var(--color-primary);
+  color: var(--color-text-on-accent, var(--color-text-dark));
+  border-color: var(--color-primary);
+}
+.primaryButton:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
+:global([data-theme="corporate-beige"]) .primaryButton,
+:global([data-theme="westcose-95"]) .primaryButton {
+  color: var(--color-surface-light);
+}
+
+.geometryStage {
+  position: relative;
+  aspect-ratio: 1000 / 640;
+  overflow: hidden;
+  border: 1px solid var(--playground-edge);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-recessed);
+}
+.workspaceGrid {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(to right, var(--playground-edge) 1px, transparent 1px), linear-gradient(to bottom, var(--playground-edge) 1px, transparent 1px);
+  background-size: 12.5% 20%;
+  opacity: .33;
+}
+.geometryWindow {
+  position: absolute;
+  inset: 0 auto auto 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 65%, var(--color-border-subtle));
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-raised);
+  box-shadow: 0 12px 24px color-mix(in srgb, var(--color-shadow-dark) 25%, transparent);
+  transition: transform 320ms ease;
+}
+.geometryWindow header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-block-end: 1px solid var(--playground-edge);
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+.geometryWindow header svg {
+  color: var(--color-primary);
+  flex: none;
+}
+.geometryContent {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-block-size: 0;
+  padding: 12px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  text-align: center;
+}
+.geometryContent > svg {
+  color: var(--color-primary);
+  flex: none;
+}
+.geometryControls {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+.geometryReadout {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+.geometryReadout > span:last-child {
+  font: 12px var(--font-mono);
+}
+
+.playground[data-compact="true"] {
+  gap: 12px;
+}
+.playground[data-compact="true"] .segmented button {
+  flex-direction: column;
+  gap: 3px;
+  padding: 6px 3px;
+  font-size: 12px;
+}
+.playground[data-compact="true"] .shellStage {
+  block-size: 240px;
+  padding: 12px 12px 36px;
+}
+.playground[data-compact="true"] .sampleRoute {
+  inline-size: 90%;
+}
+.playground[data-compact="true"] .sampleHeader {
+  padding: 8px 12px;
+}
+.playground[data-compact="true"] .sampleContent {
+  padding: 16px;
+}
+.playground[data-compact="true"] .sampleContent h3 {
+  font-size: 21px;
+}
+.playground[data-compact="true"] .sampleContent p {
+  font-size: 13px;
+  margin-block-start: 7px;
+}
+.playground[data-compact="true"] .routePath {
+  margin-block-start: 10px;
+}
+.playground[data-compact="true"] .shellStage[data-shell="pocket"] .sampleRoute {
+  inline-size: min(78%, 205px);
+}
+.playground[data-compact="true"] .shellStage[data-shell="pocket"] .sampleContent {
+  padding: 14px;
+}
+.playground[data-compact="true"] .shellStage[data-shell="document"] .sampleRoute {
+  inline-size: 100%;
+}
+.playground[data-compact="true"] .shellAnnotation {
+  inset-block-end: 12px;
+}
+.playground[data-compact="true"] .feedback {
+  font-size: 12px;
+}
+.playground[data-compact="true"] .viewportStage {
+  block-size: 240px;
+  gap: 24px;
+  padding: 12px;
+}
+.playground[data-compact="true"] .viewportReadout {
+  gap: 9px;
+  min-inline-size: 85px;
+}
+.playground[data-compact="true"] .viewportReadout dd {
+  font-size: 19px;
+}
+.playground[data-compact="true"] .usableViewport {
+  gap: 6px;
+}
+.playground[data-compact="true"] .usableViewport strong {
+  font-size: 25px;
+}
+.playground[data-compact="true"] .browserTop {
+  font-size: 10px;
+}
+.playground[data-compact="true"] .unlockStage {
+  min-block-size: 185px;
+  padding: 18px 12px;
+}
+.playground[data-compact="true"] .lockSymbol {
+  inline-size: 62px;
+  block-size: 62px;
+}
+.playground[data-compact="true"] .lockSymbol svg {
+  inline-size: 32px;
+  block-size: 32px;
+}
+.playground[data-compact="true"] .unlockStatus {
+  margin-block-start: 12px;
+  font-size: 24px;
+}
+.playground[data-compact="true"] .geometryControls {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.playground[data-compact="true"] .geometryWindow header {
+  padding: 7px 10px;
+}
+.playground[data-compact="true"] .geometryContent {
+  font-size: 12px;
+  gap: 6px;
+  padding: 8px;
+}
+.playground[data-compact="true"] .geometryContent > svg {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .shellStage {
+  block-size: 270px;
+  padding-inline: 12px;
+}
+  .sampleContent {
+  padding: 20px;
+}
+  .shellStage[data-shell="pocket"] .sampleRoute {
+  inline-size: min(80%, 240px);
+}
+  .geometryControls {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+  .geometryContent {
+  font-size: 13px;
+}
+  .geometryContent > svg {
+  display: none;
+}
+  .geometryWindow header {
+  padding: 8px 10px;
+}
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .playground *, .playground *::before, .playground *::after {
+  transition: none !important;
+  animation: none !important;
+}
+}
+
+:global([data-reduced-motion="true"]) .playground *,
+:global([data-reduced-motion="true"]) .playground *::before,
+:global([data-reduced-motion="true"]) .playground *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
+@media (forced-colors: active) {
+  .playground button[aria-pressed="true"] {
+  outline: 2px solid Highlight;
+  outline-offset: -3px;
+}
+  .usableViewport, .geometryWindow, .sampleRoute, .lockSymbol {
+  border: 1px solid CanvasText;
+}
+  .workspaceGrid {
+  display: none;
+}
+}
+

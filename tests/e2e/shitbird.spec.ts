@@ -20,6 +20,107 @@ test.describe("SHITBIRD in Games", () => {
     await seedAppearance(page, "dusk", "dusk-cliffs");
   });
 
+  test("hits a rendered SHIT target and earns a playable cosmetic", async ({ page, browserName }) => {
+    test.skip(browserName !== "chromium", "Canvas-pixel steering is covered on desktop and mobile Chromium.");
+    await page.goto("/games/shitbird?daily=2026-10-06");
+    await requireAudioRuntime(page);
+    await expect(page.getByRole("button", { name: "Start game" })).toBeEnabled();
+    await page.evaluate(() => {
+      const canvas = document.querySelector("canvas")!;
+      const probe = document.createElement("canvas"); probe.width = 26; probe.height = 70;
+      const ctx = probe.getContext("2d", { willReadFrequently: true })!;
+      let lastFlap = 0, birdY = 253;
+      // Observe the saturated orange beak, excluding the softer copper target badge.
+      // Send normal input, without engine state or score injection.
+      const pilot = (time: number) => {
+        const phase = document.querySelector<HTMLElement>('[data-game="shitbird"]')?.dataset.phase;
+        const bonus = Number(document.querySelector('[data-testid="shitbird-bonus"]')?.textContent ?? 0);
+        // The game safely pauses after a long browser stall. Resume through its real control.
+        if (phase === "paused" && bonus === 0) {
+          Array.from(document.querySelectorAll("button")).find((button) => button.textContent?.trim() === "Resume flight")?.click();
+        }
+        if (phase === "playing" && bonus === 0) {
+          const low = Math.max(40, Math.floor(birdY - 35));
+          // Crop on the GPU before reading pixels, avoiding a full-frame readback on phones.
+          ctx.drawImage(canvas, 86 * canvas.width / 360, low * canvas.height / 540,
+            26 * canvas.width / 360, 70 * canvas.height / 540, 0, 0, 26, 70);
+          const data = ctx.getImageData(0, 0, 26, 70).data;
+          let sum = 0, count = 0;
+          for (let y = 0; y < 70; y++) for (let x = 0; x < 26; x++) {
+            const i = (y * 26 + x) * 4;
+            if (data[i] > 180 && data[i + 1] > 70 && data[i + 1] < 170 && data[i + 2] < 35) { sum += low + y; count++; }
+          }
+          if (count > 2) {
+            birdY = sum / count;
+            const score = Number(document.querySelector('[data-testid="shitbird-score"]')?.textContent ?? 0);
+            if (birdY > (score >= 1 ? 326 : 311) && time - lastFlap > 140) {
+              lastFlap = time;
+              canvas.dispatchEvent(new KeyboardEvent("keydown", { code: "Space", key: " ", bubbles: true }));
+            }
+          }
+        }
+        if (bonus > 0) { canvas.dispatchEvent(new KeyboardEvent("keydown", { code: "KeyP", key: "p", bubbles: true })); return; }
+        if (phase !== "dead") requestAnimationFrame(pilot);
+      };
+      requestAnimationFrame(pilot);
+    });
+    await page.getByRole("button", { name: "Start game" }).click();
+    await expect(page.getByTestId("shitbird-bonus")).toHaveText("25", { timeout: 12000 });
+    const saved = await page.evaluate(() => JSON.parse(localStorage.getItem("wcl.games.v1")!).data.shitbird);
+    expect(saved).toMatchObject({ bestHits: 1, bestBonus: 25, bestCars: 1 });
+    await page.getByRole("button", { name: "Resume flight" }).click();
+    await expect(page.locator('[data-game="shitbird"]')).toHaveAttribute("data-phase", "dead", { timeout: 6000 });
+    await expect(page.getByText(/Unlocked: Chip thief/)).toBeVisible();
+    await page.getByRole("button", { name: "Birds & flight plan" }).click();
+    const thief = page.getByRole("button", { name: /^Chip thief/ });
+    await expect(thief).toBeEnabled();
+    await thief.click();
+    await expect(thief).toHaveAttribute("aria-pressed", "true");
+  });
+
+  test("loads a shared daily coast, equips earned birds, copies a result and retries", async ({ page }, testInfo) => {
+    await page.addInitScript(() => {
+      localStorage.setItem("wcl.games.v1", JSON.stringify({ version: 1, data: { shitbird: {
+        best: 12, hasFlown: true, bestHits: 3, bestCombo: 3, bestBonus: 150,
+        daily: { "2026-10-06": { score: 5, bonus: 75 } },
+      } } }));
+      // Exercise the visible copy fallback without a browser permission prompt.
+      Object.defineProperty(navigator, "clipboard", { configurable: true, value: { writeText: () => Promise.reject(new Error("unavailable")) } });
+    });
+    await page.goto("/games/shitbird?daily=2026-10-06");
+    await requireAudioRuntime(page);
+    await expect(page.getByRole("button", { name: "Start game" })).toBeEnabled();
+    await expect(page.getByRole("button", { name: "Daily coast", exact: true })).toHaveAttribute("aria-pressed", "true");
+    await expect(page.getByText(/Same course for everyone/)).toContainText("5 poles / 75 mischief");
+    await page.screenshot({ path: testInfo.outputPath("daily-ready.png") });
+    await page.getByRole("button", { name: /Birds & missions/ }).click();
+    const hangar = page.getByRole("dialog", { name: "Birds and flight plan" });
+    await expect(hangar).toBeFocused();
+    const punk = hangar.getByRole("button", { name: /Public nuisance/ });
+    await punk.click();
+    await expect(punk).toHaveAttribute("aria-pressed", "true");
+    const accessibility = await new AxeBuilder({ page }).include('[data-game="shitbird"]').analyze();
+    expect(accessibility.violations).toEqual([]);
+    await page.screenshot({ path: testInfo.outputPath("flock.png") });
+    await hangar.getByRole("button", { name: "Done", exact: true }).click();
+    await expect(page.getByRole("button", { name: /Birds & missions/ })).toBeFocused();
+    expect(await page.evaluate(() => JSON.parse(localStorage.getItem("wcl.games.v1")!).data.shitbird.skin)).toBe("punk");
+    await page.getByRole("button", { name: "Start game" }).click();
+    const game = page.locator('[data-game="shitbird"]');
+    await expect(game).toHaveAttribute("data-phase", "dead", { timeout: 6000 });
+    await expect(page.getByTestId("shitbird-best")).toHaveText("05");
+    await page.getByRole("button", { name: "Copy result" }).click();
+    await expect(page.getByRole("textbox", { name: "Shareable flight result" })).toHaveValue(/daily=2026-10-06/);
+    await page.screenshot({ path: testInfo.outputPath("flight-report.png") });
+    await page.getByRole("button", { name: "Birds & flight plan" }).click();
+    await hangar.getByRole("button", { name: "Free flight", exact: true }).click();
+    await hangar.getByRole("button", { name: "Done", exact: true }).click();
+    await page.getByRole("button", { name: "Play again" }).click();
+    await expect(game).toHaveAttribute("data-phase", "playing");
+    await expect(page.getByTestId("shitbird-bonus")).toHaveText("0");
+    await expect(page.getByTestId("shitbird-best")).toHaveText("12");
+  });
+
   test("waits for artwork and recovers from a failed sprite download", async ({
     page,
   }) => {

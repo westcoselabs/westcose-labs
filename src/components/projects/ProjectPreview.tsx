@@ -14,7 +14,7 @@ import { useState } from "react";
 import type { Project } from "@/registry";
 import styles from "./ProjectShowcase.module.css";
 
-export function ProjectArtwork({ project }: { project: Project }) {
+export function ProjectArtwork({ project, eager = false }: { project: Project; eager?: boolean }) {
   if (project.cover)
     return (
       <Image
@@ -24,6 +24,8 @@ export function ProjectArtwork({ project }: { project: Project }) {
         sizes="(max-width: 600px) 92vw, 540px"
         className={styles.artImage}
         data-artwork={project.slug}
+        loading={eager ? "eager" : "lazy"}
+        fetchPriority={eager ? "high" : "auto"}
       />
     );
   if (project.slug === "gitpress")

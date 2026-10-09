@@ -17,6 +17,7 @@ import {
 } from "react";
 
 import { useAppearance } from "@/components/os/AppearanceContext";
+import { LiquidGlass } from "@/components/ui/LiquidGlass";
 
 import styles from "./DesktopContextMenu.module.css";
 
@@ -170,6 +171,7 @@ export function DesktopContextMenu({
         ref={menuRef}
         role="menu"
       >
+        <LiquidGlass tone="strong" />
         {(["theme", "wallpaper"] as const).map((submenu, index) => (
           <button
             aria-controls={
@@ -240,6 +242,7 @@ export function DesktopContextMenu({
           ref={submenuRef}
           role="menu"
         >
+          <LiquidGlass tone="strong" />
           {submenuItems.map((item) => (
             <button
               aria-checked={item.checked}
