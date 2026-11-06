@@ -10,7 +10,7 @@ async function audit(page: Page) {
   expect(result.violations.map(({ id, nodes }) => ({ id, nodes: nodes.map(({ target, failureSummary }) => ({ target, failureSummary })) }))).toEqual([]);
 }
 
-test("XP switches with the keyboard, preserves utility state and wallpaper, and persists across shells", async ({ page }) => {
+test("XP switches with the keyboard, preserves utility state and coordinates wallpaper, and persists across shells", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await seedAppearance(page, "dusk", "dusk-cliffs");
   await page.goto("/?view=os");
@@ -20,9 +20,10 @@ test("XP switches with the keyboard, preserves utility state and wallpaper, and 
   await selectDesktopTheme(page, "WestCose XP");
   await page.keyboard.press("Escape");
   await expect(terminal).toHaveValue("theme pass in progress");
-  await expect(page.locator("html")).toHaveAttribute("data-wallpaper", "dusk-cliffs");
+  await expect(page.locator("html")).toHaveAttribute("data-wallpaper", "coastal-hills");
   await page.goto("/settings/appearance?view=os");
   await expect(page.getByRole("combobox", { name: "Theme", exact: true })).toHaveValue("westcose-xp");
+  await page.getByRole("radio", { name: /^Wildflower Bluff/ }).click();
   await page.getByRole("button", { name: "Use recommended wallpaper" }).click();
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "westcose-xp");
@@ -34,7 +35,7 @@ test("XP switches with the keyboard, preserves utility state and wallpaper, and 
   await expect(sheet.getByRole("radio", { name: /^WestCose XP/ })).toHaveAttribute("aria-checked", "true");
   await sheet.getByRole("radio", { name: /^Liquid Glass/ }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "liquid-glass");
-  await expect(page.locator("html")).toHaveAttribute("data-wallpaper", "coastal-hills");
+  await expect(page.locator("html")).toHaveAttribute("data-wallpaper", "liquid-glass");
 });
 
 test("XP launcher, windows, menus and settings remain operable and legible", async ({ page }, info) => {

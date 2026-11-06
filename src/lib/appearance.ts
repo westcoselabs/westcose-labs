@@ -56,13 +56,9 @@ export function isWallpaperAvailable(
   wallpaper: RegisteredWallpaper,
   unlocks: AppearanceUnlockState = EMPTY_UNLOCK_STATE,
 ): boolean {
-  if (!wallpaper.hidden) return true;
-  return unlockedBy(
-    wallpaper.id,
-    "discoveryId" in wallpaper ? wallpaper.discoveryId : undefined,
-    unlocks.unlockedWallpaperIds,
-    unlocks.discoveredSecretIds,
-  );
+  // A theme unlock includes its complete, curated wallpaper collection.
+  const theme = getTheme(wallpaper.recommendedThemeId);
+  return theme !== undefined && isThemeAvailable(theme, unlocks);
 }
 
 export function listAvailableThemes(
@@ -73,9 +69,10 @@ export function listAvailableThemes(
 
 export function listAvailableWallpapers(
   unlocks: AppearanceUnlockState = EMPTY_UNLOCK_STATE,
+  themeId: string = defaultTheme.id,
 ): readonly RegisteredWallpaper[] {
   return wallpaperRegistry.filter((wallpaper) =>
-    isWallpaperAvailable(wallpaper, unlocks),
+    wallpaper.recommendedThemeId === themeId && isWallpaperAvailable(wallpaper, unlocks),
   );
 }
 
@@ -88,9 +85,8 @@ export type ResolvedAppearance = {
 };
 
 /**
- * Persisted ids are never trusted. An unknown id, or one whose hidden entry is
- * no longer unlocked, falls back to the registry default instead of leaving the
- * shells without an appearance.
+ * Recover unavailable themes to Dusk. Unknown, locked, or mismatched wallpapers
+ * recover to the resolved theme's recommendation, including older mixed saves.
  */
 export function resolveAppearance(
   themeId: string,
@@ -100,14 +96,16 @@ export function resolveAppearance(
   const storedTheme = getTheme(themeId);
   const themeAvailable =
     storedTheme !== undefined && isThemeAvailable(storedTheme, unlocks);
+  const theme = themeAvailable ? storedTheme : defaultTheme;
   const storedWallpaper = getWallpaper(wallpaperId);
   const wallpaperAvailable =
     storedWallpaper !== undefined &&
+    storedWallpaper.recommendedThemeId === theme.id &&
     isWallpaperAvailable(storedWallpaper, unlocks);
 
   return {
-    theme: themeAvailable ? storedTheme : defaultTheme,
-    wallpaper: wallpaperAvailable ? storedWallpaper : defaultWallpaper,
+    theme,
+    wallpaper: wallpaperAvailable ? storedWallpaper : getWallpaper(theme.recommendedWallpaperId) ?? defaultWallpaper,
     themeRecovered: !themeAvailable,
     wallpaperRecovered: !wallpaperAvailable,
   };
@@ -179,6 +177,7 @@ export const APPEARANCE_BOOTSTRAP_DATA = {
       theme.id,
       {
         hidden: theme.hidden,
+        recommendedWallpaperId: theme.recommendedWallpaperId,
         discoveryId: "discoveryId" in theme ? theme.discoveryId : null,
         dataset: themeDataset(theme),
       },
@@ -189,6 +188,7 @@ export const APPEARANCE_BOOTSTRAP_DATA = {
       wallpaper.id,
       {
         hidden: wallpaper.hidden,
+        themeId: wallpaper.recommendedThemeId,
         discoveryId: "discoveryId" in wallpaper ? wallpaper.discoveryId : null,
         variables: wallpaperCssVariables(wallpaper),
       },

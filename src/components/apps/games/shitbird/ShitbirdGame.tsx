@@ -6,6 +6,10 @@ import {
   SpeakerHigh,
   SpeakerSlash,
   ArrowClockwise,
+  ArrowUpRight,
+  Bird,
+  Crosshair,
+  Trophy,
 } from "@phosphor-icons/react";
 import {
   GameExit,
@@ -257,7 +261,7 @@ export function ShitbirdGame() {
       </h1>
       <header className={styles.toolbar} inert={hangarOpen}>
         <GameExit onExit={() => engineRef.current?.pause()} />
-        <span className={styles.wordmark}>SHITBIRD</span>
+        <span className={styles.wordmark}>SHITBIRD <small>COASTAL CHAOS</small></span>
         <div className={styles.toolbarActions}>
           <button
             aria-label={`Turn sound ${sound ? "off" : "on"}`}
@@ -281,7 +285,7 @@ export function ShitbirdGame() {
         <div
           className={styles.arena}
           ref={arenaRef}
-          inert={tooShort || Boolean(error)}
+          inert={tooShort || Boolean(error) || hangarOpen || !isPlaying}
         >
           <canvas
             key={loadAttempt}
@@ -290,18 +294,11 @@ export function ShitbirdGame() {
             aria-label="SHITBIRD flight area. Space or tap to flap. P or Escape to pause."
             aria-describedby="shitbird-instructions"
           />
-          <div className={styles.flightHeader} aria-hidden="true">
-            <span>DEAD COAST</span>
-            <small>UNLICENSED AIRSPACE / 001</small>
-          </div>
-          <div className={styles.flightFooter} aria-hidden="true">
-            PLEASE DO NOT FEED THE EGO
-          </div>
           {ready && snapshot.phase !== "ready" ? (
             <div className={styles.hud} aria-label="Flight score">
               <div>
                 <span>POLES</span>
-                <strong data-testid="shitbird-score">
+                <strong key={snapshot.score} data-testid="shitbird-score">
                   {snapshot.score.toString().padStart(2, "0")}
                 </strong>
               </div>
@@ -311,7 +308,7 @@ export function ShitbirdGame() {
                   {(snapshot.daily ? dailyBest?.score ?? 0 : best).toString().padStart(2, "0")}
                 </b>
               </div>
-              <div><span>MISCHIEF</span><b data-testid="shitbird-bonus">{snapshot.bonus}</b><small data-testid="shitbird-combo">x{comboMultiplier(snapshot.combo)}</small>
+              <div><span>MISCHIEF</span><b key={snapshot.bonus} data-testid="shitbird-bonus">{snapshot.bonus}</b><small data-testid="shitbird-combo">×{comboMultiplier(snapshot.combo)}</small>
               </div>
             </div>
           ) : null}
@@ -319,41 +316,35 @@ export function ShitbirdGame() {
             <span>{COASTS[coastIndex(snapshot.score)]}</span>
             <span>{snapshot.daily ? `DAILY ${snapshot.daily}` : snapshot.score >= 40 ? "MAX HEAT" : `${10 - snapshot.score % 10} TO NEXT DISTRICT`}</span>
           </div> : null}
+        </div>
           {snapshot.phase === "ready" && !error ? (
-            <div className={styles.titleScreen} inert={hangarOpen}>
-              <div className={styles.titleCopy}>
-                <p>
-                  WEST COSE <span>ORIGINAL Nº 001</span>
-                </p>
-                <h2 aria-label="SHITBIRD">
-                  <svg viewBox="0 0 600 154" aria-hidden="true">
-                    <defs>
-                      <path
-                        id="shitbird-title-arc"
-                        d="M 24,131 Q 300,30 576,131"
-                      />
-                    </defs>
-                    <text>
-                      <textPath
-                        href="#shitbird-title-arc"
-                        startOffset="50%"
-                        textAnchor="middle"
-                        textLength="561"
-                        lengthAdjust="spacingAndGlyphs"
-                      >
-                        SHITBIRD
-                      </textPath>
-                    </text>
-                  </svg>
-                </h2>
-                <em>One bird. No prospects.</em>
+            <div className={styles.titleScreen} inert={hangarOpen || tooShort}>
+              <div className={styles.titleHero}>
+                <div className={styles.titleCopy}>
+                  <p>WESTCOSE ARCADE <span>VOL. 001</span></p>
+                  <h2>SHITBIRD<span aria-hidden="true">{"\u2726"}</span></h2>
+                  <em>One bird. No prospects.</em>
+                </div>
+                <div className={styles.heroFigure} aria-hidden="true">
+                  <span className={styles.heroOrbit} />
+                  <span className={styles.heroBird} />
+                  <span className={styles.heroStamp}>LOCAL<br />NUISANCE</span>
+                </div>
+                <p className={styles.heroCaption}>LOW ALTITUDE. HIGHLY QUESTIONABLE.</p>
               </div>
               <div className={styles.startCopy}>
+                <div className={styles.departureHeading}>
+                  <div><p className={styles.eyebrow}>CLEARED FOR ABSOLUTELY NOTHING</p><h3>Ready for takeoff?</h3></div>
+                  <ArrowUpRight size={26} aria-hidden="true" />
+                </div>
                 <div className={styles.modeSwitch} role="group" aria-label="Flight mode">
                   <button type="button" aria-pressed={mode === "free"} onClick={() => setMode("free")}>Free flight</button>
                   <button type="button" aria-pressed={mode === "daily"} onClick={() => setMode("daily")}>Daily coast</button>
                 </div>
-                <p className={styles.howTo}>Tap / Space to flap. Fly through <strong>SHIT</strong> targets to drop automatically.</p>
+                <div className={styles.howTo}>
+                  <p><Bird size={19} aria-hidden="true" /><span><strong>Tap or Space</strong> to flap. Dodge the piers.</span></p>
+                  <p><Crosshair size={19} aria-hidden="true" /><span>Fly through <strong>SHIT</strong> targets. We handle the drop.</span></p>
+                </div>
                 <button
                   type="button"
                   className={styles.primary}
@@ -368,8 +359,9 @@ export function ShitbirdGame() {
                     "Loading the coast…"
                   )}
                 </button>
+                <div className={styles.flightRecord}><Trophy size={17} aria-hidden="true" /><span>{mode === "daily" ? "Daily best" : "Personal best"}</span><strong>{mode === "daily" ? dailyBest?.score ?? 0 : best}<small> poles</small></strong></div>
                 <p className={styles.goal}>{mode === "daily" ? `${day} · Same course for everyone. Best: ${progress.daily[day]?.score ?? 0} poles / ${progress.daily[day]?.bonus ?? 0} mischief.` : nextGoal(progress)}</p>
-                <button className={styles.textButton} type="button" onClick={(e) => openHangar(e.currentTarget)}>Birds & missions · {BIRDS.filter((b) => b.unlocked(progress)).length}/4</button>
+                <button className={styles.hangarButton} type="button" onClick={(e) => openHangar(e.currentTarget)}><Bird size={20} aria-hidden="true" /><span>Birds & missions <small>{BIRDS.filter((b) => b.unlocked(progress)).length}/4 unlocked</small></span><ArrowUpRight size={19} aria-hidden="true" /></button>
               </div>
             </div>
           ) : null}
@@ -473,7 +465,6 @@ export function ShitbirdGame() {
               <li><span>Peak bullshit · Poles</span><b>{Math.min(40, best)}/40</b></li>
             </ul>
           </div> : null}
-        </div>
         {tooShort ? (
           <div className={styles.sizeNotice} role="status">
             <strong>A little more airspace.</strong>

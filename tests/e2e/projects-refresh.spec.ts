@@ -330,7 +330,7 @@ test("portrait LOW TIDE LOOT requests rotation before opening its wide playfield
   const game = page.locator('[data-game="low-tide-loot"]');
   await expect(game).toHaveAttribute("data-phase", "playing");
   const canvas = (await game.locator("canvas").boundingBox())!;
-  const drop = page.getByRole("button", { name: "Drop claw" });
+  const drop = page.getByRole("button", { name: "Drop", exact: true });
   await expect(drop).toBeInViewport();
   expect(canvas.width / canvas.height).toBeCloseTo(2, 2);
   expect(

@@ -1,11 +1,13 @@
 "use client";
 
+import { FeaturedBuild } from "@/components/os/FeaturedBuild";
+
 import { LiquidGlass } from "@/components/ui/LiquidGlass";
 
-import { ArrowRight, CloudSun, GearSix } from "@phosphor-icons/react";
+import { ArrowLeft, ArrowRight, CloudSun, GearSix } from "@phosphor-icons/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import { IconButton, PressableSurface, SurfaceRaised } from "@/components/ui";
+import { IconButton, SurfaceRaised } from "@/components/ui";
 import { useDiscoveryService } from "@/components/os/DiscoveryServiceContext";
 import { useAppearance } from "@/components/os/AppearanceContext";
 import { useLongPress } from "@/hooks/useLongPress";
@@ -54,7 +56,7 @@ function usePocketClock() {
         time: new Intl.DateTimeFormat(undefined, {
           hour: "numeric",
           minute: "2-digit",
-        }).format(now),
+        }).formatToParts(now).filter((part) => part.type !== "dayPeriod").map((part) => part.value).join("").trim(),
       });
     };
     update();
@@ -67,7 +69,6 @@ function usePocketClock() {
 
 export function PocketHome({
   dockApps,
-  featuredProject,
   labsStatus,
   menuTargetId,
   onCloseAppMenu,
@@ -87,6 +88,7 @@ export function PocketHome({
   const menuTriggerRef = useRef<HTMLButtonElement>(null);
   const customizeTriggerRef = useRef<HTMLButtonElement>(null);
   const [customizeOpen, setCustomizeOpen] = useState(false);
+  const [customizeTab, setCustomizeTab] = useState<"theme" | "wallpaper">("wallpaper");
   const [statusTaps, setStatusTaps] = useState(0);
   const discoveryService = useDiscoveryService();
   const clock = usePocketClock();
@@ -100,7 +102,6 @@ export function PocketHome({
     [dockApps, pageOneApps, verifiedPageTwoApps],
   );
   const menuApp = allApps.find((app) => app.id === menuTargetId);
-  const projectsApp = allApps.find((app) => app.id === featuredProject.appId);
   const condition = personalityRegistry.conditionMessages[0];
   const discovery = statusTaps >= 5 ? personalityRegistry.discoveries.labsStatus : "";
 
@@ -131,7 +132,7 @@ export function PocketHome({
   // Long press on empty home-screen space. Both pages share these handlers, and
   // the visible Customize control below opens the same sheet.
   const longPress = useLongPress({
-    onLongPress: () => setCustomizeOpen(true),
+    onLongPress: () => { setCustomizeTab("wallpaper"); setCustomizeOpen(true); },
   });
 
   const renderApps = (apps: readonly PocketAppItem[]) =>
@@ -139,7 +140,13 @@ export function PocketHome({
       <PocketAppTile
         app={app}
         key={app.id}
-        onLaunch={onLaunchApp}
+        onLaunch={(item, trigger) => {
+          if (item.id === "themes") {
+            customizeTriggerRef.current = trigger;
+            setCustomizeTab("theme");
+            setCustomizeOpen(true);
+          } else onLaunchApp(item);
+        }}
         onOpenMenu={onOpenAppMenu}
         onRememberMenuTrigger={(trigger) => {
           menuTriggerRef.current = trigger;
@@ -154,11 +161,11 @@ export function PocketHome({
         className={styles.homeContent}
         inert={menuApp || customizeOpen ? true : undefined}
       >
-        <h1 className="sr-only">WestCose Pocket OS Home</h1>
+        <h1 className="sr-only">WestCose Labs Home</h1>
         <header className={styles.homeHeader}>
           <LiquidGlass />
           <div className={styles.brand}>
-            <strong>WestCose Pocket</strong>
+            <strong>WestCose Labs</strong>
             <span>{theme.copy?.systemLabel ?? "DUSK"} SYSTEM</span>
           </div>
           <IconButton
@@ -174,7 +181,7 @@ export function PocketHome({
 
         <button
           className={styles.customizeAffordance}
-          onClick={() => setCustomizeOpen(true)}
+          onClick={() => { setCustomizeTab("wallpaper"); setCustomizeOpen(true); }}
           ref={customizeTriggerRef}
           type="button"
         >
@@ -218,9 +225,10 @@ export function PocketHome({
             {...longPress}
           >
             <div className={styles.widgets}>
+              <FeaturedBuild />
               <SurfaceRaised className={styles.todayWidget}>
                 <div className={styles.todayTopline}>
-                  <span>BAKERSFIELD / {theme.copy?.systemLabel ?? "DUSK"}</span>
+                  <span>Bakersfield</span>
                   <CloudSun aria-hidden="true" size={24} weight="duotone" />
                 </div>
                 <div>
@@ -248,22 +256,7 @@ export function PocketHome({
                 </button>
                 <p aria-live="polite" className={styles.discovery}>{discovery}</p>
               </SurfaceRaised>
-              <PressableSurface
-                aria-label={`Open featured project: ${featuredProject.title}`}
-                className={styles.projectWidget}
-                disabled={!projectsApp}
-                onClick={() => {
-                  if (projectsApp) onLaunchApp(projectsApp);
-                }}
-              >
-                <span className={styles.projectArt} aria-hidden="true">
-                  <PocketAppGlyph iconKey="projects" />
-                </span>
-                <span className={styles.widgetLabel}>Featured Build</span>
-                <strong className={styles.widgetTitle}>{featuredProject.title}</strong>
-                <span className={styles.featureStatus}>Published system</span>
-                <ArrowRight aria-hidden="true" className={styles.featureArrow} size={20} weight="bold" />
-              </PressableSurface>
+
             </div>
             <div className={styles.appGrid}>{renderApps(pageOneApps)}</div>
           </section>
@@ -285,6 +278,10 @@ export function PocketHome({
           </section>
         </div>
 
+        <div className={styles.pagination}>
+        <span className={styles.swipeHint} aria-hidden="true">
+          {page === 0 ? <>Swipe for more <ArrowRight size={13} /></> : <><ArrowLeft size={13} /> Swipe for home</>}
+        </span>
         <nav aria-label="Home page selector" className={styles.indicators}>
           {([0, 1] as const).map((pageNumber) => (
             <button
@@ -297,6 +294,7 @@ export function PocketHome({
             />
           ))}
         </nav>
+        </div>
 
         <nav aria-label="Pocket Dock" className={styles.dock}>
           <LiquidGlass tone="clear" />
@@ -322,6 +320,7 @@ export function PocketHome({
 
       {customizeOpen ? (
         <PocketCustomizeSheet
+          initialTab={customizeTab}
           onClose={() => setCustomizeOpen(false)}
           onOpenAppearanceSettings={() => onOpenAppearanceSettings?.()}
           returnFocusRef={customizeTriggerRef}

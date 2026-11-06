@@ -14,6 +14,7 @@ import {
 } from "./placements";
 import { projectRegistry } from "./projects";
 import { routeRegistry } from "./routes";
+import { settingsCategoryRegistry } from "./settings";
 import { terminalCommandRegistry } from "./terminal-commands";
 import { themeRegistry } from "./themes";
 import { wallpaperRegistry } from "./wallpapers";
@@ -122,7 +123,10 @@ export function getRegistryIssues(): string[] {
   const noteFolderIds = noteFolderRegistry.map((folder) => folder.id);
   const fightClubIds = fightClubRegistry.map((game) => game.id);
   const appIdSet = new Set<string>(appIds);
-  const routePathSet = new Set<string>(routePaths);
+  const routePathSet = new Set<string>([
+    ...routePaths,
+    ...settingsCategoryRegistry.map((category) => `/settings/${category.id}`),
+  ]);
   const projectSlugSet = new Set<string>(projectSlugs);
   const discoveryIdSet = new Set<string>(discoveryIds);
   const achievementIdSet = new Set<string>(achievementIds);

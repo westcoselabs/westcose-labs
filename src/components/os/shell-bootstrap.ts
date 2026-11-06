@@ -40,7 +40,6 @@ export const SHELL_BOOTSTRAP = String.raw`(() => {
   } catch {}
 
   let unlockedThemeIds = [];
-  let unlockedWallpaperIds = [];
   let discoveredSecretIds = [];
 
   try {
@@ -48,7 +47,6 @@ export const SHELL_BOOTSTRAP = String.raw`(() => {
     if (parsed && parsed.version === 1 && parsed.data) {
       const ids = (value) => (Array.isArray(value) ? value : []);
       unlockedThemeIds = ids(parsed.data.unlockedThemeIds);
-      unlockedWallpaperIds = ids(parsed.data.unlockedWallpaperIds);
       discoveredSecretIds = ids(parsed.data.discoveredSecretIds);
     }
   } catch {}
@@ -70,12 +68,10 @@ export const SHELL_BOOTSTRAP = String.raw`(() => {
     appearance.defaultThemeId,
     unlockedThemeIds,
   );
-  const wallpaper = resolve(
-    appearance.wallpapers,
-    wallpaperId,
-    appearance.defaultWallpaperId,
-    unlockedWallpaperIds,
-  );
+  const storedWallpaper = appearance.wallpapers[wallpaperId];
+  const matchedWallpaperId = storedWallpaper && storedWallpaper.themeId === theme.id
+    ? wallpaperId : theme.entry.recommendedWallpaperId;
+  const wallpaper = { id: matchedWallpaperId, entry: appearance.wallpapers[matchedWallpaperId] };
 
   const coarse = matchMedia("(pointer: coarse)").matches;
   const width = innerWidth;

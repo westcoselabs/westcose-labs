@@ -11,9 +11,10 @@ import {
   Flask,
   Note,
   Phone,
+  Palette,
+  Warning,
   Sword,
   TerminalWindow,
-  Trash,
   UserCircle,
 } from "@phosphor-icons/react";
 
@@ -83,7 +84,9 @@ function StandardAppGlyph({
     case "github":
       return <GithubLogo {...props} />;
     case "recycle":
-      return <Trash {...props} />;
+      return <Warning {...props} />;
+    case "themes":
+      return <Palette {...props} />;
     case "notes":
       return <Note {...props} />;
     case "settings":

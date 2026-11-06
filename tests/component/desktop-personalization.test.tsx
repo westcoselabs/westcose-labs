@@ -122,17 +122,15 @@ describe("Desktop personalization", () => {
     const options = within(submenu).getAllByRole("menuitemradio");
     expect(options.map((option) => option.textContent)).toEqual([
       "Dusk CliffsBundled landscape photograph",
-      "Graphite FieldToken-built graphite gradient",
-      "WestCose 95Teal workstation weave",
-      "Tidal LightPacific light study",
-      "Coastal HillsOriginal green hills and blue coastal sky",
+      "MoonwaterSilver moonlight across a quiet Pacific cove.",
+      "Obsidian ShoreSculpted black dunes meet a blue-hour sea.",
     ]);
     expect(options[0]).toHaveAttribute("aria-checked", "true");
 
     await user.click(
-      within(submenu).getByRole("menuitemradio", { name: /Graphite Field/u }),
+      within(submenu).getByRole("menuitemradio", { name: /Moonwater/u }),
     );
-    expect(appearanceState()).toBe("dusk|graphite-field");
+    expect(appearanceState()).toBe("dusk|dusk-moonwater");
   });
 
   it("changes the theme immediately and only offers unlocked themes", async () => {
@@ -153,7 +151,7 @@ describe("Desktop personalization", () => {
       name: /Corporate Beige/u,
     });
     await user.click(beige);
-    expect(appearanceState()).toBe("corporate-beige|dusk-cliffs");
+    expect(appearanceState()).toBe("corporate-beige|standard-issue");
   });
 
   it("keeps a keyboard equivalent for right-click", () => {
@@ -174,7 +172,7 @@ describe("Desktop personalization", () => {
     ).toBeVisible();
   });
 
-  it("selects WestCose 95 from the keyboard without changing the wallpaper", async () => {
+  it("selects WestCose 95 from the keyboard with its matching wallpaper", async () => {
     const user = userEvent.setup();
     renderDesktop();
     openDesktopMenu();
@@ -183,7 +181,7 @@ describe("Desktop personalization", () => {
     await user.keyboard("{ArrowRight}");
     await waitFor(() => expect(screen.getByRole("menuitemradio", { name: /^Dusk/u })).toHaveFocus());
     await user.keyboard("{ArrowDown}{Enter}");
-    expect(appearanceState()).toBe("westcose-95|dusk-cliffs");
+    expect(appearanceState()).toBe("westcose-95|westcose-95");
     expect(screen.queryByRole("menu", { name: "Theme" })).not.toBeInTheDocument();
   });
 

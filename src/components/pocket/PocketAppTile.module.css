@@ -162,3 +162,10 @@
   background: transparent;
   box-shadow: none;
 }
+
+.cell[data-app-id="recycle"] .tile { color: var(--shortcut-danger-ink); background: var(--shortcut-danger-bg); border: 1px solid var(--color-danger); }
+.cell[data-app-id="recycle"] .label { white-space: normal; font-size: 0.6875rem; font-weight: 700; }
+:global([data-theme="dusk"]) .label { color: var(--color-text-primary); text-shadow: 0 1px 5px var(--color-shadow-dark); }
+:global([data-theme-type="modern-sans"]) .tile { border-radius: var(--pocket-app-radius); }
+:global([data-theme-type="modern-sans"]) .tile svg { inline-size: 2.25rem; block-size: 2.25rem; }
+:global([data-high-contrast="true"]) .label { padding: 0.2rem; border-radius: var(--radius-sm); background: var(--color-surface-base); color: var(--color-text-primary); }

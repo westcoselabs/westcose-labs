@@ -148,7 +148,7 @@ export function createRenderer(k: KAPLAYCtx, canvas: HTMLCanvasElement) {
       64,
       (52 * WORLD.width) / Math.max(1, canvas.clientWidth),
     );
-    const operatorSize = Math.max(
+    const operatorSize = canvas.dataset.compact === "true" ? 146 : Math.max(
       84,
       Math.min(146, WORLD.surface - toolbarBottom + 5),
     );

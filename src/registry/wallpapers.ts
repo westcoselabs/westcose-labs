@@ -1,3 +1,4 @@
+import generatedWallpapers from "./wallpapers.generated.json";
 import type { WallpaperDefinition } from "./types";
 
 // Light artwork needs a legibility veil in skins with unbacked light labels.
@@ -13,7 +14,7 @@ const lightArtworkScrim =
  * Generated sources are built from semantic colour tokens, so a wallpaper can
  * follow the active theme's palette without shipping an extra asset.
  */
-export const wallpaperRegistry = [
+const baseWallpaperRegistry = [
   {
     id: "dusk-cliffs",
     name: "Dusk Cliffs",
@@ -37,49 +38,13 @@ export const wallpaperRegistry = [
       desktop:
         "linear-gradient(to bottom, color-mix(in srgb, var(--color-neutral) 12%, transparent), color-mix(in srgb, var(--color-neutral) 48%, transparent))",
       pocketHome:
-        "linear-gradient(to bottom, color-mix(in srgb, var(--color-neutral) 28%, transparent), color-mix(in srgb, var(--color-neutral) 78%, transparent))",
+        "linear-gradient(to bottom, color-mix(in srgb, var(--color-neutral) 28%, transparent), color-mix(in srgb, var(--color-neutral) 48%, transparent))",
       pocketLock:
-        "linear-gradient(to bottom, color-mix(in srgb, var(--color-neutral) 26%, transparent), color-mix(in srgb, var(--color-neutral) 82%, transparent))",
+        "linear-gradient(to bottom, color-mix(in srgb, var(--color-neutral) 26%, transparent), color-mix(in srgb, var(--color-neutral) 58%, transparent))",
     },
     preview: {
       image: 'url("/images/wallpapers/dusk-pocket.webp")',
       label: "Bundled landscape photograph",
-    },
-  },
-  {
-    id: "graphite-field",
-    name: "Graphite Field",
-    description:
-      "A quiet token-built gradient for people who would rather read the windows.",
-    default: false,
-    hidden: false,
-    recommendedThemeId: "dusk",
-    desktop: {
-      kind: "generated",
-      image: [
-        "radial-gradient(120% 96% at 22% 12%, color-mix(in srgb, var(--color-surface-active) 62%, transparent), transparent 62%)",
-        "linear-gradient(158deg, var(--color-surface-recessed), var(--color-neutral) 54%, var(--color-surface-base))",
-      ].join(", "),
-    },
-    pocket: {
-      kind: "generated",
-      image: [
-        "radial-gradient(130% 56% at 50% 8%, color-mix(in srgb, var(--color-surface-active) 58%, transparent), transparent 64%)",
-        "linear-gradient(186deg, var(--color-surface-recessed), var(--color-neutral) 58%, var(--color-surface-base))",
-      ].join(", "),
-    },
-    scrim: {
-      desktop:
-        "linear-gradient(to bottom, transparent, color-mix(in srgb, var(--color-neutral) 28%, transparent))",
-      pocketHome:
-        "linear-gradient(to bottom, color-mix(in srgb, var(--color-neutral) 18%, transparent), color-mix(in srgb, var(--color-neutral) 64%, transparent))",
-      pocketLock:
-        "linear-gradient(to bottom, color-mix(in srgb, var(--color-neutral) 16%, transparent), color-mix(in srgb, var(--color-neutral) 70%, transparent))",
-    },
-    preview: {
-      image:
-        "linear-gradient(158deg, var(--color-surface-recessed), var(--color-neutral) 54%, var(--color-surface-base))",
-      label: "Token-built graphite gradient",
     },
   },
   {
@@ -181,6 +146,38 @@ export const wallpaperRegistry = [
     },
   },
 ] as const satisfies readonly WallpaperDefinition[];
+
+const generatedDescriptions: Record<string, string> = {
+  "dusk-moonwater": "Silver moonlight across a quiet Pacific cove.",
+  "dusk-obsidian": "Sculpted black dunes meet a blue-hour sea.",
+  "95-tidal-grid": "A pixel-built Pacific wave in workstation teal.",
+  "95-pacific-circuit": "Playful teal geometry from a digital coast.",
+  "glass-prism-tide": "A glass wave bending soft coastal light.",
+  "glass-lagoon-lens": "Frosted lenses, lagoon colors, and warm caustics.",
+  "xp-wildflower-bluff": "California poppies above a bright turquoise coast.",
+  "xp-blue-reservoir": "Rolling green hills around a winding blue lake.",
+  "beige-paper-architecture": "Warm paper arches and sculptural shadows.",
+  "beige-sunlit-atrium": "Travertine arches in a quiet sunlit atrium.",
+};
+
+export const wallpaperRegistry: readonly WallpaperDefinition[] = [
+  ...baseWallpaperRegistry,
+  ...generatedWallpapers.map((wallpaper): WallpaperDefinition => {
+    const base = baseWallpaperRegistry.find(entry => entry.recommendedThemeId === wallpaper.themeId);
+    if (!base) throw new Error(`Unknown wallpaper theme: ${wallpaper.themeId}`);
+    const description = generatedDescriptions[wallpaper.id];
+    return {
+      ...base,
+      id: wallpaper.id,
+      name: wallpaper.name,
+      description,
+      default: false,
+      desktop: { kind: "image", ...wallpaper.desktop, src: wallpaper.desktop.src as `/${string}` },
+      pocket: { kind: "image", ...wallpaper.pocket, src: wallpaper.pocket.src as `/${string}` },
+      preview: { image: `url("${wallpaper.preview}")`, label: description },
+    };
+  }),
+];
 
 export type RegisteredWallpaper = (typeof wallpaperRegistry)[number];
 export type WallpaperId = RegisteredWallpaper["id"];

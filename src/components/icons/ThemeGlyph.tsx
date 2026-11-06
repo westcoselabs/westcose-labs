@@ -14,6 +14,7 @@ export function ThemeGlyph({ children, iconKey, size = 32 }: {
   readonly iconKey: string;
   readonly size?: number;
 }) {
+  if (iconKey === "recycle" || iconKey === "themes") return <>{children}</>;
   return <>
     <span className={styles.standard}>{children}</span>
     <svg aria-hidden="true" focusable="false" className={styles.rendered} width={size} height={size} viewBox="0 0 64 64">

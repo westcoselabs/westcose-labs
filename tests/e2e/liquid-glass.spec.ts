@@ -63,7 +63,7 @@ test("library lenses render on shell chrome and follow window geometry", async (
   await expect(lens).toBeVisible();
 });
 
-test("keyboard personalization preserves live utilities and independent wallpaper across shells", async ({ page }) => {
+test("keyboard personalization preserves live utilities and matching wallpaper across shells", async ({ page }) => {
   await seedAppearance(page, "dusk", "dusk-cliffs");
   await page.goto("/?view=os");
   await page.getByRole("region", { name: "Desktop shortcuts" }).getByRole("button", { name: /Open Terminal/ }).dblclick();
@@ -76,8 +76,9 @@ test("keyboard personalization preserves live utilities and independent wallpape
   expect(await instance!.evaluate((node) => node.isConnected)).toBe(true);
   await expect(command).toHaveValue("history");
   await audit(page);
-  await expect(page.locator("html")).toHaveAttribute("data-wallpaper", "dusk-cliffs");
+  await expect(page.locator("html")).toHaveAttribute("data-wallpaper", "liquid-glass");
   await page.goto("/settings/appearance?view=os");
+  await page.getByRole("radio", { name: /^Prism Tide/ }).click();
   await page.getByRole("button", { name: "Use recommended wallpaper" }).click();
   await expect(page.locator("html")).toHaveAttribute("data-wallpaper", "liquid-glass");
   await page.reload();
@@ -86,7 +87,7 @@ test("keyboard personalization preserves live utilities and independent wallpape
   await page.goto("/?view=os");
   await glassAttributes(page, "pocket");
   const sheet = await openCustomize(page);
-  await sheet.getByRole("radio", { name: /^Dusk Cliffs/ }).click();
+  await sheet.getByRole("radio", { name: /^Lagoon Lens/ }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "liquid-glass");
   await sheet.getByRole("tab", { name: "Theme", exact: true }).click();
   await sheet.getByRole("radio", { name: /^Dusk / }).click();
@@ -127,19 +128,20 @@ for (const shell of ["desktop", "pocket"] as const) {
     expect(errors).toEqual([]);
   });
 
-  test(`${shell} keeps blur bounded, wallpaper independent, and high contrast authoritative`, async ({ page }) => {
+  test(`${shell} keeps blur bounded, wallpaper coordinated, and high contrast authoritative`, async ({ page }) => {
     await seedAppearance(page, "liquid-glass", "liquid-glass");
     if (shell === "pocket") await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/?view=os");
     await glassAttributes(page, shell);
-    await expect(page.locator("[data-liquid-glass]").first()).toBeVisible();
+    if (shell === "desktop") await expect(page.locator("[data-liquid-glass]").first()).toBeVisible();
+    else await expect(page.locator("[data-liquid-glass]")).toHaveCount(0);
     const surfaces = await blurSurfaces(page);
     expect(surfaces.length).toBeGreaterThan(0);
     expect(surfaces.length).toBeLessThanOrEqual(shell === "desktop" ? 1 : 2);
     const viewport = page.viewportSize()!;
     expect(surfaces.reduce((sum, surface) => sum + surface.area, 0)).toBeLessThan(viewport.width * viewport.height * 0.25);
     await page.goto("/settings/appearance?view=os");
-    await page.getByRole("radio", { name: /^WestCose 95/ }).click();
+    await page.getByRole("radio", { name: /^Prism Tide/ }).click();
     await expect(page.locator("html")).toHaveAttribute("data-theme", "liquid-glass");
     await page.getByRole("checkbox", { name: "High contrast", exact: true }).locator("..").click();
     await page.goto("/?view=os");
@@ -172,9 +174,9 @@ for (const shell of ["desktop", "pocket"] as const) {
   });
 }
 
-test("regular glass remains legible on dark, light, and saturated wallpaper", async ({ page }) => {
+test("regular glass remains legible across its three wallpapers", async ({ page }) => {
   await seedAppearance(page, "liquid-glass", "dusk-cliffs");
-  for (const wallpaper of ["Dusk Cliffs", "Graphite Field", "WestCose 95", "Tidal Light"]) {
+  for (const wallpaper of ["Tidal Light", "Prism Tide", "Lagoon Lens"]) {
     await page.goto("/settings/appearance?view=os");
     await page.getByRole("radio", { name: new RegExp(`^${wallpaper}`) }).click();
     await page.goto("/?view=os");

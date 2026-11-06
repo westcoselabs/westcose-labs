@@ -68,10 +68,12 @@ export function AppearanceHarness({
           theme: resolved.theme,
           wallpaper: resolved.wallpaper,
           availableThemes: listAvailableThemes(unlocks),
-          availableWallpapers: listAvailableWallpapers(unlocks),
+          availableWallpapers: listAvailableWallpapers(unlocks, resolved.theme.id),
           setThemeId: (themeId) => dispatch({ type: "theme/set", themeId }),
-          setWallpaperId: (wallpaperId) =>
-            dispatch({ type: "wallpaper/set", wallpaperId }),
+          setWallpaperId: (wallpaperId) => {
+            dispatch({ type: "theme/set", themeId: resolved.theme.id });
+            dispatch({ type: "wallpaper/set", wallpaperId });
+          },
         }}
       >
         <SettingsProvider

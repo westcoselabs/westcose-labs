@@ -9,13 +9,17 @@ import { useSettings } from "@/components/os/SettingsContext";
 const Glass = lazy(() => import("@samasante/liquid-glass").then((module) => ({ default: module.Glass })));
 
 const opaqueMedia = "(prefers-reduced-transparency: reduce), (prefers-contrast: more), (forced-colors: active)";
+// Mobile Safari cannot reliably compose the library's SVG refraction with a
+// moving sheet. Use the existing, bounded CSS glass material on touch screens;
+// it keeps real backdrop blur, rim lighting and contrast without a second lens.
+const cssMaterialMedia = `${opaqueMedia}, (max-width: 767px), (pointer: coarse) and (max-width: 1023px)`;
 function subscribe(callback: () => void) {
   if (!window.matchMedia) return () => {};
-  const media = window.matchMedia(opaqueMedia);
+  const media = window.matchMedia(cssMaterialMedia);
   media.addEventListener("change", callback);
   return () => media.removeEventListener("change", callback);
 }
-const getSnapshot = () => !window.matchMedia || window.matchMedia(opaqueMedia).matches;
+const getSnapshot = () => !window.matchMedia || window.matchMedia(cssMaterialMedia).matches;
 const getServerSnapshot = () => false;
 
 const optics: Partial<GlassOptics> = {

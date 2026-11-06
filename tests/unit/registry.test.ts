@@ -15,6 +15,7 @@ import {
   personalityRegistry,
   pocketNotifications,
   pocketPageTwoPlacement,
+  pocketPageOnePlacement,
   projectRegistry,
   routeRegistry,
   routeSupportsShell,
@@ -140,7 +141,9 @@ describe("V3 registries", () => {
   });
 
   it("does not leak deferred apps or routes", () => {
-    expect(pocketPageTwoPlacement).toEqual(["fightclub", "shitbird", "low-tide-loot", "recycle"]);
+    expect(pocketPageTwoPlacement).toEqual(["fightclub", "shitbird", "low-tide-loot"]);
+    expect(pocketPageOnePlacement).toContain("recycle");
+    expect(pocketPageOnePlacement).toContain("themes");
     const paths = routeRegistry.map((route) => route.path);
     expect(paths).not.toContain("/tv");
     expect(paths).not.toContain("/world");

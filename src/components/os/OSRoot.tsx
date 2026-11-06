@@ -240,11 +240,15 @@ export function OSRoot({ children }: OSRootProps) {
       theme: appearance.theme,
       wallpaper: appearance.wallpaper,
       availableThemes: listAvailableThemes(appearanceUnlocks),
-      availableWallpapers: listAvailableWallpapers(appearanceUnlocks),
+      availableWallpapers: listAvailableWallpapers(appearanceUnlocks, appearance.theme.id),
       setThemeId: (themeId: string) =>
         preferencesDispatch({ type: "theme/set", themeId }),
-      setWallpaperId: (wallpaperId: string) =>
-        preferencesDispatch({ type: "wallpaper/set", wallpaperId }),
+      setWallpaperId: (wallpaperId: string) => {
+        // A removed or re-locked saved theme may have resolved to Dusk.
+        // Apply the visible theme before validating its wallpaper selection.
+        preferencesDispatch({ type: "theme/set", themeId: appearance.theme.id });
+        preferencesDispatch({ type: "wallpaper/set", wallpaperId });
+      },
     }),
     [appearance.theme, appearance.wallpaper, appearanceUnlocks],
   );
@@ -557,9 +561,9 @@ export function OSRoot({ children }: OSRootProps) {
                         dockApps={pocketDockApps}
                         featuredProject={{
                           appId: "projects",
-                          title: projectRegistry[0]?.title ?? "Projects",
+                          title: projectRegistry.find((project) => project.slug === "westcose-world")?.title ?? "Projects",
                           description:
-                            projectRegistry[0]?.shortDescription ??
+                            projectRegistry.find((project) => project.slug === "westcose-world")?.shortDescription ??
                             "Selected product work.",
                         }}
                         labsStatus={{

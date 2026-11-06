@@ -101,7 +101,7 @@ function SettingsHome({ controller }: { readonly controller: SettingsController 
       </header>
       <section aria-label="Pocket device" className={styles.deviceCard}>
         <span><DeviceMobile aria-hidden="true" weight="fill" /></span>
-        <div><strong>WestCose Pocket</strong><small>Pocket OS v3</small><small>Build: Stable Enough</small></div>
+        <div><strong>WestCose Labs</strong><small>Pocket OS v3</small><small>Build: Stable Enough</small></div>
       </section>
       <DiscoveryNotice controller={controller} />
       <nav aria-label="Settings categories" className={styles.groups}>
@@ -217,7 +217,7 @@ function CategoryControls({ controller }: { readonly controller: SettingsControl
 
   return (
     <div className={styles.controlGroups}>
-      <section><h2>WestCose Pocket</h2>
+      <section><h2>WestCose Labs</h2>
         <SettingRow label="Automatic Updates" detail="Installs redesigns while you sleep" control={<Switch checked={preferences.automaticUpdates} label="Automatic Updates" onChange={(enabled) => dispatch({ type: "automatic-updates/set", enabled })} />} />
         <div className={styles.actionList}>
           <button onClick={controller.systemActions.replayStartup} type="button">Replay startup</button>

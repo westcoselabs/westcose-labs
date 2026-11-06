@@ -32,7 +32,7 @@ test.describe("Phase 2 Settings", () => {
     await page.goto("/settings?view=os");
     await expect(page.locator("html")).toHaveAttribute("data-shell", "pocket");
     await expect(page.getByRole("heading", { level: 1, name: "Settings" })).toBeVisible();
-    await expect(page.getByText("WestCose Pocket")).toBeVisible();
+    await expect(page.getByText("WestCose Labs")).toBeVisible();
     await expect(page.getByText(/Normal View/iu)).toHaveCount(0);
 
     await page.getByRole("button", { name: /Personality/ }).click();
@@ -77,7 +77,7 @@ test.describe("Phase 2 Settings", () => {
     await expect(settings.getByRole("searchbox", { name: "Search settings" })).toBeVisible();
     await expect(settings.getByRole("navigation", { name: "Settings categories" })).toBeVisible();
     await expect(settings.getByText("WestCose Labs Workstation")).toBeVisible();
-    await expect(settings.getByText("WestCose Pocket")).toHaveCount(0);
+    await expect(settings.getByText("WestCose Labs")).toHaveCount(0);
 
     await settings
       .getByRole("checkbox", { name: "High contrast" })

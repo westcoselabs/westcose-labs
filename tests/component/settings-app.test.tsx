@@ -89,7 +89,7 @@ describe("Settings applications", () => {
     render(<Harness><Presenter shell="pocket" /></Harness>);
 
     expect(screen.getByRole("heading", { level: 1, name: "Settings" })).toBeVisible();
-    expect(screen.getByText("WestCose Pocket")).toBeVisible();
+    expect(screen.getByText("WestCose Labs")).toBeVisible();
     expect(screen.queryByText(/Normal View/iu)).not.toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: /Personality/ }));
     expect(pushMock).toHaveBeenCalledWith("/settings/personality");

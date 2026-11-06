@@ -1,0 +1,126 @@
+{
+  "tool": "Built-in image_gen",
+  "generatedAt": "2026-11-06",
+  "entries": [
+    {
+      "id": "dusk-moonwater",
+      "theme": "dusk",
+      "name": "Moonwater",
+      "prompt": "Use case: photorealistic-natural\nAsset type: original OS desktop wallpaper, wide landscape 16:9. This will also be center-cropped for a phone: keep the main composition usable in the central 40 percent and avoid tiny edge-only subjects. Leave calm lower-contrast regions for desktop icons and translucent windows. Full bleed, no text, logos, watermark, UI, borders or collage.\nPrimary request: a distinctive quiet Pacific night seascape for a graphite and blue Dusk OS theme. Deep navy and slate-blue water, a pale moon diffused by marine haze, a narrow silver reflection on a smooth sheltered cove, layered black coastal rocks and a distant low headland. Elevated shore viewpoint, natural long-exposure water with subtle texture, sparse restrained highlights, spacious twilight sky. Cinematic fine-art landscape photography, believable coastal geology, refined dark blue palette; luminous but never neon. No buildings, people, boats, starscape or fantasy objects.",
+      "source": "C:\\Users\\citry\\.codex\\generated_images\\01a1af13-70bb-7182-b551-6503f793e12c\\exec-62c0b86c-113e-46cf-aa63-3a92d71f4240.png",
+      "outputDesktop": "public/images/wallpapers/dusk-moonwater-desktop.webp",
+      "outputPocket": "public/images/wallpapers/dusk-moonwater-pocket.webp",
+      "sourceSha256": "7015acc6a860c2d4bd5153087077de2ef08e99454de7ff37398deb5812152ec1",
+      "desktopBytes": 110514,
+      "pocketBytes": 41336
+    },
+    {
+      "id": "dusk-obsidian",
+      "theme": "dusk",
+      "name": "Obsidian Shore",
+      "prompt": "Use case: photorealistic-natural\nAsset type: original OS desktop wallpaper, wide landscape 16:9. This will also be center-cropped for a phone: keep the main composition usable in the central 40 percent and avoid tiny edge-only subjects. Leave calm lower-contrast regions for desktop icons and translucent windows. Full bleed, no text, logos, watermark, UI, borders or collage.\nPrimary request: sculptural black coastal dunes and basalt ridges meeting a blue-gray ocean at blue hour, for a graphite Dusk OS theme. Sweeping dune contours lead toward a calm steel-blue bay, very fine wind-shaped sand texture, marine mist softens the horizon. Dark charcoal, slate, muted ice-blue highlights, a faint warm line of light on the far horizon. Minimal editorial landscape photography, broad readable shapes, peaceful and sophisticated, crisp foreground with atmospheric depth. Distinct from a rocky cliff photograph or moonlit scene. No people, vegetation closeups, buildings, vehicles or stars.",
+      "source": "C:\\Users\\citry\\.codex\\generated_images\\01a1af13-70bb-7182-b551-6503f793e12c\\exec-8fe78ec6-7bcc-4543-b578-a603388604fa.png",
+      "outputDesktop": "public/images/wallpapers/dusk-obsidian-desktop.webp",
+      "outputPocket": "public/images/wallpapers/dusk-obsidian-pocket.webp",
+      "sourceSha256": "42da60f4449eb2596ad83ce82636b9377f55ba98ee1bb57034d89d44309109cf",
+      "desktopBytes": 108420,
+      "pocketBytes": 43116
+    },
+    {
+      "id": "95-tidal-grid",
+      "theme": "westcose-95",
+      "name": "Tidal Grid",
+      "prompt": "Use case: stylized-concept\nAsset type: original wide 16:9 OS desktop wallpaper, usable as a central phone crop. Quiet negative space behind icons, no text, no letters, no logo, no watermark, no interface, no frames, no montage.\nPrimary request: a refined 1995 computer-art wallpaper for a classic gray beveled OS, in deep teal and petrol with pale seafoam accents. An abstract ocean wave built from precise stepped voxel terraces and pixel-dithered contours, sweeping from lower foreground toward the central distance, with a broad quiet teal sky. Retro 8-bit palette discipline and deliberate pixel clusters, beautiful geometric construction, no modern neon outrun styling. Low-contrast checker-dither shading, crisp staircase silhouette, restrained cyan highlights. A collectible piece of early digital coastal art, subtle enough to use all day.",
+      "source": "C:\\Users\\citry\\.codex\\generated_images\\01a1af13-70bb-7182-b551-6503f793e12c\\exec-f1dae437-450b-4519-b3c5-1b2f7b644baa.png",
+      "outputDesktop": "public/images/wallpapers/95-tidal-grid-desktop.webp",
+      "outputPocket": "public/images/wallpapers/95-tidal-grid-pocket.webp",
+      "sourceSha256": "734a715867e5bc04085b349e8331ccb4802bc1628a6087c1fbdb552f400c79be",
+      "desktopBytes": 221900,
+      "pocketBytes": 96640
+    },
+    {
+      "id": "95-pacific-circuit",
+      "theme": "westcose-95",
+      "name": "Pacific Circuit",
+      "prompt": "Use case: stylized-concept\nAsset type: original wide 16:9 OS desktop wallpaper, usable as a central phone crop. Quiet negative space behind icons, no text, no letters, no logo, no watermark, no interface, no frames, no montage.\nPrimary request: early workstation-era 3D graphic art for a 1995 teal desktop. Sculptural interlocking teal rectangular ribbons and stepped square arches form a spare geometric landscape over a matte petrol background. Orthographic/isometric projection, chunky beveled forms, old-school ray-traced soft shadows and subtle ordered dithering. Broad simple structures rather than tiny busy circuitry; seafoam light on the edges, deep teal recesses, small muted blue details. Keep the central shape readable in a portrait crop and upper background calm. Retro digital art with precise spatial logic; no rainbow gradients, chrome spheres, text or corporate logos.",
+      "source": "C:\\Users\\citry\\.codex\\generated_images\\01a1af13-70bb-7182-b551-6503f793e12c\\exec-b22971b9-1499-43c8-a2b8-a12a7428161d.png",
+      "outputDesktop": "public/images/wallpapers/95-pacific-circuit-desktop.webp",
+      "outputPocket": "public/images/wallpapers/95-pacific-circuit-pocket.webp",
+      "sourceSha256": "c8629a1763089144dc367786d67655ae9b497c66c84c15bbe2e688303cd343fd",
+      "desktopBytes": 159736,
+      "pocketBytes": 61840
+    },
+    {
+      "id": "glass-prism-tide",
+      "theme": "liquid-glass",
+      "name": "Prism Tide",
+      "prompt": "Use case: stylized-concept\nAsset type: original OS wallpaper, wide 16:9, also usable in a central portrait phone crop. Full bleed, broad calm regions behind windows and app labels, no text, logo, watermark, UI, frames or collage.\nPrimary request: luminous optical glass ribbons inspired by a breaking ocean wave, for a pale blue Liquid Glass OS theme. One generous flowing ribbon of thick clear glass twists across a pale pearl and ice-blue field, with refracted turquoise light, faint pale gold caustics and smooth rounded edges. The main sculptural curl sits centrally, readable in a portrait crop. Premium physical glass photography / elegant 3D optical art, beautifully controlled reflections and depth, milky soft shadows, no harsh black background. Restrained azure, aqua and ivory palette with only tiny prismatic edge glints; not neon rainbow or liquid chrome.",
+      "source": "C:\\Users\\citry\\.codex\\generated_images\\01a1af13-70bb-7182-b551-6503f793e12c\\exec-4486141f-8dd0-4357-978a-6045ad475e26.png",
+      "outputDesktop": "public/images/wallpapers/glass-prism-tide-desktop.webp",
+      "outputPocket": "public/images/wallpapers/glass-prism-tide-pocket.webp",
+      "sourceSha256": "0ce200b63c2b8f4b53fafda3727ad81d7e90e4d14da9eca01e6e4d26245ed211",
+      "desktopBytes": 84286,
+      "pocketBytes": 45980
+    },
+    {
+      "id": "glass-lagoon-lens",
+      "theme": "liquid-glass",
+      "name": "Lagoon Lens",
+      "prompt": "Use case: stylized-concept\nAsset type: original OS wallpaper, wide 16:9, also usable in a central portrait phone crop. Full bleed, broad calm regions behind windows and app labels, no text, logo, watermark, UI, frames or collage.\nPrimary request: a serene translucent sea-glass lens landscape for a Liquid Glass desktop theme. Oversized smooth frosted oval glass forms partially overlapping like shallow tidal pools, with a circular clear lens near the center revealing rippled aqua light below. A macro abstract composition, physical refraction and soft caustics, layered mint, pale cyan, cool white and a trace of warm peach. Gentle daylight through water and thick glass, tactile and softly luminous, sophisticated minimal glass sculpture. Distinct from ribbon waves: rounded lagoon-like lenses and broad fluid color areas, no tiny scattered droplets, no text or recognizable devices.",
+      "source": "C:\\Users\\citry\\.codex\\generated_images\\01a1af13-70bb-7182-b551-6503f793e12c\\exec-486aa85d-c174-446d-97d3-e061d97f85c2.png",
+      "outputDesktop": "public/images/wallpapers/glass-lagoon-lens-desktop.webp",
+      "outputPocket": "public/images/wallpapers/glass-lagoon-lens-pocket.webp",
+      "sourceSha256": "dd1b508b3c40c5d637464caca73eaf1ec07832bdc721c08bdbe1f0c0691348f7",
+      "desktopBytes": 76638,
+      "pocketBytes": 42818
+    },
+    {
+      "id": "xp-wildflower-bluff",
+      "theme": "westcose-xp",
+      "name": "Wildflower Bluff",
+      "prompt": "Use case: photorealistic-natural\nAsset type: original OS desktop wallpaper, wide landscape 16:9, strong central composition suitable for a portrait phone crop. Calm blue sky and broad green forms behind desktop icons; full bleed. No text, branding, watermark, interface, frames, people, vehicles, buildings or collage.\nPrimary request: a joyful sunlit California coastal bluff for a nostalgic early-2000s blue-and-green desktop theme. Lush rolling emerald hills slope toward a turquoise Pacific bay, scattered small orange poppies and white wildflowers in the foreground, wide cobalt-blue sky with a few soft fair-weather cumulus clouds. Fresh spring midday light, polished landscape photography, vibrant but natural greens and blues, flowing uncluttered hill shapes. An original composition evoking the optimism of classic computer wallpaper without copying any famous photograph. The sea and green headland should remain visible in the center phone crop.",
+      "source": "C:\\Users\\citry\\.codex\\generated_images\\01a1af13-70bb-7182-b551-6503f793e12c\\exec-0a7471d9-4489-4de7-895d-67aa3f25bf45.png",
+      "outputDesktop": "public/images/wallpapers/xp-wildflower-bluff-desktop.webp",
+      "outputPocket": "public/images/wallpapers/xp-wildflower-bluff-pocket.webp",
+      "sourceSha256": "eec9a65a195e44856f451f97f04a163463bf28715aeaf82de680009c1438f787",
+      "desktopBytes": 329506,
+      "pocketBytes": 123906
+    },
+    {
+      "id": "xp-blue-reservoir",
+      "theme": "westcose-xp",
+      "name": "Blue Reservoir",
+      "prompt": "Use case: photorealistic-natural\nAsset type: original OS desktop wallpaper, wide landscape 16:9, strong central composition suitable for a portrait phone crop. Calm blue sky and broad green forms behind desktop icons; full bleed. No text, branding, watermark, interface, frames, people, vehicles, buildings or collage.\nPrimary request: a brilliant blue lake winding through silky rolling green coastal foothills for an optimistic early-2000s XP-inspired desktop. A graceful S-shaped waterway centered through the scene, smooth grassy slopes in rich spring green, a distant hazy ridge, broad cerulean sky with luminous white clouds. Clear sunny afternoon, crisp lake reflections, natural photographic detail, generous quiet spaces and memorable simple contours. Original landscape, neither a copy of the famous Windows hill nor tropical island scenery. Bright cheerful blue and green, no oversaturated neon or dramatic storm.",
+      "source": "C:\\Users\\citry\\.codex\\generated_images\\01a1af13-70bb-7182-b551-6503f793e12c\\exec-1e5d90ee-1482-474e-ba37-f71966d950d6.png",
+      "outputDesktop": "public/images/wallpapers/xp-blue-reservoir-desktop.webp",
+      "outputPocket": "public/images/wallpapers/xp-blue-reservoir-pocket.webp",
+      "sourceSha256": "d5fd06f40952877343aa77f14744b48d1b77e017d898f7864db94969d348db59",
+      "desktopBytes": 278664,
+      "pocketBytes": 81856
+    },
+    {
+      "id": "beige-paper-architecture",
+      "theme": "corporate-beige",
+      "name": "Paper Architecture",
+      "prompt": "Use case: stylized-concept\nAsset type: original wide 16:9 OS wallpaper, also suitable for a central portrait crop. Full bleed, restrained contrast, quiet areas behind windows and icons. No text, logos, watermark, UI, people, recognizable products, frames or collage.\nPrimary request: a beautiful architectural still life built from thick warm ivory paper for the Corporate Beige OS theme. Broad folded planes and a central looping paper arch, gentle stepped terraces, a tactile sculptural composition with spacious negative space. Warm linen, oat, sand and pale taupe, light raking across subtle paper fibers, precise soft shadows. Minimal high-end studio photograph of a real paper sculpture, polished yet quietly playful, not an office desk or stationery pile. Large simple forms work as a desktop backdrop and centered phone crop.",
+      "source": "C:\\Users\\citry\\.codex\\generated_images\\01a1af13-70bb-7182-b551-6503f793e12c\\exec-cf954c2e-5661-4877-a9b2-1930c1ab8f55.png",
+      "outputDesktop": "public/images/wallpapers/beige-paper-architecture-desktop.webp",
+      "outputPocket": "public/images/wallpapers/beige-paper-architecture-pocket.webp",
+      "sourceSha256": "51c5dfd91a9043ee94b9b143b188f494150ce92dc9cd54f3e388e03d242c34af",
+      "desktopBytes": 90574,
+      "pocketBytes": 30450
+    },
+    {
+      "id": "beige-sunlit-atrium",
+      "theme": "corporate-beige",
+      "name": "Sunlit Atrium",
+      "prompt": "Use case: stylized-concept\nAsset type: original wide 16:9 OS wallpaper, also suitable for a central portrait crop. Full bleed, restrained contrast, quiet areas behind windows and icons. No text, logos, watermark, UI, people, recognizable products, frames or collage.\nPrimary request: a serene imaginary atrium of warm travertine and cream plaster, designed as an architectural-art wallpaper for Corporate Beige. Repeated rounded arches recede toward a central sunlit opening, a broad curved wall and shallow stone steps, a single diagonal pool of late-afternoon light. Soft sand, ivory, oatmeal and warm gray palette, subtle stone pores, believable spacious architecture, no furniture or objects. Premium architectural photography with calm symmetrical depth and beautiful shadow geometry; restrained warmth, no orange cast, no dramatic black shadows. Center composition survives portrait cropping.",
+      "source": "C:\\Users\\citry\\.codex\\generated_images\\01a1af13-70bb-7182-b551-6503f793e12c\\exec-185975f1-450b-43b8-8cd4-9c83884a1f12.png",
+      "outputDesktop": "public/images/wallpapers/beige-sunlit-atrium-desktop.webp",
+      "outputPocket": "public/images/wallpapers/beige-sunlit-atrium-pocket.webp",
+      "sourceSha256": "00af77a86364dafbbe7d1128607f7623bff40456bfe579ed99ec2ddaa5ce1811",
+      "desktopBytes": 140988,
+      "pocketBytes": 44028
+    }
+  ]
+}

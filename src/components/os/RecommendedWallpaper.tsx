@@ -4,7 +4,7 @@ import { Button } from "@/components/ui";
 import { useAppearance } from "./AppearanceContext";
 import styles from "./RecommendedWallpaper.module.css";
 
-/** An explicit opt-in; changing themes never overwrites a wallpaper choice. */
+/** Restore the theme's default after choosing one of its alternatives. */
 export function RecommendedWallpaper() {
   const { theme, wallpaper, availableWallpapers, setWallpaperId } = useAppearance();
   const recommended = availableWallpapers.find(

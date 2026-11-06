@@ -1,0 +1,162 @@
+[
+  {
+    "id": "dusk-moonwater",
+    "themeId": "dusk",
+    "name": "Moonwater",
+    "desktop": {
+      "src": "/images/wallpapers/dusk-moonwater-desktop.webp",
+      "width": 1672,
+      "height": 941
+    },
+    "pocket": {
+      "src": "/images/wallpapers/dusk-moonwater-pocket.webp",
+      "width": 640,
+      "height": 960
+    },
+    "preview": "/images/wallpapers/dusk-moonwater-preview.webp"
+  },
+  {
+    "id": "dusk-obsidian",
+    "themeId": "dusk",
+    "name": "Obsidian Shore",
+    "desktop": {
+      "src": "/images/wallpapers/dusk-obsidian-desktop.webp",
+      "width": 1672,
+      "height": 941
+    },
+    "pocket": {
+      "src": "/images/wallpapers/dusk-obsidian-pocket.webp",
+      "width": 640,
+      "height": 960
+    },
+    "preview": "/images/wallpapers/dusk-obsidian-preview.webp"
+  },
+  {
+    "id": "95-tidal-grid",
+    "themeId": "westcose-95",
+    "name": "Tidal Grid",
+    "desktop": {
+      "src": "/images/wallpapers/95-tidal-grid-desktop.webp",
+      "width": 1672,
+      "height": 941
+    },
+    "pocket": {
+      "src": "/images/wallpapers/95-tidal-grid-pocket.webp",
+      "width": 640,
+      "height": 960
+    },
+    "preview": "/images/wallpapers/95-tidal-grid-preview.webp"
+  },
+  {
+    "id": "95-pacific-circuit",
+    "themeId": "westcose-95",
+    "name": "Pacific Circuit",
+    "desktop": {
+      "src": "/images/wallpapers/95-pacific-circuit-desktop.webp",
+      "width": 1672,
+      "height": 941
+    },
+    "pocket": {
+      "src": "/images/wallpapers/95-pacific-circuit-pocket.webp",
+      "width": 640,
+      "height": 960
+    },
+    "preview": "/images/wallpapers/95-pacific-circuit-preview.webp"
+  },
+  {
+    "id": "glass-prism-tide",
+    "themeId": "liquid-glass",
+    "name": "Prism Tide",
+    "desktop": {
+      "src": "/images/wallpapers/glass-prism-tide-desktop.webp",
+      "width": 1672,
+      "height": 941
+    },
+    "pocket": {
+      "src": "/images/wallpapers/glass-prism-tide-pocket.webp",
+      "width": 640,
+      "height": 960
+    },
+    "preview": "/images/wallpapers/glass-prism-tide-preview.webp"
+  },
+  {
+    "id": "glass-lagoon-lens",
+    "themeId": "liquid-glass",
+    "name": "Lagoon Lens",
+    "desktop": {
+      "src": "/images/wallpapers/glass-lagoon-lens-desktop.webp",
+      "width": 1672,
+      "height": 941
+    },
+    "pocket": {
+      "src": "/images/wallpapers/glass-lagoon-lens-pocket.webp",
+      "width": 640,
+      "height": 960
+    },
+    "preview": "/images/wallpapers/glass-lagoon-lens-preview.webp"
+  },
+  {
+    "id": "xp-wildflower-bluff",
+    "themeId": "westcose-xp",
+    "name": "Wildflower Bluff",
+    "desktop": {
+      "src": "/images/wallpapers/xp-wildflower-bluff-desktop.webp",
+      "width": 1672,
+      "height": 941
+    },
+    "pocket": {
+      "src": "/images/wallpapers/xp-wildflower-bluff-pocket.webp",
+      "width": 640,
+      "height": 960
+    },
+    "preview": "/images/wallpapers/xp-wildflower-bluff-preview.webp"
+  },
+  {
+    "id": "xp-blue-reservoir",
+    "themeId": "westcose-xp",
+    "name": "Blue Reservoir",
+    "desktop": {
+      "src": "/images/wallpapers/xp-blue-reservoir-desktop.webp",
+      "width": 1672,
+      "height": 941
+    },
+    "pocket": {
+      "src": "/images/wallpapers/xp-blue-reservoir-pocket.webp",
+      "width": 640,
+      "height": 960
+    },
+    "preview": "/images/wallpapers/xp-blue-reservoir-preview.webp"
+  },
+  {
+    "id": "beige-paper-architecture",
+    "themeId": "corporate-beige",
+    "name": "Paper Architecture",
+    "desktop": {
+      "src": "/images/wallpapers/beige-paper-architecture-desktop.webp",
+      "width": 1672,
+      "height": 941
+    },
+    "pocket": {
+      "src": "/images/wallpapers/beige-paper-architecture-pocket.webp",
+      "width": 640,
+      "height": 960
+    },
+    "preview": "/images/wallpapers/beige-paper-architecture-preview.webp"
+  },
+  {
+    "id": "beige-sunlit-atrium",
+    "themeId": "corporate-beige",
+    "name": "Sunlit Atrium",
+    "desktop": {
+      "src": "/images/wallpapers/beige-sunlit-atrium-desktop.webp",
+      "width": 1672,
+      "height": 941
+    },
+    "pocket": {
+      "src": "/images/wallpapers/beige-sunlit-atrium-pocket.webp",
+      "width": 640,
+      "height": 960
+    },
+    "preview": "/images/wallpapers/beige-sunlit-atrium-preview.webp"
+  }
+]

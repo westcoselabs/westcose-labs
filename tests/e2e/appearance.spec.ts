@@ -91,19 +91,19 @@ test.describe("Desktop personalization", () => {
     await menu.getByRole("menuitem", { name: "Wallpaper" }).click();
     await page
       .getByRole("menu", { name: "Wallpaper" })
-      .getByRole("menuitemradio", { name: /Graphite Field/ })
+      .getByRole("menuitemradio", { name: /Moonwater/ })
       .click();
 
     await expect
       .poll(async () => (await appearance(page)).wallpaper)
-      .toBe("graphite-field");
-    expect((await appearance(page)).desktopImage).toContain("radial-gradient");
+      .toBe("dusk-moonwater");
+    expect((await appearance(page)).desktopImage).toContain("dusk-moonwater");
     expect(await storedAppearance(page)).toMatchObject({
-      wallpaperId: "graphite-field",
+      wallpaperId: "dusk-moonwater",
     });
 
     await page.reload();
-    expect(await appearance(page)).toMatchObject({ wallpaper: "graphite-field" });
+    expect(await appearance(page)).toMatchObject({ wallpaper: "dusk-moonwater" });
   });
 
   test("opens the same personalization from the keyboard", async ({ page }) => {
@@ -122,12 +122,12 @@ test.describe("Desktop personalization", () => {
     const submenu = page.getByRole("menu", { name: "Wallpaper" });
     await expect(submenu).toBeVisible();
     await submenu
-      .getByRole("menuitemradio", { name: /Graphite Field/ })
+      .getByRole("menuitemradio", { name: /Moonwater/ })
       .press("Enter");
 
     await expect
       .poll(async () => (await appearance(page)).wallpaper)
-      .toBe("graphite-field");
+      .toBe("dusk-moonwater");
   });
 
   test("keeps personalization off application window menus", async ({ page }) => {
@@ -185,15 +185,15 @@ test.describe("Pocket personalization", () => {
     const sheet = await openPocketCustomize(page);
     await sheet
       .getByRole("radiogroup", { name: "Wallpaper" })
-      .getByRole("radio", { name: /Graphite Field/ })
+      .getByRole("radio", { name: /Moonwater/ })
       .click();
 
     await expect
       .poll(async () => (await appearance(page)).wallpaper)
-      .toBe("graphite-field");
-    expect((await appearance(page)).pocketImage).toContain("radial-gradient");
+      .toBe("dusk-moonwater");
+    expect((await appearance(page)).pocketImage).toContain("dusk-moonwater");
     expect(await storedAppearance(page)).toMatchObject({
-      wallpaperId: "graphite-field",
+      wallpaperId: "dusk-moonwater",
     });
   });
 
@@ -205,12 +205,12 @@ test.describe("Pocket personalization", () => {
 
     await page
       .getByRole("radiogroup", { name: "Wallpaper" })
-      .getByRole("radio", { name: /Graphite Field/ })
+      .getByRole("radio", { name: /Moonwater/ })
       .click();
 
     await expect
       .poll(async () => (await appearance(page)).wallpaper)
-      .toBe("graphite-field");
+      .toBe("dusk-moonwater");
   });
 });
 
@@ -227,16 +227,16 @@ test.describe("Shared appearance state", () => {
     await menu.getByRole("menuitem", { name: "Wallpaper" }).click();
     await page
       .getByRole("menu", { name: "Wallpaper" })
-      .getByRole("menuitemradio", { name: /Graphite Field/ })
+      .getByRole("menuitemradio", { name: /Moonwater/ })
       .click();
     await expect
       .poll(async () => (await appearance(page)).wallpaper)
-      .toBe("graphite-field");
+      .toBe("dusk-moonwater");
 
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/?view=os");
     await expect(page.locator("html")).toHaveAttribute("data-shell", "pocket");
-    expect(await appearance(page)).toMatchObject({ wallpaper: "graphite-field" });
+    expect(await appearance(page)).toMatchObject({ wallpaper: "dusk-moonwater" });
 
     await openPocketCustomize(page);
     await page
@@ -385,11 +385,11 @@ test.describe("Appearance and accessibility", () => {
     await menu.getByRole("menuitem", { name: "Wallpaper" }).click();
     await page
       .getByRole("menu", { name: "Wallpaper" })
-      .getByRole("menuitemradio", { name: /Graphite Field/ })
+      .getByRole("menuitemradio", { name: /Moonwater/ })
       .click();
     await expect
       .poll(async () => (await appearance(page)).wallpaper)
-      .toBe("graphite-field");
+      .toBe("dusk-moonwater");
     await expect(page.locator("html")).toHaveAttribute("data-high-contrast", "true");
     expect(
       await shade.evaluate((element) => getComputedStyle(element).backgroundImage),
@@ -405,12 +405,12 @@ test.describe("Appearance and accessibility", () => {
     await menu.getByRole("menuitem", { name: "Wallpaper" }).click();
     await page
       .getByRole("menu", { name: "Wallpaper" })
-      .getByRole("menuitemradio", { name: /Graphite Field/ })
+      .getByRole("menuitemradio", { name: /Moonwater/ })
       .click();
 
     await expect
       .poll(async () => (await appearance(page)).wallpaper)
-      .toBe("graphite-field");
+      .toBe("dusk-moonwater");
     await expect(page.locator("html")).toHaveAttribute("data-reduced-motion", "true");
   });
 

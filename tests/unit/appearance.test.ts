@@ -184,9 +184,9 @@ describe("appearance resolution", () => {
   });
 
   it("keeps a valid selection untouched", () => {
-    const resolved = resolveAppearance("dusk", "graphite-field");
+    const resolved = resolveAppearance("dusk", "dusk-moonwater");
 
-    expect(resolved.wallpaper.id).toBe("graphite-field");
+    expect(resolved.wallpaper.id).toBe("dusk-moonwater");
     expect(resolved.wallpaperRecovered).toBe(false);
   });
 });
@@ -196,10 +196,8 @@ describe("shared unlock state", () => {
     expect(listAvailableThemes().map((theme) => theme.id)).toEqual(["dusk", "westcose-95", "liquid-glass", "westcose-xp"]);
     expect(listAvailableWallpapers().map((wallpaper) => wallpaper.id)).toEqual([
       "dusk-cliffs",
-      "graphite-field",
-      "westcose-95",
-      "liquid-glass",
-      "coastal-hills",
+      "dusk-moonwater",
+      "dusk-obsidian",
     ]);
 
     const earned = unlocks({
@@ -210,7 +208,7 @@ describe("shared unlock state", () => {
       "corporate-beige",
     );
     expect(
-      listAvailableWallpapers(earned).map((wallpaper) => wallpaper.id),
+      listAvailableWallpapers(earned, "corporate-beige").map((wallpaper) => wallpaper.id),
     ).toContain("standard-issue");
   });
 
@@ -247,20 +245,19 @@ describe("shared unlock state", () => {
 });
 
 describe("appearance CSS contract", () => {
-  it("resolves WestCose 95 without an unlock and keeps its wallpaper independent", () => {
+  it("resolves WestCose 95 with its own wallpaper and rejects mixed pairs", () => {
     const classic = resolveAppearance("westcose-95", "dusk-cliffs");
     expect(classic).toMatchObject({
       themeRecovered: false,
-      wallpaperRecovered: false,
+      wallpaperRecovered: true,
       theme: { id: "westcose-95", recommendedWallpaperId: "westcose-95" },
-      wallpaper: { id: "dusk-cliffs" },
+      wallpaper: { id: "westcose-95" },
     });
     const mixed = resolveAppearance("dusk", "westcose-95");
     expect(mixed.theme.id).toBe("dusk");
     expect(mixed.wallpaper).toMatchObject({
-      recommendedThemeId: "westcose-95",
-      desktop: { kind: "generated" },
-      pocket: { kind: "generated" },
+      recommendedThemeId: "dusk",
+      id: "dusk-cliffs",
     });
     expect(themeDataset(classic.theme)).toMatchObject({
       theme: "westcose-95", themeScheme: "light", themeSurface: "beveled",
@@ -269,7 +266,7 @@ describe("appearance CSS contract", () => {
       themeWidget: "flat-panel", themeIcons: "outline", themeEffects: "none",
     });
     expect(APPEARANCE_BOOTSTRAP_DATA.themes["westcose-95"].dataset).toEqual(themeDataset(classic.theme));
-    expect(APPEARANCE_BOOTSTRAP_DATA.wallpapers["westcose-95"].variables).toEqual(wallpaperCssVariables(mixed.wallpaper));
+    expect(APPEARANCE_BOOTSTRAP_DATA.wallpapers["westcose-95"].variables).toEqual(wallpaperCssVariables(classic.wallpaper));
   });
 
   it("exposes Desktop and Pocket sources from one wallpaper id", () => {

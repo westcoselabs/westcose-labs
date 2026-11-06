@@ -40,7 +40,7 @@ function useClock() {
         time: new Intl.DateTimeFormat(undefined, {
           hour: "numeric",
           minute: "2-digit",
-        }).format(now),
+        }).formatToParts(now).filter((part) => part.type !== "dayPeriod").map((part) => part.value).join("").trim(),
       });
     };
 
@@ -80,6 +80,7 @@ export function PocketLockScreen({
       window.cancelAnimationFrame(frameRef.current);
       frameRef.current = 0;
     }
+    if (track) delete track.dataset.dragging;
     track?.style.removeProperty("--unlock-progress");
     thumb?.style.removeProperty("--unlock-x");
     pointerStartRef.current = null;
@@ -151,11 +152,11 @@ export function PocketLockScreen({
 
   return (
     <main aria-label="Pocket lock screen" className={styles.lock}>
-      <h1 className="sr-only">WestCose Pocket OS Lock Screen</h1>
+      <h1 className="sr-only">WestCose Labs Lock Screen</h1>
       <div className={styles.clock}>
         <p className={styles.identity}>
           <span aria-hidden="true"><LockSimple weight="duotone" /></span>
-          WestCose Pocket
+          WestCose Labs
         </p>
         <p className={styles.time} id="lock-time">
           {clock.time}
@@ -194,9 +195,12 @@ export function PocketLockScreen({
             aria-describedby="unlock-instructions"
             aria-label="Slide to unlock, or press Enter"
             className={styles.unlockThumb}
+            onClick={(event) => { if (event.detail === 0) onUnlock(); }}
             onKeyDown={handleKeyDown}
             onPointerCancel={reset}
             onPointerDown={(event) => {
+              if (event.button !== 0) return;
+              if (trackRef.current) trackRef.current.dataset.dragging = "true";
               pointerStartRef.current = event.clientX;
               latestXRef.current = 0;
               event.currentTarget.setPointerCapture(event.pointerId);
@@ -209,7 +213,7 @@ export function PocketLockScreen({
             <CaretRight aria-hidden="true" size={24} weight="bold" />
           </button>
         </div>
-        <Button fullWidth onClick={onUnlock} tone="primary">
+        <Button className={styles.tapUnlock} fullWidth onClick={onUnlock}>
           Tap to unlock
         </Button>
       </div>

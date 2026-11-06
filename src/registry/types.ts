@@ -36,6 +36,7 @@ export type AppId =
   | "recycle"
   | "notes"
   | "settings"
+  | "themes"
   | "messages"
   | "phone";
 
@@ -266,7 +267,8 @@ export type WallpaperDefinition = {
   default: boolean;
   hidden: boolean;
   discoveryId?: string;
-  recommendedThemeId?: string;
+  /** The owning theme. Wallpapers cannot be applied outside this collection. */
+  recommendedThemeId: string;
   desktop: WallpaperSource;
   pocket: WallpaperSource;
   /**

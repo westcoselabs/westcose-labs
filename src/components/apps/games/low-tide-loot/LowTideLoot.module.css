@@ -11,6 +11,7 @@
   font: inherit;
   cursor: pointer;
   border: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 .game button:disabled {
   opacity: 0.48;
@@ -20,12 +21,17 @@
   outline: 3px solid var(--loot-yellow);
   outline-offset: 3px;
 }
+.game :is(button, .fireIcon) {
+  transition:
+    transform 140ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color 140ms ease-out,
+    box-shadow 140ms ease-out,
+    opacity 140ms ease-out;
+}
+.game :is(strong, b, meter) { font-variant-numeric: tabular-nums; }
 .well {
-  padding-block: env(safe-area-inset-top, 0px) env(safe-area-inset-bottom, 0px);
-  padding-inline: max(
-    env(safe-area-inset-left, 0px),
-    env(safe-area-inset-right, 0px)
-  );
+  /* GameHost already applies the device safe area. */
+  padding: 0;
   width: 100%;
   height: 100%;
   display: grid;
@@ -33,13 +39,36 @@
   overflow: hidden;
 }
 .arena {
-  box-shadow: 0 0 100px var(--loot-arena-glow);
+  box-shadow: 0 20px 80px var(--loot-chrome-shadow), 0 0 90px var(--loot-arena-glow);
   position: relative;
   width: 1280px;
   height: 640px;
   overflow: hidden;
   container-type: size;
-  background: var(--loot-ink);
+  background: linear-gradient(120deg, var(--loot-chrome-top), var(--loot-chrome-base) 60%);
+  border-radius: var(--loot-radius-control);
+}
+.arena::after {
+  content: "";
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  border: 1px solid var(--loot-chrome-rim);
+  border-radius: inherit;
+  pointer-events: none;
+}
+.beach {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.canvasFrame {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translateX(-50%);
 }
 .arena canvas {
   position: absolute;
@@ -61,8 +90,9 @@
   justify-content: space-between;
   gap: 22px;
   padding: 8px 20px;
-  background: var(--loot-ui-toolbar);
-  border-bottom: 1px solid var(--loot-ui-divider);
+  background: linear-gradient(180deg, var(--loot-chrome-top), var(--loot-ui-toolbar));
+  border-bottom: 1px solid var(--loot-chrome-rim);
+  box-shadow: inset 0 1px var(--loot-chrome-glint), 0 4px 16px var(--loot-chrome-shadow);
 }
 .toolbar button {
   min-width: 44px;
@@ -71,13 +101,11 @@
   align-items: center;
   justify-content: center;
   gap: 7px;
-  background: transparent;
+  background: var(--loot-stat-surface);
   color: var(--loot-paper);
   border-radius: var(--loot-radius-button);
   font-size: 12px;
-}
-.toolbar button:hover {
-  background: var(--loot-ui-hover);
+  box-shadow: inset 0 1px var(--loot-chrome-glint);
 }
 .toolbarActions {
   display: flex;
@@ -103,7 +131,11 @@
   font:
     600 clamp(9px, 0.85cqw, 11px) var(--font-ibm-plex-mono),
     monospace;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.1em;
+}
+.location {
+  padding-inline-end: 20px;
+  border-inline-end: 1px solid var(--loot-chrome-rim);
 }
 .location b {
   display: block;
@@ -116,7 +148,7 @@
   font:
     700 clamp(20px, 2.6cqw, 32px) / 1.15 var(--font-ibm-plex-mono),
     monospace;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.04em;
 }
 .quota {
   flex: 1;
@@ -131,6 +163,10 @@
   width: 100%;
   height: 6px;
   margin-top: 4px;
+  border-radius: var(--loot-radius-key);
+  overflow: hidden;
+  appearance: none;
+  background: var(--loot-ui-meter);
 }
 .quota meter::-webkit-meter-bar {
   background: var(--loot-ui-meter);
@@ -138,10 +174,32 @@
 }
 .quota meter::-webkit-meter-optimum-value {
   background: var(--loot-yellow);
+  border-radius: var(--loot-radius-key);
+}
+.game[data-quota-met="true"] .quota strong { color: var(--loot-teal); }
+.game[data-quota-met="true"] .quota meter::-webkit-meter-optimum-value { background: var(--loot-teal); }
+.game[data-quota-met="true"] .quota meter::-moz-meter-bar { background: var(--loot-teal); }
+.timer {
+  padding-inline-start: 20px;
+  border-inline-start: 1px solid var(--loot-chrome-rim);
+  flex-shrink: 0;
+}
+.timer small {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.timer small::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: var(--radius-full);
+  background: var(--loot-teal);
 }
 .warning {
   color: var(--loot-ui-warning);
 }
+.warning small::before { background: var(--loot-ui-warning); }
 .overlay {
   position: absolute;
   z-index: 2;
@@ -156,9 +214,9 @@
   width: min(480px, 100%);
   border: 1px solid var(--loot-ui-panel-border);
   border-radius: var(--loot-radius-panel);
-  background: var(--loot-ui-panel);
+  background: linear-gradient(145deg, var(--loot-chrome-top), var(--loot-ui-panel) 65%);
   padding: clamp(16px, 2.8cqw, 36px);
-  box-shadow: 0 20px 80px var(--loot-ui-panel-shadow);
+  box-shadow: inset 0 1px var(--loot-chrome-glint), 0 20px 80px var(--loot-ui-panel-shadow);
 }
 .panel h2 {
   margin: 0 0 12px;
@@ -191,18 +249,18 @@
   min-height: 48px;
   padding: 12px 20px;
   color: var(--loot-ui-button-ink);
-  background: var(--loot-yellow);
+  background: linear-gradient(180deg, var(--loot-gold-light), var(--loot-yellow));
   font-weight: 800 !important;
   border-radius: var(--loot-radius-button);
-  box-shadow: 0 4px 0 var(--loot-ui-button-shadow);
+  box-shadow: inset 0 1px var(--loot-button-glint), 0 2px 0 var(--loot-ui-button-shadow), 0 5px 12px var(--loot-chrome-shadow);
   transition:
-    background 0.16s,
-    transform 0.16s;
+    background 140ms ease-out,
+    transform 140ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.primary:hover {
+.primary:hover:not(:disabled) {
   background: var(--loot-ui-button-hover);
 }
-.primary:active {
+.primary:active:not(:disabled) {
   transform: translateY(2px);
 }
 .titleScreen {
@@ -297,11 +355,16 @@
   justify-content: center;
   margin-top: 12px;
 }
+.pauseIntro { min-width: 0; }
+.pauseActions { margin-top: 16px; }
+.pauseHelp { grid-column: 1 / -1; }
 .menuActions button {
-  background: none;
+  background: var(--loot-stat-surface);
   color: var(--loot-paper);
   min-height: 44px;
-  padding: 8px;
+  padding: 8px 14px;
+  border-radius: var(--loot-radius-button);
+  box-shadow: inset 0 1px var(--loot-chrome-glint);
   font-size: 12px;
 }
 .controls {
@@ -315,8 +378,9 @@
   min-height: 64px;
   height: 11%;
   padding: 8px 20px;
-  background: var(--loot-ui-controls);
-  border-top: 1px solid var(--loot-ui-divider);
+  background: linear-gradient(180deg, var(--loot-ui-controls), var(--loot-chrome-base));
+  border-top: 1px solid var(--loot-chrome-rim);
+  box-shadow: inset 0 1px var(--loot-chrome-glint);
 }
 .controls[hidden] {
   display: none;
@@ -328,6 +392,7 @@
 .feedback p {
   font-size: clamp(11px, 1.2cqw, 15px);
   margin: 0 0 4px;
+  font-weight: 600;
 }
 .feedback small {
   font:
@@ -345,23 +410,41 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 46px;
+  min-height: 48px;
   border-radius: var(--loot-radius-button);
   padding: 8px 16px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 800;
 }
 .bomb {
-  background: var(--loot-ui-bomb);
-  color: var(--loot-ui-bomb-text);
+  min-width: 84px;
+  background: var(--loot-bomb-fill);
+  color: var(--loot-bomb-ink);
+  border: 1px solid var(--loot-bomb-border) !important;
+  box-shadow: inset 0 1px var(--loot-button-glint), 0 3px var(--loot-bomb-shadow), 0 5px 12px var(--loot-chrome-shadow);
 }
+.game .bomb[data-stock="available"] { opacity: 1; }
+.game .bomb[data-stock="empty"] { opacity: 0.4; box-shadow: inset 0 1px var(--loot-chrome-glint); }
+.bomb b { font: 600 14px var(--font-ibm-plex-mono), monospace; }
 .fire {
-  background: var(--loot-yellow);
+  background: linear-gradient(180deg, var(--loot-gold-light), var(--loot-yellow));
   color: var(--loot-ink);
-  min-width: 144px;
+  min-width: 136px;
   box-shadow:
     inset 0 1px var(--loot-button-glint),
-    0 3px var(--loot-fire-shadow);
+    0 3px var(--loot-fire-shadow),
+    0 5px 12px var(--loot-chrome-shadow);
+}
+.game .fire:disabled { opacity: 1; background: var(--loot-drop-idle); color: var(--loot-drop-idle-ink); box-shadow: inset 0 1px var(--loot-chrome-glint); }
+.game[data-claw="retracting"] .fireIcon { transform: rotate(180deg); }
+.game[data-claw="firing"] .fireIcon { transform: translateY(2px); }
+.dropKey {
+  padding: 3px 5px;
+  margin-inline-start: 6px;
+  font: 500 10px var(--font-ibm-plex-mono), monospace;
+  border: 1px solid currentColor;
+  border-radius: var(--loot-radius-key);
+  opacity: 0.65;
 }
 .shopScene {
   background:
@@ -421,12 +504,12 @@
 .shopItem {
   display: flex;
   flex-direction: column;
-  background: var(--loot-ui-panel);
-  border: 1px solid var(--loot-ui-shop-border);
+  background: linear-gradient(145deg, var(--loot-chrome-top), var(--loot-ui-panel) 65%);
+  border: 1px solid var(--loot-ui-panel-border);
   border-radius: var(--radius-md);
   padding: clamp(8px, 1.4cqw, 18px);
   text-align: center;
-  box-shadow: 0 6px 0 var(--loot-ui-card-shadow);
+  box-shadow: inset 0 1px var(--loot-chrome-glint), 0 8px 20px var(--loot-ui-card-shadow);
 }
 .shopMark {
   display: grid;
@@ -459,7 +542,7 @@
   font-size: clamp(10px, 1cqw, 13px);
   font-weight: 800;
   padding: 6px;
-  border-radius: var(--radius-xs);
+  border-radius: var(--loot-radius-button);
   color: var(--loot-ink);
   background: var(--loot-yellow);
 }
@@ -523,7 +606,7 @@
     gap: 0;
   }
   .toolbarActions > button[aria-label="Full screen"] {
-    display: none;
+    display: inline-flex;
   }
   .hud {
     gap: 12px;
@@ -723,7 +806,7 @@
   min-height: 48px;
   border: 1px solid var(--loot-move-border);
   border-radius: var(--loot-radius-control);
-  background: var(--loot-move-surface);
+  background: linear-gradient(160deg, var(--loot-control-top), var(--loot-control-base));
   color: var(--loot-paper);
   touch-action: none;
   user-select: none;
@@ -731,7 +814,7 @@
     inset 0 1px var(--loot-move-glint),
     0 3px var(--loot-move-shadow);
 }
-.movement button:active {
+.movement button:active:not(:disabled) {
   background: var(--loot-move-pressed);
   transform: translateY(2px);
   box-shadow: none;
@@ -752,10 +835,6 @@
 .controlButtons button {
   touch-action: manipulation;
 }
-.bomb {
-  border: 1px solid var(--loot-bomb-border) !important;
-  background: var(--loot-bomb-fill);
-}
 .quota meter::-moz-meter-bar {
   background: var(--loot-yellow);
 }
@@ -764,6 +843,7 @@
   z-index: 10;
   inset: 0;
   display: grid;
+  overflow-y: auto;
   place-items: center;
   padding: max(24px, env(safe-area-inset-top))
     max(24px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom))
@@ -825,7 +905,145 @@
   background: var(--loot-move-surface);
   color: var(--loot-paper);
 }
+.rotateCard .fullscreenCta {
+  width: 100%;
+  background: var(--loot-yellow);
+  color: var(--loot-ink);
+  font-weight: 800;
+  margin-top: 24px;
+}
+.rotateCard .fullscreenNote { margin-top: 10px; font-size: 11px; }
+.rotateCard > button:last-child { margin-top: 12px; background: transparent; }
+.fullscreenHelp {
+  font-family: var(--font-system);
+  width: min(420px, calc(100% - 32px));
+  max-height: calc(100% - 32px);
+  overflow-y: auto;
+  padding: 24px;
+  border: 1px solid var(--loot-ui-panel-border);
+  border-radius: var(--loot-radius-panel);
+  background: var(--loot-ui-panel);
+  color: var(--loot-paper);
+  box-shadow: 0 20px 80px var(--loot-ui-panel-shadow);
+}
+.fullscreenHelp::backdrop { background: var(--loot-ui-overlay); }
+.fullscreenHelp h2 { font-size: 27px; font-weight: 700; line-height: 1.1; letter-spacing: -0.04em; margin: 0 0 16px; }
+.fullscreenHelp p, .fullscreenHelp li { font-size: 14px; line-height: 1.6; }
+.fullscreenHelp p { margin-block: 12px; }
+.fullscreenHelp ol { padding-left: 22px; }
+.fullscreenHelp li { padding: 4px 0; }
+.fullscreenHelp li svg { display: inline; vertical-align: middle; }
+.fullscreenHelp .helpNote { color: var(--loot-muted); font-size: 12px; margin-bottom: 20px; }
+
+/* Short landscape screens use thumb controls beside the complete beach, rather
+   than spending the scarce vertical space on a header and footer. */
+.arena[data-layout="compact"] .beach {
+  inset-inline: var(--loot-side-rail);
+  box-shadow: 0 0 0 1px var(--loot-chrome-rim);
+}
+.arena[data-layout="compact"][data-playing="true"] .toolbar,
+.arena[data-layout="compact"][data-playing="true"] .controls { display: contents; }
+.arena[data-layout="compact"][data-playing="true"] .toolbar > button {
+  position: absolute;
+  z-index: 4;
+  inset: 4px auto auto calc((var(--loot-side-rail) - 44px) / 2);
+  width: 44px;
+  height: 44px;
+}
+.arena[data-layout="compact"] .toolbar > button span { display: none; }
+.arena[data-layout="compact"][data-playing="true"] .toolbarActions {
+  position: absolute;
+  z-index: 4;
+  inset: 0 0 auto auto;
+  width: var(--loot-side-rail);
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding-top: 4px;
+}
+.arena[data-layout="compact"] .hud {
+  position: absolute;
+  z-index: 3;
+  inset: 48px auto auto 0;
+  width: var(--loot-side-rail);
+  flex-direction: column;
+  gap: 8px;
+  padding-inline: 6px;
+  text-align: center;
+}
+.arena[data-layout="compact"] .hud small { font-size: 9px; }
+.arena[data-layout="compact"] .hud strong { font-size: 23px; }
+.arena[data-layout="compact"] .location { padding: 0; border: 0; }
+.arena[data-layout="compact"] .timer {
+  padding: 6px 0 0;
+  border: 0;
+  border-top: 1px solid var(--loot-chrome-rim);
+}
+.arena[data-layout="compact"] .timer small { justify-content: center; }
+.arena[data-layout="compact"] .quota { width: 100%; }
+.arena[data-layout="compact"] .quota strong span { display: block; font-size: 11px; margin-top: 2px; }
+.arena[data-layout="compact"] .quota meter { height: 4px; margin-top: 6px; }
+.arena[data-layout="compact"] .quota > small,
+.arena[data-layout="compact"] .location b,
+.arena[data-layout="compact"] .arcadeBrand { display: none; }
+.arena[data-layout="compact"] .movement {
+  position: absolute;
+  z-index: 3;
+  inset: auto auto 6px 0;
+  width: var(--loot-side-rail);
+  flex-direction: column;
+  gap: 6px;
+  padding-inline: 8px;
+}
+.arena[data-layout="compact"] .movement button { width: 100%; min-width: 44px; min-height: 44px; }
+.arena[data-layout="compact"] .controlButtons {
+  position: absolute;
+  z-index: 3;
+  inset: auto 0 6px auto;
+  width: var(--loot-side-rail);
+  flex-direction: column;
+  gap: 8px;
+  padding-inline: 8px;
+}
+.arena[data-layout="compact"] .controlButtons button { gap: 5px; padding: 6px 2px; min-width: 0; min-height: 44px; font-size: 13px; }
+.arena[data-layout="compact"] .controlButtons .fire { min-height: 58px; flex-direction: column; font-size: 14px; }
+.arena[data-layout="compact"] .bomb svg { width: 22px; }
+.arena[data-layout="compact"] .bomb b { font-size: 12px; }
+.arena[data-layout="compact"] .movement > span,
+.arena[data-layout="compact"] .feedback {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+@container (max-height: 340px) {
+  .arena[data-layout="compact"] .titleScreen .title { font-size: 48px; }
+  .arena[data-layout="compact"] .titleScreen .eyebrow { display: none; }
+  .arena[data-layout="compact"] .titleScreen .tagline { font-size: 12px !important; }
+  .arena[data-layout="compact"] .titleScreen .instructions { font-size: 10px; }
+  .panel[data-menu="paused"] {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    align-items: center;
+    gap: 12px 20px;
+    width: min(680px, 100%);
+    padding: 16px 20px;
+  }
+  .panel[data-menu="paused"] .pauseActions { margin: 0; }
+  .panel[data-menu="paused"] .menuActions { gap: 8px; }
+  .panel[data-menu="paused"] .menuActions button { padding-inline: 10px; }
+}
+@container (max-height: 260px) {
+  .arena[data-layout="compact"] .hud { top: 44px; gap: 5px; }
+  .arena[data-layout="compact"] .location,
+  .arena[data-layout="compact"] .timer small { display: none; }
+  .arena[data-layout="compact"] .timer strong { font-size: 20px; }
+  /* Sound remains available in the pause menu when browser chrome leaves very little height. */
+  .arena[data-layout="compact"][data-playing="true"] .toolbarActions > button:first-child { display: none; }
+}
 @container (max-width: 1000px) {
+  .dropKey { display: none; }
   .arcadeBrand {
     display: none;
   }
@@ -914,7 +1132,22 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .movement button:active {
-    transform: none;
-  }
+  .game :is(button, .fireIcon) { transition: none; }
+  .game button:active { transform: none !important; }
 }
+@media (pointer: coarse) {
+  .dropKey { display: none; }
+}
+@media (hover: hover) and (pointer: fine) {
+  .toolbar button:hover:not(:disabled),
+  .menuActions button:hover:not(:disabled) { background: var(--loot-control-base); }
+  .movement button:hover:not(:disabled) { background: var(--loot-control-hover); }
+  .bomb:hover:not(:disabled) { background: var(--loot-bomb-hover); }
+  .fire:hover:not(:disabled) { background: var(--loot-gold-light); }
+}
+.game :is(.toolbar button, .menuActions button, .controlButtons button):active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: inset 0 1px 4px var(--loot-chrome-shadow);
+}
+.game[data-reduced-motion="true"] :is(button, .fireIcon) { transition: none; }
+.game[data-reduced-motion="true"] button:active { transform: none !important; }

@@ -142,7 +142,7 @@ test("original title screens and smallest landscape controls fit without distort
     "playing",
   );
   for (const name of [
-    "Drop claw",
+    "Drop",
     "Turn sound on",
     "Pause LOW TIDE LOOT",
     "Exit to Games",

@@ -1,0 +1,13 @@
+{
+  "id": "/games/arcade/low-tide-loot",
+  "name": "LOW TIDE LOOT — WestCose Arcade",
+  "short_name": "Low Tide Loot",
+  "description": "Make rent before the tide comes back. A beach salvage arcade game.",
+  "start_url": "/games/arcade/low-tide-loot?view=normal",
+  "scope": "/games/arcade/low-tide-loot",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#172b2b",
+  "theme_color": "#172b2b",
+  "icons": [{ "src": "/games/low-tide-loot/scavenger-buggy.webp", "sizes": "512x512", "type": "image/webp", "purpose": "any" }]
+}

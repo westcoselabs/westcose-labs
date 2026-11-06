@@ -2,10 +2,12 @@
 
 import { LiquidGlass } from "@/components/ui/LiquidGlass";
 
-import { useEffect, useRef, useState, type CSSProperties, type RefObject } from "react";
+import { Check, X } from "@phosphor-icons/react";
+import { useEffect, useRef, useState, type CSSProperties, type RefObject, type PointerEvent } from "react";
 
 import { useAppearance } from "@/components/os/AppearanceContext";
-import { Button, SurfaceFloating } from "@/components/ui";
+import { Button, IconButton, SurfaceFloating } from "@/components/ui";
+import { getWallpaper } from "@/registry/wallpapers";
 
 import styles from "./PocketCustomizeSheet.module.css";
 
@@ -15,6 +17,7 @@ export type PocketCustomizeSheetProps = {
   readonly onClose: () => void;
   readonly onOpenAppearanceSettings: () => void;
   readonly returnFocusRef: RefObject<HTMLElement | null>;
+  readonly initialTab?: CustomizeTab;
 };
 
 /**
@@ -28,10 +31,27 @@ export function PocketCustomizeSheet({
   onClose,
   onOpenAppearanceSettings,
   returnFocusRef,
+  initialTab = "wallpaper",
 }: PocketCustomizeSheetProps) {
   const appearance = useAppearance();
-  const [tab, setTab] = useState<CustomizeTab>("wallpaper");
+  const [tab, setTab] = useState<CustomizeTab>(initialTab);
+  const [expanded, setExpanded] = useState(false);
+  const drag = useRef<{ y: number; height: number; delta: number; sheet: HTMLElement } | null>(null);
+  const dragged = useRef(false);
   const backdropRef = useRef<HTMLDivElement>(null);
+
+  const finishDrag = (event: PointerEvent<HTMLButtonElement>, cancelled = false) => {
+    const current = drag.current;
+    if (!current) return;
+    drag.current = null;
+    current.sheet.style.removeProperty("--sheet-height");
+    current.sheet.style.removeProperty("--sheet-drag");
+    delete current.sheet.dataset.dragging;
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+    if (cancelled) return;
+    if (current.delta > (expanded ? current.height * 0.55 : 90)) onClose();
+    else if (Math.abs(current.delta) > 40) setExpanded(current.delta < 0);
+  };
 
   useEffect(() => {
     const returnTarget = returnFocusRef.current;
@@ -78,7 +98,7 @@ export function PocketCustomizeSheet({
           description: theme.description,
           id: theme.id,
           name: theme.name,
-          preview: appearance.availableWallpapers.find((wallpaper) => wallpaper.id === theme.recommendedWallpaperId)?.preview.image,
+          preview: getWallpaper(theme.recommendedWallpaperId)?.preview.image,
           select: () => appearance.setThemeId(theme.id),
         }))
       : appearance.availableWallpapers.map((wallpaper) => ({
@@ -102,15 +122,50 @@ export function PocketCustomizeSheet({
         aria-labelledby="pocket-customize-title"
         aria-modal="true"
         className={styles.sheet}
+        data-detent={expanded ? "large" : "medium"}
         role="dialog"
       >
         <LiquidGlass tone="strong" />
-        <span aria-hidden="true" className={styles.grabber} />
+        <button
+          aria-label={expanded ? "Collapse customization sheet" : "Expand customization sheet"}
+          aria-expanded={expanded}
+          className={styles.grabber}
+          onClick={() => {
+            if (!dragged.current) setExpanded((value) => !value);
+            dragged.current = false;
+          }}
+          onPointerDown={(event) => {
+            if (event.button !== 0) return;
+            const sheet = event.currentTarget.closest<HTMLElement>('[role="dialog"]')!;
+            drag.current = { y: event.clientY, height: sheet.getBoundingClientRect().height, delta: 0, sheet };
+            dragged.current = false;
+            sheet.dataset.dragging = "true";
+            event.currentTarget.setPointerCapture(event.pointerId);
+          }}
+          onPointerMove={(event) => {
+            const current = drag.current;
+            if (!current) return;
+            current.delta = event.clientY - current.y;
+            dragged.current ||= Math.abs(current.delta) > 5;
+            const minimum = Math.min(320, window.innerHeight * 0.55);
+            const maximum = backdropRef.current!.clientHeight - 24;
+            const height = Math.min(maximum, Math.max(minimum, current.height - current.delta));
+            current.sheet.style.setProperty("--sheet-height", `${height}px`);
+            current.sheet.style.setProperty("--sheet-drag", `${Math.max(0, current.delta - (current.height - minimum))}px`);
+          }}
+          onPointerUp={(event) => finishDrag(event)}
+          onPointerCancel={(event) => finishDrag(event, true)}
+          onLostPointerCapture={(event) => finishDrag(event, true)}
+          type="button"
+        ><span /></button>
         <div className={styles.heading}>
+          <div>
           <h2 className="type-headline-sm" id="pocket-customize-title">
             Customize
           </h2>
-          <p>Theme and wallpaper are shared with the desktop presentation.</p>
+          <p>Make WestCose yours.</p>
+          </div>
+          <IconButton label="Close customization" onClick={onClose}><X aria-hidden="true" weight="bold" /></IconButton>
         </div>
 
         <div aria-label="Customize section" className={styles.tabs} role="tablist">
@@ -118,11 +173,19 @@ export function PocketCustomizeSheet({
             <button
               aria-controls="pocket-customize-options"
               aria-selected={tab === id}
-              autoFocus={id === "wallpaper"}
+              autoFocus={id === initialTab}
               className={styles.tab}
               id={`pocket-customize-tab-${id}`}
               key={id}
               onClick={() => setTab(id)}
+              onKeyDown={(event) => {
+                if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+                event.preventDefault();
+                const next = event.key === "Home" ? "theme" : event.key === "End" ? "wallpaper" : id === "theme" ? "wallpaper" : "theme";
+                setTab(next);
+                document.getElementById(`pocket-customize-tab-${next}`)?.focus();
+              }}
+              tabIndex={tab === id ? 0 : -1}
               role="tab"
               type="button"
             >
@@ -132,6 +195,7 @@ export function PocketCustomizeSheet({
         </div>
 
         <div
+          className={styles.panel}
           aria-labelledby={`pocket-customize-tab-${tab}`}
           id="pocket-customize-options"
           role="tabpanel"
@@ -141,12 +205,20 @@ export function PocketCustomizeSheet({
             className={styles.options}
             role="radiogroup"
           >
-          {options.map((option) => (
+          {options.map((option, index) => (
             <button
               aria-checked={option.checked}
               className={styles.option}
               key={option.id}
               onClick={option.select}
+              tabIndex={option.checked ? 0 : -1}
+              onKeyDown={(event) => {
+                if (!["ArrowDown", "ArrowRight", "ArrowUp", "ArrowLeft", "Home", "End"].includes(event.key)) return;
+                event.preventDefault();
+                const next = event.key === "Home" ? 0 : event.key === "End" ? options.length - 1 : (index + (["ArrowDown", "ArrowRight"].includes(event.key) ? 1 : -1) + options.length) % options.length;
+                options[next].select();
+                event.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>('[role="radio"]')[next]?.focus();
+              }}
               role="radio"
               style={
                 option.preview
@@ -160,6 +232,7 @@ export function PocketCustomizeSheet({
                 <strong>{option.name}</strong>
                 <small>{option.description}</small>
               </span>
+              <Check aria-hidden="true" className={styles.check} weight="bold" />
             </button>
           ))}
           </div>

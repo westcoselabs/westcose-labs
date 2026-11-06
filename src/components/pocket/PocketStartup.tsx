@@ -35,7 +35,7 @@ export function PocketStartup({
         </div>
         <div className={styles.copy}>
           <h1 className="type-headline-sm" id="pocket-startup-title">
-            {theme.copy?.startupTitle ?? "WestCose Pocket OS"}
+            {theme.copy?.startupTitle ?? "WestCose Labs"}
           </h1>
           <p>{theme.copy?.startupStatus ?? "Checking routes and unfinished business"}</p>
         </div>

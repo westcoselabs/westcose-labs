@@ -6,7 +6,7 @@ import { seedAppearance } from "./appearance-helpers";
 test.setTimeout(90_000);
 
 for (const viewport of [{ width: 1440, height: 900 }, { width: 320, height: 568 }]) {
-  test(`theme gallery stays usable at ${viewport.width}px and preserves wallpaper`, async ({ page }) => {
+  test(`theme gallery stays usable at ${viewport.width}px and coordinates wallpaper`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await seedAppearance(page, "dusk", "dusk-cliffs");
     await page.goto("/settings/appearance?view=os");
@@ -14,7 +14,8 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 320, height: 568 
       const option = page.getByRole("button", { name: `Apply ${name} theme` });
       await option.click();
       await expect(option).toHaveAttribute("aria-pressed", "true");
-      await expect(page.getByRole("radio", { name: /^Dusk Cliffs/ })).toHaveAttribute("aria-checked", "true");
+      await expect(page.getByRole("radiogroup", { name: "Wallpaper" }).getByRole("radio").first()).toHaveAttribute("aria-checked", "true");
+      await expect(page.getByRole("radiogroup", { name: "Wallpaper" }).getByRole("radio")).toHaveCount(3);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
       const presenter = page.locator('[data-app-presenter]').first();
       expect(await presenter.evaluate(node => node.scrollWidth <= node.clientWidth + 1)).toBe(true);
@@ -24,9 +25,9 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 320, height: 568 
     const wallpaper = page.getByRole("radio", { name: /^Dusk Cliffs/ });
     await wallpaper.focus();
     await wallpaper.press("ArrowRight");
-    await expect(page.getByRole("radio", { name: /^Graphite Field/ })).toBeFocused();
-    await expect(page.getByRole("radio", { name: /^Graphite Field/ })).toHaveAttribute("aria-checked", "true");
+    await expect(page.getByRole("radio", { name: /^Moonwater/ })).toBeFocused();
+    await expect(page.getByRole("radio", { name: /^Moonwater/ })).toHaveAttribute("aria-checked", "true");
     await page.reload();
-    await expect(page.getByRole("radio", { name: /^Graphite Field/ })).toHaveAttribute("aria-checked", "true");
+    await expect(page.getByRole("radio", { name: /^Moonwater/ })).toHaveAttribute("aria-checked", "true");
   });
 }

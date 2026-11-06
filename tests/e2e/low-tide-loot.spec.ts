@@ -95,7 +95,7 @@ test.describe("LOW TIDE LOOT", () => {
     expect(bounds!.width / bounds!.height).toBeCloseTo(2, 2);
     await expect(game).toHaveAttribute("data-reduced-motion", "true");
     await expect(
-      page.getByRole("button", { name: "Drop claw" }),
+      page.getByRole("button", { name: "Drop", exact: true }),
     ).toBeInViewport();
     await canvas.press("ArrowDown");
     await expect(game).not.toHaveAttribute("data-claw", "swinging");

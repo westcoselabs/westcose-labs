@@ -15,7 +15,7 @@ test.beforeEach(async ({ page }, info) => {
   await page.setViewportSize({ width: 1440, height: 900 });
 });
 
-test("Dusk → WestCose 95 → Pocket → Dusk preserves independent preferences and mounted shell", async ({ page }) => {
+test("Dusk → WestCose 95 → Pocket → Dusk coordinates wallpaper preferences and mounted shell", async ({ page }) => {
   await seedAppearance(page, "dusk", "dusk-cliffs");
   await page.goto("/?view=os");
   const shortcuts = await page.getByRole("region", { name: "Desktop shortcuts" }).elementHandle();
@@ -23,10 +23,11 @@ test("Dusk → WestCose 95 → Pocket → Dusk preserves independent preferences
   await expectClassicAttributes(page, "desktop");
   expect(await shortcuts!.evaluate((node) => node.isConnected)).toBe(true);
   await expect(page).toHaveURL("/?view=os");
-  await expect(page.locator("html")).toHaveAttribute("data-wallpaper", "dusk-cliffs");
+  await expect(page.locator("html")).toHaveAttribute("data-wallpaper", "westcose-95");
 
   await page.goto("/settings/appearance?view=os");
   await expect(page.getByText(/Recommended for WestCose 95/)).toBeVisible();
+  await page.getByRole("radio", { name: /^Pacific Circuit/ }).click();
   await page.getByRole("button", { name: "Use recommended wallpaper" }).click();
   await expect(page.locator("html")).toHaveAttribute("data-wallpaper", "westcose-95");
   await page.reload();
@@ -36,7 +37,7 @@ test("Dusk → WestCose 95 → Pocket → Dusk preserves independent preferences
   await page.goto("/?view=os");
   await expectClassicAttributes(page, "pocket");
   await openCustomize(page);
-  await page.getByRole("radio", { name: /^Dusk Cliffs/ }).click();
+  await page.getByRole("radio", { name: /^Tidal Grid/ }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "westcose-95");
   await page.getByRole("tab", { name: "Theme", exact: true }).click();
   await page.getByRole("radio", { name: /^Dusk / }).click();
@@ -64,14 +65,14 @@ test("theme and wallpaper bootstrap apply before hydration, including invalid-id
   await expect(page.locator("html")).toHaveAttribute("data-wallpaper", "dusk-cliffs");
 });
 
-test("WestCose wallpaper keeps its teal colors under Dusk", async ({ page }) => {
+test("switching back to Dusk restores its recommended artwork", async ({ page }) => {
   await seedAppearance(page);
   await page.goto("/?view=os");
   const desktop = page.locator('[data-shell-panel="desktop"]').locator("div").first();
   const before = await desktop.evaluate((node) => getComputedStyle(node).backgroundImage);
   await selectDesktopTheme(page, "Dusk");
-  await expect(page.locator("html")).toHaveAttribute("data-wallpaper", "westcose-95");
-  expect(await desktop.evaluate((node) => getComputedStyle(node).backgroundImage)).toBe(before);
+  await expect(page.locator("html")).toHaveAttribute("data-wallpaper", "dusk-cliffs");
+  expect(await desktop.evaluate((node) => getComputedStyle(node).backgroundImage)).not.toBe(before);
 });
 
 test("Pocket also resolves saved appearance before hydration", async ({ page }) => {
@@ -187,7 +188,7 @@ test("high contrast and reduced motion remain authoritative across wallpaper and
   expect((await rootValues()).bevel).not.toContain("2px 2px");
   for (const theme of ["dusk", "westcose-95"]) {
     await page.getByRole("combobox", { name: "Theme", exact: true }).selectOption(theme);
-    await page.getByRole("radio", { name: /^Graphite Field/ }).click();
+    await page.getByRole("radio", { name: theme === "dusk" ? /^Moonwater/ : /^Pacific Circuit/ }).click();
     await expect(page.locator("html")).toHaveAttribute("data-high-contrast", "true");
     await expect(page.locator("html")).toHaveAttribute("data-reduced-motion", "true");
   }
@@ -239,7 +240,7 @@ test("Corporate Beige still unlocks from WestCose 95 and resets independently", 
   page.once("dialog", (dialog) => dialog.accept());
   await page.getByRole("button", { name: "Reset Discoveries", exact: true }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "westcose-95");
-  await expect(page.locator("html")).toHaveAttribute("data-wallpaper", "dusk-cliffs");
+  await expect(page.locator("html")).toHaveAttribute("data-wallpaper", "westcose-95");
 });
 
 for (const viewport of [{ width: 1024, height: 768 }, { width: 1366, height: 768 }, { width: 1920, height: 1080 }]) {

@@ -196,7 +196,7 @@ export const routeRegistry = [
   {
     path: "/recycle",
     kind: "utility",
-    title: "Recycle",
+    title: "DON'T OPEN",
     description: "Nonessential archive material.",
     appId: "recycle",
     availableIn: ["desktop", "pocket", "normal"],

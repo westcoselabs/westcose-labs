@@ -27,12 +27,12 @@
   --wallpaper-pocket-home-scrim: linear-gradient(
     to bottom,
     color-mix(in srgb, var(--color-neutral) 28%, transparent),
-    color-mix(in srgb, var(--color-neutral) 78%, transparent)
+    color-mix(in srgb, var(--color-neutral) 48%, transparent)
   );
   --wallpaper-pocket-lock-scrim: linear-gradient(
     to bottom,
     color-mix(in srgb, var(--color-neutral) 26%, transparent),
-    color-mix(in srgb, var(--color-neutral) 82%, transparent)
+    color-mix(in srgb, var(--color-neutral) 58%, transparent)
   );
 
   /*
@@ -41,7 +41,7 @@
    */
   --wallpaper-accessible-scrim: linear-gradient(
     to bottom,
-    color-mix(in srgb, var(--color-neutral) 88%, transparent),
-    var(--color-neutral)
+    color-mix(in srgb, var(--color-neutral) 46%, transparent),
+    color-mix(in srgb, var(--color-neutral) 68%, transparent)
   );
 }

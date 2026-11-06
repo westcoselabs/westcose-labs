@@ -31,6 +31,7 @@ export function createShitbird(
     global: false, debug: false, touchToMouse: false, loadingScreen: false, background: "#0b100d" });
   let flight = createFlight();
   let accumulator = 0;
+  let resetFrameTime = false;
   let deadAt = 0;
   let destroyed = false;
   let assetsReady = false;
@@ -79,9 +80,10 @@ export function createShitbird(
     if (settings.sound) void k.audioCtx.resume().catch(() => undefined);
     if (flight.phase === "ready" || (flight.phase === "dead" && performance.now() - deadAt > 200)) {
       random = settings.daily ? courseRandom(settings.daily) : Math.random;
-      flight = startFlight(settings.daily); accumulator = 0; deathAge = 0; runBest = settings.best; notify(); sound("flap");
+      flight = startFlight(settings.daily); accumulator = 0; resetFrameTime = true;
+      deathAge = 0; runBest = settings.best; notify(); sound("flap");
     } else if (flight.phase === "paused") {
-      flight.phase = "playing"; accumulator = 0; flap(flight); notify(); sound("flap");
+      flight.phase = "playing"; accumulator = 0; resetFrameTime = true; flap(flight); notify(); sound("flap");
     } else if (flight.phase === "playing") { flap(flight); sound("flap"); }
   };
   const pointer = (event: PointerEvent) => {
@@ -113,6 +115,10 @@ export function createShitbird(
   const updates = k.onUpdate(() => {
     if (destroyed) return;
     const dt = k.dt();
+    // Launch/resume replaces a full-screen DOM menu with the WebGL flight. That
+    // first paint can be expensive on phones. It belongs to the menu transition,
+    // not flight time: draw it without advancing physics or treating it as a stall.
+    if (resetFrameTime) { resetFrameTime = false; accumulator = 0; return; }
     // Discard long stalls; explicit resume supplies a flap, never a hidden time jump.
     if (dt > 0.2) { pause(); return; }
     if (flight.phase === "dead") { deathAge = Math.min(2, deathAge + dt); return; }

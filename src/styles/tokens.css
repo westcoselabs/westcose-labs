@@ -27,6 +27,12 @@
   --color-danger: #ef5b5b;
   --projects-paper: #f5f6ee;
   --projects-ink: #132e29;
+  --featured-build-bg: #102c31;
+  --featured-build-ink: #ffffff;
+  --featured-build-scrim: linear-gradient(180deg, transparent 12%, rgb(6 27 32 / 24%) 30%, #061b20 80%);
+  --shortcut-danger-bg: #af2637;
+  --shortcut-danger-ink: #ffffff;
+  --font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 
   --app-tone-blue: var(--color-primary);
   --app-tone-indigo: color-mix(in srgb, var(--color-primary) 70%, #7f74d8);
@@ -129,6 +135,8 @@
   --desktop-taskbar-size: 4.5rem;
   --taskbar-app-size: 3rem;
   --pocket-icon-size: 4rem;
+  --pocket-app-radius: calc(var(--pocket-icon-size) * 0.225);
+  --pocket-dock-icon-radius: 0.7875rem;
   --pocket-dock-size: 5.5rem;
   --pocket-panel-max-width: 31rem;
   --pocket-widget-min-size: 6.5rem;

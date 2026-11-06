@@ -3,10 +3,11 @@
 import { Check, Monitor, Sparkle } from "@phosphor-icons/react";
 import type { CSSProperties } from "react";
 import { RecommendedWallpaper } from "@/components/os/RecommendedWallpaper";
+import { getWallpaper } from "@/registry/wallpapers";
 import type { SettingsController } from "./useSettingsController";
 import styles from "./AppearanceSettings.module.css";
 
-/** Small OS scenes let visitors compare the skins without changing their wallpaper. */
+/** Theme scenes show the recommended pairing before it is applied. */
 function ThemeScene({ id, wallpaper }: { id: string; wallpaper?: string }) {
   return (
     <span aria-hidden="true" className={styles.scene} data-preview-theme={id}
@@ -28,7 +29,7 @@ export function AppearanceSettings({ controller }: { controller: SettingsControl
     <div className={styles.appearance}>
       <section className={styles.section} aria-labelledby="appearance-themes">
         <header className={styles.sectionHeader}>
-          <div><h2 id="appearance-themes">Theme</h2><p>Choose a look for your OS.</p></div>
+          <div><h2 id="appearance-themes">Theme</h2><p>Choose a look. Its recommended wallpaper comes with it.</p></div>
           <label className={styles.quickSelect}><span className="sr-only">Theme</span>
             <select value={controller.activeThemeId} onChange={event => controller.setThemeId(event.currentTarget.value)}>
               {controller.availableThemes.map(theme => <option key={theme.id} value={theme.id}>{theme.name}</option>)}
@@ -38,7 +39,7 @@ export function AppearanceSettings({ controller }: { controller: SettingsControl
         <div className={styles.themeGrid} aria-label="Theme previews">
           {controller.availableThemes.map(theme => {
             const selected = theme.id === controller.activeThemeId;
-            const wallpaper = controller.availableWallpapers.find(item => item.id === theme.recommendedWallpaperId);
+            const wallpaper = getWallpaper(theme.recommendedWallpaperId);
             return (
               <button key={theme.id} type="button" className={styles.themeChoice}
                 aria-label={`Apply ${theme.name} theme`} aria-pressed={selected}
@@ -54,7 +55,7 @@ export function AppearanceSettings({ controller }: { controller: SettingsControl
       </section>
 
       <section className={styles.section} aria-labelledby="appearance-wallpapers">
-        <header className={styles.sectionHeader}><div><h2 id="appearance-wallpapers">Wallpaper</h2><p>A backdrop of your own. Changing themes keeps your choice.</p></div></header>
+        <header className={styles.sectionHeader}><div><h2 id="appearance-wallpapers">Wallpapers for {current?.name}</h2><p>Three coordinated options, made for this theme.</p></div></header>
         <div aria-label="Wallpaper" className={styles.wallpaperGrid} role="radiogroup">
           {controller.availableWallpapers.map((wallpaper, index) => (
             <button key={wallpaper.id} type="button" role="radio"

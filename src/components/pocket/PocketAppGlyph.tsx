@@ -13,7 +13,8 @@ import {
   IdentificationCard,
   Note,
   Phone,
-  Trash,
+  Palette,
+  Warning,
   Wrench,
 } from "@phosphor-icons/react";
 
@@ -30,7 +31,8 @@ const glyphs = {
   messages: ChatCircle,
   notes: Note,
   phone: Phone,
-  recycle: Trash,
+  recycle: Warning,
+  themes: Palette,
   services: Wrench,
   settings: Gear,
 } satisfies Record<string, Icon>;

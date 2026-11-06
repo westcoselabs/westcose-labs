@@ -1,6 +1,7 @@
 import type { AppId } from "./types";
 
 export const desktopPlacement = [
+  "themes",
   "projects",
   "services",
   "games",
@@ -15,6 +16,7 @@ export const desktopPlacement = [
 ] as const satisfies readonly AppId[];
 
 export const startMenuPlacement = [
+  "themes",
   "projects",
   "games",
   "experiments",
@@ -86,6 +88,8 @@ export const pocketPageOnePlacement = [
   "github",
   "notes",
   "settings",
+  "themes",
+  "recycle",
 ] as const satisfies readonly AppId[];
 
 // Social shortcuts stay hidden until their destinations are verified.
@@ -93,7 +97,6 @@ export const pocketPageTwoPlacement = [
   "fightclub",
   "shitbird",
   "low-tide-loot",
-  "recycle",
 ] as const satisfies readonly AppId[];
 
 export const pocketDockPlacement = [

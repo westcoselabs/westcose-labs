@@ -12,13 +12,13 @@ describe("Liquid Glass appearance", () => {
     expect(APPEARANCE_BOOTSTRAP_DATA.themes["liquid-glass"].dataset).toEqual(themeDataset(theme));
   });
 
-  it("keeps artwork independent and uses separate small, self-contained SVG compositions", () => {
+  it("pairs the theme with its own artwork and uses separate small, self-contained SVG compositions", () => {
     const glass = resolveAppearance("liquid-glass", "dusk-cliffs");
-    expect(glass.wallpaper.id).toBe("dusk-cliffs");
+    expect(glass.wallpaper.id).toBe("liquid-glass");
     const mixed = resolveAppearance("dusk", "liquid-glass");
     expect(mixed.theme.id).toBe("dusk");
-    expect(mixed.wallpaper.id).toBe("liquid-glass");
-    const sources = [mixed.wallpaper.desktop, mixed.wallpaper.pocket];
+    expect(mixed.wallpaper.id).toBe("dusk-cliffs");
+    const sources = [glass.wallpaper.desktop, glass.wallpaper.pocket];
     expect(sources[0]).not.toEqual(sources[1]);
     for (const source of sources) {
       expect(source.kind).toBe("image");

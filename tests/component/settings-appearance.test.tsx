@@ -33,22 +33,25 @@ function renderAppearance(
 }
 
 describe("Settings appearance", () => {
-  it.each(["desktop", "pocket"] as const)("applies a visual theme preview without replacing the wallpaper on %s", shell => {
+  it.each(["desktop", "pocket"] as const)("applies a visual theme preview and its matching wallpaper on %s", shell => {
     renderAppearance(shell);
     const preview = screen.getByRole("button", { name: "Apply WestCose XP theme" });
     fireEvent.click(preview);
-    expect(appearanceState()).toBe("westcose-xp|dusk-cliffs");
+    expect(appearanceState()).toBe("westcose-xp|coastal-hills");
     expect(preview).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("combobox", { name: "Theme" })).toHaveValue("westcose-xp");
   });
-  it.each(["desktop", "pocket"] as const)("selects Liquid Glass and its optional recommendation on %s", (shell) => {
+  it.each(["desktop", "pocket"] as const)("selects Liquid Glass and restores its recommendation on %s", (shell) => {
     renderAppearance(shell);
     fireEvent.change(screen.getByRole("combobox", { name: "Theme" }), { target: { value: "liquid-glass" } });
-    expect(appearanceState()).toBe("liquid-glass|dusk-cliffs");
+    expect(appearanceState()).toBe("liquid-glass|liquid-glass");
+    expect(screen.getByRole("button", { name: "Use recommended wallpaper" })).toBeDisabled();
+    fireEvent.click(screen.getByRole("radio", { name: /Prism Tide/u }));
+    expect(appearanceState()).toBe("liquid-glass|glass-prism-tide");
     fireEvent.click(screen.getByRole("button", { name: "Use recommended wallpaper" }));
     expect(appearanceState()).toBe("liquid-glass|liquid-glass");
     fireEvent.change(screen.getByRole("combobox", { name: "Theme" }), { target: { value: "dusk" } });
-    expect(appearanceState()).toBe("dusk|liquid-glass");
+    expect(appearanceState()).toBe("dusk|dusk-cliffs");
   });
   it("offers the same wallpaper choices on Desktop as the context menu", () => {
     renderAppearance("desktop");
@@ -60,14 +63,12 @@ describe("Settings appearance", () => {
         .map((option) => option.textContent),
     ).toEqual([
       "Dusk CliffsBundled landscape photograph",
-      "Graphite FieldToken-built graphite gradient",
-      "WestCose 95Teal workstation weave",
-      "Tidal LightPacific light study",
-      "Coastal HillsOriginal green hills and blue coastal sky",
+      "MoonwaterSilver moonlight across a quiet Pacific cove.",
+      "Obsidian ShoreSculpted black dunes meet a blue-hour sea.",
     ]);
 
-    fireEvent.click(within(group).getByRole("radio", { name: /Graphite Field/u }));
-    expect(appearanceState()).toBe("dusk|graphite-field");
+    fireEvent.click(within(group).getByRole("radio", { name: /Moonwater/u }));
+    expect(appearanceState()).toBe("dusk|dusk-moonwater");
   });
 
   it("gives Pocket a visible Settings route to the same controls", () => {
@@ -75,11 +76,11 @@ describe("Settings appearance", () => {
 
     expect(screen.getByRole("combobox", { name: "Theme" })).toBeVisible();
     const group = screen.getByRole("radiogroup", { name: "Wallpaper" });
-    fireEvent.click(within(group).getByRole("radio", { name: /Graphite Field/u }));
+    fireEvent.click(within(group).getByRole("radio", { name: /Moonwater/u }));
 
-    expect(appearanceState()).toBe("dusk|graphite-field");
+    expect(appearanceState()).toBe("dusk|dusk-moonwater");
     expect(
-      within(group).getByRole("radio", { name: /Graphite Field/u }),
+      within(group).getByRole("radio", { name: /Moonwater/u }),
     ).toHaveAttribute("aria-checked", "true");
   });
 
@@ -91,7 +92,7 @@ describe("Settings appearance", () => {
     fireEvent.change(screen.getByRole("combobox", { name: "Theme" }), {
       target: { value: "corporate-beige" },
     });
-    expect(appearanceState()).toBe("corporate-beige|dusk-cliffs");
+    expect(appearanceState()).toBe("corporate-beige|standard-issue");
   });
 
   it("reveals hidden appearance entries only after the shared unlock", () => {
@@ -107,7 +108,7 @@ describe("Settings appearance", () => {
       within(screen.getByRole("radiogroup", { name: "Wallpaper" })).getAllByRole(
         "radio",
       ),
-    ).toHaveLength(5);
+    ).toHaveLength(3);
 
     act(() => {
       service.unlockTheme("corporate-beige");
@@ -123,7 +124,7 @@ describe("Settings appearance", () => {
       within(screen.getByRole("radiogroup", { name: "Wallpaper" })).getAllByRole(
         "radio",
       ),
-    ).toHaveLength(6);
+    ).toHaveLength(3);
   });
 
   it("recovers a persisted appearance the registry no longer offers", () => {
@@ -165,18 +166,20 @@ describe("Settings appearance", () => {
     expect(screen.getByRole("checkbox", { name: "Icon lighting" })).toBeVisible();
   });
 
-  it.each(["desktop", "pocket"] as const)("offers the recommended wallpaper as an independent opt-in on %s", (shell) => {
+  it.each(["desktop", "pocket"] as const)("can restore the recommended wallpaper after selecting an alternate on %s", (shell) => {
     renderAppearance(shell);
     fireEvent.change(screen.getByRole("combobox", { name: "Theme" }), {
       target: { value: "westcose-95" },
     });
-    expect(appearanceState()).toBe("westcose-95|dusk-cliffs");
+    expect(appearanceState()).toBe("westcose-95|westcose-95");
     expect(screen.getByText(/Recommended for WestCose 95/u)).toBeVisible();
+    fireEvent.click(screen.getByRole("radio", { name: /Pacific Circuit/u }));
+    expect(appearanceState()).toBe("westcose-95|95-pacific-circuit");
     fireEvent.click(screen.getByRole("button", { name: "Use recommended wallpaper" }));
     expect(appearanceState()).toBe("westcose-95|westcose-95");
     fireEvent.change(screen.getByRole("combobox", { name: "Theme" }), {
       target: { value: "dusk" },
     });
-    expect(appearanceState()).toBe("dusk|westcose-95");
+    expect(appearanceState()).toBe("dusk|dusk-cliffs");
   });
 });

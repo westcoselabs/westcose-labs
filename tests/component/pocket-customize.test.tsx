@@ -119,26 +119,24 @@ describe("Pocket customization", () => {
     const options = within(group).getAllByRole("radio");
     expect(options.map((option) => option.textContent)).toEqual([
       "Dusk CliffsThe bundled WestCose landscape shipped with the Dusk system.",
-      "Graphite FieldA quiet token-built gradient for people who would rather read the windows.",
-      "WestCose 95Optimized for CRTs and bad financial decisions.",
-      "Tidal LightPacific light, held in suspension. No oceanfront rent required.",
-      "Coastal HillsAn original sunny green coast, made for WestCose XP.",
+      "MoonwaterSilver moonlight across a quiet Pacific cove.",
+      "Obsidian ShoreSculpted black dunes meet a blue-hour sea.",
     ]);
     expect(options[0]).toHaveAttribute("aria-checked", "true");
 
     fireEvent.click(
-      within(group).getByRole("radio", { name: /Graphite Field/u }),
+      within(group).getByRole("radio", { name: /Moonwater/u }),
     );
-    expect(appearanceState()).toBe("dusk|graphite-field");
+    expect(appearanceState()).toBe("dusk|dusk-moonwater");
     expect(
       within(screen.getByRole("radiogroup", { name: "Wallpaper" })).getByRole(
         "radio",
-        { name: /Graphite Field/u },
+        { name: /Moonwater/u },
       ),
     ).toHaveAttribute("aria-checked", "true");
   });
 
-  it("only offers a hidden wallpaper once the shared discovery unlocks it", () => {
+  it("keeps another theme’s wallpapers out even after a wallpaper unlock", () => {
     const service = createDiscoveryService(null);
     renderHome(service);
     longPress("Home Page One");
@@ -147,14 +145,14 @@ describe("Pocket customization", () => {
       within(screen.getByRole("radiogroup", { name: "Wallpaper" })).getAllByRole(
         "radio",
       ),
-    ).toHaveLength(5);
+    ).toHaveLength(3);
 
     act(() => service.unlockWallpaper("standard-issue"));
     const options = within(
       screen.getByRole("radiogroup", { name: "Wallpaper" }),
     ).getAllByRole("radio");
-    expect(options).toHaveLength(6);
-    expect(options.at(-1)?.textContent).toContain("Standard Issue");
+    expect(options).toHaveLength(3);
+    expect(options.some(option => option.textContent?.includes("Standard Issue"))).toBe(false);
   });
 
   it("switches the theme from the Theme tab", () => {
@@ -170,7 +168,7 @@ describe("Pocket customization", () => {
         { name: /Corporate Beige/u },
       ),
     );
-    expect(appearanceState()).toBe("corporate-beige|dusk-cliffs");
+    expect(appearanceState()).toBe("corporate-beige|standard-issue");
   });
 
   it("selects WestCose 95 after a long press and switches back to Dusk", () => {
@@ -178,7 +176,7 @@ describe("Pocket customization", () => {
     longPress("Home Page One");
     fireEvent.click(screen.getByRole("tab", { name: "Theme" }));
     fireEvent.click(screen.getByRole("radio", { name: /WestCose 95/u }));
-    expect(appearanceState()).toBe("westcose-95|dusk-cliffs");
+    expect(appearanceState()).toBe("westcose-95|westcose-95");
     fireEvent.click(screen.getByRole("radio", { name: /^Dusk/u }));
     expect(appearanceState()).toBe("dusk|dusk-cliffs");
   });

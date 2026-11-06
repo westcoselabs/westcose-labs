@@ -1,93 +1,44 @@
+/* One coastal cabinet, with menus sized independently of the fixed flight world. */
 .game {
-  --bird-ink: var(--shitbird-ink);
-  --bird-paper: var(--shitbird-paper);
   display: grid;
-  grid-template-rows: 56px minmax(0, 1fr) 30px;
+  grid-template-rows: 56px minmax(0, 1fr) 28px;
   height: 100%;
   min-height: 0;
   overflow: hidden;
-  background: var(--bird-ink);
-  color: var(--bird-paper);
-  border: 0;
-  font-family: var(--font-manrope), sans-serif;
   isolation: isolate;
+  color: var(--bird-cream);
+  background: var(--bird-shell);
+  font-family: var(--font-manrope), sans-serif;
 }
-
-/* Flight controls live in the cabinet; the canvas keeps the same fair corridor. */
-.modeSwitch { display: flex; gap: 4px; padding: 3px; border: 1px solid var(--bird-ui-divider); border-radius: var(--radius-md); }
-.modeSwitch button { flex: 1; min-height: 44px; border: 0; border-radius: var(--radius-sm); background: transparent; color: var(--bird-paper); font-family: inherit; font-size: max(11px, 2.8cqw); font-weight: 700; line-height: 1.3; cursor: pointer; }
-.modeSwitch button[aria-pressed="true"] { background: var(--bird-paper); color: var(--bird-ink); }
-.textButton { min-height: 44px; padding: 5px 8px; border: 0; background: transparent; color: inherit; text-decoration: underline; text-underline-offset: 3px; font-size: max(11px, 2.8cqw); cursor: pointer; }
-.reportActions { display: flex; justify-content: space-between; gap: 6px; margin-top: 8px; }
-.coastBar { position: absolute; inset: auto 0 0; z-index: 1; height: 7.4%; padding: 0 12px; display: flex; align-items: center; justify-content: space-between; background: var(--bird-ink); color: var(--bird-paper); pointer-events: none; gap: 8px; }
-.coastBar span:first-child { font: italic 3.3cqw Georgia, serif; }
-.coastBar span:last-child { font-size: 2.1cqw; letter-spacing: .06em; }
-.hangar { position: absolute; z-index: 4; inset: 0; overflow-y: auto; overscroll-behavior: contain; padding: 6%; background: var(--bird-ink); color: var(--bird-paper); scrollbar-width: thin; }
-.hangarHeading { display: flex; justify-content: space-between; align-items: center; }
-.hangarHeading h2 { margin: 0; font: 900 10cqw/1 Georgia, serif; letter-spacing: -.05em; }
-.hangar h3 { font: 700 max(13px, 3.4cqw)/1.4 Georgia, serif; margin: 16px 0 8px; }
-.hangarIntro { font-size: max(11px, 2.9cqw); line-height: 1.55; color: var(--bird-paper); }
-.birds { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.birds button { display: flex; flex-direction: column; align-items: center; padding: 8px; border: 1px solid var(--bird-ui-divider); border-radius: var(--radius-md); background: var(--bird-ui-panel); color: var(--bird-paper); cursor: pointer; }
-.birds button:disabled { cursor: default; background: transparent; }
-.birds button:disabled .birdPortrait { opacity: .4; filter: grayscale(1); }
-.birds button[aria-pressed="true"] { border-color: var(--shitbird-orange); box-shadow: inset 0 0 0 1px var(--shitbird-orange); }
-.birds strong { font-size: max(11px, 2.8cqw); }
-.birds small { margin-top: 5px; font-size: max(10px, 2.5cqw); line-height: 1.4; }
-.birdPortrait { width: 64px; height: 64px; position: relative; display: block; }
-.birdPortrait::before { content: ""; position: absolute; inset: 0 12px 0 0; background: url('/games/shitbird/gull.webp') left center / auto 64px no-repeat; }
-.birdPortrait i { position: absolute; color: var(--shitbird-button-hover); font: bold 22px Georgia, serif; right: 1px; top: 25px; }
-.birdPortrait[data-skin="business"] i { top: 34px; right: 20px; }
-.birdPortrait[data-skin="punk"] i { top: 3px; right: 15px; }
-.missions { list-style: none; margin: 0 0 12px; padding: 0; }
-.missions li { display: flex; justify-content: space-between; gap: 10px; border-top: 1px solid var(--bird-ui-divider); padding: 10px 0; font-size: max(10px, 2.8cqw); line-height: 1.4; }
-.missions b { white-space: nowrap; color: var(--shitbird-button-hover); }
-.shareText { width: 100%; min-height: 110px; padding: 8px; font-size: 12px; background: var(--bird-ink); color: var(--bird-paper); }
-.game[data-shell-mode="pocket"] {
-  min-height: 0;
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-.game[data-shell-mode="normal"] {
-  height: 100%;
-}
+.game button { font-family: inherit; -webkit-tap-highlight-color: transparent; }
 .toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 12px;
-  gap: 8px;
-  border-bottom: 1px solid var(--shitbird-divider);
+  gap: 12px;
+  padding-inline: clamp(10px, 2.5vw, 36px);
+  border-bottom: 1px solid var(--bird-line);
+  background: var(--bird-shell);
 }
-.toolbar a,
 .toolbar button {
-  color: inherit;
-  font-size: 12px;
-  min-height: 44px;
   display: inline-flex;
+  justify-content: center;
   align-items: center;
-  gap: 6px;
-  text-decoration: none;
-  background: none;
-  border: 0;
+  gap: 7px;
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid transparent;
+  border-radius: var(--bird-radius-control);
+  background: transparent;
+  color: var(--bird-cream);
   cursor: pointer;
+  font-size: 12px;
 }
-.toolbar button:disabled {
-  opacity: 0.4;
-  cursor: default;
-}
-.wordmark {
-  font:
-    900 15px/1 Georgia,
-    "Times New Roman",
-    serif;
-  letter-spacing: -0.04em;
-}
-.wordmark small {
-  margin-left: 12px;
-  color: var(--shitbird-muted);
-  font-size: 8px;
-  letter-spacing: 0.1em;
-}
+.toolbar button:hover:not(:disabled) { background: var(--bird-ui-hover); border-color: var(--bird-line); }
+.toolbar button:disabled { opacity: .35; cursor: default; }
+.toolbarActions { display: flex; gap: 4px; }
+.wordmark { font-size: 17px; font-weight: 900; font-style: italic; letter-spacing: -.055em; }
+.wordmark small { margin-left: 14px; font-size: 9px; font-style: normal; font-weight: 600; letter-spacing: .15em; color: var(--bird-subtle); }
 .well {
   position: relative;
   display: flex;
@@ -96,10 +47,7 @@
   min-height: 0;
   overflow: hidden;
   container-type: size;
-  background:
-    linear-gradient(var(--shitbird-cabinet), var(--shitbird-cabinet)),
-    url("/games/shitbird/coast-refined.webp") center 70% / cover,
-    var(--shitbird-ink);
+  background: linear-gradient(var(--bird-dim), var(--bird-dim)), url("/games/shitbird/coast-panorama.webp") center / cover;
 }
 .arena {
   position: relative;
@@ -108,515 +56,229 @@
   height: 540px;
   overflow: hidden;
   container-type: inline-size;
-  box-shadow:
-    0 0 0 1px var(--shitbird-rim),
-    0 0 40px var(--shitbird-shadow);
-  background: var(--shitbird-sky);
+  background: var(--bird-shell);
+  box-shadow: 0 0 0 1px var(--bird-line), 0 20px 80px var(--bird-deep-shadow);
 }
-.arena canvas {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  display: block;
-  touch-action: none;
-  user-select: none;
-}
-/* The OS focus ring raises focused elements; keep the canvas below DOM controls. */
-.hud,
-.titleScreen,
-.overlay {
-  z-index: 1;
-}
-.flightHeader,
-.flightFooter {
-  position: absolute;
-  z-index: 1;
-  pointer-events: none;
-  color: var(--bird-paper);
-  font-size: 2.2cqw;
-  letter-spacing: 0.06em;
-}
-.flightHeader {
-  inset: 0 3.3% auto;
-  height: 6.3%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.flightHeader small {
-  font-size: 1.7cqw;
-  color: var(--shitbird-teal);
-}
-.flightFooter {
-  inset: auto 0 2.1%;
-  text-align: center;
-  font-size: 2cqw;
-}
-.arena canvas:focus-visible {
-  outline: 3px solid var(--shitbird-focus) !important;
-  outline-offset: -4px;
-}
-.game:not([data-phase="ready"]) .flightHeader {
-  visibility: hidden;
-}
+.game[data-phase="ready"] .arena { opacity: 0; }
+.arena canvas { position: absolute; inset: 0; z-index: 0; display: block; touch-action: none; user-select: none; }
+.arena canvas:focus-visible { outline: 2px solid var(--bird-accent) !important; outline-offset: -3px; }
 .hud {
   position: absolute;
-  inset: 0 3.3% auto;
+  z-index: 1;
+  inset: 0 0 auto;
   height: 6.3%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 3%;
   pointer-events: none;
-  color: var(--bird-paper);
+  background: var(--bird-shell);
+  border-bottom: 1px solid var(--bird-line);
 }
-.hud > div {
+.hud > div { display: flex; align-items: baseline; gap: 5px; }
+.hud > div + div { border-left: 1px solid var(--bird-line); padding-left: 3%; }
+.hud span { font-size: max(8px, 1.9cqw); font-weight: 700; letter-spacing: .06em; color: var(--bird-subtle); }
+.hud strong { font-size: 6cqw; line-height: 1; font-weight: 900; color: var(--bird-cream); }
+.hud b { font-size: 4.2cqw; line-height: 1; }
+.hud strong, .hud b { font-variant-numeric: tabular-nums; animation: scoreIn 240ms ease-out; }
+.hud small { font-size: max(9px, 2.3cqw); color: var(--bird-accent); }
+.coastBar {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 1;
+  height: 7.4%;
+  padding: 0 3.5%;
   display: flex;
-  align-items: baseline;
-  gap: 6px;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bird-shell);
+  border-top: 1px solid var(--bird-line);
+  pointer-events: none;
+  gap: 8px;
 }
-.hud > div:last-child {
-  text-align: right;
-}
-.hud span {
-  font-size: 2cqw;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-}
-.hud strong {
-  font:
-    900 7cqw/1 Georgia,
-    serif;
-  letter-spacing: -0.06em;
-}
-.hud b {
-  font-size: 4cqw;
-}
-.hud small {
-  font-size: 2cqw;
-  color: var(--shitbird-heat);
-}
+.coastBar span:first-child { font-size: max(10px, 3cqw); font-weight: 800; }
+.coastBar span:last-child { font-size: max(8px, 1.9cqw); letter-spacing: .04em; color: var(--bird-accent); }
+
+/* The launch screen owns the available viewport; it is not squeezed into 360 × 540. */
 .titleScreen {
   position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 17% 6% 18%;
-  color: var(--bird-paper);
-  pointer-events: none;
-  text-align: center;
-}
-.titleCopy p {
-  font-size: 3.2cqw;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  margin: 0;
-  color: var(--shitbird-orange);
-}
-.titleCopy p span {
-  display: block;
-  margin-top: 6px;
-  font-size: 2cqw;
-  letter-spacing: 0.18em;
-  color: var(--shitbird-muted);
-}
-.titleCopy h2 {
-  margin: 1% -3% 2%;
-  line-height: 0;
-}
-.titleCopy svg {
-  width: 100%;
-  overflow: visible;
-  filter: drop-shadow(1px 2px 0 var(--shitbird-title-shadow));
-}
-.titleCopy text {
-  font:
-    900 112px Georgia,
-    "Times New Roman",
-    serif;
-  fill: var(--bird-paper);
-  stroke: var(--bird-paper);
-  stroke-width: 1.3px;
-  paint-order: stroke;
-}
-.titleCopy em {
-  font:
-    italic 4cqw/1.4 Georgia,
-    serif;
-  letter-spacing: 0.025em;
-}
-.startCopy {
-  pointer-events: auto;
-  padding: 3%;
-  background: var(--shitbird-hud);
-  border-top: 1px solid var(--shitbird-rim);
-}
-.startCopy p {
-  font-size: max(10px, 2.7cqw);
-  margin: 10px 0 0;
-  line-height: 1.5;
-  color: var(--bird-paper);
-}
-.primary {
-  width: 100%;
-  min-height: 44px;
-  padding: 12px 8px;
-  border: 2px solid var(--bird-ink);
-  outline: 1px solid var(--shitbird-button);
-  background: var(--shitbird-button);
-  color: var(--shitbird-button-ink);
-  box-shadow: 3px 3px 0 var(--bird-ink);
-  font:
-    700 max(11px, 3.3cqw)/1.3 ui-monospace,
-    monospace;
-  cursor: pointer;
-}
-.primary:hover {
-  background: var(--shitbird-button-hover);
-}
-.primary:active {
-  transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0 var(--bird-ink);
-}
-.primary:disabled {
-  opacity: 0.65;
-  cursor: wait;
-}
-.overlay {
-  position: absolute;
+  z-index: 2;
   inset: 0;
   display: grid;
-  place-items: center;
-  background: var(--shitbird-scrim);
-  padding: 5%;
-}
-.panel {
-  width: 100%;
-  padding: 7%;
-  background: var(--bird-paper);
-  color: var(--bird-ink);
-  border: 5px double var(--bird-ink);
-  box-shadow: 5px 5px 0 var(--shitbird-hard-shadow);
-  transform: none;
-}
-.eyebrow {
-  font-size: 2.5cqw;
-  line-height: 1.5;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  margin: 0 0 8px;
-}
-.panel h2 {
-  font-family: Georgia, "Times New Roman", serif;
-  font-weight: 900;
-  font-size: 11cqw;
-  letter-spacing: -0.06em;
-  line-height: 1;
-  margin: 0 0 14px;
-}
-.panel > p:not(.eyebrow) {
-  font-size: max(11px, 3.4cqw);
-  line-height: 1.5;
-  margin: 12px 0;
-}
-.results {
-  display: flex;
-  justify-content: space-between;
-  padding: 12px 0;
-  margin: 12px 0;
-  border-block: 1px dashed var(--shitbird-rule);
-}
-.results span {
-  font-size: 2.4cqw;
-}
-.results strong {
-  display: block;
-  font-size: 10cqw;
-  line-height: 1.2;
-}
-.panel .awards {
-  font-size: max(10px, 2.7cqw) !important;
-  color: var(--shitbird-award);
-  margin-bottom: 0 !important;
-}
-.rail {
-  display: none;
-  position: absolute;
-  inset: 11% auto 10% 4%;
-  width: 17%;
-  flex-direction: column;
-  justify-content: space-between;
-  color: var(--shitbird-rail);
-  transform: rotate(-3deg);
-  pointer-events: none;
-}
-.rail span {
-  font:
-    900 clamp(20px, 3cqw, 40px)/1.05 Georgia,
-    serif;
-  letter-spacing: -0.065em;
-}
-.rail i {
-  font:
-    700 9px/1.9 ui-monospace,
-    monospace;
-  letter-spacing: 0.15em;
-  color: var(--shitbird-orange);
-}
-.rail b {
-  font:
-    10px/1.6 ui-monospace,
-    monospace;
-  padding-block: 14px;
-  border-block: 1px solid var(--shitbird-rail-rule);
-}
-.rail small {
-  display: block;
-  margin-top: 12px;
-  font-size: 8px;
-  letter-spacing: 0.12em;
-  color: var(--shitbird-teal);
-}
-.rightRail {
-  inset-inline: auto 4%;
-  text-align: right;
-  transform: rotate(2deg);
-}
-@container (min-aspect-ratio: 1.25) {
-  .rail {
-    display: flex;
-  }
-}
-.footer {
-  display: flex;
-  justify-content: space-between;
+  grid-template-columns: minmax(0, 1fr) minmax(290px, 360px);
   align-items: center;
-  gap: 8px;
-  font-size: 8px;
-  letter-spacing: 0.03em;
-  padding: 0 12px;
-  color: var(--shitbird-footer);
-  border-top: 1px solid var(--shitbird-divider);
+  gap: clamp(24px, 5cqw, 80px);
+  padding: clamp(20px, 4cqw, 64px) max(24px, calc((100% - 1120px) / 2));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: linear-gradient(100deg, var(--bird-ready-clear), var(--bird-ready-shade)), url("/games/shitbird/coast-refined.webp") center 56% / cover;
 }
-.sizeNotice {
-  position: absolute;
-  z-index: 3;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 20px;
-  gap: 12px;
-  background: var(--shitbird-ink);
-  font-size: 13px;
-}
-.sizeNotice .primary {
-  max-width: 260px;
-  font-size: 13px;
-}
-.game :is(a, button):focus-visible {
-  outline: 3px solid var(--shitbird-button);
-  outline-offset: 3px;
-}
-.panel button:focus-visible {
-  outline-color: var(--shitbird-ink);
-}
-.startCopy button:focus-visible {
-  outline-color: var(--shitbird-paper);
-}
-.game[data-shell-mode="pocket"] .rail,
-.game[data-shell-mode="pocket"] .footer span:last-child {
-  display: none;
-}
-.game[data-shell-mode="pocket"] .footer {
-  justify-content: center;
-}
-:global([data-high-contrast="true"]) .game {
-  border: 2px solid currentColor;
-}
-@media (prefers-reduced-motion: reduce) {
-  .primary:active {
-    transform: none;
-  }
-}
-@media (forced-colors: active) {
-  .primary,
-  .panel {
-    border: 2px solid ButtonText;
-  }
-}
-
-.toolbar {
-  padding: 0 clamp(12px, 3vw, 40px);
-  background: var(--bird-ui-toolbar);
-}
-.toolbar button {
-  min-width: 44px;
-  justify-content: center;
-  border-radius: var(--radius-sm);
-}
-.toolbar button:hover {
-  background: var(--bird-ui-hover);
-}
-.toolbarActions {
-  display: flex;
-  gap: 4px;
-}
-.wordmark {
-  font:
-    900 17px var(--font-manrope),
-    sans-serif;
-  letter-spacing: -0.06em;
-}
-.well {
-  background:
-    radial-gradient(ellipse at 50% 42%, var(--bird-ui-ambient), transparent 72%),
-    var(--bird-ui-cabinet);
-}
-.arena {
-  box-shadow:
-    0 0 0 1px var(--bird-ui-panel-border),
-    0 18px 80px var(--bird-ui-arena-shadow);
-}
-.rail {
-  display: none !important;
-}
-.flightHeader,
-.flightFooter {
-  display: none;
-}
-.hud {
-  inset: 0 0 auto;
-  padding: 0 12px;
-  background: linear-gradient(180deg, var(--bird-ui-panel-top), var(--bird-ui-toolbar));
-  border-bottom: 1px solid var(--bird-ui-glint);
-  height: 6.3%;
-}
-.hud span {
-  font-size: max(9px, 2cqw);
-  letter-spacing: 0.04em;
-}
-.hud strong {
-  font-family: var(--font-manrope), sans-serif;
-  font-size: 6cqw;
-}
-.hud b {
-  font-family: var(--font-manrope), sans-serif;
-}
-.primary {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 9px;
-  border: 0;
-  outline: 0;
-  border-radius: var(--radius-sm);
-  font:
-    800 max(13px, 3.3cqw)/1.3 var(--font-manrope),
-    sans-serif;
-  box-shadow: 0 4px 0 var(--bird-ui-button-shadow);
-  min-height: 48px;
-  background: linear-gradient(180deg, var(--bird-ui-button-light), var(--shitbird-button));
-  border-top: 1px solid var(--bird-ui-glint);
-}
+.titleHero { min-width: 0; text-align: center; }
+.titleCopy p { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 0 0 14px; font-size: 10px; font-weight: 800; letter-spacing: .22em; color: var(--bird-accent); }
+.titleCopy p span { padding-left: 16px; border-left: 1px solid var(--bird-line); color: var(--bird-subtle); font-size: 9px; }
+.titleCopy h2 { position: relative; margin: 0; font-size: clamp(40px, 6.7cqw, 92px); font-weight: 900; font-style: italic; line-height: 1; letter-spacing: -.075em; text-shadow: 0 4px 0 var(--bird-accent-base), 0 8px 20px var(--bird-deep-shadow); }
+.titleCopy h2 > span { display: inline-block; margin-left: 4px; vertical-align: top; font-size: .17em; line-height: 2; letter-spacing: 0; text-shadow: none; }
+.titleCopy em { display: block; margin-top: 18px; font: italic clamp(15px, 1.7cqw, 22px)/1.3 Georgia, serif; }
+.heroFigure { position: relative; height: clamp(160px, 26cqh, 300px); margin: 18px auto 12px; isolation: isolate; }
+.heroOrbit { position: absolute; width: min(70%, 260px); aspect-ratio: 1; left: 50%; top: 50%; transform: translate(-50%, -50%); border: 1px solid var(--bird-orbit); border-radius: var(--bird-radius-pill); box-shadow: 0 0 0 18px var(--bird-ui-hover), inset 0 0 50px var(--bird-orbit); }
+.heroBird { position: absolute; left: 50%; top: 50%; width: 224px; height: 280px; background: url("/games/shitbird/gull.webp") left center / auto 280px no-repeat; transform: translate(-50%, -50%) rotate(-9deg); filter: drop-shadow(0 15px 12px var(--bird-deep-shadow)); animation: birdFloat 4s ease-in-out infinite; }
+.heroStamp { position: absolute; right: 6%; bottom: 8%; padding: 9px 12px; border: 1px solid var(--bird-accent); border-radius: var(--bird-radius-control); color: var(--bird-accent); font-size: 10px; line-height: 1.25; letter-spacing: .14em; font-weight: 800; transform: rotate(-9deg); background: var(--bird-dim); }
+.heroCaption { font-size: 9px; font-weight: 700; letter-spacing: .22em; color: var(--bird-cream); text-shadow: 0 2px 8px var(--bird-shell); }
 .startCopy {
-  border: 1px solid var(--bird-ui-panel-border);
-  border-radius: var(--radius-md);
-  padding: 5%;
-  background: linear-gradient(155deg, var(--bird-ui-panel-top), var(--bird-ui-hud) 55%);
-  box-shadow: inset 0 1px 0 var(--bird-ui-glint), 0 10px 26px var(--bird-ui-panel-shadow);
+  padding: 26px;
+  border: 1px solid var(--bird-line);
+  border-radius: var(--bird-radius-panel);
+  background: linear-gradient(140deg, var(--bird-surface-top), var(--bird-surface) 65%);
+  box-shadow: inset 0 1px 0 var(--bird-glint), 0 24px 70px var(--bird-deep-shadow);
 }
-.titleScreen {
-  padding-bottom: 11%;
+.departureHeading { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 20px; }
+.departureHeading > svg { color: var(--bird-accent); flex: none; }
+.eyebrow { margin: 0 0 7px; color: var(--bird-accent); font-size: 9px; font-weight: 800; line-height: 1.5; letter-spacing: .12em; }
+.departureHeading h3 { margin: 0; font-size: 24px; font-weight: 800; line-height: 1.15; letter-spacing: -.045em; }
+.modeSwitch { display: flex; gap: 4px; padding: 4px; border: 1px solid var(--bird-line); border-radius: var(--bird-radius-control); background: var(--bird-shell); }
+.modeSwitch button { flex: 1; min-height: 44px; padding: 7px; border: 1px solid transparent; border-radius: var(--bird-radius-control); background: transparent; color: var(--bird-subtle); font-size: 12px; font-weight: 800; cursor: pointer; }
+.modeSwitch button[aria-pressed="true"] { background: var(--bird-cream); color: var(--bird-shell); box-shadow: 0 2px 4px var(--bird-deep-shadow); }
+.howTo { display: grid; gap: 9px; margin: 19px 0; }
+.howTo p { display: flex; align-items: center; gap: 10px; font-size: 11px; line-height: 1.55; color: var(--bird-subtle); }
+.howTo svg { color: var(--bird-accent); flex: none; }
+.howTo strong { color: var(--bird-cream); font-weight: 700; }
+.primary { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 54px; padding: 12px 16px; border: 1px solid var(--bird-accent-bright); border-bottom: 0; border-radius: var(--bird-radius-control); background: linear-gradient(var(--bird-accent-bright), var(--bird-accent)); color: var(--bird-shell); font-size: 15px; font-weight: 900; box-shadow: 0 4px 0 var(--bird-accent-base), 0 7px 16px var(--bird-deep-shadow); cursor: pointer; }
+.primary:hover:not(:disabled) { background: var(--bird-accent-bright); transform: translateY(-1px); }
+.primary:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 var(--bird-accent-base); }
+.primary:disabled { opacity: .55; cursor: wait; }
+.game button { transition: transform 140ms ease-out, background-color 140ms ease-out, box-shadow 140ms ease-out; }
+.flightRecord { display: flex; gap: 7px; align-items: center; margin: 22px 0 6px; color: var(--bird-subtle); font-size: 11px; }
+.flightRecord svg { color: var(--bird-accent); }
+.flightRecord strong { margin-left: auto; font-size: 20px; color: var(--bird-cream); font-variant-numeric: tabular-nums; }
+.flightRecord small { margin-left: 3px; font-size: 10px; font-weight: 600; color: var(--bird-subtle); }
+.goal { margin: 0; color: var(--bird-subtle); font-size: 11px; line-height: 1.5; }
+.hangarButton { display: flex; align-items: center; width: 100%; min-height: 52px; gap: 10px; margin-top: 18px; padding: 12px 0 0; border: 0; border-top: 1px solid var(--bird-line); background: transparent; color: var(--bird-cream); cursor: pointer; text-align: left; }
+.hangarButton span { flex: 1; font-size: 12px; font-weight: 700; }
+.hangarButton small { display: block; margin-top: 3px; font-size: 10px; font-weight: 500; color: var(--bird-subtle); }
+.hangarButton > svg { color: var(--bird-accent); flex: none; }
+.textButton { min-height: 44px; padding: 8px 10px; border: 1px solid var(--bird-line); border-radius: var(--bird-radius-control); background: var(--bird-ui-hover); color: var(--bird-cream); font-size: 12px; font-weight: 700; cursor: pointer; }
+.textButton:hover, .hangarButton:hover { color: var(--bird-accent-bright); }
+.overlay { position: absolute; z-index: 2; inset: 0; display: flex; align-items: safe center; justify-content: center; overflow-y: auto; padding: 24px 16px; background: var(--bird-dim); }
+.panel { width: 100%; max-width: 390px; padding: 26px; border: 1px solid var(--bird-line); border-top: 3px solid var(--bird-accent); border-radius: var(--bird-radius-panel); background: linear-gradient(145deg, var(--bird-surface-top), var(--bird-surface)); box-shadow: 0 20px 70px var(--bird-deep-shadow); animation: panelIn 220ms ease-out; }
+.panel h2 { font-size: clamp(30px, 5cqw, 42px); margin: 0 0 12px; font-weight: 900; line-height: 1; letter-spacing: -.055em; }
+.panel > p:not(.eyebrow) { margin: 12px 0; font-size: 12px; line-height: 1.55; color: var(--bird-subtle); }
+.panel .record { color: var(--bird-accent) !important; font-weight: 800; }
+.results { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 18px 0; padding-block: 14px; border-block: 1px solid var(--bird-line); }
+.results span { color: var(--bird-subtle); font-size: 9px; font-weight: 700; letter-spacing: .02em; }
+.results strong { display: block; margin-top: 4px; color: var(--bird-cream); font-size: 32px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.results span:first-child strong { color: var(--bird-accent); }
+.reportActions { display: flex; gap: 8px; margin-top: 14px; }
+.reportActions button { flex: 1; font-size: 11px; }
+.panel .awards { color: var(--bird-ui-award) !important; font-size: 11px !important; }
+.shareText { width: 100%; min-height: 96px; padding: 10px; border: 1px solid var(--bird-line); border-radius: var(--bird-radius-control); font-size: 12px; background: var(--bird-shell); color: var(--bird-cream); }
+.hangar { position: absolute; z-index: 4; inset: 0; width: min(100%, 520px); margin-inline: auto; overflow-y: auto; overscroll-behavior: contain; padding: 24px; border-inline: 1px solid var(--bird-line); background: var(--bird-shell); color: var(--bird-cream); scrollbar-width: thin; box-shadow: 0 0 0 100vmax var(--bird-dim); }
+.hangarHeading { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.hangarHeading h2 { margin: 0; font-size: 38px; font-weight: 900; line-height: 1; letter-spacing: -.06em; }
+.hangar h3 { margin: 22px 0 10px; font-size: 15px; font-weight: 800; }
+.hangarIntro { margin: 14px 0; font-size: 12px; line-height: 1.6; color: var(--bird-subtle); }
+.birds { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.birds button { display: flex; flex-direction: column; align-items: center; padding: 12px; border: 1px solid var(--bird-line); border-radius: var(--bird-radius-control); background: var(--bird-surface); color: var(--bird-cream); cursor: pointer; }
+.birds button:disabled { cursor: default; background: transparent; }
+.birds button:disabled .birdPortrait { opacity: .4; filter: grayscale(1); }
+.birds button[aria-pressed="true"] { border-color: var(--bird-accent); box-shadow: inset 0 0 0 1px var(--bird-accent); }
+.birds strong { font-size: 12px; }
+.birds small { margin-top: 5px; font-size: 11px; line-height: 1.4; }
+.birdPortrait { width: 64px; height: 64px; position: relative; display: block; }
+.birdPortrait::before { content: ""; position: absolute; inset: 0 12px 0 0; background: url("/games/shitbird/gull.webp") left center / auto 64px no-repeat; }
+.birdPortrait i { position: absolute; color: var(--bird-accent); font: bold 22px Georgia, serif; right: 1px; top: 25px; }
+.birdPortrait[data-skin="business"] i { top: 34px; right: 20px; }
+.birdPortrait[data-skin="punk"] i { top: 3px; right: 15px; }
+.missions { list-style: none; margin: 0 0 12px; padding: 0; }
+.missions li { display: flex; justify-content: space-between; gap: 10px; padding: 12px 0; border-top: 1px solid var(--bird-line); font-size: 12px; line-height: 1.4; }
+.missions b { white-space: nowrap; color: var(--bird-accent); }
+.footer { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding-inline: clamp(12px, 2.5vw, 36px); color: var(--bird-subtle); background: var(--bird-shell); border-top: 1px solid var(--bird-line); font-size: 9px; font-weight: 600; letter-spacing: .09em; }
+.sizeNotice { position: absolute; z-index: 5; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; gap: 12px; background: var(--bird-shell); font-size: 13px; }
+.sizeNotice strong { font-size: 24px; letter-spacing: -.04em; }
+.sizeNotice .primary { max-width: 260px; font-size: 13px; }
+.game :is(a, button, textarea):focus-visible { outline: 3px solid var(--bird-accent-bright); outline-offset: 3px; }
+
+@container (max-width: 700px) {
+  .titleScreen { grid-template-columns: 1fr; grid-template-rows: minmax(180px, 1fr) auto; align-items: stretch; gap: 14px; padding: 22px max(16px, calc((100% - 400px) / 2)); }
+  .titleHero { display: flex; flex-direction: column; justify-content: center; }
+  .titleCopy p { margin-bottom: 10px; font-size: 9px; }
+  .titleCopy h2 { font-size: clamp(40px, 12cqw, 68px); }
+  .titleCopy em { margin-top: 12px; font-size: 16px; }
+  .heroFigure { flex: 1; width: 100%; min-height: 115px; max-height: 240px; margin: 12px auto 0; }
+  .heroBird { width: 144px; height: 180px; background-size: auto 180px; }
+  .heroOrbit { width: 150px; }
+  .heroStamp { font-size: 8px; right: 5%; }
+  .heroCaption { display: none; }
+  .startCopy { padding: 20px; }
+  .departureHeading { margin-bottom: 14px; }
+  .departureHeading h3 { font-size: 22px; }
+  .howTo { margin: 14px 0; }
+  .flightRecord { margin-top: 18px; }
+  .hangarButton { margin-top: 12px; }
 }
-.panel {
-  border: 1px solid var(--bird-ui-panel-border);
-  border-radius: var(--radius-lg);
-  background: linear-gradient(145deg, var(--bird-ui-panel-top), var(--bird-ui-panel) 60%);
-  color: var(--bird-paper);
-  padding: 8%;
-  box-shadow: 0 18px 50px var(--bird-ui-panel-shadow);
+@container (max-width: 700px) and (max-height: 660px) {
+  .titleScreen { padding-block: 14px; gap: 10px; grid-template-rows: minmax(140px, 1fr) auto; }
+  .titleCopy p { margin-bottom: 6px; font-size: 8px; }
+  .titleCopy h2 { font-size: 10.8cqw; }
+  .titleCopy em { margin-top: 8px; font-size: 13px; }
+  .heroFigure { min-height: 70px; max-height: 100px; margin-top: 4px; }
+  .heroBird { width: 88px; height: 110px; background-size: auto 110px; }
+  .heroOrbit { width: 84px; box-shadow: none; }
+  .heroStamp { font-size: 7px; padding: 5px 7px; right: 20%; bottom: 2%; }
+  .startCopy { padding: 16px; }
+  .departureHeading { margin-bottom: 10px; }
+  .departureHeading .eyebrow { display: none; }
+  .departureHeading h3 { font-size: 20px; }
+  .howTo { gap: 5px; margin: 10px 0; }
+  .howTo p { font-size: 10px; }
+  .primary { min-height: 48px; }
+  .flightRecord { margin-top: 12px; }
+  .hangarButton { min-height: 44px; margin-top: 8px; padding-top: 8px; }
+  .hangarButton small { display: inline; margin-left: 7px; }
+  .goal { font-size: 10px; }
 }
-.panel h2 {
-  font-family: var(--font-manrope), sans-serif;
-  font-size: 10cqw;
-  letter-spacing: -0.065em;
+@container (min-width: 701px) and (max-height: 540px) {
+  .titleScreen { padding-block: 16px; gap: 24px; }
+  .startCopy { padding: 18px; }
+  .departureHeading { margin-bottom: 12px; }
+  .departureHeading .eyebrow { display: none; }
+  .howTo { margin: 12px 0; }
+  .flightRecord { margin-top: 14px; }
+  .hangarButton { margin-top: 12px; }
+  .heroFigure { height: 140px; margin-block: 12px; }
+  .heroBird { width: 144px; height: 180px; background-size: auto 180px; }
+  .heroOrbit { width: 150px; }
+  .heroStamp { right: 0; }
+  .titleCopy h2 { font-size: 6cqw; }
 }
-.panel .eyebrow {
-  color: var(--bird-ui-eyebrow);
-  font-size: max(10px, 2.5cqw);
-}
-.results {
-  border-color: var(--bird-ui-divider);
-}
-.results span {
-  font-size: max(10px, 2.4cqw);
-}
-.results strong {
-  color: var(--bird-ui-score);
-  font-variant-numeric: tabular-nums;
-}
-.panel .awards {
-  color: var(--bird-ui-award);
-}
-.panel button:focus-visible {
-  outline-color: var(--bird-paper);
-}
-.footer {
-  font-size: 10px;
-  padding-inline: clamp(12px, 3vw, 40px);
-  background: var(--bird-ui-toolbar);
+@container (max-width: 700px) and (max-height: 540px) {
+  .titleScreen { grid-template-rows: minmax(110px, 1fr) auto; padding-block: 12px; }
+  .titleCopy em, .heroStamp { display: none; }
 }
 @media (max-width: 600px) {
-  .toolbar {
-    padding-inline: 10px;
-  }
-  .toolbar > button span {
-    display: none;
-  }
-  .toolbarActions > button[aria-label="Full screen"] {
-    display: none;
-  }
-  .footer span:last-child {
-    display: none;
-  }
-  .footer {
-    justify-content: center;
-  }
-  .game {
-    grid-template-rows: 52px minmax(0, 1fr) 28px;
-  }
+  .game { grid-template-rows: 48px minmax(0, 1fr) 24px; }
+  .toolbar { padding-inline: 8px; gap: 4px; }
+  .toolbar > button span, .wordmark small, .footer span:last-child { display: none; }
+  .toolbarActions { gap: 0; }
+  .wordmark { margin-right: auto; }
+  .footer { justify-content: center; font-size: 8px; }
+  .panel { padding: 22px; }
 }
-
-/* Compact reports and launch controls remain reachable on short displays. */
-.titleScreen { padding: 10% 5% 9%; overflow-y: auto; scrollbar-width: thin; gap: 12px; }
-.titleCopy { flex: none; }
-.startCopy { flex: none; padding: 4%; }
-.startCopy .howTo { margin: 9px 0; font-size: max(11px, 2.8cqw); line-height: 1.4; }
-.startCopy .goal { margin: 10px 0 3px; font-size: max(10px, 2.6cqw); }
-.startCopy > .textButton { width: 100%; }
-.overlay { overflow-y: auto; align-items: start; padding-block: 16%; }
-.panel { padding: 6%; }
-.panel h2 { margin-bottom: 8px; }
-.panel .record { color: var(--bird-ui-score); font-weight: 800; font-size: max(12px, 3.5cqw); }
-.panel .goal, .panel .shareStatus { font-size: max(10px, 2.9cqw); }
-.results { gap: 10px; margin: 10px 0; }
-.results strong { font-size: 8cqw; }
-.hud { gap: 8px; padding-inline: 9px; }
-.hud > div { gap: 4px; }
-.hud span { font-size: max(8px, 1.9cqw); }
-.hud strong { font-size: 5.5cqw; }
-.hud b { font-size: 3.6cqw; }
-.hud small { color: var(--bird-ui-score); font-size: max(10px, 2.5cqw); }
-@container (max-width: 280px) {
-  .titleScreen { padding-top: 8%; }
-  .titleCopy p span { display: none; }
-  .titleCopy em { font-size: 3.5cqw; }
-  .startCopy { padding: 8px; }
-  .primary { min-height: 44px; padding: 8px; }
-  .overlay { padding-block: 10%; }
-  .hud span { font-size: 7px; }
-  .reportActions { flex-direction: column; gap: 0; }
+@keyframes birdFloat { 0%, 100% { transform: translate(-50%, -50%) rotate(-9deg); } 50% { transform: translate(-50%, calc(-50% - 6px)) rotate(-6deg); } }
+@keyframes panelIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes scoreIn { from { transform: translateY(2px); } to { transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .heroBird, .panel, .hud strong, .hud b { animation: none; }
+  .game button { transition: none; }
+  .primary:hover, .primary:active { transform: none !important; }
+}
+:global([data-reduced-motion="true"]) .heroBird,
+:global([data-reduced-motion="true"]) .panel,
+:global([data-reduced-motion="true"]) .hud strong,
+:global([data-reduced-motion="true"]) .hud b { animation: none; }
+:global([data-reduced-motion="true"]) .primary:is(:hover, :active) { transform: none !important; }
+:global([data-high-contrast="true"]) .game button { border: 1px solid currentColor; }
+@media (forced-colors: active) {
+  .primary, .panel, .startCopy, .birds button, .modeSwitch button { border: 2px solid ButtonText; }
+  .modeSwitch button[aria-pressed="true"] { outline: 2px solid Highlight; }
 }

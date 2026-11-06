@@ -12,7 +12,7 @@ import type { PocketAppItem } from "./types";
 
 interface PocketAppTileProps {
   readonly app: PocketAppItem;
-  readonly onLaunch: (app: PocketAppItem) => void;
+  readonly onLaunch: (app: PocketAppItem, trigger: HTMLButtonElement) => void;
   readonly onOpenMenu: (app: PocketAppItem) => void;
   readonly onRememberMenuTrigger: (trigger: HTMLButtonElement) => void;
 }
@@ -66,7 +66,7 @@ export function PocketAppTile({
   };
 
   return (
-    <div className={styles.cell}>
+    <div className={styles.cell} data-app-id={app.id}>
       <button
         aria-label={app.accessibilityLabel}
         className={styles.launch}
@@ -77,7 +77,7 @@ export function PocketAppTile({
             longPressedRef.current = false;
             return;
           }
-          onLaunch(app);
+          onLaunch(app, event.currentTarget);
         }}
         onContextMenu={(event) => {
           event.preventDefault();

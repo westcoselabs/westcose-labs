@@ -17,10 +17,10 @@ import {
   Diamond,
   BookOpen,
   Check,
+  CornersOut,
 } from "@phosphor-icons/react";
 import {
   GameExit,
-  GameFullscreen,
   useGamePresentation,
   useFullscreenPause,
 } from "../GameHost";
@@ -34,7 +34,9 @@ import {
   type SalvageScore,
 } from "../storage";
 import { LOOT, UPGRADES } from "./data";
-import { createRun, levelForDay, snapshot, WORLD } from "./model";
+import { createRun, levelForDay, snapshot } from "./model";
+import { lootPresentation } from "./presentation";
+import { FullscreenHelp } from "./FullscreenHelp";
 import type { LootEngine } from "./engine";
 import { money, ScoreBoard } from "./ScoreBoard";
 import styles from "./LowTideLoot.module.css";
@@ -42,7 +44,10 @@ import styles from "./LowTideLoot.module.css";
 export default function LowTideLootMount() {
   const settings = useSettings(),
     shell = useShellPresentation();
-  const { enterFullscreen } = useGamePresentation();
+  const { enterFullscreen, fullscreen } = useGamePresentation();
+  const [fullscreenHelp, setFullscreenHelp] = useState(false);
+  const [standalone] = useState(() => window.matchMedia("(display-mode: standalone)").matches ||
+    Boolean((navigator as Navigator & { standalone?: boolean }).standalone));
   const [state, setState] = useState(() => snapshot(createRun(1))),
     [ready, setReady] = useState(false),
     [error, setError] = useState<string | null>(null);
@@ -57,6 +62,7 @@ export default function LowTideLootMount() {
   const canvas = useRef<HTMLCanvasElement>(null),
     well = useRef<HTMLDivElement>(null),
     arena = useRef<HTMLDivElement>(null),
+    canvasFrame = useRef<HTMLDivElement>(null),
     engine = useRef<LootEngine | null>(null);
   useEffect(() => {
     if (state.phase === "playing")
@@ -82,6 +88,7 @@ export default function LowTideLootMount() {
     import("./engine")
       .then(({ createLowTideLoot }) => {
         if (canceled) return;
+        node.dataset.compact = String(arena.current?.dataset.layout === "compact");
         instance = createLowTideLoot(
           node,
           (next) => {
@@ -133,23 +140,24 @@ export default function LowTideLootMount() {
   }, [attempt]);
   useEffect(() => {
     const box = well.current,
-      field = arena.current;
-    if (!box || !field) return;
+      field = arena.current,
+      frame = canvasFrame.current;
+    if (!box || !field || !frame) return;
     const resize = () => {
       const bounds = box.getBoundingClientRect(),
         inset = getComputedStyle(box),
-        scale = Math.min(
-          (bounds.width -
-            parseFloat(inset.paddingLeft) -
-            parseFloat(inset.paddingRight)) /
-            WORLD.width,
-          (bounds.height -
-            parseFloat(inset.paddingTop) -
-            parseFloat(inset.paddingBottom)) /
-            WORLD.height,
+        layout = lootPresentation(
+          bounds.width - parseFloat(inset.paddingLeft) - parseFloat(inset.paddingRight),
+          bounds.height - parseFloat(inset.paddingTop) - parseFloat(inset.paddingBottom),
         );
-      field.style.width = `${Math.max(1, WORLD.width * scale)}px`;
-      field.style.height = `${Math.max(1, WORLD.height * scale)}px`;
+      field.style.width = `${Math.max(1, layout.width)}px`;
+      field.style.height = `${Math.max(1, layout.height)}px`;
+      field.style.setProperty("--loot-side-rail", `${layout.rail}px`);
+      field.dataset.layout = layout.compact ? "compact" : "classic";
+      frame.style.width = `${layout.canvasWidth}px`;
+      frame.style.height = `${layout.canvasHeight}px`;
+      frame.style.top = `${layout.canvasTop}px`;
+      if (canvas.current) canvas.current.dataset.compact = String(layout.compact);
       setPortrait(window.matchMedia("(orientation: portrait)").matches);
       engine.current?.pause();
     };
@@ -208,15 +216,18 @@ export default function LowTideLootMount() {
   const live = state.phase === "playing",
     overlay = !live;
   const quotaMet = state.cash >= state.target;
-  const start = async () => {
-    if (!ready || error || portrait) return;
-    await enterFullscreen();
+  const enterImmersive = async (offerHelp = false) => {
+    const entered = standalone || await enterFullscreen();
+    if (!entered && offerHelp) {
+      engine.current?.pause();
+      setFullscreenHelp(true);
+    }
     if (!canvas.current) return;
     const orientation = screen.orientation as ScreenOrientation & {
       lock?: (value: "landscape") => Promise<void>;
     };
     if (
-      document.fullscreenElement &&
+      entered &&
       orientation?.lock &&
       window.matchMedia("(pointer: coarse)").matches
     ) {
@@ -231,6 +242,10 @@ export default function LowTideLootMount() {
         /* The rotate screen covers browsers without orientation locking. */
       }
     }
+  };
+  const start = async () => {
+    if (!ready || error || portrait) return;
+    await enterImmersive();
     requestAnimationFrame(() => requestAnimationFrame(() => act("start")));
   };
   const icons = {
@@ -276,7 +291,9 @@ export default function LowTideLootMount() {
         inert={portrait}
         aria-hidden={portrait || undefined}
       >
-        <div className={styles.arena} ref={arena} data-loot-stage>
+        <div className={styles.arena} ref={arena} data-loot-stage data-playing={live}>
+          <div className={styles.beach} data-loot-beach>
+          <div className={styles.canvasFrame} ref={canvasFrame}>
           <canvas
             key={attempt}
             ref={canvas}
@@ -285,6 +302,8 @@ export default function LowTideLootMount() {
             aria-label="Salvage playfield. Left and Right arrows, A and D, or drag to move. Space, Down Arrow or tap to fire. Up Arrow or B for Beach Bomb. Escape to pause."
             aria-describedby="loot-controls"
           />
+          </div>
+          </div>
           <header className={styles.toolbar}>
             <GameExit onExit={() => engine.current?.pause()} />
             {live ? (
@@ -316,9 +335,7 @@ export default function LowTideLootMount() {
                   />
                 </div>
                 <div
-                  className={
-                    state.remaining <= 10 ? styles.warning : styles.timer
-                  }
+                  className={`${styles.timer} ${state.remaining <= 10 ? styles.warning : ""}`}
                 >
                   <small>TIDE IN</small>
                   <strong data-testid="loot-time">
@@ -343,7 +360,9 @@ export default function LowTideLootMount() {
               >
                 {sound ? <SpeakerHigh size={21} /> : <SpeakerSlash size={21} />}
               </button>
-              <GameFullscreen />
+              <button aria-label="Full screen" disabled={fullscreen || standalone} onClick={event => { event.currentTarget.focus({ preventScroll: true }); void enterImmersive(true); }}>
+                <CornersOut size={20} aria-hidden="true" />
+              </button>
               {live ? (
                 <button
                   onClick={() => engine.current?.pause()}
@@ -364,6 +383,7 @@ export default function LowTideLootMount() {
                     ? styles.shopPanel
                     : styles.panel
                 }
+                data-menu={error ? "error" : state.phase}
                 role="region"
                 aria-label={error ? "Game unavailable" : `${state.phase} menu`}
               >
@@ -420,24 +440,28 @@ export default function LowTideLootMount() {
                   </>
                 ) : state.phase === "paused" ? (
                   <>
-                    <p className={styles.eyebrow}>UNPAID BREAK</p>
-                    <h2>Tide can wait.</h2>
-                    <p>The clock, claw and crabs are paused.</p>
-                    <button
-                      ref={action}
-                      className={styles.primary}
-                      onClick={() => act("resume")}
-                    >
-                      <Play weight="fill" size={20} /> Resume salvaging
-                    </button>
-                    <div className={styles.menuActions}>
-                      <button onClick={() => void start()}>Restart run</button>
-                      <button onClick={() => setShowControls(!showControls)}>
-                        Controls
+                    <div className={styles.pauseIntro}>
+                      <p className={styles.eyebrow}>UNPAID BREAK</p>
+                      <h2>Tide can wait.</h2>
+                      <p>The clock, claw and crabs are paused.</p>
+                    </div>
+                    <div className={styles.pauseActions}>
+                      <button
+                        ref={action}
+                        className={styles.primary}
+                        onClick={() => act("resume")}
+                      >
+                        <Play weight="fill" size={20} /> Resume salvaging
                       </button>
+                      <div className={styles.menuActions}>
+                        <button onClick={() => void start()}>Restart run</button>
+                        <button onClick={() => setShowControls(!showControls)}>
+                          Controls
+                        </button>
+                      </div>
                     </div>
                     {showControls ? (
-                      <p>
+                      <p className={styles.pauseHelp}>
                         ← → / A D or drag: move the rig while the claw is ready.
                         Space / ↓ / tap: fire. ↑ / B: Beach Bomb while hauling.
                         P / Escape: pause. The first object in the cable’s path
@@ -659,26 +683,37 @@ export default function LowTideLootMount() {
             <div className={styles.controlButtons}>
               <button
                 className={styles.bomb}
+                data-stock={state.bombs > 0 ? "available" : "empty"}
+                aria-label={`Use bomb, ${state.bombs} remaining`}
+                aria-describedby="loot-bomb-help"
+                title={state.bombs === 0
+                  ? "Out of bombs. Restock at Salty’s."
+                  : attached ? "Release this haul (B or ↑)" : "Grab loot to use a bomb (B or ↑)"}
                 disabled={!live || !attached || !state.bombs}
                 onClick={() => act("bomb")}
               >
-                <Bomb size={22} weight="duotone" />
-                <span>Bomb</span>
-                <b>×{state.bombs}</b>
+                <Bomb size={24} weight="fill" aria-hidden="true" />
+                <b aria-hidden="true">×{state.bombs}</b>
               </button>
               <button
                 className={styles.fire}
+                aria-label="Drop"
+                aria-describedby="loot-drop-state"
+                title={state.clawState === "swinging" ? "Drop the claw (Space or ↓)" : state.clawState === "firing" ? "Claw is dropping" : "Claw is reeling in"}
                 disabled={!live || state.clawState !== "swinging"}
                 onClick={() => act("fire")}
               >
-                {state.clawState === "swinging"
-                  ? "Drop claw"
-                  : state.clawState === "firing"
-                    ? "Dropping…"
-                    : "Reeling in…"}{" "}
-                <ArrowDown size={20} />
+                <span>Drop</span>
+                <ArrowDown size={21} weight="bold" className={styles.fireIcon} aria-hidden="true" />
+                <kbd className={styles.dropKey} aria-hidden="true">Space</kbd>
               </button>
             </div>
+            <span id="loot-bomb-help" className="sr-only">
+              {state.bombs > 0 ? "Use while hauling loot to release it. B or Up Arrow." : "No bombs left. Restock at Salty’s Surf Shop."}
+            </span>
+            <span id="loot-drop-state" className="sr-only">
+              {state.clawState === "swinging" ? "Ready to drop. Space or Down Arrow." : state.clawState === "firing" ? "Claw is dropping." : "Claw is reeling in."}
+            </span>
           </footer>
         </div>
       </div>
@@ -706,9 +741,15 @@ export default function LowTideLootMount() {
               ? "LOW TIDE LOOT plays in landscape."
               : "Your haul is safe. The tide is paused."}
           </small>
+          <button className={styles.fullscreenCta} disabled={fullscreen || standalone} onClick={event => { event.currentTarget.focus({ preventScroll: true }); void enterImmersive(true); }}>
+            <CornersOut size={20} aria-hidden="true" />
+            {fullscreen || standalone ? "Full screen is on" : "Play full screen"}
+          </button>
+          <small className={styles.fullscreenNote}>Remove browser bars where supported.</small>
           <GameExit onExit={() => engine.current?.pause()} />
         </div>
       </div>
+      {fullscreenHelp ? <FullscreenHelp onClose={() => setFullscreenHelp(false)} /> : null}
     </section>
   );
 }

@@ -121,17 +121,12 @@ export function createCoastRenderer(k: KaboomCtx) {
 
   function barrier(x: number, y: number, height: number, variant: number, top: boolean) {
     const w = WORLD.obstacleWidth;
-    // Crop a full-height texture instead of stretching bolts and panel seams.
+    // Crop full-height timber instead of stretching its grain, knots and straps.
     // All solid artwork remains inside the exact gameplay collision rectangle.
-    k.drawSprite({ sprite: `pylon-body-${variant}`, pos: k.vec2(x, y), width: w, height,
+    k.drawSprite({ sprite: `pier-body-${variant}`, pos: k.vec2(x, y), width: w, height,
       quad: k.quad(0, top ? 1 - height / OBSTACLE_TEXTURE_HEIGHT : 0, 1, height / OBSTACLE_TEXTURE_HEIGHT) });
     const capY = top ? y + height - 18 : y;
-    k.drawSprite({ sprite: `pylon-cap-${top ? "top" : "bottom"}`, pos: k.vec2(x, capY), width: w, height: 18 });
-    if (height > 108) {
-      const signHeight = Math.min(104, height - 43);
-      const signY = top ? capY - signHeight - 9 : y + 27;
-      k.drawSprite({ sprite: `pylon-sign-${variant}`, pos: k.vec2(x + 5, signY), width: 36, height: signHeight });
-    }
+    k.drawSprite({ sprite: `pier-cap-${top ? "top" : "bottom"}`, pos: k.vec2(x, capY), width: w, height: 18 });
   }
 
   return (flight: Flight, reduced: boolean, skin: BirdSkin = "gull", deathAge = 0) => {

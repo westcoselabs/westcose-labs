@@ -37,70 +37,83 @@ export function loadCoastTextures(k: KaboomCtx) {
     c.beginPath(); c.arc(x, y, r, 0, Math.PI * 2); c.fillStyle = color; c.fill();
   }
 
+  // Original code-native timber illustrations. No signs, lettering or randomness:
+  // material variation must never consume the seeded course RNG.
   const finishes = [
-    { light: "#467d68", body: "#214d3c", dark: "#112c25", accent: "#f4d69b", word: "MOTEL" },
-    { light: "#a06643", body: "#653d2c", dark: "#35271f", accent: "#ffc383", word: "DETOUR" },
-    { light: "#497d84", body: "#254b51", dark: "#132d32", accent: "#a3d3c5", word: "NOPE" },
+    { light: "#c69b63", body: "#876343", dark: "#3e3025", grain: "#503b29" },
+    { light: "#b4a083", body: "#796e59", dark: "#37392e", grain: "#494638" },
+    { light: "#b78555", body: "#795137", dark: "#38291f", grain: "#492e22" },
   ];
 
   finishes.forEach((finish, variant) => {
-    sprite(`pylon-body-${variant}`, WORLD.obstacleWidth, HEIGHT, (c) => {
+    sprite(`pier-body-${variant}`, WORLD.obstacleWidth, HEIGHT, (c) => {
       const w = WORLD.obstacleWidth;
+      // A square-cut silhouette coincides with the existing collision rectangle.
       c.fillStyle = INK; c.fillRect(0, 0, w, HEIGHT);
-      // The outer frame fills exactly the collision rectangle, including the corners.
-      c.fillStyle = gradient(c, 0, 0, w, 0, [[0, "#788b78"], [.035, IVORY], [.095, "#87957d"], [.13, "#293c30"], [.85, "#344237"], [.96, "#c4c4a1"], [1, "#4d6558"]]);
-      c.fillRect(.5, 0, w - 1, HEIGHT);
-      c.fillStyle = gradient(c, 5, 0, w - 5, 0, [[0, finish.dark], [.09, finish.light], [.24, finish.body], [.76, finish.body], [1, finish.dark]]);
-      c.fillRect(5, 0, w - 10, HEIGHT);
-      line(c, 7, 0, 7, HEIGHT, "#d9e7c433", .7);
-      line(c, w - 7, 0, w - 7, HEIGHT, "#00000066", .8);
-      // Large, quiet panels give the material scale. No random scratches or visual noise.
-      for (let y = 22; y < HEIGHT; y += 64) {
-        rounded(c, 10, y, w - 20, 44, 2, "#07161120", "#b4cab320");
-        line(c, 12, y + 2, 33, y + 2, "#f3dfb51c", .5);
-        for (const x of [3, w - 3]) {
-          circle(c, x, y + 14, 1.45, "#182b23");
-          circle(c, x - .15, y + 13.8, 1, "#a7b39b");
-          line(c, x - .45, y + 13.8, x + .4, y + 13.8, "#344538", .5);
+      c.fillStyle = gradient(c, 0, 0, w, 0, [
+        [0, finish.dark], [.05, finish.body], [.15, finish.light],
+        [.38, finish.body], [.72, finish.body], [1, finish.dark],
+      ]);
+      c.fillRect(.7, 0, w - 1.4, HEIGHT);
+      line(c, 2, 0, 2, HEIGHT, "#ebd3a37a", .8);
+      line(c, w - 2, 0, w - 2, HEIGHT, "#08171399", 1.4);
+
+      // Long, slightly wandering fibres read as wood at a 46px gameplay width.
+      for (let i = 0; i < 13; i++) {
+        const x = 4 + i * 3.05;
+        c.beginPath();
+        for (let y = -4; y <= HEIGHT + 4; y += 4) {
+          const bend = Math.sin(y * .035 + i * 1.7 + variant) * .75 +
+            Math.sin(y * .081 + i) * .3;
+          if (y === -4) c.moveTo(x + bend, y); else c.lineTo(x + bend, y);
+        }
+        c.strokeStyle = i % 3 === 0 ? "#efd2a04f" : finish.grain;
+        c.lineWidth = i % 3 === 0 ? .65 : .8;
+        c.stroke();
+      }
+      for (let y = 38 + variant * 19; y < HEIGHT; y += 113) {
+        const x = 13 + ((y + variant * 7) % 19);
+        // Concentric knots, tapering splits and salt-lightened worn edges.
+        for (let ring = 3; ring >= 1; ring--) {
+          c.beginPath(); c.ellipse(x, y, ring * 1.15, ring * 3.2, -.15, 0, Math.PI * 2);
+          c.strokeStyle = ring === 2 ? finish.light : finish.grain; c.lineWidth = .75; c.stroke();
+        }
+        c.beginPath(); c.moveTo(x, y + 3); c.lineTo(x - 1, y + 16); c.lineTo(x + .5, y + 26);
+        c.strokeStyle = finish.dark; c.lineWidth = .75; c.stroke();
+      }
+      // Occasional iron straps are structural details, not sign panels.
+      for (let y = 85 + variant * 23; y < HEIGHT; y += 190) {
+        c.fillStyle = gradient(c, 0, y, 0, y + 9, [[0, "#101b18"], [.2, "#737468"], [.4, "#444c43"], [.85, "#272f29"], [1, INK]]);
+        c.fillRect(1, y, w - 2, 9);
+        for (const x of [8, w - 8]) {
+          circle(c, x, y + 4.5, 1.5, "#1a251f");
+          circle(c, x - .2, y + 4.2, .8, "#999681");
         }
       }
-    });
-
-    sprite(`pylon-sign-${variant}`, 36, 104, (c) => {
-      rounded(c, .5, .5, 35, 103, 4, gradient(c, 0, 0, 36, 104, [[0, "#fff0cc"], [.32, "#a99c70"], [.7, "#e4d5ad"], [1, "#777754"]]), INK);
-      rounded(c, 2, 2, 32, 100, 3, INK);
-      rounded(c, 3.5, 3.5, 29, 97, 2, gradient(c, 0, 0, 32, 104, [[0, "#1c3027"], [.5, "#0d1c18"], [1, "#15261f"]]), "#a7b99b55");
-      c.textAlign = "center"; c.textBaseline = "middle";
-      c.fillStyle = "#bec8ac"; c.font = "600 4.5px Arial";
-      c.fillText("WEST COSE", 18, 10);
-      line(c, 9, 16, 27, 16, "#c1a87780", .6);
-      const spacing = finish.word.length > 5 ? 11 : 13;
-      const start = 52 - (finish.word.length - 1) * spacing / 2;
-      c.font = "bold 13px Georgia";
-      for (let i = 0; i < finish.word.length; i++) {
-        c.fillStyle = "#000000"; c.fillText(finish.word[i], 18.6, start + i * spacing + .8);
-        c.fillStyle = finish.accent; c.fillText(finish.word[i], 18, start + i * spacing);
-      }
-      line(c, 10, 88, 26, 88, "#c1a87780", .6);
-      c.fillStyle = finish.accent;
-      c.beginPath(); c.moveTo(18, 92); c.lineTo(20, 95); c.lineTo(18, 98); c.lineTo(16, 95); c.closePath(); c.fill();
     });
   });
 
   for (const top of [false, true]) {
-    sprite(`pylon-cap-${top ? "top" : "bottom"}`, WORLD.obstacleWidth, 18, (c) => {
+    sprite(`pier-cap-${top ? "top" : "bottom"}`, WORLD.obstacleWidth, 18, (c) => {
       const w = WORLD.obstacleWidth;
-      c.fillStyle = INK; c.fillRect(0, 0, w, 18);
-      c.fillStyle = gradient(c, 0, 0, 0, 18, top
-        ? [[0, "#4e5e4c"], [.17, "#bec1a0"], [.27, "#fff0c9"], [.6, "#adab88"], [.82, "#526151"], [1, "#f3deb0"]]
-        : [[0, "#fff0c9"], [.16, "#d5d2ad"], [.45, "#8c957c"], [.8, "#344c3d"], [1, "#142b21"]]);
-      c.fillRect(.5, .5, w - 1, 17);
-      rounded(c, 5, 5, w - 10, 8, 1.3, "#10221b", "#f3dfb577");
-      c.fillStyle = gradient(c, 0, 6, 0, 12, [[0, "#ffc98c"], [.35, "#ef9556"], [1, "#a74d2c"]]);
-      c.fillRect(7, 6.5, w - 14, 5);
-      for (let x = 11; x < w - 8; x += 8) line(c, x, 7, x - 2, 11, "#733e29", 1.4);
-      circle(c, 2.9, 9, 1, "#f4e7c6"); circle(c, w - 2.9, 9, 1, "#f4e7c6");
-      line(c, 1, top ? 17 : 1, w - 1, top ? 17 : 1, "#fff0cb", 1);
+      if (top) { c.translate(0, 18); c.scale(1, -1); }
+      c.fillStyle = gradient(c, 0, 0, w, 0, [[0, "#493623"], [.15, "#c49b67"], [.55, "#97704a"], [1, "#493623"]]);
+      c.fillRect(0, 0, w, 18);
+      // Saw-cut end grain, contained within the solid top of the piling.
+      c.fillStyle = "#b79b72"; c.fillRect(.7, .7, w - 1.4, 5);
+      for (let ring = 1; ring <= 4; ring++) {
+        c.beginPath(); c.ellipse(w * .48, 3.1, ring * 5, ring * .56, 0, 0, Math.PI * 2);
+        c.strokeStyle = ring % 2 ? "#765d40" : "#ddbd8a"; c.lineWidth = .65; c.stroke();
+      }
+      line(c, 0, 0, w, 0, "#edcf97", 1);
+      line(c, 1, 5.8, w - 1, 5.8, "#4c3728", 1);
+      // Two tightly wound rope courses give the silhouette a recognisable pier detail.
+      for (const y of [9, 13]) {
+        c.fillStyle = "#493d2b"; c.fillRect(0, y - 1, w, 4.5);
+        c.fillStyle = gradient(c, 0, y, w, y, [[0, "#82704b"], [.25, "#e0c18a"], [.65, "#b69a67"], [1, "#645537"]]);
+        c.fillRect(.5, y, w - 1, 2.8);
+        for (let x = 1; x < w; x += 3.4) line(c, x, y, x + 1.6, y + 2.8, "#5d4b328c", .7);
+      }
     });
   }
 

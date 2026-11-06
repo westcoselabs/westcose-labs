@@ -32,3 +32,10 @@
   --neu-shadow-floating: var(--neu-shadow-flat);
   --neu-shadow-active: inset 0 0 0 var(--focus-width) var(--neu-accent);
 }
+
+/* Strong edges supplement depth in Dusk; contrast does not erase its material. */
+[data-theme="dusk"][data-high-contrast="true"] {
+  --neu-shadow-raised: -4px -4px 10px var(--neu-shadow-light), 6px 7px 16px var(--neu-shadow-dark), var(--neu-shadow-flat);
+  --neu-shadow-recessed: inset 4px 4px 10px var(--neu-shadow-dark), inset -3px -3px 8px var(--neu-shadow-light), var(--neu-shadow-flat);
+  --neu-shadow-floating: 0 20px 48px var(--neu-shadow-dark), inset 1px 1px 0 var(--neu-shadow-light), var(--neu-shadow-flat);
+}

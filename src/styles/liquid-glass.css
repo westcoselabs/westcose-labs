@@ -55,7 +55,8 @@
 @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   [data-theme-surface="translucent"] {
     --glass-regular: rgb(242 249 255 / 72%);
-    --glass-strong: rgb(245 250 255 / 76%);
+    /* Text-heavy sheets stay legible even when Safari composites less blur. */
+    --glass-strong: rgb(245 250 255 / 94%);
     --glass-clear: rgb(240 249 255 / 64%);
     --glass-control: rgb(255 255 255 / 76%);
     --glass-frame: rgb(230 245 255 / 32%);

@@ -79,7 +79,7 @@
   background: var(--glass-content);
   box-shadow: var(--neu-shadow-raised);
 }
-:global([data-theme-widget="translucent-card"]) .widgets { grid-template-columns: 1.3fr 1fr; }
+:global([data-theme-widget="translucent-card"]) .widgets { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 :global([data-theme-widget="translucent-card"]) .todayWidget { padding: 1rem; }
 :global([data-theme-widget="translucent-card"]) .projectWidget { padding: 1rem; }
 :global([data-theme-widget="translucent-card"]) .projectArt {
@@ -177,6 +177,8 @@
 }
 
 .homeHeader {
+  position: relative;
+  isolation: isolate;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -207,7 +209,7 @@
   overscroll-behavior-inline: contain;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
-  touch-action: pan-x;
+  touch-action: pan-x pan-y;
 }
 
 .pages::-webkit-scrollbar {
@@ -222,14 +224,16 @@
   gap: var(--space-base);
   min-inline-size: 0;
   padding-inline: var(--pocket-gutter);
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  touch-action: pan-x pan-y;
   scroll-snap-align: start;
   scroll-snap-stop: always;
 }
 
 .widgets {
   display: grid;
-  grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-md);
 }
 
@@ -395,6 +399,9 @@
   grid-column: 1 / -1;
 }
 
+.pagination { display: contents; }
+.swipeHint { display: none; }
+
 .indicators {
   display: flex;
   justify-content: center;
@@ -426,6 +433,8 @@
 }
 
 .dock {
+  position: relative;
+  isolation: isolate;
   align-self: end;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -556,9 +565,6 @@
   }
 }
 
-:global([data-high-contrast="true"]) .home {
-  background-image: none;
-}
 
 @media (forced-colors: active) {
   .home {
@@ -738,4 +744,51 @@
   :global([data-theme-widget="flat-panel"]) .discovery {
     display: none;
   }
+}
+
+/* The modern shells share an iOS-like rhythm while keeping their own material. */
+:global([data-theme-type="modern-sans"]) .home {
+  --pocket-icon-size: clamp(3.75rem, 19vw, 5rem);
+  --pocket-app-radius: calc(var(--pocket-icon-size) * 0.225);
+  --pocket-dock-size: 5.75rem;
+  font-family: var(--font-system);
+}
+:global([data-theme-type="modern-sans"]) .dockIcon {
+  inline-size: 3.5rem;
+  block-size: 3.5rem;
+  border-radius: var(--pocket-dock-icon-radius);
+}
+:global([data-theme-type="modern-sans"]) .pagination { display: grid; justify-items: center; gap: 0; }
+:global([data-theme-type="modern-sans"]) .swipeHint {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: var(--color-text-secondary);
+  font-size: 0.6875rem;
+  line-height: 1;
+  text-shadow: 0 1px 5px var(--color-shadow-dark);
+}
+:global([data-theme-type="modern-sans"]) .indicators { gap: 0; background: transparent; padding: 0; border: 0; box-shadow: none; }
+:global([data-theme-type="modern-sans"]) .indicator::after { inline-size: 0.375rem; block-size: 0.375rem; transform: translateX(0.9375rem); }
+:global([data-theme-type="modern-sans"]) .indicator + .indicator::after { transform: translateX(-0.9375rem); }
+:global([data-theme-type="modern-sans"]) .indicator[aria-current="page"]::after { background: var(--color-text-primary); }
+:global([data-theme-type="modern-sans"]) .homeHeader { min-block-size: 3.25rem; }
+:global([data-theme-type="modern-sans"]) .brand strong { font-size: 1.125rem; letter-spacing: -0.025em; }
+:global([data-theme-type="modern-sans"]) .brand span { font-family: inherit; font-size: 0.6875rem; letter-spacing: 0.08em; }
+:global([data-theme-type="modern-sans"]) .page { padding-block: 0.75rem; grid-template-rows: auto 1fr; gap: 1.25rem; }
+:global([data-theme-type="modern-sans"]) .todayWidget { gap: 0.5rem; padding: 1rem; border-radius: var(--radius-xl); min-inline-size: 0; }
+:global([data-theme-type="modern-sans"]) .todayTopline { font-family: inherit; font-size: 0.75rem; color: var(--color-text-secondary); }
+:global([data-theme-type="modern-sans"]) .time { font-family: var(--font-system); font-weight: 400; font-size: clamp(2rem, 11vw, 3.5rem); letter-spacing: -0.065em; line-height: 1.1; white-space: nowrap; }
+:global([data-theme-type="modern-sans"]) .date { margin-block-start: 0.375rem; font-size: 0.8125rem; font-weight: 500; text-transform: none; }
+:global([data-theme-type="modern-sans"]) .condition { display: none; }
+:global([data-theme-type="modern-sans"]) .discovery:empty { display: none; }
+:global([data-theme-type="modern-sans"]) .statusComplication { gap: 0.375rem; padding: 0.5rem; font-size: 0.6875rem; line-height: 1.3; text-align: start; }
+.statusMark { flex: none; }
+:global([data-theme="dusk"]) .homeHeader { color: var(--color-text-primary); text-shadow: 0 1px 6px var(--color-shadow-dark); }
+:global([data-theme="dusk"]) .brand span { color: var(--color-text-primary); }
+:global([data-theme="dusk"]) .dock { background: var(--neu-floating-bg); border-color: var(--color-border-subtle); }
+:global([data-high-contrast="true"]) .brand { padding: 0.375rem 0.625rem; border-radius: var(--radius-md); background: var(--color-surface-base); }
+@media (max-width: 22rem) {
+  :global([data-theme-type="modern-sans"]) .todayWidget { padding: 0.75rem; }
+  :global([data-theme-type="modern-sans"]) .widgets { gap: 0.625rem; }
 }

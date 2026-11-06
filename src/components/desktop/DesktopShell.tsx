@@ -1,6 +1,7 @@
 "use client";
 
 import { LiquidGlass } from "@/components/ui/LiquidGlass";
+import { FeaturedBuild } from "@/components/os/FeaturedBuild";
 
 import {
   CaretUp,
@@ -430,6 +431,7 @@ export function DesktopShell({
       <div aria-hidden="true" className={styles.wallpaperShade} />
 
       <section aria-label="Desktop shortcuts" className={styles.iconGrid}>
+        <FeaturedBuild className={styles.featuredBuild} />
         {desktopPlacement.map((appId) => {
           const app = getAppById(appId);
           const selected = selectedAppId === app.id;

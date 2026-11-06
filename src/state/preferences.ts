@@ -1,3 +1,6 @@
+import { defaultTheme, getTheme } from "../registry/themes";
+import { getWallpaper } from "../registry/wallpapers";
+
 export const DUSK_THEME_ID = "dusk" as const;
 
 export type DisplayPreference = "auto" | "desktop" | "pocket";
@@ -104,12 +107,19 @@ export function preferencesReducer(
   switch (action.type) {
     case "hydrate":
       return { ...action.preferences };
-    case "theme/set":
+    case "theme/set": {
+      const theme = getTheme(action.themeId);
+      if (!theme) return state;
       return state.themeId === action.themeId
         ? state
-        : { ...state, themeId: action.themeId };
-    case "wallpaper/set":
-      return { ...state, wallpaperId: action.wallpaperId };
+        : { ...state, themeId: theme.id, wallpaperId: theme.recommendedWallpaperId };
+    }
+    case "wallpaper/set": {
+      const theme = getTheme(state.themeId) ?? defaultTheme;
+      const wallpaper = getWallpaper(action.wallpaperId);
+      if (!wallpaper || wallpaper.recommendedThemeId !== theme.id) return state;
+      return { ...state, wallpaperId: wallpaper.id };
+    }
     case "sound/set":
       return { ...state, soundEnabled: action.enabled };
     case "reduced-motion/set":
