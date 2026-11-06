@@ -32,8 +32,8 @@
 [data-game="low-tide-loot"] {
   --loot-ink: #101814;
   --loot-paper: #f8edcf;
-  --loot-teal: #61bcbd;
-  --loot-yellow: #f5c34e;
+  --loot-teal: #77dacf;
+  --loot-yellow: #ffd164;
   --loot-pink: #eb789e;
   --loot-rule: #52625b;
   --loot-poster: #070b09;
@@ -59,6 +59,29 @@
   --loot-score-divider: #82917c80;
   --loot-controls-muted: #b4c4af;
   --loot-bomb-surface: #2d2023;
+  /* Arcade UI tokens remain fixed across OS themes. */
+  --loot-ui-toolbar: #101e20f5;
+  --loot-ui-controls: #101e20fa;
+  --loot-ui-panel: #132526f5;
+  --loot-ui-panel-border: #58817d66;
+  --loot-arena-glow: #366f6840;
+  --loot-button-glint: #fff8;
+  --loot-fire-shadow: #8a6425;
+  --loot-move-border: #718e8c55;
+  --loot-move-surface: #2c4648;
+  --loot-move-glint: #9bb6ab33;
+  --loot-move-shadow: #060e0f;
+  --loot-move-pressed: #43716c;
+  --loot-key-border: #718e8c66;
+  --loot-bomb-border: #b45d7877;
+  --loot-bomb-fill: #382931;
+  --loot-rotate-glow: #294f4c;
+  --loot-rotate-backdrop: #0c191c;
+  --loot-radius-button: 10px;
+  --loot-radius-control: 12px;
+  --loot-radius-panel: 22px;
+  --loot-radius-key: 4px;
+
 }
 
 /* Shared immersive UI palette; game art stays independent of OS themes. */

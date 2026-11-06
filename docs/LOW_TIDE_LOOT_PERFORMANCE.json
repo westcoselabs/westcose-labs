@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-06",
+  "environment": "Production build, headless Chromium, emulated Pixel 7, 844x390 CSS pixels, SwiftShader software WebGL. These are not physical-phone FPS claims.",
+  "scene": "Seed 1, day 1, idle swinging claw, 1-second warmup, 120-frame samples, identical assets and UI.",
+  "finding": "Script time was approximately 4ms at every density. Frame time tracks canvas resolution. A 1.5x touch cap removes 43.75% of the pixels of 2x while retaining native-resolution HTML HUD and controls.",
+  "selectedCap": {
+    "touch": 1.5,
+    "desktop": 2
+  },
+  "samplesBeforeCapChange": [
+    {
+      "density": 2,
+      "meanMs": 48.74833333333335,
+      "p95Ms": 66.60000000000036,
+      "frames": 120,
+      "drawingBuffer": [
+        1560,
+        780
+      ],
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "scriptMsPerFrame": 4.335066666666666,
+      "taskMsPerFrame": 49.83524166666666
+    },
+    {
+      "density": 1.5,
+      "meanMs": 32.36,
+      "p95Ms": 50,
+      "frames": 120,
+      "drawingBuffer": [
+        1170,
+        585
+      ],
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "scriptMsPerFrame": 4.266166666666667,
+      "taskMsPerFrame": 33.01730833333333
+    },
+    {
+      "density": 1,
+      "meanMs": 17.360833333333332,
+      "p95Ms": 16.800000000000182,
+      "frames": 120,
+      "drawingBuffer": [
+        780,
+        390
+      ],
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "scriptMsPerFrame": 3.7601833333333334,
+      "taskMsPerFrame": 17.53575
+    }
+  ],
+  "finalProductionMobileSmoke": {
+    "frames": 119,
+    "meanMs": 30.531092436974795,
+    "p95Ms": 33.400000000000546,
+    "dpr": 2.625
+  }
+}

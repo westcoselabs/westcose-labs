@@ -1,0 +1,298 @@
+{
+  "created": "2026-11-06",
+  "engine": "KAPLAY 3001.0.19",
+  "tool": "built-in image_gen",
+  "provenance": "Original generated illustrations. The existing scavenger illustration was the identity and palette reference. No stock assets were sourced.",
+  "normalization": "scripts/package-loot-art.py: slice fixed cells, crop alpha bounds, preserve aspect ratio, center with 6px minimum transparent inset, WebP quality 92. Linear filtering; loot 192x192 and operator 512x512.",
+  "artDirection": "Coastal arcade screenprint: cream skeleton, yellow sunhat, turquoise sunglasses and salvage buggy, pink shoes. Loot uses chunky ink contours, restrained stipple, warm cream edges and distinctive silhouettes. UI remains HTML/CSS; articulated claw remains code-native to match collision and cable angle.",
+  "sources": {
+    "operator": "exec-b0b742f5-6f97-4ffb-ad42-898a77f42bba.png",
+    "coreLoot": "exec-ab265154-d20b-4b0f-905c-5eb2695a394d.png",
+    "additionalLoot": "exec-2c06ef87-596a-43c0-9cda-17846bdea61d.png",
+    "additionalLootRejectedBackground": "exec-7e755bca-a35c-46a5-9209-2450891a562d.png"
+  },
+  "prompts": {
+    "operator": "Redesign this character as a compact production side-view 2D arcade game sprite. Keep the friendly cream skeleton, big yellow sunhat, turquoise sunglasses, teal shorts, hot pink shoes, black ink and warm screenprint art direction. New subject: expressive grinning skeleton seated upright in a tiny homemade turquoise SALVAGE BEACH BUGGY, both hands on a control lever, two big chunky black wheels and a low mustard chassis. A small cable winch mounted on the FRONT LEFT of the cart; no crane arm, NO cable and NO hanging claw (these are rendered in game). Character faces left in three-quarter side view, very clear readable large head, simplified strong shapes with limited stipple and thick dark outlines plus subtle cream outer rim. Fit skeleton plus complete vehicle into a compact nearly square silhouette, centered, generous transparent padding. No scenery, no ground, no shadow outside the sprite, no text, no labels. Actual transparent background. Must read at 150px tall. This is one single sprite, not a sheet.",
+    "coreLoot": "Production 2D arcade game loot sprite atlas, exactly FOUR equal columns by THREE equal rows, 12 isolated objects total, transparent background, square cells in a 4:3 landscape sheet. Every object centered within its own cell and surrounded by at least 15 percent empty transparent margin; absolutely no touching or crossing cell boundaries. No grid lines, no scenery, no labels, no lettering (except the question mark and 13 specified). Cohesive hand-inked coastal screenprint illustration: chunky black contour, narrow warm cream rim, restrained stipple, rich mustard gold, turquoise, coral pink, warm grey. Strong recognizable silhouettes with dimensional shading readable at 64px. All items shown in a consistent slightly three-quarter front view. Exact row-major order: Row 1: (1) fat rolled wad of green cash with cream paper band, (2) heavy gleaming gold Cuban-link chain draped in a U with a bold sun medallion, (3) luxurious gold wristwatch with turquoise dial and broad gold linked strap, (4) hot-pink battered beach cooler with cream lid and one large cream question mark. Row 2: (1) broken heavy grey concrete cinder block with TWO hollow holes and exposed rusted rebar, (2) chunky abandoned black tire with visible inner hole and seaweed wrapped around one edge, (3) dark turquoise rusty ship anchor with a thick rope knot, (4) rolled turquoise and cream striped beach towel with frayed edges. Row 3: (1) snapped mustard-yellow surfboard nose with hot pink lightning graphic and jagged broken bottom, (2) single coral pink rubber flip-flop with cream straps, (3) diamond-shaped pink vintage motel key tag with number 13 and brass key attached, (4) large brilliant turquoise diamond on a thick polished gold ring. All twelve objects fully visible, visually balanced sizes, crisp professional collectible game sprites. Do not add anything else.",
+    "additionalLoot": "Production 2D arcade loot sprite atlas on a genuinely transparent background. Exactly FIVE equal columns and TWO equal rows, 10 isolated objects. Wide 5:2 sheet with square cells. Each object fully inside its own cell with transparent gutters, centered, absolutely no overlap. Cohesive coastal screenprint illustration with thick black ink contours, a thin warm cream outline, limited stipple, large readable simplified silhouettes, three-quarter front view. Palette: mustard gold, sea turquoise, coral pink, warm cream, charcoal black. Exact row-major order. Top row: 1 heavy silver linked necklace in U shape with moon medallion; 2 battered black smartphone with a cracked turquoise screen; 3 vintage cream-and-brown film camera with large turquoise glass lens; 4 chunky turquoise sunglasses with dark reflective lenses; 5 worn caramel brown bifold wallet with a green banknote poking out. Bottom row: 1 pair of cream wireless earbuds sitting in an open cream charging case; 2 two chunky brass keys on a silver ring with a turquoise surfboard fob; 3 expressive orange crab facing front with raised claws; 4 a second similar coral crab proudly carrying a big turquoise gemstone gold ring above its right claw; 5 open retro silver computer hard drive with shiny disc, turquoise circuit board corner, pink warning sticker. No lettering, no background, no grid lines, no shadows outside the individual objects. Readable at 60px wide. Keep objects generously separated for slicing.",
+    "additionalLootCleanup": "Clean up this sprite sheet for actual game use. KEEP all 10 illustrated objects, their exact positions and dimensions, five columns by two rows, artwork and identity unchanged. Remove ALL the grey/pink/black/white background noise, texture, thin grid lines, haze and shadows surrounding the objects. Make every pixel outside the ten object silhouettes fully transparent alpha zero. The cream outline directly around each object should remain. Opaque objects, perfectly clean empty transparency between each. Do not change any object or add any background, checkerboard, ground, text or labels. This is background removal only."
+  },
+  "assets": [
+    {
+      "file": "/games/low-tide-loot/loot-anchor.webp",
+      "size": [
+        192,
+        192
+      ],
+      "bytes": 18048,
+      "alpha": true,
+      "pivot": "center",
+      "collision": "model.ts lootRadius; artwork is visual only",
+      "status": "reviewed in desktop and mobile Chromium"
+    },
+    {
+      "file": "/games/low-tide-loot/loot-board.webp",
+      "size": [
+        192,
+        192
+      ],
+      "bytes": 17322,
+      "alpha": true,
+      "pivot": "center",
+      "collision": "model.ts lootRadius; artwork is visual only",
+      "status": "reviewed in desktop and mobile Chromium"
+    },
+    {
+      "file": "/games/low-tide-loot/loot-camera.webp",
+      "size": [
+        192,
+        192
+      ],
+      "bytes": 17892,
+      "alpha": true,
+      "pivot": "center",
+      "collision": "model.ts lootRadius; artwork is visual only",
+      "status": "reviewed in desktop and mobile Chromium"
+    },
+    {
+      "file": "/games/low-tide-loot/loot-cash.webp",
+      "size": [
+        192,
+        192
+      ],
+      "bytes": 20612,
+      "alpha": true,
+      "pivot": "center",
+      "collision": "model.ts lootRadius; artwork is visual only",
+      "status": "reviewed in desktop and mobile Chromium"
+    },
+    {
+      "file": "/games/low-tide-loot/loot-concrete.webp",
+      "size": [
+        192,
+        192
+      ],
+      "bytes": 21134,
+      "alpha": true,
+      "pivot": "center",
+      "collision": "model.ts lootRadius; artwork is visual only",
+      "status": "reviewed in desktop and mobile Chromium"
+    },
+    {
+      "file": "/games/low-tide-loot/loot-cooler.webp",
+      "size": [
+        192,
+        192
+      ],
+      "bytes": 20062,
+      "alpha": true,
+      "pivot": "center",
+      "collision": "model.ts lootRadius; artwork is visual only",
+      "status": "reviewed in desktop and mobile Chromium"
+    },
+    {
+      "file": "/games/low-tide-loot/loot-crab.webp",
+      "size": [
+        192,
+        192
+      ],
+      "bytes": 20984,
+      "alpha": true,
+      "pivot": "center",
+      "collision": "model.ts lootRadius; artwork is visual only",
+      "status": "reviewed in desktop and mobile Chromium"
+    },
+    {
+      "file": "/games/low-tide-loot/loot-drive.webp",
+      "size": [
+        192,
+        192
+      ],
+      "bytes": 20096,
+      "alpha": true,
+      "pivot": "center",
+      "collision": "model.ts lootRadius; artwork is visual only",
+      "status": "reviewed in desktop and mobile Chromium"
+    },
+    {
+      "file": "/games/low-tide-loot/loot-earbuds.webp",
+      "size": [
+        192,
+        192
+      ],
+      "bytes": 17342,
+      "alpha": true,
+      "pivot": "center",
+      "collision": "model.ts lootRadius; artwork is visual only",
+      "status": "reviewed in desktop and mobile Chromium"
+    },
+    {
+      "file": "/games/low-tide-loot/loot-flipflop.webp",
+      "size": [
+        192,
+        192
+      ],
+      "bytes": 16600,
+      "alpha": true,
+      "pivot": "center",
+      "collision": "model.ts lootRadius; artwork is visual only",
+      "status": "reviewed in desktop and mobile Chromium"
+    },
+    {
+      "file": "/games/low-tide-loot/loot-gold.webp",
+      "size": [
+        192,
+        192
+      ],
+      "bytes": 18188,
+      "alpha": true,
+      "pivot": "center",
+      "collision": "model.ts lootRadius; artwork is visual only",
+      "status": "reviewed in desktop and mobile Chromium"
+    },
+    {
+      "file": "/games/low-tide-loot/loot-jewelryCrab.webp",
+      "size": [
+        192,
+        192
+      ],
+      "bytes": 21882,
+      "alpha": true,
+      "pivot": "center",
+      "collision": "model.ts lootRadius; artwork is visual only",
+      "status": "reviewed in desktop and mobile Chromium"
+    },
+    {
+      "file": "/games/low-tide-loot/loot-keys.webp",
+      "size": [
+        192,
+        192
+      ],
+      "bytes": 17812,
+      "alpha": true,
+      "pivot": "center",
+      "collision": "model.ts lootRadius; artwork is visual only",
+      "status": "reviewed in desktop and mobile Chromium"
+    },
+    {
+      "file": "/games/low-tide-loot/loot-motel.webp",
+      "size": [
+        192,
+        192
+      ],
+      "bytes": 16680,
+      "alpha": true,
+      "pivot": "center",
+      "collision": "model.ts lootRadius; artwork is visual only",
+      "status": "reviewed in desktop and mobile Chromium"
+    },
+    {
+      "file": "/games/low-tide-loot/loot-phone.webp",
+      "size": [
+        192,
+        192
+      ],
+      "bytes": 15856,
+      "alpha": true,
+      "pivot": "center",
+      "collision": "model.ts lootRadius; artwork is visual only",
+      "status": "reviewed in desktop and mobile Chromium"
+    },
+    {
+      "file": "/games/low-tide-loot/loot-ring.webp",
+      "size": [
+        192,
+        192
+      ],
+      "bytes": 21584,
+      "alpha": true,
+      "pivot": "center",
+      "collision": "model.ts lootRadius; artwork is visual only",
+      "status": "reviewed in desktop and mobile Chromium"
+    },
+    {
+      "file": "/games/low-tide-loot/loot-shades.webp",
+      "size": [
+        192,
+        192
+      ],
+      "bytes": 12990,
+      "alpha": true,
+      "pivot": "center",
+      "collision": "model.ts lootRadius; artwork is visual only",
+      "status": "reviewed in desktop and mobile Chromium"
+    },
+    {
+      "file": "/games/low-tide-loot/loot-silver.webp",
+      "size": [
+        192,
+        192
+      ],
+      "bytes": 15674,
+      "alpha": true,
+      "pivot": "center",
+      "collision": "model.ts lootRadius; artwork is visual only",
+      "status": "reviewed in desktop and mobile Chromium"
+    },
+    {
+      "file": "/games/low-tide-loot/loot-tire.webp",
+      "size": [
+        192,
+        192
+      ],
+      "bytes": 23284,
+      "alpha": true,
+      "pivot": "center",
+      "collision": "model.ts lootRadius; artwork is visual only",
+      "status": "reviewed in desktop and mobile Chromium"
+    },
+    {
+      "file": "/games/low-tide-loot/loot-towel.webp",
+      "size": [
+        192,
+        192
+      ],
+      "bytes": 19760,
+      "alpha": true,
+      "pivot": "center",
+      "collision": "model.ts lootRadius; artwork is visual only",
+      "status": "reviewed in desktop and mobile Chromium"
+    },
+    {
+      "file": "/games/low-tide-loot/loot-wallet.webp",
+      "size": [
+        192,
+        192
+      ],
+      "bytes": 20154,
+      "alpha": true,
+      "pivot": "center",
+      "collision": "model.ts lootRadius; artwork is visual only",
+      "status": "reviewed in desktop and mobile Chromium"
+    },
+    {
+      "file": "/games/low-tide-loot/loot-watch.webp",
+      "size": [
+        192,
+        192
+      ],
+      "bytes": 20204,
+      "alpha": true,
+      "pivot": "center",
+      "collision": "model.ts lootRadius; artwork is visual only",
+      "status": "reviewed in desktop and mobile Chromium"
+    },
+    {
+      "file": "/games/low-tide-loot/scavenger-buggy.webp",
+      "size": [
+        512,
+        512
+      ],
+      "bytes": 106406,
+      "alpha": true,
+      "pivot": "bottom center",
+      "collision": "non-colliding operator",
+      "status": "reviewed in desktop and mobile Chromium"
+    }
+  ]
+}

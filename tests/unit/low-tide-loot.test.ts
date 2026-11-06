@@ -17,6 +17,7 @@ import {
   lootWeight,
   lootValue,
   mysteryReward,
+  moveRig,
   nextDay,
   openShop,
   PHYSICS,
@@ -41,6 +42,78 @@ const advance = (run: ReturnType<typeof createRun>, seconds: number) => {
   for (let i = 0; i < seconds / PHYSICS.step; i++) stepRun(run, PHYSICS.step);
 };
 describe("LOW TIDE LOOT simulation", () => {
+  it("moves at the same speed across fixed steps and clamps both ends of the beach", () => {
+    const a = createRun(1),
+      b = createRun(1);
+    a.phase = b.phase = "playing";
+    moveRig(a, 1, 0.5);
+    for (let i = 0; i < 60; i++) moveRig(b, 1, PHYSICS.step);
+    expect(a.claw.x).toBeCloseTo(b.claw.x);
+    expect(a.claw.x).toBe(WORLD.originX + PHYSICS.moveSpeed / 2);
+    moveRig(a, -1, 10);
+    expect(a.claw.x).toBe(PHYSICS.railMin);
+    moveRig(a, 1, 10);
+    expect(a.claw.x).toBe(PHYSICS.railMax);
+    moveRig(a, NaN, 1);
+    moveRig(a, -1, Infinity);
+    expect(a.claw.x).toBe(PHYSICS.railMax);
+  });
+  it("keeps the rig stationary through pause, a cast, and a loaded return", () => {
+    const run = createRun(1);
+    moveRig(run, 1, 1);
+    expect(run.claw.x).toBe(WORLD.originX);
+    run.phase = "playing";
+    moveRig(run, -1, 0.5);
+    const position = run.claw.x;
+    fire(run);
+    moveRig(run, 1, 1);
+    run.claw.state = "retracting";
+    moveRig(run, 1, 1);
+    run.claw.state = "swinging";
+    run.phase = "paused";
+    moveRig(run, 1, 1);
+    expect(run.claw.x).toBe(position);
+  });
+  it("casts from the moved origin, catches the first object, and banks it at that origin", () => {
+    const run = createRun(1);
+    run.phase = "playing";
+    moveRig(run, -1, 1);
+    run.claw.angle = 0;
+    run.loot = [
+      {
+        uid: 0,
+        id: "ring",
+        x: run.claw.x,
+        baseX: run.claw.x,
+        y: 280,
+        drift: 0,
+        size: 1,
+        removed: false,
+      },
+    ];
+    expect(hookPosition(run.claw).x).toBe(run.claw.x);
+    fire(run);
+    advance(run, 2);
+    expect(run.loot[0].removed).toBe(true);
+    expect(run.cash).toBe(LOOT.ring.value);
+    expect(run.claw.state).toBe("swinging");
+  });
+  it("returns from both side boundaries without sending the hook offscreen", () => {
+    for (const direction of [-1, 1]) {
+      const run = createRun(1);
+      run.phase = "playing";
+      run.loot = [];
+      moveRig(run, direction, 10);
+      run.claw.angle = direction * PHYSICS.maxAngle;
+      fire(run);
+      for (let i = 0; i < 240; i++) {
+        stepRun(run, PHYSICS.step);
+        expect(hookPosition(run.claw).x).toBeGreaterThanOrEqual(24);
+        expect(hookPosition(run.claw).x).toBeLessThanOrEqual(WORLD.width - 24);
+      }
+      expect(run.claw.state).toBe("swinging");
+    }
+  });
   it("sweeps through the first hit, awards only on retrieval, and resets an empty miss", () => {
     const run = createRun(42);
     run.phase = "playing";
@@ -95,6 +168,7 @@ describe("LOW TIDE LOOT simulation", () => {
     const anchor = run.loot.find((o) => o.id === "anchor")!;
     anchor.size = 1;
     run.claw = {
+      x: WORLD.originX,
       state: "retracting",
       length: 430,
       angle: 0,

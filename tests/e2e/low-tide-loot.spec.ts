@@ -1,5 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { writeFile } from "node:fs/promises";
 import { seedAppearance } from "./appearance-helpers";
 import {
   createRun,
@@ -52,7 +53,9 @@ test.describe("LOW TIDE LOOT", () => {
       await page.goto(`${path}?view=os`);
     expect(
       requests.filter((url) =>
-        /low-tide-loot\/(scavenger|beach-wide)\.webp/.test(url),
+        /low-tide-loot\/(scavenger-buggy|beach-wide|loot-[\w]+)\.webp/.test(
+          url,
+        ),
       ),
     ).toEqual([]);
     await page
@@ -89,7 +92,7 @@ test.describe("LOW TIDE LOOT", () => {
     const game = page.locator('[data-game="low-tide-loot"]'),
       canvas = game.locator("canvas");
     const bounds = await canvas.boundingBox();
-    expect(bounds!.width / bounds!.height).toBeCloseTo(16 / 9, 2);
+    expect(bounds!.width / bounds!.height).toBeCloseTo(2, 2);
     await expect(game).toHaveAttribute("data-reduced-motion", "true");
     await expect(
       page.getByRole("button", { name: "Drop claw" }),
@@ -127,22 +130,18 @@ test.describe("LOW TIDE LOOT", () => {
     const canvas = await game.locator("canvas").elementHandle();
     await page.setViewportSize({ width: 375, height: 667 });
     await expect(
-      page.getByRole("button", { name: "Resume salvaging" }),
-    ).toBeVisible();
-    await expect(
       page.getByText("Turn your phone sideways to play."),
-    ).toHaveCount(0);
+    ).toBeVisible();
     await expect(game).toHaveAttribute("data-phase", "paused");
     expect(await canvas!.evaluate((node) => node.isConnected)).toBe(true);
-    await page.getByRole("button", { name: "Resume salvaging" }).click();
-    await expect(game).toHaveAttribute("data-phase", "playing");
-    await page.getByRole("button", { name: "Drop claw" }).click();
-    await expect(game).not.toHaveAttribute("data-claw", "swinging");
+    await expect(
+      page.getByRole("button", { name: "Resume salvaging" }),
+    ).toHaveCount(0);
     await page.screenshot({ path: info.outputPath("loot-portrait.png") });
     await page.setViewportSize({ width: 1180, height: 720 });
     await expect(
       page.getByText("Turn your phone sideways to play."),
-    ).toHaveCount(0);
+    ).toBeHidden();
     expect(await canvas!.evaluate((node) => node.isConnected)).toBe(true);
     await page.getByRole("button", { name: "Resume salvaging" }).click();
     await expect(game).toHaveAttribute("data-phase", "playing");
@@ -169,6 +168,183 @@ test.describe("LOW TIDE LOOT", () => {
     expect(await page.evaluate(() => document.body.style.overflow)).not.toBe(
       "hidden",
     );
+  });
+  test("moves by keyboard, held controls and drag without accidentally firing", async ({
+    page,
+  }, info) => {
+    await launch(page);
+    const game = page.locator('[data-game="low-tide-loot"]');
+    const canvas = game.locator("canvas");
+    await canvas.focus();
+    await page.keyboard.down("ArrowLeft");
+    await page.waitForTimeout(450);
+    await page.keyboard.up("ArrowLeft");
+    await canvas.press("KeyP");
+    const left = Number(await game.getAttribute("data-rig-x"));
+    expect(left).toBeLessThan(600);
+    await page.getByRole("button", { name: "Resume salvaging" }).click();
+    const rightButton = page.getByRole("button", {
+      name: "Move right",
+      exact: true,
+    });
+    const button = await rightButton.boundingBox();
+    await page.mouse.move(
+      button!.x + button!.width / 2,
+      button!.y + button!.height / 2,
+    );
+    await page.mouse.down();
+    await page.waitForTimeout(450);
+    await page.mouse.up();
+    await canvas.press("KeyP");
+    expect(Number(await game.getAttribute("data-rig-x"))).toBeGreaterThan(
+      left + 50,
+    );
+    await page.getByRole("button", { name: "Resume salvaging" }).click();
+    const field = await canvas.boundingBox();
+    await page.mouse.move(
+      field!.x + field!.width * 0.55,
+      field!.y + field!.height * 0.4,
+    );
+    await page.mouse.down();
+    await page.mouse.move(
+      field!.x + field!.width * 0.8,
+      field!.y + field!.height * 0.4,
+      { steps: 10 },
+    );
+    await page.waitForTimeout(650);
+    await page.mouse.up();
+    await canvas.press("KeyP");
+    expect(Number(await game.getAttribute("data-rig-x"))).toBeGreaterThan(700);
+    await expect(game).toHaveAttribute("data-claw", "swinging");
+    await page.getByRole("button", { name: "Resume salvaging" }).click();
+    await page.screenshot({ path: info.outputPath("loot-movable-rig.png") });
+    await canvas.press("Space");
+    await expect(game).not.toHaveAttribute("data-claw", "swinging");
+    await expect(
+      page.getByRole("button", { name: "Move left" }),
+    ).toBeDisabled();
+  });
+  test("requires landscape before starting and pauses automatically when rotated", async ({
+    page,
+  }, info) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(route);
+    await runtimeAvailable(page);
+    const game = page.locator('[data-game="low-tide-loot"]');
+    await expect(
+      page.getByRole("region", { name: "Landscape required" }),
+    ).toBeVisible();
+    await expect(page.getByRole("button", { name: "Start game" })).toHaveCount(
+      0,
+    );
+    await expect(
+      page.getByRole("button", { name: "Exit to Games" }),
+    ).toBeVisible();
+    await page.screenshot({ path: info.outputPath("loot-rotate-gate.png") });
+    await page.setViewportSize({ width: 844, height: 390 });
+    await page.getByRole("button", { name: "Start game" }).click();
+    await expect(game).toHaveAttribute("data-phase", "playing");
+    const canvas = await game.locator("canvas").elementHandle();
+    await game.locator("canvas").focus();
+    await page.keyboard.down("ArrowRight");
+    await page.waitForTimeout(180);
+    await page.setViewportSize({ width: 390, height: 844 });
+    await expect(game).toHaveAttribute("data-phase", "paused");
+    const stoppedAt = await game.getAttribute("data-rig-x");
+    await page.keyboard.up("ArrowRight");
+    await page.waitForTimeout(1100);
+    await expect(game).toHaveAttribute("data-rig-x", stoppedAt!);
+    expect(await canvas!.evaluate((node) => node.isConnected)).toBe(true);
+    await page.setViewportSize({ width: 844, height: 390 });
+    await expect(game).toHaveAttribute("data-phase", "paused");
+    await page.getByRole("button", { name: "Resume salvaging" }).click();
+    await page.waitForTimeout(1100);
+    await expect(game).toHaveAttribute("data-rig-x", stoppedAt!);
+  });
+  test("releases held touch movement on cancellation and samples rendering", async ({
+    page,
+    browserName,
+    isMobile,
+  }, info) => {
+    test.skip(
+      browserName !== "chromium" || !isMobile,
+      "CDP touch events exercise mobile Chromium.",
+    );
+    await launch(page);
+    const game = page.locator('[data-game="low-tide-loot"]');
+    const left = await page
+      .getByRole("button", { name: "Move left", exact: true })
+      .boundingBox();
+    const cdp = await page.context().newCDPSession(page);
+    await cdp.send("Input.dispatchTouchEvent", {
+      type: "touchStart",
+      touchPoints: [{ x: left!.x + 20, y: left!.y + 20, id: 1 }],
+    });
+    await page.waitForTimeout(400);
+    await cdp.send("Input.dispatchTouchEvent", {
+      type: "touchCancel",
+      touchPoints: [],
+    });
+    await page.getByRole("button", { name: "Pause LOW TIDE LOOT" }).tap();
+    const stoppedAt = await game.getAttribute("data-rig-x");
+    expect(Number(stoppedAt)).toBeLessThan(600);
+    await page.getByRole("button", { name: "Resume salvaging" }).tap();
+    const metrics = await page.evaluate(
+      () =>
+        new Promise<{
+          frames: number;
+          meanMs: number;
+          p95Ms: number;
+          dpr: number;
+        }>((resolve) => {
+          const samples: number[] = [];
+          let previous = performance.now();
+          function frame(now: number) {
+            samples.push(now - previous);
+            previous = now;
+            if (samples.length < 120) requestAnimationFrame(frame);
+            else {
+              samples.shift();
+              samples.sort((a, b) => a - b);
+              resolve({
+                frames: samples.length,
+                meanMs: samples.reduce((a, b) => a + b, 0) / samples.length,
+                p95Ms: samples[Math.floor(samples.length * 0.95)],
+                dpr: devicePixelRatio,
+              });
+            }
+          }
+          requestAnimationFrame(frame);
+        }),
+    );
+    await info.attach("mobile-frame-sample", {
+      body: JSON.stringify(metrics),
+      contentType: "application/json",
+    });
+    await expect(game).toHaveAttribute("data-phase", "playing");
+    await expect(game).toHaveAttribute("data-rig-x", stoppedAt!);
+    await writeFile(
+      info.outputPath("mobile-frame-sample.json"),
+      JSON.stringify(metrics, null, 2),
+    );
+    await cdp.detach();
+  });
+  test("keeps the stage inside phone safe-area insets", async ({ page }) => {
+    await page.setViewportSize({ width: 844, height: 390 });
+    await launch(page);
+    const stage = page.locator("[data-loot-stage]");
+    await stage.evaluate((node) => {
+      node.parentElement!.style.padding = "0px 44px 21px";
+    });
+    await expect(page.locator('[data-game="low-tide-loot"]')).toHaveAttribute(
+      "data-phase",
+      "paused",
+    );
+    const bounds = (await stage.boundingBox())!;
+    expect(bounds.x).toBeGreaterThanOrEqual(44);
+    expect(bounds.x + bounds.width).toBeLessThanOrEqual(800);
+    expect(bounds.y + bounds.height).toBeLessThanOrEqual(369);
+    expect(bounds.width / bounds.height).toBeCloseTo(2, 2);
   });
   test("failed artwork is recoverable with an always available exit", async ({
     page,

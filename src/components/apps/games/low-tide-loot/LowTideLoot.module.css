@@ -21,6 +21,11 @@
   outline-offset: 3px;
 }
 .well {
+  padding-block: env(safe-area-inset-top, 0px) env(safe-area-inset-bottom, 0px);
+  padding-inline: max(
+    env(safe-area-inset-left, 0px),
+    env(safe-area-inset-right, 0px)
+  );
   width: 100%;
   height: 100%;
   display: grid;
@@ -28,9 +33,10 @@
   overflow: hidden;
 }
 .arena {
+  box-shadow: 0 0 100px var(--loot-arena-glow);
   position: relative;
   width: 1280px;
-  height: 720px;
+  height: 640px;
   overflow: hidden;
   container-type: size;
   background: var(--loot-ink);
@@ -48,13 +54,13 @@
   position: absolute;
   z-index: 4;
   inset: 0 0 auto;
-  min-height: 56px;
+  min-height: 52px;
   height: 10%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14px;
-  padding: 8px 18px;
+  gap: 22px;
+  padding: 8px 20px;
   background: var(--loot-ui-toolbar);
   border-bottom: 1px solid var(--loot-ui-divider);
 }
@@ -67,7 +73,7 @@
   gap: 7px;
   background: transparent;
   color: var(--loot-paper);
-  border-radius: var(--radius-sm);
+  border-radius: var(--loot-radius-button);
   font-size: 12px;
 }
 .toolbar button:hover {
@@ -89,7 +95,7 @@
   justify-content: space-between;
   gap: 24px;
   align-items: center;
-  max-width: 900px;
+  max-width: 850px;
 }
 .hud small {
   display: block;
@@ -108,7 +114,7 @@
 .hud strong {
   display: block;
   font:
-    700 clamp(20px, 2.6cqw, 32px)/1.15 var(--font-ibm-plex-mono),
+    700 clamp(20px, 2.6cqw, 32px) / 1.15 var(--font-ibm-plex-mono),
     monospace;
   letter-spacing: -0.05em;
 }
@@ -123,7 +129,7 @@
 .quota meter {
   display: block;
   width: 100%;
-  height: 4px;
+  height: 6px;
   margin-top: 4px;
 }
 .quota meter::-webkit-meter-bar {
@@ -149,7 +155,7 @@
 .panel {
   width: min(480px, 100%);
   border: 1px solid var(--loot-ui-panel-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--loot-radius-panel);
   background: var(--loot-ui-panel);
   padding: clamp(16px, 2.8cqw, 36px);
   box-shadow: 0 20px 80px var(--loot-ui-panel-shadow);
@@ -157,8 +163,8 @@
 .panel h2 {
   margin: 0 0 12px;
   font:
-    900 clamp(28px, 4.1cqw, 52px)/1 Georgia,
-    serif;
+    900 clamp(28px, 4.1cqw, 52px) / 1 var(--font-manrope),
+    sans-serif;
   letter-spacing: -0.04em;
 }
 .panel h2 em {
@@ -187,7 +193,7 @@
   color: var(--loot-ui-button-ink);
   background: var(--loot-yellow);
   font-weight: 800 !important;
-  border-radius: var(--radius-sm);
+  border-radius: var(--loot-radius-button);
   box-shadow: 0 4px 0 var(--loot-ui-button-shadow);
   transition:
     background 0.16s,
@@ -219,13 +225,16 @@
   width: 41%;
 }
 .panel .title {
-  font-size: clamp(42px, 7cqw, 90px);
+  font-weight: 900;
+  letter-spacing: -0.075em;
+  font-size: clamp(42px, 7.6cqw, 96px);
   line-height: 0.86;
   margin: 18px 0;
   text-shadow: 3px 4px var(--loot-ui-title-shadow);
 }
 .title em {
   font-style: normal;
+  color: var(--loot-yellow);
 }
 .tagline {
   font-size: clamp(12px, 1.6cqw, 19px) !important;
@@ -305,7 +314,7 @@
   gap: 12px;
   min-height: 64px;
   height: 11%;
-  padding: 8px 18px;
+  padding: 8px 20px;
   background: var(--loot-ui-controls);
   border-top: 1px solid var(--loot-ui-divider);
 }
@@ -313,6 +322,7 @@
   display: none;
 }
 .feedback {
+  flex: 1;
   min-width: 0;
 }
 .feedback p {
@@ -336,7 +346,7 @@
   justify-content: center;
   gap: 8px;
   min-height: 46px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--loot-radius-button);
   padding: 8px 16px;
   font-size: 13px;
   font-weight: 800;
@@ -349,6 +359,9 @@
   background: var(--loot-yellow);
   color: var(--loot-ink);
   min-width: 144px;
+  box-shadow:
+    inset 0 1px var(--loot-button-glint),
+    0 3px var(--loot-fire-shadow);
 }
 .shopScene {
   background:
@@ -376,8 +389,8 @@
 }
 .shopHeader h2 {
   font:
-    900 clamp(26px, 4cqw, 54px)/1 Georgia,
-    serif;
+    900 clamp(26px, 4cqw, 54px) / 1 var(--font-manrope),
+    sans-serif;
   margin: 0;
   letter-spacing: -0.04em;
 }
@@ -386,7 +399,7 @@
   gap: 22px;
   background: var(--loot-ui-wallet);
   border: 1px solid var(--loot-ui-wallet-border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--loot-radius-button);
   padding: 10px 14px;
 }
 .shopWallet span {
@@ -464,7 +477,7 @@
   justify-content: space-between;
   gap: 14px;
   padding: 10px 12px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--loot-radius-button);
   background: var(--loot-ui-toolbar);
 }
 .shopNote {
@@ -578,7 +591,7 @@
   }
   .shopItem {
     padding: 7px;
-    border-radius: var(--radius-sm);
+    border-radius: var(--loot-radius-button);
   }
   .shopItem h3 {
     margin: 4px 0;
@@ -677,163 +690,231 @@
   color: var(--loot-muted);
 }
 
-/* Portrait keeps the same undistorted world, with touch controls in the free space. */
-@media (orientation: portrait) {
-  .arena {
-    position: relative;
-    container-type: normal;
-    overflow: visible;
-  }
-  .toolbar {
-    position: fixed;
-    top: env(safe-area-inset-top, 0px);
-    height: auto;
-    padding: 8px 12px;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .toolbar > button span {
+.arcadeBrand {
+  flex-shrink: 0;
+  font:
+    900 15px/0.92 var(--font-manrope),
+    sans-serif;
+  letter-spacing: -0.06em;
+}
+.arcadeBrand > span {
+  display: block;
+  color: var(--loot-yellow);
+  font-size: 23px;
+}
+.arcadeBrand i {
+  font:
+    500 9px var(--font-ibm-plex-mono),
+    monospace;
+  color: var(--loot-teal);
+  vertical-align: middle;
+  letter-spacing: 0;
+}
+.movement {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+}
+.movement button {
+  display: grid;
+  place-items: center;
+  min-width: 52px;
+  min-height: 48px;
+  border: 1px solid var(--loot-move-border);
+  border-radius: var(--loot-radius-control);
+  background: var(--loot-move-surface);
+  color: var(--loot-paper);
+  touch-action: none;
+  user-select: none;
+  box-shadow:
+    inset 0 1px var(--loot-move-glint),
+    0 3px var(--loot-move-shadow);
+}
+.movement button:active {
+  background: var(--loot-move-pressed);
+  transform: translateY(2px);
+  box-shadow: none;
+}
+.movement > span {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  margin: 0 8px 0 4px;
+  color: var(--loot-muted);
+}
+.movement kbd {
+  display: inline-block;
+  padding: 3px 4px;
+  margin-left: 4px;
+  border: 1px solid var(--loot-key-border);
+  border-radius: var(--loot-radius-key);
+}
+.controlButtons button {
+  touch-action: manipulation;
+}
+.bomb {
+  border: 1px solid var(--loot-bomb-border) !important;
+  background: var(--loot-bomb-fill);
+}
+.quota meter::-moz-meter-bar {
+  background: var(--loot-yellow);
+}
+.rotateScreen {
+  position: absolute;
+  z-index: 10;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: max(24px, env(safe-area-inset-top))
+    max(24px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom))
+    max(24px, env(safe-area-inset-left));
+  background: radial-gradient(
+    ellipse at 50% 25%,
+    var(--loot-rotate-glow),
+    var(--loot-rotate-backdrop) 70%
+  );
+}
+.rotateScreen[hidden] {
+  display: none;
+}
+.rotateCard {
+  text-align: center;
+  max-width: 360px;
+}
+.rotateIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  margin: 35px 0;
+  color: var(--loot-yellow);
+}
+.rotateIcon > svg:first-child {
+  transform: rotate(-90deg);
+}
+.rotateCard h2 {
+  font:
+    900 clamp(30px, 9vw, 44px) / 1.08 var(--font-manrope),
+    sans-serif;
+  letter-spacing: -0.06em;
+  margin: 0 0 24px;
+}
+.rotateCard em {
+  color: var(--loot-teal);
+  font-style: normal;
+}
+.rotateCard p:not(.eyebrow) {
+  font-size: 16px;
+  font-weight: 700;
+}
+.rotateCard small {
+  color: var(--loot-muted);
+  font-size: 12px;
+  display: block;
+  line-height: 1.6;
+}
+.rotateCard button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 32px;
+  min-height: 46px;
+  padding: 10px 20px;
+  border-radius: var(--loot-radius-control);
+  background: var(--loot-move-surface);
+  color: var(--loot-paper);
+}
+@container (max-width: 1000px) {
+  .arcadeBrand {
     display: none;
   }
-  .toolbarActions {
-    margin-left: auto;
+  .movement > span {
+    display: none;
   }
-  .wordmark {
-    font-size: 14px;
-  }
-  .hud {
-    order: 3;
-    flex-basis: 100%;
-    max-width: none;
-    gap: 16px;
-    padding: 8px 0;
-  }
-  .hud small {
-    font-size: 10px;
-  }
-  .hud strong {
-    font-size: 25px;
-  }
-  .location b {
-    font-size: 12px;
-  }
-  .quota strong span {
-    font-size: 11px;
+  .movement button {
+    min-width: 48px;
+    min-height: 44px;
   }
   .controls {
-    position: fixed;
-    bottom: env(safe-area-inset-bottom, 0px);
-    height: auto;
-    flex-direction: column;
-    align-items: stretch;
-    padding: 16px;
-    gap: 12px;
-  }
-  .feedback p {
-    max-width: none;
-    font-size: 13px;
-  }
-  .feedback small {
-    font-size: 10px;
-  }
-  .controlButtons {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: 12px;
-  }
-  .controlButtons button {
-    min-height: 52px;
-  }
-  .overlay {
-    position: fixed;
-    padding: 80px 20px 24px;
-  }
-  .panel {
-    width: 100%;
-    padding: 24px;
-  }
-  .panel p {
-    font-size: 14px;
-  }
-  .panel h2 {
-    font-size: 40px;
-  }
-  .titleScreen {
-    background-position: 64% center;
-    align-items: end;
-    padding-bottom: 8vh;
-  }
-  .titleScreen .panel {
-    width: 100%;
-    padding: 22px;
-    border-radius: var(--radius-lg);
-    background: var(--loot-ui-panel);
-  }
-  .panel .title {
-    font-size: clamp(48px, 16vw, 76px);
-    margin: 22px 0;
-  }
-  .tagline {
-    font-size: 15px !important;
-  }
-  .instructions {
-    font-size: 12px !important;
-  }
-  .eyebrow {
-    font-size: 11px !important;
-  }
-  .shopScene {
-    padding: 76px 14px 20px;
-    align-items: start;
-    background-position: 30% center;
-  }
-  .shopPanel {
-    width: 100%;
     gap: 14px;
   }
-  .shopHeader {
+  .feedback p {
+    font-size: 12px;
+    line-height: 1.3;
+  }
+}
+@container (max-width: 700px) {
+  .location b {
+    display: none;
+  }
+  .feedback {
+    display: none;
+  }
+  .movement {
+    margin-right: auto;
+  }
+  .hud strong {
+    font-size: 21px;
+  }
+  .quota {
+    max-width: 230px;
+  }
+  .controls {
     gap: 8px;
+    height: 48px;
+    min-height: 48px;
+    padding-block: 2px;
   }
-  .shopHeader h2 {
-    font-size: 32px;
+  .controlButtons button {
+    font-size: 12px;
+    min-height: 44px;
   }
-  .shopWallet {
-    gap: 10px;
-    padding: 10px;
+}
+@container (max-height: 410px) {
+  .titleScreen .title {
+    font-size: clamp(36px, 7cqw, 70px);
+    margin: 8px 0;
   }
-  .shopWallet b {
-    font-size: 20px;
+  .titleScreen .panel {
+    width: 48%;
   }
-  .shopItems {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+  .titleScreen .instructions {
+    margin-bottom: 0;
   }
-  .shopItem {
-    padding: 12px;
+  .panel {
+    padding: 18px 22px;
   }
-  .shopItem h3 {
-    font-size: 15px;
+  .panel h2 {
+    font-size: 30px;
+  }
+  .panel p {
+    margin: 8px 0;
+  }
+  .toolbar {
+    padding-block: 3px;
+  }
+  .shopScene {
+    padding-left: 3%;
   }
   .shopItem p {
-    font-size: 12px;
+    font-size: 10px;
   }
-  .shopItem button {
-    font-size: 12px;
+  .shopPanel {
+    height: auto;
+    min-height: 100%;
   }
-  .shopMark {
-    height: 38px;
+}
+@media (orientation: portrait) {
+  .well {
+    visibility: hidden;
   }
-  .shopMark svg {
-    width: 34px;
+  .rotateScreen {
+    display: grid;
   }
-  .shopFooter {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .shopFooter .primary {
-    width: 100%;
-  }
-  .shopNote {
-    font-size: 12px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .movement button:active {
+    transform: none;
   }
 }

@@ -1,10 +1,11 @@
 import kaplay from "kaplay";
-import { ART, createRenderer, lootSVG } from "./art";
+import { ART, createRenderer, lootArt } from "./art";
 import { LOOT, type UpgradeId } from "./data";
 import {
   bomb,
   createRun,
   fire,
+  moveRig,
   nextDay,
   openShop,
   PHYSICS,
@@ -20,6 +21,7 @@ export type LootEngine = {
   start: () => void;
   fire: () => void;
   bomb: () => void;
+  move: (direction: -1 | 0 | 1) => void;
   pause: () => void;
   resume: () => void;
   shop: () => void;
@@ -64,7 +66,12 @@ export function createLowTideLoot(
     touchToMouse: false,
     loadingScreen: false,
     texFilter: "linear",
-    pixelDensity: Math.min(window.devicePixelRatio || 1, 2),
+    // Touch screens prioritize responsive rendering; HTML controls stay native-res.
+    // A measured 1.5x cap cuts 44% of fill work compared with the old 2x cap.
+    pixelDensity: Math.min(
+      window.devicePixelRatio || 1,
+      window.matchMedia("(pointer: coarse)").matches ? 1.5 : 2,
+    ),
     background: "#172b2b",
   });
   // Explicit local seed replay: development only, no game mutation hooks in production.
@@ -84,6 +91,19 @@ export function createLowTideLoot(
     effectAt = -10,
     effect = "";
   const voices = new Set<OscillatorNode>();
+  const held = new Set<string>();
+  let touchAxis = 0;
+  let drag: {
+    id: number;
+    startX: number;
+    targetX: number;
+    moved: boolean;
+  } | null = null;
+  const clearInput = () => {
+    held.clear();
+    touchAxis = 0;
+    drag = null;
+  };
   const silence = () => {
     for (const voice of voices) {
       try {
@@ -144,6 +164,7 @@ export function createLowTideLoot(
     }
   };
   const pause = () => {
+    clearInput();
     if (!disposed && run.phase === "playing") {
       run.phase = "paused";
       accumulator = 0;
@@ -169,9 +190,43 @@ export function createLowTideLoot(
     if (!event.isPrimary || event.button !== 0) return;
     event.preventDefault();
     canvas.focus({ preventScroll: true });
-    shoot();
+    const bounds = canvas.getBoundingClientRect();
+    const x = ((event.clientX - bounds.left) * WORLD.width) / bounds.width;
+    drag = {
+      id: event.pointerId,
+      startX: event.clientX,
+      targetX: x,
+      moved: false,
+    };
+    canvas.setPointerCapture(event.pointerId);
+  };
+  const pointerMove = (event: PointerEvent) => {
+    if (!drag || drag.id !== event.pointerId) return;
+    if (Math.abs(event.clientX - drag.startX) > 7) drag.moved = true;
+    const bounds = canvas.getBoundingClientRect();
+    drag.targetX = ((event.clientX - bounds.left) * WORLD.width) / bounds.width;
+  };
+  const pointerEnd = (event: PointerEvent) => {
+    if (!drag || drag.id !== event.pointerId) return;
+    const tap = !drag.moved && event.type === "pointerup";
+    drag = null;
+    if (canvas.hasPointerCapture(event.pointerId))
+      canvas.releasePointerCapture(event.pointerId);
+    if (tap) shoot();
+  };
+  const movementKeys: Record<string, number> = {
+    ArrowLeft: -1,
+    KeyA: -1,
+    ArrowRight: 1,
+    KeyD: 1,
   };
   const keyboard = (event: KeyboardEvent) => {
+    if (event.code in movementKeys && run.phase === "playing") {
+      event.preventDefault();
+      event.stopPropagation();
+      held.add(event.code);
+      return;
+    }
     if (
       !["Space", "ArrowDown", "ArrowUp", "KeyB", "Escape", "KeyP"].includes(
         event.code,
@@ -185,10 +240,12 @@ export function createLowTideLoot(
     else if (event.code === "Escape" || event.code === "KeyP") pause();
     else shoot();
   };
+  const keyUp = (event: KeyboardEvent) => held.delete(event.code);
   const hidden = () => {
     if (document.hidden) pause();
   };
   const lostFocus = (event: FocusEvent) => {
+    clearInput();
     if (
       !(event.relatedTarget instanceof Node) ||
       !canvas.closest("[data-game]")?.contains(event.relatedTarget)
@@ -203,7 +260,12 @@ export function createLowTideLoot(
     );
   };
   canvas.addEventListener("pointerdown", pointer);
+  canvas.addEventListener("pointermove", pointerMove);
+  canvas.addEventListener("pointerup", pointerEnd);
+  canvas.addEventListener("pointercancel", pointerEnd);
+  canvas.addEventListener("lostpointercapture", pointerEnd);
   canvas.addEventListener("keydown", keyboard);
+  window.addEventListener("keyup", keyUp);
   canvas.addEventListener("blur", lostFocus);
   canvas.addEventListener("webglcontextlost", lostContext);
   document.addEventListener("visibilitychange", hidden);
@@ -232,10 +294,7 @@ export function createLowTideLoot(
   k.loadSprite("scavenger", ART.character).onError(assetError);
   k.loadSprite("beach", ART.beach).onError(assetError);
   for (const id of Object.keys(LOOT))
-    k.loadSprite(
-      id,
-      `data:image/svg+xml;charset=utf-8,${encodeURIComponent(lootSVG(id))}`,
-    ).onError(assetError);
+    k.loadSprite(id, lootArt(id)).onError(assetError);
   k.onLoad(() => {
     if (disposed) return;
     window.clearTimeout(timeout);
@@ -253,6 +312,20 @@ export function createLowTideLoot(
     if (run.phase !== "playing") return;
     accumulator += k.dt();
     while (accumulator >= PHYSICS.step && run.phase === "playing") {
+      const keyboardAxis = [...held].reduce(
+        (sum, key) => sum + movementKeys[key],
+        0,
+      );
+      const axis = drag?.moved
+        ? Math.max(
+            -1,
+            Math.min(
+              1,
+              (drag.targetX - run.claw.x) / (PHYSICS.moveSpeed * PHYSICS.step),
+            ),
+          )
+        : Math.max(-1, Math.min(1, keyboardAxis + touchAxis));
+      moveRig(run, axis, PHYSICS.step);
       stepRun(run, PHYSICS.step);
       accumulator -= PHYSICS.step;
     }
@@ -271,7 +344,7 @@ export function createLowTideLoot(
       for (let i = 0; i < 9; i++)
         k.drawCircle({
           pos: k.vec2(
-            WORLD.originX + Math.cos(i * 2.4) * age * 90,
+            run.claw.x + Math.cos(i * 2.4) * age * 90,
             206 + Math.sin(i * 2.4) * age * 70 + age * age * 60,
           ),
           radius: 3 * (1 - age),
@@ -283,6 +356,7 @@ export function createLowTideLoot(
   return {
     start: () =>
       act(() => {
+        clearInput();
         run = createRun(
           Number.isFinite(debugSeed) && debugSeed > 0 ? debugSeed : undefined,
         );
@@ -293,6 +367,9 @@ export function createLowTideLoot(
       }),
     fire: shoot,
     bomb: dropBomb,
+    move: (direction) => {
+      touchAxis = direction;
+    },
     pause,
     resume: () =>
       act(() => {
@@ -308,6 +385,7 @@ export function createLowTideLoot(
       }),
     next: () =>
       act(() => {
+        clearInput();
         nextDay(run);
         accumulator = 0;
         effectAt = -10;
@@ -319,13 +397,19 @@ export function createLowTideLoot(
     destroy: () => {
       if (disposed) return;
       disposed = true;
+      clearInput();
       window.clearTimeout(timeout);
       silence();
       update.cancel();
       draw.cancel();
       observer.disconnect();
       canvas.removeEventListener("pointerdown", pointer);
+      canvas.removeEventListener("pointermove", pointerMove);
+      canvas.removeEventListener("pointerup", pointerEnd);
+      canvas.removeEventListener("pointercancel", pointerEnd);
+      canvas.removeEventListener("lostpointercapture", pointerEnd);
       canvas.removeEventListener("keydown", keyboard);
+      window.removeEventListener("keyup", keyUp);
       canvas.removeEventListener("blur", lostFocus);
       canvas.removeEventListener("webglcontextlost", lostContext);
       document.removeEventListener("visibilitychange", hidden);

@@ -11,12 +11,12 @@ import {
 
 export const WORLD = {
   width: 1280,
-  height: 720,
+  height: 640,
   originX: 640,
   originY: 172,
   surface: 205,
   // Leave space for independently sized touch controls and loot value labels.
-  playfieldBottom: 576,
+  playfieldBottom: 516,
 } as const;
 export const PHYSICS = {
   step: 1 / 120,
@@ -25,6 +25,9 @@ export const PHYSICS = {
   fireSpeed: 550,
   emptySpeed: 670,
   restLength: 40,
+  moveSpeed: 360,
+  railMin: 112,
+  railMax: 1088,
 } as const;
 export type LootObject = {
   uid: number;
@@ -37,6 +40,7 @@ export type LootObject = {
   removed: boolean;
 };
 export type Claw = {
+  x: number;
   state: "swinging" | "firing" | "retracting";
   angle: number;
   direction: number;
@@ -68,7 +72,14 @@ export type Run = {
   event: number;
   message: string;
   effect:
-    "fire" | "hit" | "money" | "bomb" | "success" | "failure" | "buy" | "";
+    | "fire"
+    | "hit"
+    | "money"
+    | "bomb"
+    | "success"
+    | "failure"
+    | "buy"
+    | "";
 };
 export type Snapshot = Pick<
   Run,
@@ -91,6 +102,7 @@ export type Snapshot = Pick<
   attached: string | null;
   attachedWeight: number;
   clawState: Claw["state"];
+  rigX: number;
   event: number;
 };
 export function seededRandom(seed: number) {
@@ -192,7 +204,10 @@ export function generateLayout(day: number, seed: number): LootObject[] {
     { x: 640, y: 461 },
     { x: 1080, y: 535 },
     { x: 480, y: 530 },
-  ];
+  ].map((pocket) => ({
+    ...pocket,
+    y: WORLD.surface + (pocket.y - WORLD.surface) * 0.86,
+  }));
   const objects: LootObject[] = [];
   for (const [uid, id] of ids.entries()) {
     const def = LOOT[id];
@@ -225,7 +240,7 @@ export function generateLayout(day: number, seed: number): LootObject[] {
           y: WORLD.originY + (prize.y - WORLD.originY) * distance,
         };
       } else {
-        position = { x: 48 + rng() * (WORLD.width - 96), y: 270 + rng() * 275 };
+        position = { x: 48 + rng() * (WORLD.width - 96), y: 260 + rng() * 230 };
       }
       const angle = Math.abs(
         Math.atan2(position.x - WORLD.originX, position.y - WORLD.originY),
@@ -265,6 +280,7 @@ export function generateLayout(day: number, seed: number): LootObject[] {
   return objects;
 }
 const newClaw = (): Claw => ({
+  x: WORLD.originX,
   state: "swinging",
   angle: -0.75,
   direction: 1,
@@ -319,6 +335,7 @@ export function snapshot(run: Run): Snapshot {
     attached: attachedLoot(run)?.id ?? null,
     attachedWeight: attachedLoot(run) ? lootWeight(attachedLoot(run)!) : 0,
     clawState: run.claw.state,
+    rigX: run.claw.x,
     event: run.event,
   };
 }
@@ -326,9 +343,27 @@ export const attachedLoot = (run: Run) =>
   run.loot.find((o) => o.uid === run.claw.attached && !o.removed);
 export function hookPosition(claw: Claw) {
   return {
-    x: WORLD.originX + Math.sin(claw.angle) * claw.length,
+    x: claw.x + Math.sin(claw.angle) * claw.length,
     y: WORLD.originY + Math.cos(claw.angle) * claw.length,
   };
+}
+/** Reposition only with the claw docked; a cast always keeps its launch origin. */
+export function moveRig(run: Run, axis: number, dt: number) {
+  if (
+    run.phase !== "playing" ||
+    run.claw.state !== "swinging" ||
+    !Number.isFinite(axis) ||
+    !Number.isFinite(dt) ||
+    dt <= 0
+  )
+    return;
+  run.claw.x = Math.max(
+    PHYSICS.railMin,
+    Math.min(
+      PHYSICS.railMax,
+      run.claw.x + Math.max(-1, Math.min(1, axis)) * PHYSICS.moveSpeed * dt,
+    ),
+  );
 }
 function emit(run: Run, message: string, effect: Run["effect"]) {
   run.message = message;
@@ -442,7 +477,9 @@ export function stepRun(run: Run, dt: number) {
       dy = Math.cos(claw.angle);
     const maxLength = Math.min(
       (WORLD.playfieldBottom - WORLD.originY) / dy,
-      Math.abs(dx) < 0.001 ? Infinity : (WORLD.width / 2 - 24) / Math.abs(dx),
+      Math.abs(dx) < 0.001
+        ? Infinity
+        : (dx > 0 ? WORLD.width - 24 - claw.x : claw.x - 24) / Math.abs(dx),
     );
     claw.length = Math.min(maxLength, claw.length + PHYSICS.fireSpeed * step);
     const after = hookPosition(claw);

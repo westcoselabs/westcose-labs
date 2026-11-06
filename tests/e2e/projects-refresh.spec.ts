@@ -309,7 +309,7 @@ test("all four invisible resize corners keep the opposite corner anchored", asyn
   await expect(page.locator("[data-corner]")).toHaveCount(0);
 });
 
-test("portrait LOW TIDE LOOT starts immediately with clear controls and a 16:9 canvas", async ({
+test("portrait LOW TIDE LOOT requests rotation before opening its wide playfield", async ({
   page,
 }, info) => {
   await page.setViewportSize({ width: 375, height: 667 });
@@ -322,19 +322,17 @@ test("portrait LOW TIDE LOOT starts immediately with clear controls and a 16:9 c
     !(await page.evaluate(() => Boolean(window.AudioContext))),
     "This runtime lacks Web Audio; the existing fallback test covers it.",
   );
-  await expect(page.getByText("Turn your phone sideways to play.")).toHaveCount(
-    0,
-  );
+  await expect(page.getByText("Turn your phone sideways to play.")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Start game" })).toHaveCount(0);
+  await page.screenshot({ path: info.outputPath("loot-portrait-gate.png") });
+  await page.setViewportSize({ width: 844, height: 390 });
   await page.getByRole("button", { name: "Start game" }).click();
   const game = page.locator('[data-game="low-tide-loot"]');
   await expect(game).toHaveAttribute("data-phase", "playing");
   const canvas = (await game.locator("canvas").boundingBox())!;
   const drop = page.getByRole("button", { name: "Drop claw" });
   await expect(drop).toBeInViewport();
-  expect(canvas.width / canvas.height).toBeCloseTo(16 / 9, 2);
-  expect((await drop.boundingBox())!.y).toBeGreaterThanOrEqual(
-    canvas.y + canvas.height,
-  );
+  expect(canvas.width / canvas.height).toBeCloseTo(2, 2);
   expect(
     await game.evaluate(
       (node) =>
@@ -342,9 +340,10 @@ test("portrait LOW TIDE LOOT starts immediately with clear controls and a 16:9 c
         node.scrollHeight <= node.clientHeight,
     ),
   ).toBe(true);
-  await page.screenshot({ path: info.outputPath("loot-portrait-playing.png") });
   await drop.click();
   await expect(game).not.toHaveAttribute("data-claw", "swinging");
+  await page.setViewportSize({ width: 375, height: 667 });
+  await expect(page.getByText("Turn your phone sideways to play.")).toBeVisible();
   await page.setViewportSize({ width: 844, height: 390 });
   await expect(game).toHaveAttribute("data-phase", "paused");
   await page.getByRole("button", { name: "Resume salvaging" }).click();

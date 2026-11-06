@@ -17,6 +17,7 @@ Open **Games → LOW TIDE LOOT**, the matching Pocket shortcut, or `/games/arcad
 
 | Action | Desktop | Touch |
 |---|---|---|
+| Move rig (claw ready) | Left/Right, A/D, or drag playfield | Hold the left/right buttons or drag |
 | Fire | Space, Down Arrow, click playfield, Drop Claw | Tap playfield or Drop Claw |
 | Release hauled object | Up Arrow, B or Beach Bomb | Beach Bomb |
 | Pause | Escape, P, or Pause | Pause |
@@ -25,7 +26,11 @@ Open **Games → LOW TIDE LOOT**, the matching Pocket shortcut, or `/games/arcad
 
 Bombs only activate while an object is attached. Menus and buttons are semantic HTML with visible focus; primary touch controls are at least 44px. Sound defaults off and follows the OS preference; a local toggle is available when no settings provider exists. Sounds are brief original synthesized effects, with no fetched music.
 
-The complete 1280 × 720 logical playfield fits both orientations proportionally with letterboxing. Portrait permits immediate play and places the HUD and touch controls outside the canvas. Loot and cable bounds reserve space for independently sized touch controls; no object or value label is placed beneath them. A ResizeObserver refits and pauses the game. Visibility loss, window blur, leaving game controls, browser fullscreen exit and long frame stalls pause gameplay; returning does not automatically resume. Pause freezes timer, claw, crabs and gameplay effects. Reduced motion removes decorative movement, object wiggle and particles while retaining the essential aiming mechanic.
+The complete **1280 × 640 (2:1)** logical playfield fits landscape proportionally. The taller original beach plate is cropped below the playfield rather than stretched. The tighter loot layout reserves space for touch controls and 18px high-contrast price plaques. Portrait shows a dedicated **Turn your phone sideways to play** screen; game controls are inert and the run pauses. Rotation preserves the same canvas, cash, timer and claw; return to landscape and choose Resume. The start action also requests a native landscape lock on supporting touch browsers after entering fullscreen. The gate is the fallback when locking is unsupported or denied; exiting unlocks orientation.
+
+Left/Right, A/D, held touch buttons and horizontal dragging share `moveRig` in the deterministic model. The rig moves at 360 logical pixels/second, clamped from x=112 to x=1088. The skeleton buggy, winch, cable origin and aiming guide move together. Casting and hauling lock the rig in place until the claw docks. Side-boundary distances are calculated from the current origin, preserving first-contact swept collision. Pointer capture, pointer cancellation, lost capture, key releases, blur, rotation and teardown clear continuous input. A tap fires on release; a drag never fires.
+
+A ResizeObserver refits and pauses the game. Visibility loss, window blur, leaving game controls, browser fullscreen exit and long frame stalls pause gameplay; returning does not automatically resume. Pause freezes timer, claw, crabs and gameplay effects. Reduced motion removes decorative movement, object wiggle, particles and floating reward motion while retaining essential aiming. The modern arcade HUD stays event-driven; new movement coordinates are included in the existing snapshots, without per-frame React updates.
 
 Exit removes listeners and observers, cancels update/draw controllers and load timeouts, stops synthesized voices, quits KAPLAY and closes its AudioContext through cleanup. Failed texture loading, load timeout and lost graphics context have retry/exit states. Imports resolving after unmount cannot create a new engine.
 
@@ -81,10 +86,10 @@ The supplied `Floatin-01.webp` is a style reference. Three original illustration
 - `public/games/low-tide-loot/cover.webp` — 1200 × 800; launcher/catalog illustration.
 - `public/games/low-tide-loot/scavenger.webp` — 900 × 600 with alpha; skeleton winch operator.
 - `public/games/low-tide-loot/beach.webp` — legacy portrait plate, retained for compatibility.
-- `public/games/low-tide-loot/beach-wide.webp` — 1672 × 941; original widescreen beach used by the 1280 × 720 renderer.
+- `public/games/low-tide-loot/beach-wide.webp` — 1672 × 941; original widescreen beach cropped by the 1280 × 640 renderer.
 - `public/games/low-tide-loot/surf-shop.webp` — 1672 × 941; original illustrated shack and shopkeeper. New generation prompts are recorded in [GAME_PRESENTATION.md](GAME_PRESENTATION.md).
 
-Palette: black/cream, turquoise, warm yellow and restrained magenta. Thick imperfect outlines and stippled screen-print textures follow the reference. These are original generated assets, not copied Gold Miner material. The 22 loot icons are original code-native SVG development art, centralized in `art.ts`; final custom illustrated loot sprites can replace those without changing mechanics. Environment variants share the beach plate with palette, prop and weather changes. Seven independently illustrated background plates are intentionally deferred.
+Palette: black/cream, turquoise, warm yellow and restrained magenta. Thick imperfect outlines and stippled screen-print textures follow the reference. These are original generated assets, not copied Gold Miner material. The November 2026 refinement replaces all 22 SVG loot icons with original illustrated transparent WebP sprites and adds `scavenger-buggy.webp`. The articulated claw remains code-native so its joints and grip follow the simulation. All new sprite dimensions, generation prompts, source identifiers, normalization and provenance are recorded in [LOW_TIDE_LOOT_ASSETS.json](LOW_TIDE_LOOT_ASSETS.json). The 23 new assets total approximately 510 KiB and load only inside the game. Environment variants share the beach plate with palette, prop and weather changes. Seven independently illustrated background plates are intentionally deferred.
 
 Generation prompts used the supplied artwork as a **style reference only**:
 
@@ -107,3 +112,16 @@ Optional achievements and background music are deferred. No multiplayer, account
 - KAPLAY requires WebGL and Web Audio even when sound is off. Windows Playwright WebKit lacks Web Audio, so its gameplay cases are explicitly skipped while fallback navigation is checked. Physical iPhone/Safari play remains unverified.
 
 Engine reference: [KAPLAY API](https://kaplayjs.com/docs/api/reference/).
+
+
+## November 2026 refinement
+
+Skills used: `router`, `input-systems`, `game-feel`, `game-ui-ux`, `create-game-assets`, `imagegen`, and `performance-optimization`. KAPLAY 3001.0.19 has no dedicated catalog skill, so its existing typed draw/load/lifecycle APIs remain the engine binding. React 19 / Next 16.3 client lazy-loading and CSS-module conventions were checked against the installed Next documentation.
+
+The revision preserves the existing run phases, 60-second rounds, quotas, weighted retrieval, upgrades, shop, local scores and coastal palette. It adds horizontal control, a compact skeleton buggy, industrial grabber, dotted aim feedback, transient cash rewards, clear loot price plaques, a 2:1 stage and landscape-only play. Asset production used the built-in image generator followed by deterministic alpha-preserving slicing and compression; no runtime dependency was added.
+
+Validation: the production build and TypeScript pass, scoped ESLint passes, all 18 Low Tide Loot unit tests pass, and all 23 new assets pass size/alpha checks. Desktop Chromium and emulated Android cover movement, tap-versus-drag, cancellation, portrait gating, rotation persistence, native/fallback fullscreen, pause, asset failure, score saving, the full two-round/shop cycle and axe accessibility. Chromium, Firefox and emulated Android additionally pass the 568×320 layout and simulated notch/home-indicator checks. Browser test screenshots were inspected for gameplay, portrait gate, results and shop.
+
+The broader repository suite is not green: existing design-token checks report raw colors/radii in `DoNotOpen.module.css`, `AppearanceSettings.module.css`, and `WorldShowcase.module.css`. Those unrelated files were not changed by this task. The Low Tide Loot styles satisfy the token checks.
+
+Performance: a controlled production-build comparison on **SwiftShader software WebGL** measured average frames of 48.7ms at 2×, 32.4ms at 1.5×, and 17.4ms at 1×. Script time remained about 4ms/frame. Touch rendering now caps at 1.5×, desktop at 2×; HTML controls remain at native resolution. These emulation measurements are not physical-device performance guarantees. Raw results are in [LOW_TIDE_LOOT_PERFORMANCE.json](LOW_TIDE_LOOT_PERFORMANCE.json); reproduce with `node scripts/profile-low-tide-loot.mjs` against a production server on port 3100. Physical iPhone/Safari and hardware-specific orientation locking still require a device check; browser tests exercise the portrait gate, fallback fullscreen and emulated Android touch.

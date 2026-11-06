@@ -3,6 +3,10 @@
 import {
   Anchor,
   ArrowDown,
+  ArrowLeft,
+  ArrowRight,
+  DeviceMobile,
+  ArrowsClockwise,
   Bomb,
   Pause,
   Play,
@@ -46,7 +50,10 @@ export default function LowTideLootMount() {
     [localSound, setLocalSound] = useState(false),
     [scores, setScores] = useState<SalvageScore[]>([]);
   const [showScores, setShowScores] = useState(false),
-    [showControls, setShowControls] = useState(false);
+    [showControls, setShowControls] = useState(false),
+    [portrait, setPortrait] = useState(false);
+  const rotationScreen = useRef<HTMLDivElement>(null);
+  const orientationLocked = useRef(false);
   const canvas = useRef<HTMLCanvasElement>(null),
     well = useRef<HTMLDivElement>(null),
     arena = useRef<HTMLDivElement>(null),
@@ -130,12 +137,20 @@ export default function LowTideLootMount() {
     if (!box || !field) return;
     const resize = () => {
       const bounds = box.getBoundingClientRect(),
+        inset = getComputedStyle(box),
         scale = Math.min(
-          bounds.width / WORLD.width,
-          bounds.height / WORLD.height,
+          (bounds.width -
+            parseFloat(inset.paddingLeft) -
+            parseFloat(inset.paddingRight)) /
+            WORLD.width,
+          (bounds.height -
+            parseFloat(inset.paddingTop) -
+            parseFloat(inset.paddingBottom)) /
+            WORLD.height,
         );
       field.style.width = `${Math.max(1, WORLD.width * scale)}px`;
       field.style.height = `${Math.max(1, WORLD.height * scale)}px`;
+      setPortrait(window.matchMedia("(orientation: portrait)").matches);
       engine.current?.pause();
     };
     resize();
@@ -144,7 +159,28 @@ export default function LowTideLootMount() {
     return () => observer.disconnect();
   }, []);
   useEffect(() => {
+    if (portrait)
+      rotationScreen.current
+        ?.querySelector("button")
+        ?.focus({ preventScroll: true });
+    else if (state.phase === "paused")
+      action.current?.focus({ preventScroll: true });
+  }, [portrait, state.phase]);
+  useEffect(
+    () => () => {
+      if (orientationLocked.current) {
+        try {
+          screen.orientation?.unlock();
+        } catch {
+          /* Unsupported browser. */
+        }
+      }
+    },
+    [],
+  );
+  useEffect(() => {
     if (
+      !portrait &&
       ["paused", "complete", "shop", "over"].includes(state.phase) &&
       document.hasFocus() &&
       !document.hidden
@@ -155,9 +191,10 @@ export default function LowTideLootMount() {
       if (!frame || frame.hasAttribute("data-active"))
         action.current?.focus({ preventScroll: true });
     }
-  }, [state.phase]);
+  }, [state.phase, portrait]);
   const act = (method: "start" | "resume" | "fire" | "bomb" | "next") => {
-    if (!ready || error) return;
+    if (!ready || error || window.matchMedia("(orientation: portrait)").matches)
+      return;
     canvas.current?.focus({ preventScroll: true });
     setShowScores(false);
     setShowControls(false);
@@ -172,8 +209,28 @@ export default function LowTideLootMount() {
     overlay = !live;
   const quotaMet = state.cash >= state.target;
   const start = async () => {
-    if (!ready || error) return;
+    if (!ready || error || portrait) return;
     await enterFullscreen();
+    if (!canvas.current) return;
+    const orientation = screen.orientation as ScreenOrientation & {
+      lock?: (value: "landscape") => Promise<void>;
+    };
+    if (
+      document.fullscreenElement &&
+      orientation?.lock &&
+      window.matchMedia("(pointer: coarse)").matches
+    ) {
+      try {
+        await orientation.lock("landscape");
+        if (!canvas.current) {
+          orientation.unlock();
+          return;
+        }
+        orientationLocked.current = true;
+      } catch {
+        /* The rotate screen covers browsers without orientation locking. */
+      }
+    }
     requestAnimationFrame(() => requestAnimationFrame(() => act("start")));
   };
   const icons = {
@@ -191,6 +248,8 @@ export default function LowTideLootMount() {
       data-shell-mode={shell}
       data-phase={state.phase}
       data-claw={state.clawState}
+      data-rig-x={Math.round(state.rigX)}
+      data-orientation={portrait ? "portrait" : "landscape"}
       data-quota-met={quotaMet}
       data-reduced-motion={reducedMotion}
       aria-label="LOW TIDE LOOT arcade game"
@@ -211,18 +270,31 @@ export default function LowTideLootMount() {
       <h1 className="sr-only" tabIndex={-1}>
         LOW TIDE LOOT
       </h1>
-      <div className={styles.well} ref={well}>
+      <div
+        className={styles.well}
+        ref={well}
+        inert={portrait}
+        aria-hidden={portrait || undefined}
+      >
         <div className={styles.arena} ref={arena} data-loot-stage>
           <canvas
             key={attempt}
             ref={canvas}
             tabIndex={live ? 0 : -1}
             inert={overlay || Boolean(error)}
-            aria-label="Salvage playfield. Space, Down Arrow or tap to fire. Up Arrow or B for Beach Bomb. Escape to pause."
+            aria-label="Salvage playfield. Left and Right arrows, A and D, or drag to move. Space, Down Arrow or tap to fire. Up Arrow or B for Beach Bomb. Escape to pause."
             aria-describedby="loot-controls"
           />
           <header className={styles.toolbar}>
             <GameExit onExit={() => engine.current?.pause()} />
+            {live ? (
+              <span className={styles.arcadeBrand} aria-hidden="true">
+                LOW TIDE
+                <span>
+                  LOOT <i>002</i>
+                </span>
+              </span>
+            ) : null}
             {live ? (
               <div className={styles.hud} aria-label="Salvage progress">
                 <div className={styles.location}>
@@ -340,7 +412,7 @@ export default function LowTideLootMount() {
                       <Play weight="fill" size={21} /> Start game
                     </button>
                     <p className={styles.instructions}>
-                      Space / tap to drop · ↑ / B to bomb
+                      ← → / A D / drag to move · Space / tap to drop
                       <br />
                       Collect {money(state.target)} in 60 seconds. Keep the
                       extra.
@@ -366,6 +438,7 @@ export default function LowTideLootMount() {
                     </div>
                     {showControls ? (
                       <p>
+                        ← → / A D or drag: move the rig while the claw is ready.
                         Space / ↓ / tap: fire. ↑ / B: Beach Bomb while hauling.
                         P / Escape: pause. The first object in the cable’s path
                         gets hooked.
@@ -527,6 +600,47 @@ export default function LowTideLootMount() {
             inert={overlay || Boolean(error)}
             hidden={overlay || Boolean(error)}
           >
+            <div
+              className={styles.movement}
+              role="group"
+              aria-label="Move salvage rig"
+            >
+              {([-1, 1] as const).map((direction) => (
+                <button
+                  key={direction}
+                  aria-label={direction < 0 ? "Move left" : "Move right"}
+                  disabled={!live || state.clawState !== "swinging"}
+                  onPointerDown={(event) => {
+                    if (event.button !== 0) return;
+                    event.preventDefault();
+                    canvas.current?.focus({ preventScroll: true });
+                    event.currentTarget.setPointerCapture(event.pointerId);
+                    engine.current?.move(direction);
+                  }}
+                  onPointerUp={() => engine.current?.move(0)}
+                  onPointerCancel={() => engine.current?.move(0)}
+                  onLostPointerCapture={() => engine.current?.move(0)}
+                  onKeyDown={(event) => {
+                    if (["Space", "Enter"].includes(event.code)) {
+                      event.preventDefault();
+                      engine.current?.move(direction);
+                    }
+                  }}
+                  onKeyUp={() => engine.current?.move(0)}
+                  onBlur={() => engine.current?.move(0)}
+                >
+                  {direction < 0 ? (
+                    <ArrowLeft size={25} weight="bold" />
+                  ) : (
+                    <ArrowRight size={25} weight="bold" />
+                  )}
+                </button>
+              ))}
+              <span>
+                MOVE <kbd>A</kbd>
+                <kbd>D</kbd>
+              </span>
+            </div>
             <div className={styles.feedback}>
               <p role="status" aria-live="polite">
                 {attached
@@ -539,7 +653,7 @@ export default function LowTideLootMount() {
                 {Object.entries(state.boosts)
                   .filter(([, on]) => on)
                   .map(([id]) => UPGRADES[id as keyof typeof UPGRADES].name)
-                  .join(" + ") || "SPACE / TAP TO DROP · ↑ / B TO BOMB"}
+                  .join(" + ") || "MOVE TO LINE UP · DROP TO CASH IN"}
               </small>
             </div>
             <div className={styles.controlButtons}>
@@ -557,10 +671,42 @@ export default function LowTideLootMount() {
                 disabled={!live || state.clawState !== "swinging"}
                 onClick={() => act("fire")}
               >
-                Drop claw <ArrowDown size={20} />
+                {state.clawState === "swinging"
+                  ? "Drop claw"
+                  : state.clawState === "firing"
+                    ? "Dropping…"
+                    : "Reeling in…"}{" "}
+                <ArrowDown size={20} />
               </button>
             </div>
           </footer>
+        </div>
+      </div>
+      <div
+        className={styles.rotateScreen}
+        ref={rotationScreen}
+        hidden={!portrait}
+        role="region"
+        aria-label="Landscape required"
+      >
+        <div className={styles.rotateCard}>
+          <p className={styles.eyebrow}>WESTCOSE ARCADE / 002</p>
+          <div className={styles.rotateIcon} aria-hidden="true">
+            <DeviceMobile size={74} weight="duotone" />
+            <ArrowsClockwise size={32} />
+          </div>
+          <h2>
+            More beach.
+            <br />
+            <em>Less squinting.</em>
+          </h2>
+          <p>Turn your phone sideways to play.</p>
+          <small>
+            {state.phase === "ready"
+              ? "LOW TIDE LOOT plays in landscape."
+              : "Your haul is safe. The tide is paused."}
+          </small>
+          <GameExit onExit={() => engine.current?.pause()} />
         </div>
       </div>
     </section>

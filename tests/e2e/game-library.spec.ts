@@ -52,6 +52,8 @@ test("LOW TIDE LOOT sits beside SHITBIRD on the second Pocket page", async ({
   expect(b!.x).toBeGreaterThan(a!.x);
   await page.screenshot({ path: info.outputPath("pocket-games.png") });
   await loot.click();
+  await expect(page.getByText("Turn your phone sideways to play.")).toBeVisible();
+  await page.setViewportSize({ width: 844, height: 390 });
   await expect(page.getByRole("button", { name: "Start game" })).toBeVisible();
 });
 test("native fullscreen starts from the user gesture and exit pauses the original", async ({
@@ -151,7 +153,7 @@ test("original title screens and smallest landscape controls fit without distort
     expect(bounds!.height).toBeGreaterThanOrEqual(44);
   }
   const bounds = await page.locator("canvas").boundingBox();
-  expect(bounds!.width / bounds!.height).toBeCloseTo(16 / 9, 2);
+  expect(bounds!.width / bounds!.height).toBeCloseTo(2, 2);
   expect(
     await page.evaluate(
       () =>
