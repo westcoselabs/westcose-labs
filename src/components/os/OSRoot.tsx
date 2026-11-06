@@ -1,5 +1,7 @@
 "use client";
 
+import { scrollWithinContainer } from "@/lib/scroll-container";
+
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   useCallback,
@@ -312,6 +314,18 @@ export function OSRoot({ children }: OSRootProps) {
     let secondFrame = 0;
     const firstFrame = window.requestAnimationFrame(() => {
       secondFrame = window.requestAnimationFrame(() => {
+        // A case-study deep link must survive the shell's route-focus handoff.
+        const caseStudy = document.querySelector<HTMLElement>(
+          "[data-shell-panel]:not([hidden]) [data-world-case-study]",
+        );
+        const chapter = window.location.hash
+          ? document.getElementById(window.location.hash.slice(1))
+          : null;
+        if (chapter && caseStudy?.contains(chapter)) {
+          scrollWithinContainer(chapter);
+          chapter.querySelector<HTMLElement>("h2")?.focus({ preventScroll: true });
+          return;
+        }
         const returnTarget =
           pathname === "/games" && lastGamePath.current
             ? document.querySelector<HTMLElement>(

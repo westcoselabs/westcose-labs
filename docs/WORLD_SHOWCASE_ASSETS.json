@@ -1,0 +1,848 @@
+{
+  "sourceRepository": "westcose-world",
+  "sourceRevision": "a85ea165ea1111da3b52729654c41fdd027b4ae8",
+  "sources": [
+    {
+      "output": "/images/projects/westcose-world/start.webp",
+      "source": "../westcose-labs/artifacts/world-showcase/captures/start.png",
+      "sha256": "218e524eb9684b73dc46d248c56eb7e464f281a74294217b3226fb6089354cfe",
+      "bytes": 187724
+    },
+    {
+      "output": "/images/projects/westcose-world/explore.webp",
+      "source": "../westcose-labs/artifacts/world-showcase/captures/explore.png",
+      "sha256": "b9a41a576ed38fd62d2fd0ae4ca8512a0a2670e495b2d25216c8831201fb175b",
+      "bytes": 224650
+    },
+    {
+      "output": "/images/projects/westcose-world/world.webp",
+      "source": "../westcose-labs/artifacts/world-showcase/captures/world.png",
+      "sha256": "101204fd4e6d4e1b8f7f37c347e93dc7741346e8e6be0f08bcfe48fe3396ec37",
+      "bytes": 54546
+    },
+    {
+      "output": "/images/projects/westcose-world/pause.webp",
+      "source": "../westcose-labs/artifacts/world-showcase/captures/pause.png",
+      "sha256": "a39bc950ccfcba82a746152fb2ad55c3851ef81700b28d063535486ee717b875",
+      "bytes": 139208
+    },
+    {
+      "output": "/images/projects/westcose-world/loadout.webp",
+      "source": "../westcose-labs/artifacts/world-showcase/captures/loadout.png",
+      "sha256": "b5a2083916c8758f67722fbce51160d5241872c7af14de363af12f4be5d546ff",
+      "bytes": 192170
+    },
+    {
+      "output": "/images/projects/westcose-world/builder.webp",
+      "source": "../westcose-labs/artifacts/world-showcase/captures/builder.png",
+      "sha256": "804fae1656f60eb1ed49755b6b8e91384dd82a266f8be2da6b8408b200ba7092",
+      "bytes": 77216
+    },
+    {
+      "output": "/images/projects/westcose-world/lab-arsenal.webp",
+      "source": "../westcose-labs/artifacts/world-showcase/captures/lab-arsenal.png",
+      "sha256": "221e30d3c7a9e850064287248f84b8069f69147a32f379788041bb2ad80dbfad",
+      "bytes": 54376
+    },
+    {
+      "output": "/images/projects/westcose-world/lab-range.webp",
+      "source": "../westcose-labs/artifacts/world-showcase/captures/lab-range.png",
+      "sha256": "6dfa638e88c9f8c1727f9cd30e6241cbe0f29ee9d54a413d040ea5baeedc3fc0",
+      "bytes": 54682
+    },
+    {
+      "output": "/images/projects/westcose-world/lab-zombies.webp",
+      "source": "../westcose-labs/artifacts/world-showcase/captures/lab-zombies.png",
+      "sha256": "e4c762055829ee030a6aa1390b0a01b499cfffea03eb19ada3549a6dd16e247f",
+      "bytes": 32536
+    },
+    {
+      "output": "/images/projects/westcose-world/lab-barricades.webp",
+      "source": "../westcose-labs/artifacts/world-showcase/captures/lab-barricades.png",
+      "sha256": "0a06d0fc9e3902f88ffccb2ab45bdaca85ae76d4a1cbfc7d18e31212c9d60ab0",
+      "bytes": 36582
+    },
+    {
+      "output": "/images/projects/westcose-world/lab-effects.webp",
+      "source": "../westcose-labs/artifacts/world-showcase/captures/lab-effects.png",
+      "sha256": "a7e91f3c66ffdd17e8e137bdb68029c7ecdd9bd9872ad7d6f6d25655fda8c049",
+      "bytes": 36252
+    },
+    {
+      "output": "/images/projects/westcose-world/lab-reclamation.webp",
+      "source": "../westcose-labs/artifacts/world-showcase/captures/lab-reclamation.png",
+      "sha256": "f36e035d0241b300037a10901177fa1803bdbf5767a2d87b9bb456e54cb62064",
+      "bytes": 36390
+    },
+    {
+      "output": "/images/projects/westcose-world/lab-hounds.webp",
+      "source": "../westcose-labs/artifacts/world-showcase/captures/lab-hounds.png",
+      "sha256": "92f11ea015fd460e4bc3f50fe1ee24bd993889cc56c2e538f160d2dbf1702dca",
+      "bytes": 66416
+    },
+    {
+      "output": "/images/projects/westcose-world/lab-skater.webp",
+      "source": "../westcose-labs/artifacts/world-showcase/captures/lab-skater.png",
+      "sha256": "c0589fce7dfd1883dd5e2f065f0d4dc82cff1a6700865d53d017ef48bc7c3016",
+      "bytes": 74680
+    },
+    {
+      "output": "/images/projects/westcose-world/grotto.webp",
+      "source": "docs/qa/grotto-black-tide/desktop-flooded.png",
+      "sha256": "a04e222ccd2edae3db069565d002850365562dc93edfde09048d95d148ae8331",
+      "bytes": 92648
+    },
+    {
+      "output": "/images/projects/westcose-world/reclamation.webp",
+      "source": "docs/qa/backroads/P47/P47-yard-power.png",
+      "sha256": "98b46a59dc3eb2a9a6c8bcb8d97edd8aefdfb257124b8bbe6bea3d511aa5f118",
+      "bytes": 115398
+    },
+    {
+      "output": "/images/projects/westcose-world/clock.webp",
+      "source": "docs/qa/backroads/P54/P54-check-clock.jpg",
+      "sha256": "7834f6e7fca1769bc9de7ddb22cf7810f62eb9410b0dc2ae7aa9d88f9803e048",
+      "bytes": 108046
+    },
+    {
+      "output": "/images/projects/westcose-world/gary.webp",
+      "source": "docs/qa/backroads/P49/concept-v6/P49-gary-v6-lineup.png",
+      "sha256": "bc9d97e319907d9105df35d5c148325f6258b7e85362af03b707b7e913a994b9",
+      "bytes": 42700
+    },
+    {
+      "output": "/images/projects/westcose-world/gary-game.webp",
+      "source": "docs/qa/backroads/P49/G5/G5-digester-gary.jpg",
+      "sha256": "1182b8c8402c6d1b0b232c99a8ab423a220821f83fd510e0993c964fad16625e",
+      "bytes": 93828
+    },
+    {
+      "output": "/images/projects/westcose-world/pier-model.webp",
+      "source": "docs/qa/dead-coast/pier-sign-integration/asset-oblique.png",
+      "sha256": "19c55b8e480d99c7534b69a4b8b862206a7f4572f5cf47d56b5a5527bee442b1",
+      "bytes": 9086
+    },
+    {
+      "output": "/images/projects/westcose-world/pier-game.webp",
+      "source": "docs/qa/dead-coast/pier-sign-painted/production-oblique.png",
+      "sha256": "a67670b0349a67a945e7b8fe12a6193596b3ad53b8a0302524a631f01a7b4406",
+      "bytes": 110494
+    },
+    {
+      "output": "/images/projects/westcose-world/shop.webp",
+      "source": "docs/qa/shop-flagship/final/05-showroom.jpg",
+      "sha256": "a586276c6ef80510c5909f75ee0912022edc44d6abd584de4e21361da9f88a60",
+      "bytes": 236508
+    },
+    {
+      "output": "/images/projects/westcose-world/shop-front.webp",
+      "source": "docs/qa/shop-flagship/final/01-courtyard.jpg",
+      "sha256": "01d782349278097791bd9d803a4defa6c9753801c732808238c3f947d65b86db",
+      "bytes": 156538
+    },
+    {
+      "output": "/images/projects/westcose-world/shirt-art.webp",
+      "source": "public/textures/shirts/artwork/westcose-social-club.webp",
+      "sha256": "aa44e30b82dcf7f90bce79c0ca08451eb337712041b0a77f3fcced647ff7e956",
+      "bytes": 581030
+    },
+    {
+      "output": "/images/projects/westcose-world/shirt-atlas.webp",
+      "source": "public/textures/shirts/westcose-social-club.webp",
+      "sha256": "88f4c27a9d416421d9272054b8fc07ede0aa7ca9522a9bbc47059e145611e3c5",
+      "bytes": 103862
+    },
+    {
+      "output": "/images/projects/westcose-world/shirt-game.webp",
+      "source": "public/textures/shirts/previews/westcose-social-club-back.webp",
+      "sha256": "fdd61077d201b3c9c0513b3a3699f0e8e7ffb3bebeb5ff4b390a1fa1db30390d",
+      "bytes": 23560
+    },
+    {
+      "output": "/images/projects/westcose-world/intro-poster.webp",
+      "source": "docs/design/world-intro-broadcast-16x9.jpg",
+      "sha256": "bdb96a67c8ecc163d714bf8980e19d046b361f239a7d25efce4b74afb520fc0c",
+      "bytes": 319374
+    },
+    {
+      "output": "/images/projects/westcose-world/weapon.webp",
+      "source": "docs/qa/combat-labs/framing-after/mp5-hip.png",
+      "sha256": "928a8e0fe29b08184f3e5a5598648fb6786a927d3998a76766041e3d32778d65",
+      "bytes": 15882
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/plain-black-front.webp",
+      "source": "public/textures/shirts/previews/plain-black-front.webp",
+      "sha256": "b083e5ea53180a2f2813357d9b65f59d881cae47e6ccfa97851b406de87e5165",
+      "bytes": 8798
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/plain-black-back.webp",
+      "source": "public/textures/shirts/previews/plain-black-back.webp",
+      "sha256": "37d0bb3c3ca9b3b8d2b49cdc901a99d4adb51b47509bc4030c5663b9795ba23d",
+      "bytes": 9086
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/westcose-social-club-front.webp",
+      "source": "public/textures/shirts/previews/westcose-social-club-front.webp",
+      "sha256": "fbc994258b9c3a94cbf2318ffd16b230a9f9453d5d78a35a699474fe250c3eb6",
+      "bytes": 11124
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/westcose-social-club-back.webp",
+      "source": "public/textures/shirts/previews/westcose-social-club-back.webp",
+      "sha256": "fdd61077d201b3c9c0513b3a3699f0e8e7ffb3bebeb5ff4b390a1fa1db30390d",
+      "bytes": 23560
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/westcose-social-club-art.webp",
+      "source": "public/textures/shirts/artwork/westcose-social-club.webp",
+      "sha256": "aa44e30b82dcf7f90bce79c0ca08451eb337712041b0a77f3fcced647ff7e956",
+      "bytes": 125628
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/westcose-or-nothing-front.webp",
+      "source": "public/textures/shirts/previews/westcose-or-nothing-front.webp",
+      "sha256": "912cc27e1a8170f83bbd9aeafde5aa4370441a78b9441702b8a3ddd7f16e0c54",
+      "bytes": 10686
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/westcose-or-nothing-back.webp",
+      "source": "public/textures/shirts/previews/westcose-or-nothing-back.webp",
+      "sha256": "0d796fdbd10f6b45fdaf37da8df1c4dbbac13da36b6a0accf6661ba2271b24c0",
+      "bytes": 17338
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/westcose-or-nothing-art.webp",
+      "source": "public/textures/shirts/artwork/westcose-or-nothing.webp",
+      "sha256": "2e1080f0a7a3da4774b327b95d16edbe0e1b6e1e58f4237249a9bc95377ff238",
+      "bytes": 38350
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/westcose-round-wave-front.webp",
+      "source": "public/textures/shirts/previews/westcose-round-wave-front.webp",
+      "sha256": "0c02973003c04756595ed84c94852edfa0ed6756f3ea99abae0847fe617f6000",
+      "bytes": 11054
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/westcose-round-wave-back.webp",
+      "source": "public/textures/shirts/previews/westcose-round-wave-back.webp",
+      "sha256": "82d66819331f434501f0e5c0745be452731d72e7cec5dbf7eac974b8d13b7bc8",
+      "bytes": 19916
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/westcose-round-wave-art.webp",
+      "source": "public/textures/shirts/artwork/westcose-round-wave.webp",
+      "sha256": "0963b84a113cd9f04daf138530309c9dfea1626200ac2052660fd50d131dd98d",
+      "bytes": 57242
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-wordmark-front.webp",
+      "source": "public/textures/shirts/previews/dead-coast-wordmark-front.webp",
+      "sha256": "c3d65550b8829aba1de87f3f638a559740d5a8f9008c3bf85c546485ca95a57d",
+      "bytes": 11108
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-wordmark-back.webp",
+      "source": "public/textures/shirts/previews/dead-coast-wordmark-back.webp",
+      "sha256": "6bab3537760d084f192bca0e0a5b27aed1e6f824335dc2e96efdecc253d5db8b",
+      "bytes": 15712
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-wordmark-art.webp",
+      "source": "public/textures/shirts/artwork/dead-coast-wordmark.webp",
+      "sha256": "93b38fefec8ca2da6d04d344dbea5c9f9088a1d7849e8dc43fe4b2236ca18bfd",
+      "bytes": 35054
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-fish-and-chips-front.webp",
+      "source": "public/textures/shirts/previews/dead-coast-fish-and-chips-front.webp",
+      "sha256": "0b2f96148f501057e1e55f5b218376cf906bfb31c8a83a9bdae1270c15661cbd",
+      "bytes": 11154
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-fish-and-chips-back.webp",
+      "source": "public/textures/shirts/previews/dead-coast-fish-and-chips-back.webp",
+      "sha256": "a6c7a80e229e14e21cc93826b9edb2a9470b5bc9bcc0c1df0eda89b223e69169",
+      "bytes": 20088
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-fish-and-chips-art.webp",
+      "source": "public/textures/shirts/artwork/dead-coast-fish-and-chips.webp",
+      "sha256": "0a6d191756ffda7645a17bd73a54d17765f4892a84250be3a9145234cf7faf77",
+      "bytes": 29268
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-gullty-as-charged-front.webp",
+      "source": "public/textures/shirts/previews/dead-coast-gullty-as-charged-front.webp",
+      "sha256": "4dbb3d977280d50b009f71c67460333c911656d9ba248e5b38368a6abb6dd158",
+      "bytes": 11450
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-gullty-as-charged-back.webp",
+      "source": "public/textures/shirts/previews/dead-coast-gullty-as-charged-back.webp",
+      "sha256": "6523141d6fd641c9b0e53eb4decbebf1fed1dbd17b2e362da9ac162697bb680a",
+      "bytes": 20460
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-gullty-as-charged-art.webp",
+      "source": "public/textures/shirts/artwork/dead-coast-gullty-as-charged.webp",
+      "sha256": "d90ba744bbff80c088d9ad9469e107e4301d3b8bc2a96b39799c9e3a9660b6d4",
+      "bytes": 27886
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-local-menace-front.webp",
+      "source": "public/textures/shirts/previews/dead-coast-local-menace-front.webp",
+      "sha256": "a0b5474f4220e28092c2088c10fdadf47aa98b0192f059ec2cf36f7ca416a461",
+      "bytes": 11344
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-local-menace-back.webp",
+      "source": "public/textures/shirts/previews/dead-coast-local-menace-back.webp",
+      "sha256": "74cb5b0ee277360e19cf026036bf3b9211f02a2ea342cb7020effeafbbcd5d46",
+      "bytes": 20140
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-local-menace-art.webp",
+      "source": "public/textures/shirts/artwork/dead-coast-local-menace.webp",
+      "sha256": "d1dda0dd14db2bd2835f1801c3b066bad3c09001a245539dd3052cd5d5972712",
+      "bytes": 29930
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-beware-of-the-locals-front.webp",
+      "source": "public/textures/shirts/previews/dead-coast-beware-of-the-locals-front.webp",
+      "sha256": "fbeaf136950f7d065f638868eff78c45004df33518619a248a29ec89e719aaf3",
+      "bytes": 11440
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-beware-of-the-locals-back.webp",
+      "source": "public/textures/shirts/previews/dead-coast-beware-of-the-locals-back.webp",
+      "sha256": "a0d251f50d16613a2cb72bd243b26a58331d47174a1983c6eed42230881c596d",
+      "bytes": 20572
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-beware-of-the-locals-art.webp",
+      "source": "public/textures/shirts/artwork/dead-coast-beware-of-the-locals.webp",
+      "sha256": "a3d6793321d83f326d4f698b5b43f8bf4dfe939da3f98c53b9ecd4cfd9549dc6",
+      "bytes": 29562
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-fishbones-front.webp",
+      "source": "public/textures/shirts/previews/dead-coast-fishbones-front.webp",
+      "sha256": "64fd6ab0e24e77111e7d11021ccf2818354972bfba5a593173691a2f3c5e6022",
+      "bytes": 10942
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-fishbones-back.webp",
+      "source": "public/textures/shirts/previews/dead-coast-fishbones-back.webp",
+      "sha256": "96a0c9090b24bbf361b30b5cc768097fc0115053e19ea44f0637885624d40914",
+      "bytes": 18374
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-fishbones-art.webp",
+      "source": "public/textures/shirts/artwork/dead-coast-fishbones.webp",
+      "sha256": "cddd0acb73f7ded5beb383568f8333730fd2b0dc65249d34a68095d9647ea6e8",
+      "bytes": 22716
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-pier-pressure-front.webp",
+      "source": "public/textures/shirts/previews/dead-coast-pier-pressure-front.webp",
+      "sha256": "8fc93fe846e04a589f480e3c42e573c213707bbfbc340d32f0b5179ae31e36b0",
+      "bytes": 11202
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-pier-pressure-back.webp",
+      "source": "public/textures/shirts/previews/dead-coast-pier-pressure-back.webp",
+      "sha256": "5c0821b696729551e8d20735ec50ea5ab4ffa77bca9436cd176157d5997f1f95",
+      "bytes": 20678
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-pier-pressure-art.webp",
+      "source": "public/textures/shirts/artwork/dead-coast-pier-pressure.webp",
+      "sha256": "444fe21c5b0a2667e3848f6e0c2779c58095ecdd62ec46bffde0e257112acfeb",
+      "bytes": 32434
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-beach-bum-front.webp",
+      "source": "public/textures/shirts/previews/dead-coast-beach-bum-front.webp",
+      "sha256": "7761cd06fed7997d92b3e3cd61040d9941f3c5c969cd1969b09078e5a84d6a69",
+      "bytes": 11050
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-beach-bum-back.webp",
+      "source": "public/textures/shirts/previews/dead-coast-beach-bum-back.webp",
+      "sha256": "606bcf545117a149753565c816422fac48e4d04845e5325b61dcae58cb018f97",
+      "bytes": 19314
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-beach-bum-art.webp",
+      "source": "public/textures/shirts/artwork/dead-coast-beach-bum.webp",
+      "sha256": "49f88ce8889e8eeca4f8b26cef317647e77692a138a5e64c2b7d5098c1753dac",
+      "bytes": 31458
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-drunk-seagull-front.webp",
+      "source": "public/textures/shirts/previews/dead-coast-drunk-seagull-front.webp",
+      "sha256": "de6734d16f629c73150178921c8fe74442b6176fe176ec472624b278f444f88a",
+      "bytes": 11828
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-drunk-seagull-back.webp",
+      "source": "public/textures/shirts/previews/dead-coast-drunk-seagull-back.webp",
+      "sha256": "e1cf0ac8c2d564f5590580449b5234e122e505ab9de15c1544111f3946de9f02",
+      "bytes": 20836
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-drunk-seagull-art.webp",
+      "source": "public/textures/shirts/artwork/dead-coast-drunk-seagull.webp",
+      "sha256": "db3e2c6391fe7d8181a1a16b033d75a41ea6142ecf3ba22cf7b9ccded78e5a50",
+      "bytes": 31616
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-off-duty-front.webp",
+      "source": "public/textures/shirts/previews/dead-coast-off-duty-front.webp",
+      "sha256": "7fd8acbbb23c991672031338e1a05fa85c34e6c2d8662dccaa6124aafd20d8c5",
+      "bytes": 11630
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-off-duty-back.webp",
+      "source": "public/textures/shirts/previews/dead-coast-off-duty-back.webp",
+      "sha256": "167fcff48a6abb9b5a18d97a8c626c0efa0a7db56e8950e4387fb888fb8f2b63",
+      "bytes": 22062
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-off-duty-art.webp",
+      "source": "public/textures/shirts/artwork/dead-coast-off-duty.webp",
+      "sha256": "ee433ff9ab13edc4c270bf33447ea7bf5e66f01ad8af8612a99f51f8de326de7",
+      "bytes": 33908
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-pier-front.webp",
+      "source": "public/textures/shirts/previews/dead-coast-pier-front.webp",
+      "sha256": "94435810c910b014567dc1c0350907eb2cb212af991294d3e48114e12a737359",
+      "bytes": 10956
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-pier-back.webp",
+      "source": "public/textures/shirts/previews/dead-coast-pier-back.webp",
+      "sha256": "b8605dfbca6d78b088bf333e2834f11bf1a413b0375a9abc6433a4727e5a1618",
+      "bytes": 19154
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-pier-art.webp",
+      "source": "public/textures/shirts/artwork/dead-coast-pier.webp",
+      "sha256": "fd62db81af47b3ebf7dea4abb86fa53607a0a5793d7698172ca9d3f1726d392f",
+      "bytes": 24276
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-dumpster-gull-front.webp",
+      "source": "public/textures/shirts/previews/dead-coast-dumpster-gull-front.webp",
+      "sha256": "5ca9d598b586224beef4e4a4377c83a6ffbeb691cb0aa4603719a889195dcc8f",
+      "bytes": 10922
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-dumpster-gull-back.webp",
+      "source": "public/textures/shirts/previews/dead-coast-dumpster-gull-back.webp",
+      "sha256": "69b9943eb20aa834c451f66b2a3ab3395eb0eea18e1d7440cd89b2715011460f",
+      "bytes": 18764
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-dumpster-gull-art.webp",
+      "source": "public/textures/shirts/artwork/dead-coast-dumpster-gull.webp",
+      "sha256": "b68f2c899683376020f712e6f2aed5b1ac21cef10a44be8367ef66155b7fa159",
+      "bytes": 26076
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-gull-front.webp",
+      "source": "public/textures/shirts/previews/dead-coast-gull-front.webp",
+      "sha256": "a0b53d6fbb06cfed0b8ddbc6375de8307c740ae7fc356d85269bec72baa3b650",
+      "bytes": 11250
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-gull-back.webp",
+      "source": "public/textures/shirts/previews/dead-coast-gull-back.webp",
+      "sha256": "7f9805be722b85050530706fddb10979fb8202e17d8a9811e43826f35f100c70",
+      "bytes": 18606
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-gull-art.webp",
+      "source": "public/textures/shirts/artwork/dead-coast-gull.webp",
+      "sha256": "99f925c90b37712103d5e7be72edd22ecb99ef201953730c90e6d1a05b78d327",
+      "bytes": 24122
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-gull-dive-front.webp",
+      "source": "public/textures/shirts/previews/dead-coast-gull-dive-front.webp",
+      "sha256": "03f154c08b2c15da15d988935bfd8dc63a3f36572bb9684f7c1e884f0a3cafd7",
+      "bytes": 11258
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-gull-dive-back.webp",
+      "source": "public/textures/shirts/previews/dead-coast-gull-dive-back.webp",
+      "sha256": "b543eeb0d0ed04889ac852453162f6a5b169a22335f5009efcadb4b797bac444",
+      "bytes": 21350
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/dead-coast-gull-dive-art.webp",
+      "source": "public/textures/shirts/artwork/dead-coast-gull-dive.webp",
+      "sha256": "a88babf1adcb69cd8295e07e02dda12e5970b1e8915ff8cba5ae894bf8e99f33",
+      "bytes": 45824
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/perks-trigger-happy-front.webp",
+      "source": "public/textures/shirts/previews/perks-trigger-happy-front.webp",
+      "sha256": "72d78091a61761160922269bf884eb9803bef995d9c019141139dbbcec9ba531",
+      "bytes": 11482
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/perks-trigger-happy-back.webp",
+      "source": "public/textures/shirts/previews/perks-trigger-happy-back.webp",
+      "sha256": "e0412977fc9e94ec5ebd2760a6d862bf1ea088fbe7c52f5c99fdad4240f976b8",
+      "bytes": 22372
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/perks-trigger-happy-art.webp",
+      "source": "public/textures/shirts/artwork/perks-trigger-happy.webp",
+      "sha256": "e2e5ac17406baa523a863c513248b9def9388c258c2b264e5f14405ddccf101c",
+      "bytes": 86608
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/perks-lifeline-front.webp",
+      "source": "public/textures/shirts/previews/perks-lifeline-front.webp",
+      "sha256": "5d5e0a01a6400713bb96ab8bd4cb5a4df62918c72917a4d173eba0556aadcbd3",
+      "bytes": 11560
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/perks-lifeline-back.webp",
+      "source": "public/textures/shirts/previews/perks-lifeline-back.webp",
+      "sha256": "05dc564b648bc32695579afb9c974b978d907571030ff7484801ceb09ad70ac3",
+      "bytes": 23510
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/perks-lifeline-art.webp",
+      "source": "public/textures/shirts/artwork/perks-lifeline.webp",
+      "sha256": "3807708260a6dc4c7272a23bcd2c0883ec52e5aebd50bfa63c50b5b1fb27971e",
+      "bytes": 95850
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/perks-quick-rack-front.webp",
+      "source": "public/textures/shirts/previews/perks-quick-rack-front.webp",
+      "sha256": "e3d51c122897de70d398b0ac3a41da8d14d45d5aaad67eb9e870593d43cc1502",
+      "bytes": 11248
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/perks-quick-rack-back.webp",
+      "source": "public/textures/shirts/previews/perks-quick-rack-back.webp",
+      "sha256": "cd38438875891d576f8e8b3177438dc55b2a8dd78590bc7e5996df8e5a938b93",
+      "bytes": 23386
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/perks-quick-rack-art.webp",
+      "source": "public/textures/shirts/artwork/perks-quick-rack.webp",
+      "sha256": "56c4fa92497f4da277dc082d3023b9aa2f4fd69ffa6fe3235b34806b9ecdb91e",
+      "bytes": 101226
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/perks-kick-push-front.webp",
+      "source": "public/textures/shirts/previews/perks-kick-push-front.webp",
+      "sha256": "a3ca29e873db0d013f5236532eda987a38acad8349ef8bb5d0331c5ffe97aa53",
+      "bytes": 11334
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/perks-kick-push-back.webp",
+      "source": "public/textures/shirts/previews/perks-kick-push-back.webp",
+      "sha256": "ae12da4e708a86606dd48bca38c5d119e858ecb82225b9f786a6d51098f1eb49",
+      "bytes": 23374
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/perks-kick-push-art.webp",
+      "source": "public/textures/shirts/artwork/perks-kick-push.webp",
+      "sha256": "d8a1692a5bd95d47238a9c7751910a33bad4ed4dca14d63b1b9c97dbee985627",
+      "bytes": 97572
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/perks-thick-skull-front.webp",
+      "source": "public/textures/shirts/previews/perks-thick-skull-front.webp",
+      "sha256": "d63f686a55da3efdf1086bb4e19a30bb55d66f53718e66b462ea4c7c29eef2ac",
+      "bytes": 11360
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/perks-thick-skull-back.webp",
+      "source": "public/textures/shirts/previews/perks-thick-skull-back.webp",
+      "sha256": "2751efdb50ab7d13b4c9d6305ea79d519868cbedf24ddb91da788c24b6c685c4",
+      "bytes": 24540
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/perks-thick-skull-art.webp",
+      "source": "public/textures/shirts/artwork/perks-thick-skull.webp",
+      "sha256": "22863ecb42649d1d06bdec7f4db1d616271baab3996d94bbc070b4ae38618524",
+      "bytes": 109912
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/perks-pelican-pouch-front.webp",
+      "source": "public/textures/shirts/previews/perks-pelican-pouch-front.webp",
+      "sha256": "999f1f850e769c8686f0967f7708b730603fcea43ec81285dfc8f75ec8e18cd0",
+      "bytes": 11210
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/perks-pelican-pouch-back.webp",
+      "source": "public/textures/shirts/previews/perks-pelican-pouch-back.webp",
+      "sha256": "b138774e0b6a58f4d10acefe79c06535bf2aca3c32bc2420cdda6ca2ab3c3fc3",
+      "bytes": 23514
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/perks-pelican-pouch-art.webp",
+      "source": "public/textures/shirts/artwork/perks-pelican-pouch.webp",
+      "sha256": "7c8cd9a5ac332d1556cf3d3ea1af2d07f1895091c1b349e2279310aba37a0975",
+      "bytes": 102806
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/perks-deadeye-drip-front.webp",
+      "source": "public/textures/shirts/previews/perks-deadeye-drip-front.webp",
+      "sha256": "d158ff46f22e495bfcd49c00d4f771dded6a8fd1d0b06aafcd479826f359a393",
+      "bytes": 11220
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/perks-deadeye-drip-back.webp",
+      "source": "public/textures/shirts/previews/perks-deadeye-drip-back.webp",
+      "sha256": "986b490e9cb360c88ee7f935824aad3260a2806bf3f8174a2181b3d18d551b46",
+      "bytes": 24118
+    },
+    {
+      "output": "/images/projects/westcose-world/apparel/perks-deadeye-drip-art.webp",
+      "source": "public/textures/shirts/artwork/perks-deadeye-drip.webp",
+      "sha256": "2de34dcc08506242d7f20d5cddc723db7f5fbb6fd0c86aa343d7e63c8bd7bf87",
+      "bytes": 103134
+    },
+    {
+      "output": "/images/projects/westcose-world/decks/dead-coast-high-tide.webp",
+      "source": "public/textures/skateboards/previews/artwork/dead-coast-high-tide.webp",
+      "sha256": "76a0171ffcc23ff5a44eedf2e510e835ac42d01f3f24d7d643e0d49f65dc7970",
+      "bytes": 105618
+    },
+    {
+      "output": "/images/projects/westcose-world/decks/dead-coast-keep-out.webp",
+      "source": "public/textures/skateboards/previews/artwork/dead-coast-keep-out.webp",
+      "sha256": "5a20d02cd414d0681361f8eaadebc22ca516cebb31138f95df4e98cef9562aed",
+      "bytes": 93170
+    },
+    {
+      "output": "/images/projects/westcose-world/decks/dead-coast-undertow.webp",
+      "source": "public/textures/skateboards/previews/artwork/dead-coast-undertow.webp",
+      "sha256": "4f335b8d035df12d8ad865747ba34215421cd796f3a1f6f84953617919dc0456",
+      "bytes": 98326
+    },
+    {
+      "output": "/images/projects/westcose-world/decks/westcose-coastal-misfits.webp",
+      "source": "public/textures/skateboards/previews/artwork/westcose-coastal-misfits.webp",
+      "sha256": "b25d263855d2df0f6c1e510683ed18d9dfd69d835d6e86acfe65ce6382ebd048",
+      "bytes": 98330
+    },
+    {
+      "output": "/images/projects/westcose-world/decks/westcose-fishbone.webp",
+      "source": "public/textures/skateboards/previews/artwork/westcose-fishbone.webp",
+      "sha256": "273bcf5fb13b84ccf19e7edd915ee078b69b46800bc928482fb798ff2c81f998",
+      "bytes": 50258
+    },
+    {
+      "output": "/images/projects/westcose-world/decks/westcose-collage-never-nothing.webp",
+      "source": "public/textures/skateboards/previews/artwork/westcose-collage-never-nothing.webp",
+      "sha256": "6f61bbfad01e9a0fd8b3b2c84f4b24e19b9007cc293a879f675e4395e05491c8",
+      "bytes": 98316
+    },
+    {
+      "output": "/images/projects/westcose-world/decks/westcose-dead-coast-red-sunset.webp",
+      "source": "public/textures/skateboards/previews/artwork/westcose-dead-coast-red-sunset.webp",
+      "sha256": "dfb09cc206b3b8ac8091bdde9b5ed5f7690c654575a5afd2c1907af0e903989d",
+      "bytes": 82180
+    },
+    {
+      "output": "/images/projects/westcose-world/decks/westcose-motel-sunset.webp",
+      "source": "public/textures/skateboards/previews/artwork/westcose-motel-sunset.webp",
+      "sha256": "66521275c27381c80ed4b31fdcd67363f5439d392ec7df00eb7e3d9941bb21e3",
+      "bytes": 87460
+    },
+    {
+      "output": "/images/projects/westcose-world/decks/dead-coast-seagull-never-nothing.webp",
+      "source": "public/textures/skateboards/previews/artwork/dead-coast-seagull-never-nothing.webp",
+      "sha256": "51298d95114f94f49c8fb5f9a091c9424038de5032d61450086a4394b19ad79d",
+      "bytes": 92094
+    },
+    {
+      "output": "/images/projects/westcose-world/decks/dead-coast-topographic-map.webp",
+      "source": "public/textures/skateboards/previews/artwork/dead-coast-topographic-map.webp",
+      "sha256": "9d3b05b281701c17b17a4999ef020c6afce8557917b56444efa378cba3095b4b",
+      "bytes": 56980
+    },
+    {
+      "output": "/images/projects/westcose-world/decks/dead-coast-mascot-classic.webp",
+      "source": "public/textures/skateboards/previews/artwork/dead-coast-mascot-classic.webp",
+      "sha256": "2a2abea909249e85776761a209cf1e019b37de6af87161c4e19b37c6c9b5e00f",
+      "bytes": 65674
+    },
+    {
+      "output": "/images/projects/westcose-world/decks/westcose-designs-lighthouse-wave.webp",
+      "source": "public/textures/skateboards/previews/artwork/westcose-designs-lighthouse-wave.webp",
+      "sha256": "939b4d665e1005e5cf2b404ce7b38aa7fc7b6b3d33c851d444156e31aecf47d5",
+      "bytes": 109906
+    },
+    {
+      "output": "/models/projects/westcose-world/pier-sign.glb",
+      "source": "public/models/dead-coast-pier-sign-v2.glb",
+      "sha256": "274a9ecd0f6ed50d4e0e1fc57c30c0c965e083fa5b17929db4e98cae34c9f61d",
+      "bytes": 1775008
+    },
+    {
+      "output": "/models/projects/westcose-world/shop.glb",
+      "source": "public/models/shop-flagship-v1.glb",
+      "sha256": "66d9d7216294cd10926f57ce4a2791749bd16e3919d1f3cd21dcfc8afea901eb",
+      "bytes": 2316016
+    },
+    {
+      "output": "/media/westcose-world/world-walkthrough.webm",
+      "source": "../westcose-labs/artifacts/world-showcase/captures/world-walkthrough.webm",
+      "sha256": "fdb45b7e0af548bb4da8c6eabeca7f7ac19c84064e5f17d781ff504df21488a8",
+      "bytes": 1860097
+    },
+    {
+      "output": "/media/westcose-world/intro.webm",
+      "source": "public/intro/westcose-intro-16x9.webm",
+      "sha256": "92e245c72e2d9853610d93e8601f80206c65ae97eb9f2cd900f51b7afc3f8e37",
+      "bytes": 2883572
+    },
+    {
+      "output": "/images/projects/westcose-world/builder-placement.webp",
+      "source": "../westcose-labs/artifacts/world-showcase/captures/builder-placement.png",
+      "sha256": "6b4c168c3a63b0b48acf6055cc3d97ec5db9ea96069bee6a2d215b0595160b8e",
+      "bytes": 91158
+    },
+    {
+      "output": "/images/projects/westcose-world/builder-walkthrough.webp",
+      "source": "../westcose-labs/artifacts/world-showcase/captures/builder-walkthrough.png",
+      "sha256": "55f73cf5281474a3a55781d51e045a24b49b9b6d627dbec510cc1d4422dfba23",
+      "bytes": 84548
+    },
+    {
+      "output": "/images/projects/westcose-world/builder-review.webp",
+      "source": "../westcose-labs/artifacts/world-showcase/captures/builder-review.png",
+      "sha256": "57bee8d52e14bbd681666fbbb927e611b4ea354bd67ec24a008b97cd980a7402",
+      "bytes": 53108
+    },
+    {
+      "output": "/models/projects/westcose-world/PIER_SIGN_ASSET_CREDITS.md",
+      "source": "public/models/PIER_SIGN_ASSET_CREDITS.md",
+      "sha256": "8ae0f716b86153c4d9a4b5e51fd8602e6db25ef6a5bb2ee25988470018a5cec5",
+      "bytes": 1320
+    },
+    {
+      "output": "/models/projects/westcose-world/SHOP_ASSET_CREDITS.md",
+      "source": "public/models/SHOP_ASSET_CREDITS.md",
+      "sha256": "90f599143e2d064f36df7e9f44ca2c7bb1bd3234889b2644e622bc88d6f7d32e",
+      "bytes": 2199
+    },
+    {
+      "output": "/media/westcose-world/world-walkthrough.mp4",
+      "source": "../westcose-labs/artifacts/world-showcase/captures/world-walkthrough.webm",
+      "sha256": "fdb45b7e0af548bb4da8c6eabeca7f7ac19c84064e5f17d781ff504df21488a8",
+      "bytes": 983058,
+      "preparation": "H.264/AAC MP4 with fast-start, up to 1280px wide, derived from the same recording"
+    },
+    {
+      "output": "/media/westcose-world/intro.mp4",
+      "source": "public/intro/westcose-intro-16x9.webm",
+      "sha256": "92e245c72e2d9853610d93e8601f80206c65ae97eb9f2cd900f51b7afc3f8e37",
+      "bytes": 4980310,
+      "preparation": "H.264/AAC MP4 with fast-start, up to 1280px wide, derived from the same recording"
+    },
+    {
+      "output": "/images/projects/westcose-world/coast-key-art-v2.webp",
+      "source": "built-in image_gen / exec-b5b7b4a6-99ca-41d2-8bb9-1fbe3a069206.png",
+      "sha256": "6fabff55d2ec2b187f9a8c79aed2ddfc599eafc1489189c1cc35b581e148e74f",
+      "bytes": 321994,
+      "kind": "AI-assisted promotional artwork",
+      "prompt": "docs/WORLD_PROMOTIONAL_PROMPTS.json"
+    },
+    {
+      "output": "/images/projects/westcose-world/shop-art-direction-v2.webp",
+      "source": "C:/Users/citry/.codex/generated_images/01a1af13-70bb-7182-b551-6503f793e12c/exec-2020b602-3910-40c1-be79-2dcfffa0e7bb.png",
+      "sha256": "2480e241fecd7761e519d7148bfa15ac43421a6199e95c75046a9d0dae25f0c2",
+      "bytes": 343994,
+      "kind": "AI-assisted promotional artwork",
+      "prompt": "docs/WORLD_PROMOTIONAL_PROMPTS.json",
+      "preparation": "Revised against the freshly captured current mural, superseding the October review image."
+    },
+    {
+      "output": "/images/projects/westcose-world/shop-current.webp",
+      "source": "artifacts/world-showcase/refinement-captures/shop-current.png",
+      "sha256": "50ce11afb6535eac9e273f042b2a9a8c336ca9ff6da7148beb2d56d5fc978ddf",
+      "bytes": 290642,
+      "kind": "Current in-game capture",
+      "preparation": "Fixed review camera; HUD hidden; no image retouching. Existing local Builder decorations included."
+    },
+    {
+      "output": "/images/projects/westcose-world/shop-exterior-current.webp",
+      "source": "artifacts/world-showcase/refinement-captures/shop-exterior-current.png",
+      "sha256": "a69aca8207096841a3bb159cdf1e5e41432ababd4fa50fec88f930fe60556ea5",
+      "bytes": 261740,
+      "kind": "Current in-game capture",
+      "preparation": "Fixed review camera; HUD hidden; no image retouching. Existing local Builder decorations included."
+    },
+    {
+      "output": "/images/projects/westcose-world/street-current.webp",
+      "source": "artifacts/world-showcase/refinement-captures/street-current.png",
+      "sha256": "2590cc3c7b18d2d0341735c74e47225ad47e11546543f9777b5e076d95bdb2b1",
+      "bytes": 272102,
+      "kind": "Current in-game capture",
+      "preparation": "Fixed review camera; HUD hidden; no image retouching. Existing local Builder decorations included."
+    },
+    {
+      "output": "/images/projects/westcose-world/gary-campaign-v2.webp",
+      "source": "C:/Users/citry/.codex/generated_images/01a1af13-70bb-7182-b551-6503f793e12c/exec-ba3ccd67-432f-4fc6-ba7f-14aedcb6cede.png",
+      "sha256": "92451e8f47e2d80f73a4592bb02a7c953ac1fb744200f0b76395de50efcdf1fb",
+      "bytes": 139250,
+      "kind": "AI-assisted promotional artwork",
+      "prompt": "docs/WORLD_PROMOTIONAL_PROMPTS.json",
+      "credit": "Based on the current Gary v6 design, adapted from Pixelhouse assets; see case-study credits."
+    },
+    {
+      "output": "/images/projects/westcose-world/weapon-ak.webp",
+      "source": "public/world/outbreak/models/ak-47.glb",
+      "sha256": "fc815eb85f6db6b08d2a59aa1b64245aafac3e7628c6cf6f6de88d208c18c052",
+      "bytes": 28518,
+      "kind": "studio render of current game model",
+      "method": "scripts/render-world-weapons.py; source geometry and materials unchanged; no raw weapon model distributed"
+    },
+    {
+      "output": "/images/projects/westcose-world/weapon-mp5.webp",
+      "source": "public/world/outbreak/models/mp5sd-reward.glb",
+      "sha256": "cb92a6f177aadfe91e7569aef4b28782fd6a5161a52dc40e37ebc018a06cddcb",
+      "bytes": 23306,
+      "kind": "studio render of current game model",
+      "method": "scripts/render-world-weapons.py; source geometry and materials unchanged; no raw weapon model distributed"
+    },
+    {
+      "output": "/images/projects/westcose-world/weapon-riptide.webp",
+      "source": "public/world/outbreak/models/riptide-reward.glb",
+      "sha256": "1c2beb0c556a58c5773f1b1cbb8fdb1573551fa531314dd45f3f4d0fcd013a30",
+      "bytes": 28532,
+      "kind": "studio render of current game model",
+      "method": "scripts/render-world-weapons.py; source geometry and materials unchanged; no raw weapon model distributed"
+    },
+    {
+      "output": "/images/projects/westcose-world/weapon-blowhole.webp",
+      "source": "public/world/outbreak/models/blowhole-reward.glb",
+      "sha256": "7e0d75cccd02083e08e2a8368e5c24c326241cb5c7610be49763de45cbd8b00b",
+      "bytes": 30506,
+      "kind": "studio render of current game model",
+      "method": "scripts/render-world-weapons.py; source geometry and materials unchanged; no raw weapon model distributed"
+    },
+    {
+      "output": "/images/projects/westcose-world/coast-key-art-v3.webp",
+      "source": "C:/Users/citry/.codex/generated_images/01a1af13-70bb-7182-b551-6503f793e12c/exec-dcdf16d7-c402-46fa-abe2-1bc60760b41a.png",
+      "sha256": "825acfecfdfd6a6bf8ab1fe0fa2be911566347e3ac04ff167fe737445394ba7c",
+      "bytes": 213774,
+      "kind": "AI-generated promotional artwork",
+      "credit": "WestCose game references; built-in image_gen; spherical-world correction"
+    }
+  ]
+}

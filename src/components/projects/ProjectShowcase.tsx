@@ -18,6 +18,7 @@ import { projectRegistry, projectStatusLabel } from "@/registry/projects";
 import { ProjectArtwork, ProjectPreview } from "./ProjectPreview";
 import { ProjectLinks } from "./ProjectLinks";
 import { ProjectQuickView } from "./ProjectQuickView";
+import { WorldFlagship } from "./world/WorldFlagship";
 import styles from "./ProjectShowcase.module.css";
 
 const collections = [
@@ -52,11 +53,12 @@ export function ProjectShowcase() {
         .join(" ")
         .toLocaleLowerCase()
         .includes(search),
-  );
-  const featured = visible.filter((project) => project.featured);
+  ).sort((a, b) => Number(!!b.flagship) - Number(!!a.flagship));
+  const showFlagship = collection === "All" && !search && view === "gallery";
+  const featured = visible.filter((project) => project.featured && !(showFlagship && project.flagship));
   const directory = visible.filter((project) => !project.featured);
   const client = clientProjects[selectedClient];
-  const showSpotlight = collection === "All" && !search;
+  const showSpotlight = collection === "Client sites" && !search && view === "gallery";
   const previewProject = visible.find((project) => project.slug === quickView);
 
   return (
@@ -84,6 +86,7 @@ export function ProjectShowcase() {
           <ArrowUpRight size={16} />
         </a>
       </header>
+      {showFlagship && <WorldFlagship />}
       {showSpotlight && (
         <section
           className={styles.spotlight}
@@ -239,7 +242,10 @@ export function ProjectShowcase() {
                 key={project.slug}
                 data-project-card={project.slug}
               >
-                <button
+                {project.flagship ? <Link className={styles.artButton} href={`/projects/${project.slug}`} aria-label={`Explore ${project.title} from the project artwork`}>
+                  <ProjectArtwork project={project} />
+                  <span className={styles.previewAffordance}><ArrowRight size={19} /><span>Explore project</span></span>
+                </Link> : <button
                   type="button"
                   className={styles.artButton}
                   aria-label={`Preview ${project.title}`}
@@ -251,7 +257,7 @@ export function ProjectShowcase() {
                     <CornersOut size={19} />
                     <span>Quick look</span>
                   </span>
-                </button>
+                </button>}
                 <div className={styles.cardContent}>
                   <div className={styles.cardMeta}>
                     <span>{project.category}</span>
@@ -275,7 +281,7 @@ export function ProjectShowcase() {
                       href={project.liveUrl ?? project.githubUrl}
                       target="_blank"
                       rel="noreferrer"
-                      aria-label={`${project.liveUrl ? "Visit" : "View source for"} ${project.title}`}
+                      aria-label={`${project.liveUrl ? "Visit" : project.repositoryPrivate ? "Private repository for" : "View source for"} ${project.title}`}
                     >
                       {project.liveUrl ? (
                         <ArrowUpRight size={20} />
@@ -364,7 +370,7 @@ export function ProjectShowcase() {
       {previewProject && (
         <ProjectQuickView
           project={previewProject}
-          projects={visible}
+          projects={visible.filter(project => !project.flagship)}
           onSelect={setQuickView}
           onClose={() => setQuickView(null)}
         />

@@ -1,0 +1,30 @@
+/* Semantic roles used only by the World case study and its flagship feature. */
+:root {
+  --world-palette-surface: #202829;
+  --world-palette-text: #f5f0e8;
+  --world-palette-muted: #bec8c2;
+  --world-palette-accent: #f0c84a;
+  --world-palette-on-accent: #182a24;
+  --world-art-stage: #172527;
+  --world-title-stage: #12292c;
+  --world-model-stage: #dce2dc;
+  --world-video-stage: #101817;
+  --world-dialog-backdrop: #071413c9;
+  --world-dialog-shadow: #0008;
+  --world-promo-text: #f5f0e8;
+  --world-promo-muted: #e2e7de;
+  --world-promo-accent: #f0c84a;
+  --world-promo-ink: #182a24;
+  --world-promo-shade: #071413;
+  --world-product-stage: #e6e0d3;
+  --world-shop-art-stage: #000;
+  --world-product-text: #182a24;
+  --world-product-muted: #52635b;
+}
+html[data-theme-scheme="light"] {
+  --world-palette-surface: #f3f3ee;
+  --world-palette-text: #182a24;
+  --world-palette-muted: #52635b;
+  --world-palette-accent: #75600c;
+  --world-palette-on-accent: #f3f3ee;
+}

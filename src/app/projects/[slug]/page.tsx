@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { projectStatusLabel } from "@/registry/projects";
 import { RouteDocument } from "@/components/apps/RouteDocument";
 import { getProjectContent } from "@/content/projects";
+import { WorldCaseStudy } from "@/components/projects/world/WorldCaseStudy";
 import {
   createRouteMetadata,
   getProject,
@@ -53,6 +54,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   if (!project) {
     notFound();
   }
+
+  if (slug === "westcose-world") return <WorldCaseStudy />;
 
   const actions = [
     ...(project.previewUrl

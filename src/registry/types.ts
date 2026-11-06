@@ -96,6 +96,7 @@ export type Project = {
   liveUrl?: `https://${string}`;
   githubUrl?: `https://${string}`;
   featured: boolean;
+  flagship?: boolean;
   relatedProjectSlugs: readonly string[];
   publishedAt?: string;
   role?: string;

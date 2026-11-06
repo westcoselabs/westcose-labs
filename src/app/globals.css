@@ -10,6 +10,7 @@
 @import "../styles/motion.css";
 @import "../styles/accessibility.css";
 @import "../styles/games.css";
+@import "../styles/world-showcase-tokens.css";
 
 html,
 body {

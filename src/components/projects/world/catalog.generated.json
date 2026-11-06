@@ -1,0 +1,809 @@
+{
+  "sourceRevision": "a85ea165ea1111da3b52729654c41fdd027b4ae8",
+  "media": {
+    "start": {
+      "src": "/images/projects/westcose-world/start.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "explore": {
+      "src": "/images/projects/westcose-world/explore.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "world": {
+      "src": "/images/projects/westcose-world/world.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "pause": {
+      "src": "/images/projects/westcose-world/pause.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "loadout": {
+      "src": "/images/projects/westcose-world/loadout.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "builder": {
+      "src": "/images/projects/westcose-world/builder.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "lab-arsenal": {
+      "src": "/images/projects/westcose-world/lab-arsenal.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "lab-range": {
+      "src": "/images/projects/westcose-world/lab-range.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "lab-zombies": {
+      "src": "/images/projects/westcose-world/lab-zombies.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "lab-barricades": {
+      "src": "/images/projects/westcose-world/lab-barricades.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "lab-effects": {
+      "src": "/images/projects/westcose-world/lab-effects.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "lab-reclamation": {
+      "src": "/images/projects/westcose-world/lab-reclamation.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "lab-hounds": {
+      "src": "/images/projects/westcose-world/lab-hounds.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "lab-skater": {
+      "src": "/images/projects/westcose-world/lab-skater.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "grotto": {
+      "src": "/images/projects/westcose-world/grotto.webp",
+      "width": 1280,
+      "height": 800
+    },
+    "reclamation": {
+      "src": "/images/projects/westcose-world/reclamation.webp",
+      "width": 1600,
+      "height": 900
+    },
+    "clock": {
+      "src": "/images/projects/westcose-world/clock.webp",
+      "width": 1280,
+      "height": 800
+    },
+    "gary": {
+      "src": "/images/projects/westcose-world/gary.webp",
+      "width": 1400,
+      "height": 1200
+    },
+    "gary-game": {
+      "src": "/images/projects/westcose-world/gary-game.webp",
+      "width": 1280,
+      "height": 800
+    },
+    "pier-model": {
+      "src": "/images/projects/westcose-world/pier-model.webp",
+      "width": 768,
+      "height": 576
+    },
+    "pier-game": {
+      "src": "/images/projects/westcose-world/pier-game.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "shop": {
+      "src": "/images/projects/westcose-world/shop.webp",
+      "width": 1600,
+      "height": 1000
+    },
+    "shop-front": {
+      "src": "/images/projects/westcose-world/shop-front.webp",
+      "width": 1600,
+      "height": 1000
+    },
+    "shirt-art": {
+      "src": "/images/projects/westcose-world/shirt-art.webp",
+      "width": 791,
+      "height": 1024
+    },
+    "shirt-atlas": {
+      "src": "/images/projects/westcose-world/shirt-atlas.webp",
+      "width": 1600,
+      "height": 1600
+    },
+    "shirt-game": {
+      "src": "/images/projects/westcose-world/shirt-game.webp",
+      "width": 480,
+      "height": 560
+    },
+    "intro-poster": {
+      "src": "/images/projects/westcose-world/intro-poster.webp",
+      "width": 1600,
+      "height": 540
+    },
+    "weapon": {
+      "src": "/images/projects/westcose-world/weapon.webp",
+      "width": 1110,
+      "height": 900
+    },
+    "builder-placement": {
+      "src": "/images/projects/westcose-world/builder-placement.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "builder-walkthrough": {
+      "src": "/images/projects/westcose-world/builder-walkthrough.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "builder-review": {
+      "src": "/images/projects/westcose-world/builder-review.webp",
+      "width": 1440,
+      "height": 900
+    }
+  },
+  "apparel": [
+    {
+      "id": "plain-black",
+      "name": "Plain Black",
+      "category": "WestCose",
+      "detail": "The original black tee",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/plain-black-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/plain-black-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/plain-black-front.webp",
+        "width": 480,
+        "height": 560
+      }
+    },
+    {
+      "id": "westcose-social-club",
+      "name": "Dead Coast Social Club",
+      "category": "WestCose",
+      "detail": "Motel chest print. Social Club back",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/westcose-social-club-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/westcose-social-club-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/westcose-social-club-art.webp",
+        "width": 320,
+        "height": 414
+      }
+    },
+    {
+      "id": "westcose-or-nothing",
+      "name": "WestCose or Nothing",
+      "category": "WestCose",
+      "detail": "Small left chest print. Large back print",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/westcose-or-nothing-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/westcose-or-nothing-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/westcose-or-nothing-art.webp",
+        "width": 320,
+        "height": 246
+      }
+    },
+    {
+      "id": "westcose-round-wave",
+      "name": "Round Wave",
+      "category": "WestCose",
+      "detail": "Small left chest print. Large back print",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/westcose-round-wave-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/westcose-round-wave-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/westcose-round-wave-art.webp",
+        "width": 320,
+        "height": 400
+      }
+    },
+    {
+      "id": "dead-coast-wordmark",
+      "name": "Dead Coast",
+      "category": "Dead Coast",
+      "detail": "Small left chest print. Large back print",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-wordmark-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-wordmark-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-wordmark-art.webp",
+        "width": 320,
+        "height": 376
+      }
+    },
+    {
+      "id": "dead-coast-fish-and-chips",
+      "name": "Fish & Chips",
+      "category": "Dead Coast",
+      "detail": "Small left chest print. Large back print",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-fish-and-chips-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-fish-and-chips-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-fish-and-chips-art.webp",
+        "width": 320,
+        "height": 207
+      }
+    },
+    {
+      "id": "dead-coast-gullty-as-charged",
+      "name": "Gullty as Charged",
+      "category": "Dead Coast",
+      "detail": "Small left chest print. Large back print",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-gullty-as-charged-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-gullty-as-charged-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-gullty-as-charged-art.webp",
+        "width": 320,
+        "height": 322
+      }
+    },
+    {
+      "id": "dead-coast-local-menace",
+      "name": "Local Menace",
+      "category": "Dead Coast",
+      "detail": "Small left chest print. Large back print",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-local-menace-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-local-menace-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-local-menace-art.webp",
+        "width": 320,
+        "height": 311
+      }
+    },
+    {
+      "id": "dead-coast-beware-of-the-locals",
+      "name": "Beware of the Locals",
+      "category": "Dead Coast",
+      "detail": "Small left chest print. Large back print",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-beware-of-the-locals-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-beware-of-the-locals-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-beware-of-the-locals-art.webp",
+        "width": 320,
+        "height": 280
+      }
+    },
+    {
+      "id": "dead-coast-fishbones",
+      "name": "Fishbones",
+      "category": "Dead Coast",
+      "detail": "Small left chest print. Large back print",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-fishbones-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-fishbones-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-fishbones-art.webp",
+        "width": 320,
+        "height": 220
+      }
+    },
+    {
+      "id": "dead-coast-pier-pressure",
+      "name": "Pier Pressure",
+      "category": "Dead Coast",
+      "detail": "Small left chest print. Large back print",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-pier-pressure-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-pier-pressure-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-pier-pressure-art.webp",
+        "width": 320,
+        "height": 242
+      }
+    },
+    {
+      "id": "dead-coast-beach-bum",
+      "name": "Beach Bum",
+      "category": "Dead Coast",
+      "detail": "Small left chest print. Large back print",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-beach-bum-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-beach-bum-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-beach-bum-art.webp",
+        "width": 320,
+        "height": 246
+      }
+    },
+    {
+      "id": "dead-coast-drunk-seagull",
+      "name": "Drunk Seagull Social Club",
+      "category": "Dead Coast",
+      "detail": "Small left chest print. Large back print",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-drunk-seagull-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-drunk-seagull-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-drunk-seagull-art.webp",
+        "width": 320,
+        "height": 361
+      }
+    },
+    {
+      "id": "dead-coast-off-duty",
+      "name": "Off Duty",
+      "category": "Dead Coast",
+      "detail": "Small left chest print. Large back print",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-off-duty-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-off-duty-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-off-duty-art.webp",
+        "width": 320,
+        "height": 284
+      }
+    },
+    {
+      "id": "dead-coast-pier",
+      "name": "Dead Coast Pier",
+      "category": "Dead Coast",
+      "detail": "Small left chest print. Large back print",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-pier-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-pier-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-pier-art.webp",
+        "width": 320,
+        "height": 176
+      }
+    },
+    {
+      "id": "dead-coast-dumpster-gull",
+      "name": "Dumpster Gull",
+      "category": "Dead Coast",
+      "detail": "Small left chest print. Large back print",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-dumpster-gull-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-dumpster-gull-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-dumpster-gull-art.webp",
+        "width": 320,
+        "height": 194
+      }
+    },
+    {
+      "id": "dead-coast-gull",
+      "name": "Dead Coast Gull",
+      "category": "Dead Coast",
+      "detail": "Small left chest print. Large back print",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-gull-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-gull-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-gull-art.webp",
+        "width": 320,
+        "height": 318
+      }
+    },
+    {
+      "id": "dead-coast-gull-dive",
+      "name": "Gull Dive",
+      "category": "Dead Coast",
+      "detail": "Small left chest print. Large back print",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-gull-dive-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-gull-dive-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/dead-coast-gull-dive-art.webp",
+        "width": 320,
+        "height": 318
+      }
+    },
+    {
+      "id": "perks-trigger-happy",
+      "name": "Trigger Happy",
+      "category": "Perks",
+      "detail": "Left chest perk icon. Large matching perk back print",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/perks-trigger-happy-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/perks-trigger-happy-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/perks-trigger-happy-art.webp",
+        "width": 320,
+        "height": 314
+      }
+    },
+    {
+      "id": "perks-lifeline",
+      "name": "Lifeline",
+      "category": "Perks",
+      "detail": "Left chest perk icon. Large matching perk back print",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/perks-lifeline-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/perks-lifeline-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/perks-lifeline-art.webp",
+        "width": 320,
+        "height": 347
+      }
+    },
+    {
+      "id": "perks-quick-rack",
+      "name": "Quick Rack",
+      "category": "Perks",
+      "detail": "Left chest perk icon. Large matching perk back print",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/perks-quick-rack-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/perks-quick-rack-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/perks-quick-rack-art.webp",
+        "width": 320,
+        "height": 341
+      }
+    },
+    {
+      "id": "perks-kick-push",
+      "name": "Kick Push",
+      "category": "Perks",
+      "detail": "Left chest perk icon. Large matching perk back print",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/perks-kick-push-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/perks-kick-push-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/perks-kick-push-art.webp",
+        "width": 320,
+        "height": 331
+      }
+    },
+    {
+      "id": "perks-thick-skull",
+      "name": "Thick Skull",
+      "category": "Perks",
+      "detail": "Left chest perk icon. Large matching perk back print",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/perks-thick-skull-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/perks-thick-skull-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/perks-thick-skull-art.webp",
+        "width": 320,
+        "height": 344
+      }
+    },
+    {
+      "id": "perks-pelican-pouch",
+      "name": "Pelican Pouch",
+      "category": "Perks",
+      "detail": "Left chest perk icon. Large matching perk back print",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/perks-pelican-pouch-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/perks-pelican-pouch-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/perks-pelican-pouch-art.webp",
+        "width": 320,
+        "height": 362
+      }
+    },
+    {
+      "id": "perks-deadeye-drip",
+      "name": "Deadeye Drip",
+      "category": "Perks",
+      "detail": "Left chest perk icon. Large matching perk back print",
+      "front": {
+        "src": "/images/projects/westcose-world/apparel/perks-deadeye-drip-front.webp",
+        "width": 480,
+        "height": 560
+      },
+      "back": {
+        "src": "/images/projects/westcose-world/apparel/perks-deadeye-drip-back.webp",
+        "width": 480,
+        "height": 560
+      },
+      "artwork": {
+        "src": "/images/projects/westcose-world/apparel/perks-deadeye-drip-art.webp",
+        "width": 320,
+        "height": 353
+      }
+    }
+  ],
+  "decks": [
+    {
+      "id": "dead-coast-high-tide",
+      "name": "High Tide",
+      "brand": "Dead Coast",
+      "artwork": {
+        "src": "/images/projects/westcose-world/decks/dead-coast-high-tide.webp",
+        "width": 320,
+        "height": 960
+      }
+    },
+    {
+      "id": "dead-coast-keep-out",
+      "name": "Keep Out",
+      "brand": "Dead Coast",
+      "artwork": {
+        "src": "/images/projects/westcose-world/decks/dead-coast-keep-out.webp",
+        "width": 320,
+        "height": 960
+      }
+    },
+    {
+      "id": "dead-coast-undertow",
+      "name": "Undertow",
+      "brand": "Dead Coast",
+      "artwork": {
+        "src": "/images/projects/westcose-world/decks/dead-coast-undertow.webp",
+        "width": 320,
+        "height": 960
+      }
+    },
+    {
+      "id": "westcose-coastal-misfits",
+      "name": "Coastal Misfits",
+      "brand": "WestCose",
+      "artwork": {
+        "src": "/images/projects/westcose-world/decks/westcose-coastal-misfits.webp",
+        "width": 320,
+        "height": 960
+      }
+    },
+    {
+      "id": "westcose-fishbone",
+      "name": "Fishbone",
+      "brand": "WestCose",
+      "artwork": {
+        "src": "/images/projects/westcose-world/decks/westcose-fishbone.webp",
+        "width": 320,
+        "height": 960
+      }
+    },
+    {
+      "id": "westcose-collage-never-nothing",
+      "name": "Collage / Never Nothing",
+      "brand": "WestCose",
+      "artwork": {
+        "src": "/images/projects/westcose-world/decks/westcose-collage-never-nothing.webp",
+        "width": 320,
+        "height": 960
+      }
+    },
+    {
+      "id": "westcose-dead-coast-red-sunset",
+      "name": "Red Sunset",
+      "brand": "WestCose",
+      "artwork": {
+        "src": "/images/projects/westcose-world/decks/westcose-dead-coast-red-sunset.webp",
+        "width": 320,
+        "height": 960
+      }
+    },
+    {
+      "id": "westcose-motel-sunset",
+      "name": "Motel Sunset",
+      "brand": "WestCose",
+      "artwork": {
+        "src": "/images/projects/westcose-world/decks/westcose-motel-sunset.webp",
+        "width": 320,
+        "height": 960
+      }
+    },
+    {
+      "id": "dead-coast-seagull-never-nothing",
+      "name": "Seagull / Never Nothing",
+      "brand": "Dead Coast",
+      "artwork": {
+        "src": "/images/projects/westcose-world/decks/dead-coast-seagull-never-nothing.webp",
+        "width": 320,
+        "height": 960
+      }
+    },
+    {
+      "id": "dead-coast-topographic-map",
+      "name": "Topographic Map",
+      "brand": "Dead Coast",
+      "artwork": {
+        "src": "/images/projects/westcose-world/decks/dead-coast-topographic-map.webp",
+        "width": 320,
+        "height": 960
+      }
+    },
+    {
+      "id": "dead-coast-mascot-classic",
+      "name": "Mascot Classic",
+      "brand": "Dead Coast",
+      "artwork": {
+        "src": "/images/projects/westcose-world/decks/dead-coast-mascot-classic.webp",
+        "width": 320,
+        "height": 960
+      }
+    },
+    {
+      "id": "westcose-designs-lighthouse-wave",
+      "name": "Lighthouse Wave",
+      "brand": "WestCose",
+      "artwork": {
+        "src": "/images/projects/westcose-world/decks/westcose-designs-lighthouse-wave.webp",
+        "width": 320,
+        "height": 960
+      }
+    }
+  ]
+}

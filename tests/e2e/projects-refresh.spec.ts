@@ -112,6 +112,7 @@ for (const width of [1440, 375]) {
     const spotlight = page.getByRole("region", {
       name: "Client work spotlight",
     });
+    await showcase.getByRole("group", { name: "Filter projects" }).getByRole("button", { name: "Client sites", exact: true }).click();
     await spotlight
       .getByRole("button", { name: "Show First Medical Associates" })
       .click();
@@ -146,6 +147,7 @@ for (const width of [1440, 375]) {
     ).toHaveAttribute("href", "https://trends-frontend-eight.vercel.app/");
 
     const search = showcase.getByRole("searchbox", { name: "Search projects" });
+    await showcase.getByRole("group", { name: "Filter projects" }).getByRole("button", { name: "All", exact: true }).click();
     await search.fill("  gitpress  ");
     await expect(showcase.locator("[data-project-card]")).toHaveCount(2);
     await showcase.getByRole("button", { name: "List view" }).click();

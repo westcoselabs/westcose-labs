@@ -270,29 +270,27 @@ export const projectRegistry: readonly Project[] = [
     title: "WestCose World",
     repositoryName: "westcose-world",
     shortDescription:
-      "A little planet with a lot to explore. Walk through a playable coastal portfolio.",
+      "An original coastal world built in Next.js and Three.js: artwork, skating, survival games, development labs, and World Builder.",
     status: "preview",
     category: "Interactive 3D world",
     collection: "Play",
     technologies: ["Next.js", "Three.js", "React Three Fiber", "TypeScript"],
-    cover: cover(
-      "westcose-world",
-      "Actual WestCose World screenshot showing a coastal town and timber pier on a small planet",
-      1400,
-      875,
-    ),
+    cover: { src: "/images/projects/westcose-world/coast-key-art-v3.webp", alt: "AI-assisted promotional artwork of WestCose’s complete spherical world, curved coastline, storefronts, pier, and lighthouse", width: 1672, height: 941 },
     coverCaption:
-      "In-engine screenshot from the repository’s WestCose Coast review.",
+      "Promotional artwork: AI-assisted art direction based on the game’s world and landmarks.",
     githubUrl: github("westcose-world"),
+    repositoryPrivate: true,
     featured: true,
+    flagship: true,
     accentTone: "teal",
     versionLabel: "Playable development build",
     objective:
-      "Turn portfolio exploration into a walk through a California-inspired coastal town on a small planet.",
+      "Build a connected coastal world, its original visual identity, gameplay systems, and the development tools used to author it.",
     highlights: [
       "Continuous movement around a spherical world, on keyboard or touch.",
-      "Five enterable interiors, including a studio, workshop, arcade, and hidden lab.",
-      "Coastal trails, a timber pier, authored groves, and device-local field notes.",
+      "Original apparel and deck catalogs, authored retail spaces, and a complete game interface.",
+      "The Grotto’s Black Tide, Reclamation Center progression, and Gary’s boss encounter.",
+      "Next.js and Three.js development labs and a versioned, validated World Builder.",
     ],
   }),
   project({

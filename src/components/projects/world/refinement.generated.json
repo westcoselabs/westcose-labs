@@ -1,0 +1,63 @@
+{
+  "promotional": {
+    "coast-key-art-v2": {
+      "src": "/images/projects/westcose-world/coast-key-art-v2.webp",
+      "width": 1672,
+      "height": 941
+    },
+    "shop-art-direction-v2": {
+      "src": "/images/projects/westcose-world/shop-art-direction-v2.webp",
+      "width": 1672,
+      "height": 941
+    },
+    "gary-campaign-v2": {
+      "src": "/images/projects/westcose-world/gary-campaign-v2.webp",
+      "width": 1672,
+      "height": 941
+    },
+    "coast-key-art-v3": {
+      "src": "/images/projects/westcose-world/coast-key-art-v3.webp",
+      "width": 1672,
+      "height": 941
+    }
+  },
+  "captures": {
+    "shop": {
+      "src": "/images/projects/westcose-world/shop-current.webp",
+      "width": 1920,
+      "height": 1080
+    },
+    "shop-front": {
+      "src": "/images/projects/westcose-world/shop-exterior-current.webp",
+      "width": 1920,
+      "height": 1080
+    },
+    "explore": {
+      "src": "/images/projects/westcose-world/street-current.webp",
+      "width": 1920,
+      "height": 1080
+    }
+  },
+  "weapons": {
+    "ak": {
+      "src": "/images/projects/westcose-world/weapon-ak.webp",
+      "width": 1500,
+      "height": 1000
+    },
+    "mp5": {
+      "src": "/images/projects/westcose-world/weapon-mp5.webp",
+      "width": 1500,
+      "height": 1000
+    },
+    "riptide": {
+      "src": "/images/projects/westcose-world/weapon-riptide.webp",
+      "width": 1500,
+      "height": 1000
+    },
+    "blowhole": {
+      "src": "/images/projects/westcose-world/weapon-blowhole.webp",
+      "width": 1500,
+      "height": 1000
+    }
+  }
+}
