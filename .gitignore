@@ -23,6 +23,7 @@
 
 # production
 /build
+/public/planet-assets/
 
 # misc
 .DS_Store

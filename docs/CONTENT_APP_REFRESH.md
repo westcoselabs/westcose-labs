@@ -72,15 +72,15 @@ opposite stride and passing phases, baked into twelve 192px frames once at load
 time. The original pose remains for idle and reduced motion. See
 `OUTBREAK_CREATURES.json` for provenance and runtime details. The phantom floats.
 
-## Existing deployment gap found during the audit
+## Orbit asset deployment follow-up
 
-The production original-planet asset endpoint returned HTTP 503 during the
-pre-release audit. The viewer is functional locally, where the original Designs
-checkout is available. Production needs the original source files or an existing
-origin serving their exact recorded bytes, configured through the server-only
-planet asset setting described in `PLANET_ASSET_PIPELINE.md`. The viewer's
-unavailable/retry state remains in place. No different or unverified model is
-substituted. This is separate from the playable World project's bundled exhibits.
+The original production endpoint returned HTTP 503 because the deployment lacked
+the sibling Designs checkout. Builds now prepare verified static copies from the
+read-only checkout or a pinned public source revision. Exact asset routes serve
+those files through static delivery. Preparation fails if size or checksum does
+not match the source manifest. See `PLANET_ASSET_PIPELINE.md`. The unavailable/retry
+state remains available for network failures. This is separate from the playable
+World project's bundled exhibits.
 
 ## Validation
 

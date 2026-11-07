@@ -102,14 +102,16 @@ provenance and the reviewed content snapshot.
 
 The **WestCose World / 3D Experiment** at `/experiments/westcose-world` loads the
 original WestCose Designs planets individually on demand. It uses the source checkout's
-existing exports, including embedded textures, without copying or re-exporting
-models. Designs, Labs, and Shop each open in a full-screen viewer with slow spin,
+existing exports, including embedded textures. Builds prepare checksum-verified
+static distribution copies without re-exporting models. Designs, Labs, and Shop each open in a full-screen viewer with slow spin,
 rotate/move controls, zoom, reset, and a compact inspector for named parts,
 clay/wireframe, and runtime statistics. Only the selected planet is loaded.
 See the [source audit](docs/PLANET_SOURCE_AUDIT.md) and
-[asset delivery configuration](docs/PLANET_ASSET_PIPELINE.md). Deployment needs
-the original source checkout or an existing host serving those exact files;
-`npm run planet:check` checks the recorded source hashes.
+[asset delivery configuration](docs/PLANET_ASSET_PIPELINE.md). Builds use the
+read-only source checkout when available, or the pinned public source revision.
+`npm run planet:check` checks the recorded source hashes against the checkout.
+`node scripts/check-planet-delivery.mjs https://westcoselabs.com` verifies all
+deployed model responses against the same manifest.
 
 Development fixtures are deliberately labeled and must not ship as invented
 facts. Before production acceptance, provide or approve:

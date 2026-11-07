@@ -18,6 +18,11 @@ export default defineConfig({
     url: "http://127.0.0.1:3100",
     reuseExistingServer: false,
     timeout: 120_000,
+    // Exercise the deployed build rather than silently using a developer's checkout.
+    env: {
+      WESTCOSE_DESIGNS_ROOT: `${process.cwd()}/.next/no-designs-checkout`,
+      WESTCOSE_DESIGNS_ASSET_ORIGIN: "",
+    },
   },
   projects: [
     { name: "chromium", use: { ...devices["Desktop Chrome"] } },
