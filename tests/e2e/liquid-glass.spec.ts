@@ -115,7 +115,7 @@ for (const shell of ["desktop", "pocket"] as const) {
     if (shell === "pocket") await page.setViewportSize({ width: 390, height: 844 });
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
-    for (const route of ["/", "/projects", "/notes/readme", "/settings/appearance", "/settings/system", "/settings/personality", "/recycle", "/games/fightclub", "/about", "/contact"]) {
+    for (const route of ["/", "/projects", "/notes/readme", "/settings/appearance", "/settings/system", "/settings/personality", "/recycle", "/about", "/contact"]) {
       await page.goto(`${route}?view=os`);
       // Contact intentionally retains its semantic document fallback on Pocket.
       await glassAttributes(page, shell === "pocket" && route === "/contact" ? "normal" : shell);

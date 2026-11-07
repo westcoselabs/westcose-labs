@@ -1,6 +1,7 @@
 "use client";
 
 import { scrollWithinContainer } from "@/lib/scroll-container";
+import { recordFightClubLaunch } from "@/lib/fightclub";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
@@ -396,12 +397,13 @@ export function OSRoot({ children }: OSRootProps) {
         return;
       }
       if (app.target.kind === "external") {
+        if (app.id === "fightclub") recordFightClubLaunch(discoveryService);
         window.open(app.target.href, "_blank", "noopener,noreferrer");
         return;
       }
       window.location.href = app.target.href;
     },
-    [pocket.page, router],
+    [discoveryService, pocket.page, router],
   );
 
   const backFromPocketApp = useCallback(() => {

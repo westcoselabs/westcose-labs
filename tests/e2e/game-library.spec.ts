@@ -1,9 +1,10 @@
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { seedAppearance } from "./appearance-helpers";
-test.beforeEach(async ({ page }) =>
-  seedAppearance(page, "dusk", "dusk-cliffs"),
-);
+test.beforeEach(async ({ page }, info) => {
+  const light = info.title.startsWith("light-theme");
+  await seedAppearance(page, light ? "westcose-95" : "dusk", light ? "westcose-95" : "dusk-cliffs");
+});
 test("all three banners fit the library on desktop and a small phone", async ({
   page,
 }, info) => {
@@ -86,13 +87,6 @@ test("light-theme library retains contrast and Normal View on launch and exit", 
   page,
 }) => {
   await page.goto("/games?view=normal");
-  await page.evaluate(() => {
-    const saved = JSON.parse(localStorage.getItem("wcl.preferences.v2")!);
-    saved.data.themeId = "westcose-95";
-    saved.data.wallpaperId = "westcose-95";
-    localStorage.setItem("wcl.preferences.v2", JSON.stringify(saved));
-  });
-  await page.reload();
   await expect(page.locator("html")).toHaveAttribute(
     "data-theme",
     "westcose-95",
@@ -102,11 +96,9 @@ test("light-theme library retains contrast and Normal View on launch and exit", 
     (await new AxeBuilder({ page }).include("[data-game-library]").analyze())
       .violations,
   ).toEqual([]);
-  await link.click();
-  await expect(page).toHaveURL(/fightclub\?view=normal$/);
-  await page.getByRole("button", { name: "Exit to Games" }).click();
-  await expect(page).toHaveURL(/games\?view=normal$/);
-  await expect(link).toBeFocused();
+  await expect(link).toHaveAttribute("href", "https://rosy-oak-905.higgsfield.gg/");
+  await expect(link).toHaveAttribute("target", "_blank");
+  await expect(page.locator('iframe[src*="higgsfield"]')).toHaveCount(0);
 });
 
 test("original title screens and smallest landscape controls fit without distortion", async ({

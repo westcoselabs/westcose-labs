@@ -2,8 +2,8 @@ import { ExperimentsShowcase } from "@/components/experiments/ExperimentsShowcas
 import { createRouteMetadata } from "@/registry";
 
 export const metadata = createRouteMetadata({
-  title: "Experiments",
-  description: "WestCose Labs prototypes and technical studies.",
+  title: "Experiments, Prototypes & Build Logs",
+  description: "Working 3D demos, game development tests, creative tools, interface experiments, and build notes from WestCose Labs.",
   path: "/experiments",
 });
 

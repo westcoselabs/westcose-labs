@@ -1,7 +1,7 @@
 /** Shared by page metadata and the sitemap so their indexing policy agrees. */
 export function isIndexablePath(path: string): boolean {
   const pathname = path.split(/[?#]/u, 1)[0].replace(/\/+$/u, "") || "/";
-  return !["/settings", "/notes", "/recycle", "/terminal", "/github"].some(
+  return !["/settings", "/notes", "/recycle", "/terminal", "/github", "/games/fightclub"].some(
     (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
   );
 }

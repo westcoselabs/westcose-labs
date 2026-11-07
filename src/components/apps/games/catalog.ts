@@ -43,7 +43,7 @@ export const gamePresentations = [
   {
     id: "fightclub",
     title: fightClubRegistry[0].title,
-    href: fightClubRegistry[0].route,
+    href: fightClubRegistry[0].hostedBuild.launchUrl,
     cover: fightClubRegistry[0].artwork.src,
     alt: fightClubRegistry[0].artwork.alt,
     genre: "Arcade fighter · Hosted",

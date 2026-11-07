@@ -1,11 +1,12 @@
-import { FightClubLauncher } from "@/components/apps/FightClubLauncher";
+import { redirect } from "next/navigation";
+import { fightClubRegistry } from "@/registry/fightclub";
 import { createRouteMetadata } from "@/registry";
 export const metadata = createRouteMetadata({
   title: "FightClub",
   description:
-    "A WestCose Labs launcher for the remotely hosted Citryn Fight Club build.",
+    "Play the hosted FightClub arcade fighter on Higgsfield.",
   path: "/games/fightclub",
 });
 export default function FightClubPage() {
-  return <FightClubLauncher />;
+  redirect(fightClubRegistry[0].hostedBuild.launchUrl);
 }

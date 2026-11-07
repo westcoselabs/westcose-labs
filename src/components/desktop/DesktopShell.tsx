@@ -26,6 +26,8 @@ import { EggPanel } from "@/components/eggs/EggPanel";
 import { usePersonality } from "@/components/eggs/PersonalityProvider";
 import { EGG_PANEL_TITLES } from "@/lib/personality-eggs";
 import { useAppearance } from "@/components/os/AppearanceContext";
+import { useDiscoveryService } from "@/components/os/DiscoveryServiceContext";
+import { recordFightClubLaunch } from "@/lib/fightclub";
 import { Button, IconButton } from "@/components/ui";
 import {
   centerRectInWorkspace,
@@ -105,6 +107,7 @@ export function DesktopShell({
   soundEnabled,
 }: DesktopShellProps) {
   const { theme } = useAppearance();
+  const discoveryService = useDiscoveryService();
   const eggs = usePersonality();
   const router = useRouter();
   const [state, dispatch] = useReducer(
@@ -188,13 +191,14 @@ export function DesktopShell({
       }
 
       if (app.target.kind === "external") {
+        if (app.id === "fightclub" && discoveryService) recordFightClubLaunch(discoveryService);
         window.open(app.target.href, "_blank", "noopener,noreferrer");
         return;
       }
 
       window.location.href = app.target.href;
     },
-    [openUtility, rememberLaunchFocus, router],
+    [discoveryService, openUtility, rememberLaunchFocus, router],
   );
 
   useEffect(() => {
@@ -324,7 +328,6 @@ export function DesktopShell({
     },
     [search, twoColumnLauncher],
   );
-  const selectedApp = selectedAppId ? getAppById(selectedAppId) : null;
   const closeWindow = (desktopWindow: DesktopWindowModel) => {
     const returnTarget = launchFocusRef.current.get(desktopWindow.id);
     dispatch({ type: "window/close", id: desktopWindow.id });
@@ -461,18 +464,6 @@ export function DesktopShell({
           );
         })}
       </section>
-
-      {selectedApp ? (
-        <div className={styles.selectionBar}>
-          <div role="status">
-            <span>Selected</span>
-            <strong>{selectedApp.desktopLabel}</strong>
-          </div>
-          <Button onClick={() => launchApp(selectedApp)} tone="primary">
-            Open
-          </Button>
-        </div>
-      ) : null}
 
       <aside aria-label="Featured project" className={styles.featuredBuild}>
         <FeaturedBuild />

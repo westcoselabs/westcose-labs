@@ -84,7 +84,7 @@ for the material contract, design rationale, verification, and limitations.
 
 ## Repository map
 
-The Projects folder presents 14 curated projects, including four client websites
+The Projects folder presents 13 curated projects, including four client websites
 and GitPress. The interactive showcase includes actual website captures, desktop
 and mobile previews, search, category filters, gallery/list views, and quick look.
 Source access and beta/preview status are labeled. See [project source and design notes](docs/PROJECT_SOURCES.md) for asset
@@ -115,8 +115,8 @@ Development fixtures are deliberately labeled and must not ship as invented
 facts. Before production acceptance, provide or approve:
 
 - `NEXT_PUBLIC_SITE_URL` (optional override; defaults to the confirmed `https://westcoselabs.com` origin)
-- `NEXT_PUBLIC_CONTACT_EMAIL`
-- `NEXT_PUBLIC_GITHUB_URL`
+- `NEXT_PUBLIC_CONTACT_EMAIL` (optional override; defaults to `westcose.co@gmail.com`)
+- `NEXT_PUBLIC_GITHUB_URL` (optional override; defaults to `https://github.com/westcoselabs`)
 - verified active social destinations
 - final desktop and portrait wallpaper approval
 - approval for the FightClub concept cover and final project credits
@@ -155,9 +155,20 @@ Console submission are separate from the repository changes.
 
 ## Runtime boundaries
 
-FightClub remains remotely hosted and loads only after an explicit Play action;
+FightClub opens its Higgsfield build directly in a new tab; its old local URL redirects there.
 no game engine is bundled with the portfolio. TV, World,
 Arcade, Archive, PWA/offline support, persistent window layouts, database
 infrastructure, and multi-route live desktop windows remain intentionally
 outside V1. The appearance system offers Dusk, WestCose 95, and Liquid Glass as public themes;
 Corporate Beige stays hidden behind its existing discovery.
+
+## Google measurement
+
+The root layout installs Tag Manager container `GTM-NT39N3WH` once after hydration,
+plus its noscript fallback and the owner-supplied Search Console verification tag.
+GA4 `G-EJGDC1TZK9` is already published inside that container, so do not add a
+second Google tag. Event configuration stays in Tag Manager. Contact form fields
+are never pushed into the data layer.
+The browser bootstrap only runs on the public domain and its www alias, so local
+checks and preview visits do not enter production analytics. The noscript fallback
+is included in Vercel Production builds.

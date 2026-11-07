@@ -15,12 +15,12 @@ export function ProjectLinks({
       {project.liveUrl && (
         <a
           className={styles.primaryLink}
-          href={project.previewUrl ?? project.liveUrl}
+          href={project.liveUrl}
           target="_blank"
           rel="noreferrer"
-          aria-label={`${project.previewUrl ? "Preview design for" : "Visit"} ${project.title}`}
+          aria-label={`Visit ${project.title}`}
         >
-          {project.previewUrl ? "View design" : "Visit website"}
+          Visit website
           <ArrowUpRight size={17} />
         </a>
       )}
@@ -46,8 +46,8 @@ export function ProjectLinks({
         </a>
       )}
       {!details && project.previewUrl && (
-        <a href={project.liveUrl} target="_blank" rel="noreferrer">
-          Current website
+        <a href={project.previewUrl} target="_blank" rel="noreferrer">
+          Design preview
           <ArrowUpRight size={14} />
         </a>
       )}

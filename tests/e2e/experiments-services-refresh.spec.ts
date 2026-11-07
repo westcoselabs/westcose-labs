@@ -22,12 +22,12 @@ for (const width of [375, 390, 1440]) {
     await expect(catalog).toBeVisible();
     await expect(catalog.locator("[data-experiment]")).toHaveCount(4);
     const filters = catalog.getByRole("group", { name: "Filter experiments" });
-    await filters.getByRole("button", { name: "3D worlds", exact: true }).click();
+    await filters.getByRole("button", { name: "3D + Worlds", exact: true }).click();
     await expect(catalog.locator("[data-experiment]")).toHaveCount(0);
-    await expect(catalog.getByRole("link", { name: "Explore the worlds" })).toHaveAttribute("href", "/experiments/westcose-world");
-    await filters.getByRole("button", { name: "Interfaces", exact: true }).click();
+    await expect(catalog.getByRole("link", { name: "Inspect the planets" })).toHaveAttribute("href", "/experiments/westcose-world");
+    await filters.getByRole("button", { name: "OS Internals", exact: true }).click();
     await expect(catalog.locator("[data-experiment]")).toHaveCount(4);
-    await expect(catalog.getByRole("link", { name: "Explore the worlds" })).toHaveCount(0);
+    await expect(catalog.getByRole("link", { name: "Inspect the planets" })).toHaveCount(0);
 
     const actualShell = await page.locator("html").getAttribute("data-shell");
     const presentation = catalog.getByRole("region", { name: "Route presentation demonstration" });
@@ -71,8 +71,8 @@ for (const width of [375, 390, 1440]) {
     await expectContentFits(page, catalog);
 
     await presentation.getByRole("button", { name: "Desktop", exact: true }).click();
-    await catalog.getByRole("link", { name: "Route presentation router", exact: true }).click();
-    await expect(page.getByRole("heading", { level: 1, name: "Route presentation router", exact: true })).toBeVisible();
+    await catalog.getByRole("link", { name: "One site, three ways to use it", exact: true }).click();
+    await expect(page.getByRole("heading", { level: 1, name: "One site, three ways to use it", exact: true })).toBeVisible();
     await expect(page.getByRole("region", { name: "Route presentation demonstration" })).toBeVisible();
   });
 
@@ -178,8 +178,8 @@ test("default catalogs keep conventional routes and disclosures without JavaScri
   const page = await context.newPage();
   try {
     await page.goto(new URL("/experiments", baseURL).toString());
-    await page.getByRole("link", { name: "Route presentation router", exact: true }).click();
-    await expect(page.getByRole("heading", { level: 1, name: "Route presentation router", exact: true })).toBeVisible();
+    await page.getByRole("link", { name: "One site, three ways to use it", exact: true }).click();
+    await expect(page.getByRole("heading", { level: 1, name: "One site, three ways to use it", exact: true })).toBeVisible();
     await expect(page.getByRole("link", { name: "All experiments", exact: true })).toBeVisible();
     await page.goto(new URL("/services", baseURL).toString());
     const services = page.locator("[data-services-showcase]:visible");

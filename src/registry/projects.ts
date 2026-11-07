@@ -214,6 +214,7 @@ export const projectRegistry: readonly Project[] = [
       1080,
     ),
     coverCaption: "Original illustration from the WestCose Designs sketchbook.",
+    liveUrl: "https://westcosedesigns.com/",
     githubUrl: github("westcose-designs"),
     featured: true,
     accentTone: "green",
@@ -231,7 +232,7 @@ export const projectRegistry: readonly Project[] = [
     title: "Estate Sales Bakersfield",
     repositoryName: "estate-sales-bakersfield",
     shortDescription:
-      "Find the next great secondhand find. A local directory for estate and yard sales.",
+      "A local sale directory with date-based search, map discovery, and a complete organizer publishing workflow.",
     status: "beta",
     category: "Local marketplace",
     collection: "Web",
@@ -244,14 +245,16 @@ export const projectRegistry: readonly Project[] = [
       "Stripe",
     ],
     cover: cover(
-      "estate-sales-bakersfield",
-      "Warm vintage furniture and collected objects from the marketplace’s own hero artwork",
-      1400,
-      700,
+      "estate-sales-bakersfield-desktop",
+      "Estate Sales Bakersfield homepage with local sale search, map texture, and a photographic sale marquee",
+      1440,
+      1000,
     ),
     coverCaption:
-      "Marketplace hero artwork from the Estate Sales Bakersfield repository.",
-    liveUrl: "https://estate-sales-bakersfield.vercel.app",
+      "Live homepage capture of estatesalesbakersfield.com, November 7, 2026.",
+    preview: websitePreview("estate-sales-bakersfield", "Estate Sales Bakersfield", "Live website captures · November 7, 2026"),
+    gallery: [{ src: "/images/projects/estate-sales-bakersfield-search.webp", alt: "Estate Sales Bakersfield Explore page with sale filters and list/map controls", width: 1440, height: 1000 }],
+    liveUrl: "https://estatesalesbakersfield.com/",
     githubUrl: github("estate-sales-bakersfield"),
     featured: true,
     accentTone: "amber",
@@ -460,25 +463,7 @@ export const projectRegistry: readonly Project[] = [
       "Approval is required before content changes are published.",
     ],
   }),
-  project({
-    slug: "public",
-    title: "WordPress workspace",
-    repositoryName: "public",
-    shortDescription:
-      "A WordPress site workspace with Divi and bundled themes.",
-    status: "source",
-    category: "Site workspace",
-    collection: "Archive",
-    technologies: ["WordPress", "PHP", "Divi"],
-    githubUrl: github("public"),
-    featured: false,
-    accentTone: "silver",
-    versionLabel: "Repository",
-    highlights: [
-      "WordPress site files and bundled themes.",
-      "A site workspace; WordPress and Divi retain their own authorship.",
-    ],
-  }),
+
 ];
 
 export type RegisteredProject = Project;

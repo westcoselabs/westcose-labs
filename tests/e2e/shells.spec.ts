@@ -403,6 +403,5 @@ test("does not request deferred heavy experiences", async ({ page }) => {
   });
   await page.goto("/");
   await page.goto("/games");
-  await page.goto("/games/fightclub");
   expect(forbidden).toEqual([]);
 });

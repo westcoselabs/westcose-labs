@@ -46,6 +46,12 @@ export function PocketAppGlyph({
   iconKey,
   size = "grid",
 }: PocketAppGlyphProps) {
+  const covers: Record<string, string> = {
+    shitbird: "/games/shitbird/cover.webp",
+    "low-tide-loot": "/games/low-tide-loot/cover.webp",
+    fightclub: "/images/projects/citryn-fight-club.webp",
+  };
+  if (covers[iconKey]) return <Image src={covers[iconKey]} alt="" width={160} height={160} sizes="80px" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "inherit" }} />;
   return <ThemeGlyph iconKey={iconKey} size={size === "dock" ? 36 : 48}>
     <StandardPocketAppGlyph iconKey={iconKey} size={size} />
   </ThemeGlyph>;
@@ -55,22 +61,6 @@ function StandardPocketAppGlyph({
   iconKey,
   size = "grid",
 }: PocketAppGlyphProps) {
-  if (iconKey === "low-tide-loot")
-    return (
-      <Image
-        src="/games/low-tide-loot/cover.webp"
-        alt=""
-        width={64}
-        height={64}
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          borderRadius: "inherit",
-        }}
-      />
-    );
-
   if (iconKey === "projects") {
     return <ProjectsAppIcon size={size === "dock" ? "system" : "pocket"} />;
   }

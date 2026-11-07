@@ -9,8 +9,8 @@ if (!configuredSiteUrl) {
     "NEXT_PUBLIC_SITE_URL must be a public HTTPS origin without a path, query, or credentials. The default is https://westcoselabs.com.",
   );
 }
-const configuredContactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim();
-const configuredGitHubUrl = process.env.NEXT_PUBLIC_GITHUB_URL?.trim();
+const configuredContactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "westcose.co@gmail.com";
+const configuredGitHubUrl = process.env.NEXT_PUBLIC_GITHUB_URL?.trim() || "https://github.com/westcoselabs";
 
 function isHttpsUrl(value: string | undefined): value is `https://${string}` {
   if (!value) return false;

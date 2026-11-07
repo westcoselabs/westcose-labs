@@ -89,7 +89,7 @@ test("all Desktop applications inherit chrome, including the live Terminal utili
   await seedAppearance(page);
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
-  for (const route of ["/projects", "/notes/readme", "/settings/appearance", "/recycle", "/games", "/games/fightclub", "/about", "/contact"]) {
+  for (const route of ["/projects", "/notes/readme", "/settings/appearance", "/recycle", "/games", "/about", "/contact"]) {
     await page.goto(`${route}?view=os`);
     await expectClassicAttributes(page, "desktop");
     const active = page.locator('[data-desktop-window] > [data-active="true"]');
@@ -135,7 +135,7 @@ test("Notepad's menu toolbar is keyboard reachable and has valid open-menu seman
 test("Pocket apps and customization have accessible classic presentation", async ({ page }) => {
   await seedAppearance(page);
   await page.setViewportSize({ width: 390, height: 844 });
-  for (const route of ["/", "/projects", "/notes/readme", "/settings/appearance", "/recycle", "/games/fightclub"]) {
+  for (const route of ["/", "/projects", "/notes/readme", "/settings/appearance", "/recycle"]) {
     await page.goto(`${route}?view=os`);
     await expectClassicAttributes(page, "pocket");
     await audit(page);

@@ -7,13 +7,13 @@ export const fightClubRegistry = [
     route: "/games/fightclub",
     buildStatus: "playable",
     artwork: {
-      src: "/images/projects/fightclub-concept-cover.webp",
-      alt: "Concept cover art of a worn boxing glove inside a graphite arcade cabinet",
+      src: "/images/projects/citryn-fight-club.webp",
+      alt: "Citryn Fight Club title artwork over a pixel-art office building at sunset",
     },
     hostedBuild: {
       allowedOrigin: "https://rosy-oak-905.higgsfield.gg",
       buildLabel: "2026-06-29-mobile-ui-layout-fix-1",
-      embedStatus: "verified",
+      embedStatus: "external-only",
       embedUrl: "https://rosy-oak-905.higgsfield.gg/?__raw=1",
       embedVerifiedAt: "2026-08-06",
       launchUrl: "https://rosy-oak-905.higgsfield.gg/",

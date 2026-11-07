@@ -1,43 +1,88 @@
-import { CaseStudyIndex, CaseStudySection } from "@/components/projects/CaseStudy";
+import Image from "next/image";
+import { CaseStudyIndex, CaseStudySection, CaseStudyVisual } from "@/components/projects/CaseStudy";
 
 <CaseStudyIndex items={[
-  { id: "overview", label: "Overview" },
-  { id: "context", label: "Local discovery" },
-  { id: "interaction-design", label: "Organizer workflow" },
-  { id: "technical-architecture", label: "Architecture" },
+  { id: "overview", label: "The product" },
+  { id: "discovery", label: "Finding a sale" },
+  { id: "visual-design", label: "Interface and art direction" },
+  { id: "organizer", label: "The organizer workflow" },
+  { id: "privacy", label: "Location and privacy" },
+  { id: "architecture", label: "How it works" },
   { id: "status", label: "Current status" },
 ]} />
 
 <div className="case-study-sections">
-<CaseStudySection id="overview" number="01" title="A home for local finds">
+<CaseStudySection id="overview" number="01" title="Local sales, all in one place">
 
-Estate Sales Bakersfield is an estate- and yard-sale directory built for local discovery and event publishing. Shoppers can explore public listings, while organizers build and preview events before publishing them.
+Estate Sales Bakersfield brings estate and yard sales into one local directory. Shoppers can browse what is coming up, narrow the dates, and switch between a list and a map. Organizers get a separate path to create, check, and publish a sale.
 
-The project is available as a public beta. Its repository documents the working product, its publishing workflow, and the boundaries of its test-payment environment.
+I wanted the two sides to feel connected. The public experience should help someone plan a morning out. The organizer experience needs to handle the less exciting details that make those plans reliable: schedules, addresses, photos, privacy, and the exact version of a listing that gets published.
 
-</CaseStudySection>
-<CaseStudySection id="context" number="02" title="Discover what’s nearby">
-
-The public directory combines listing pages with map-based exploration. MapLibre renders the maps, OpenFreeMap supplies the map style and tiles, and Geoapify supports address lookup. Confirmed locations are stored in PostgreSQL with PostGIS.
+The screenshots here were captured from the live website on November 7, 2026. They show the current interface, rather than an early concept or a staged dashboard.
 
 </CaseStudySection>
-<CaseStudySection id="interaction-design" number="03" title="From draft to published sale">
+<CaseStudySection id="discovery" number="02" title="Start with when you want to go">
 
-Organizers create an account, complete onboarding, and work on private event drafts. The builder supports location validation, sanitized media uploads, and exact previews. Approval is tied to a specific event revision so that the approved content and published listing stay aligned.
+The homepage puts a date selector next to the main search action. Estate-sale and yard-sale paths give people another starting point, while Today, Tomorrow, and This Weekend keep common searches close at hand. Weekend dates resolve on Bakersfield time, including the remaining days when the weekend has already started.
 
-Stripe-hosted test Checkout is part of the publishing flow. Verified webhooks determine publication rather than the browser’s return URL.
+The Explore page shares one search model between its list and map views. Filters and the current view live in the URL, so a search can be revisited or shared. Cards organize the sale information into a scan-friendly list; the map gives the same search a geographic view. Map loading waits until it is needed.
+
+The listing is the next step for the full details. I kept discovery separate from publishing, so someone looking for a Saturday sale does not have to work through organizer tools.
+
+<figure className="case-study-capture"><Image src="/images/projects/estate-sales-bakersfield-search.webp" alt="The live Explore interface with its filters, sale results, and list/map view controls" width={1440} height={1000} sizes="(max-width: 768px) 100vw, 940px" /><figcaption>Live Explore page, November 7, 2026. The available listings change with the directory.</figcaption></figure>
 
 </CaseStudySection>
-<CaseStudySection id="technical-architecture" number="04" title="One application, clear boundaries">
+<CaseStudySection id="visual-design" number="03" title="A local marketplace with some warmth">
 
-The application uses Next.js App Router with strict TypeScript, Prisma, and PostgreSQL. Feature modules separate domain rules, application services, and provider integrations. Custom authentication uses opaque database sessions.
+The current design pairs oversized, direct typography with a quiet map texture and a moving strip of sale imagery. The opening screen explains the place and purpose before asking for anything. Forest-green controls connect the navigation and main actions, with warm gold used for emphasis and the yard-sale side of the directory.
+
+Light, warm surfaces leave room for the photography. Rounded image cards and restrained borders keep the pages approachable without turning every section into a floating panel. The result is closer to browsing a local directory than managing inventory.
+
+The control type stays clear and compact. Desktop has room for navigation, filters, and geographic context. On a phone, the layout gives the search and results priority, with mobile filter controls and safe-area spacing. Focus treatment, loading and error states, and reduced-motion behavior belong to the shared interface system.
+
+The imagery introduces the atmosphere. Actual published listings remain the source of sale details; the homepage artwork is not a promise that a pictured object is available.
 
 </CaseStudySection>
-<CaseStudySection id="status" number="05" title="Public beta">
+<CaseStudySection id="organizer" number="04" title="A draft is not a published listing">
 
-The README identifies the hosted site as a stable, noindex production beta and its only hosted review environment. Payments are in test mode. These details describe implemented functionality, without making claims about customer adoption or commercial results.
+Organizers sign in, complete onboarding, and build a private draft through a five-step flow. They enter the sale details and schedule, confirm the location and privacy choice, manage photos, and review the result before approving it.
 
-[Visit the beta](https://estate-sales-bakersfield.vercel.app) or [read the project on GitHub](https://github.com/westcoselabs/estate-sales-bakersfield).
+Uploads are processed before a photo is treated as saved, and a cover image is required for review. The preview reflects the listing being approved. Approval belongs to a specific revision, which prevents later edits from quietly changing what was approved for publication.
+
+<CaseStudyVisual title="From a private draft to the public directory" caption="The implemented beta publishing flow. Checkout uses test payments." items={[
+  { title: "Prepare", detail: "Create the draft, set the dates, confirm the location, and choose the photos." },
+  { title: "Review", detail: "Inspect the exact preview and approve that revision." },
+  { title: "Publish", detail: "Complete hosted test Checkout. A verified webhook authorizes publication." },
+]} />
+
+The dashboard keeps the organizer’s listings and their next actions together. The payment return page does not decide whether a sale is live. That decision comes from the server after verifying the payment event.
+
+</CaseStudySection>
+<CaseStudySection id="privacy" number="05" title="The map should not give away the address early">
+
+Location entry uses server-mediated address suggestions. After selecting an address, the organizer checks a map pin and confirms it. Changing the address clears that confirmation. An unavailable lookup can leave a draft unfinished; it does not become permission to publish an unconfirmed location.
+
+The publishing model supports an exact address, an approximate location, or an address held until the sale starts. Protected map markers use an application-owned public zone, rather than a slightly shifted private coordinate. Search results and clusters follow the same public location rules.
+
+This affects both the interface and the data underneath it. A map that looks approximate is not enough if another response still contains the private point.
+
+</CaseStudySection>
+<CaseStudySection id="architecture" number="06" title="One application with clear responsibilities">
+
+The application uses Next.js App Router and strict TypeScript. Feature modules own their rules and services; route handlers compose those modules. Prisma connects to PostgreSQL, with PostGIS supporting location data. Custom email/password authentication uses opaque database sessions.
+
+MapLibre renders the map, OpenFreeMap provides its launch style and tiles, and Geoapify handles server-mediated address lookup. Stripe-hosted Checkout handles the beta payment handoff. Verified webhooks and immutable publication snapshots keep browser navigation separate from the authority to publish.
+
+I kept the application together as a modular monolith. The public search, organizer workflow, media handling, authentication, and payments each have boundaries without needing a separate service for every feature.
+
+</CaseStudySection>
+<CaseStudySection id="status" number="07" title="Working beta, with a clear boundary">
+
+The website is available at its custom domain. The repository still identifies it as a stable production beta with search indexing disabled and payments in test mode. A live domain does not change those boundaries.
+
+The feature set and screenshots document the product as it exists. They do not imply a public commercial launch, live payment processing, or any particular level of adoption.
+
+[Visit Estate Sales Bakersfield](https://estatesalesbakersfield.com/) or [read the project on GitHub](https://github.com/westcoselabs/estate-sales-bakersfield).
 
 </CaseStudySection>
 </div>

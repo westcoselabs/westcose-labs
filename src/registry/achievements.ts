@@ -31,14 +31,14 @@ export const achievementRegistry = [
     title: "Main event",
     description: "Enter full screen from the OS-owned player controls.",
     category: "fightclub",
-    hidden: false,
+    hidden: true,
   },
   {
     id: "fightclub.returned-to-os",
     title: "Returned to the corner",
     description: "Exit the hosted build and return to the local launcher.",
     category: "fightclub",
-    hidden: false,
+    hidden: true,
   },
 ] as const satisfies readonly AchievementDefinition[];
 

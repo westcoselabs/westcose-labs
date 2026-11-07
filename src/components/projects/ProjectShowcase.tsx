@@ -196,7 +196,7 @@ export function ProjectShowcase() {
             role="group"
             aria-label="Filter projects"
           >
-            {collections.map((name) => (
+            {collections.filter(name => name === "All" || projectRegistry.some(project => project.collection === name)).map((name) => (
               <button
                 key={name}
                 type="button"

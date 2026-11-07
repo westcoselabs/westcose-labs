@@ -34,6 +34,7 @@
 
 .tile {
   display: grid;
+  overflow: hidden;
   place-items: center;
   inline-size: var(--pocket-icon-size);
   block-size: var(--pocket-icon-size);
@@ -59,7 +60,6 @@
   font-size: 0.71875rem;
   font-weight: 500;
 }
-:global([data-theme-icons="filled"]) .menuButton { box-shadow: none; background: transparent; border: 0; }
 :global([data-theme-icons="filled"]) .launch:active .tile { background: var(--color-surface-active); }
 
 .tile[data-tone="blue"] { --app-icon-tone: var(--app-tone-blue); }
@@ -92,21 +92,7 @@
   transform: translateY(var(--press-offset));
 }
 
-.menuButton {
-  position: absolute;
-  inset-block-start: calc(var(--space-sm) * -1);
-  inset-inline-start: calc(50% + var(--space-xs));
-  color: var(--color-text-secondary);
-  background: transparent;
-  box-shadow: none;
-}
 
-.menuButton svg {
-  padding: var(--space-micro);
-  border-radius: var(--radius-full);
-  background: var(--color-surface-overlay);
-  transform: scale(0.72);
-}
 
 @media (hover: hover) and (pointer: fine) {
   .launch:hover .tile {
@@ -120,9 +106,6 @@
     gap: 0;
   }
 
-  .menuButton svg {
-    transform: scale(0.64);
-  }
 }
 
 :global([data-theme-icons="outline"]) .launch {
@@ -157,11 +140,6 @@
   box-shadow: none;
 }
 
-:global([data-theme-icons="outline"]) .menuButton {
-  border: 0;
-  background: transparent;
-  box-shadow: none;
-}
 
 .cell[data-app-id="recycle"] .tile { color: var(--shortcut-danger-ink); background: var(--shortcut-danger-bg); border: 1px solid var(--color-danger); }
 .cell[data-app-id="recycle"] .label { white-space: normal; font-size: 0.6875rem; font-weight: 700; }

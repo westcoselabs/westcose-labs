@@ -4,6 +4,7 @@ import { discoveryRegistry } from "./discoveries";
 import { fightClubRegistry } from "./fightclub";
 import { noteFolderRegistry } from "./note-folders";
 import { noteRegistry } from "./notes";
+import { experimentRegistry } from "./portfolio";
 import {
   desktopPlacement,
   desktopTaskbarPinnedPlacement,
@@ -199,6 +200,15 @@ export function getRegistryIssues(): string[] {
         );
       }
     }
+  }
+
+  reportDuplicates(issues, "experiment slug", experimentRegistry.map(experiment => experiment.slug));
+  for (const experiment of experimentRegistry) {
+    if (Boolean(experiment.demoKey) !== (experiment.presentation === "live-demo")) {
+      issues.push(`Experiment ${experiment.slug} must only attach a playground to a live demo`);
+    }
+    if (experiment.projectSlug && !projectSlugSet.has(experiment.projectSlug)) issues.push(`Experiment ${experiment.slug} references an unknown project`);
+    if (experiment.relatedNoteId && !noteIds.some(id => id === experiment.relatedNoteId)) issues.push(`Experiment ${experiment.slug} references an unknown note`);
   }
 
   const themes = themeRegistry as readonly ThemeDefinition[];

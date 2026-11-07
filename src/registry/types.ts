@@ -124,6 +124,18 @@ export type Experiment = {
   proof: string;
   iconKey: string;
   tone: AppTone;
+  category: "3d-worlds" | "game-labs" | "tools-automation" | "interfaces-motion" | "os-internals";
+  presentation: "live-demo" | "build-log" | "research" | "concept";
+  question: string;
+  approach: string;
+  statusLabel?: string;
+  demoKey?: "three-shell-router" | "pocket-viewport" | "accessible-unlock" | "window-geometry" | "westcose-world";
+  actionLabel?: string;
+  actionHref?: `/${string}`;
+  projectSlug?: string;
+  relatedNoteId?: string;
+  art?: { src: string; alt: string; caption: string };
+  sections?: readonly { title: string; body: string }[];
 };
 
 export type Note = {

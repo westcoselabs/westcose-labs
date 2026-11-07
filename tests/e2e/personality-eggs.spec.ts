@@ -61,6 +61,7 @@ test("desktop outbreak clears the cursor through exactly three dodges and cleans
   await expect(field).toBeVisible();
   await expect(field).toHaveAttribute("data-creature-count", "13");
   await expect(field).toHaveAttribute("data-creature-art", "illustrated");
+  await expect(field).toHaveAttribute("data-creature-walk-frames", "12");
   const outbreakId = await field.getAttribute("data-outbreak-id");
   await expect(page.locator("[data-egg-alert]").first()).toBeVisible();
   await page.screenshot({ path: info.outputPath("desktop-outbreak.png"), scale: "css" });

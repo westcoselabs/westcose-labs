@@ -9,10 +9,13 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { gamePresentations } from "./catalog";
 import { useShellPresentation } from "@/components/os/ShellPresentationContext";
+import { useDiscoveryService } from "@/components/os/DiscoveryServiceContext";
+import { recordFightClubLaunch } from "@/lib/fightclub";
 import styles from "./GameLibrary.module.css";
 
 export function GameLibrary() {
   const shell = useShellPresentation();
+  const discoveryService = useDiscoveryService();
   return (
     <section className={styles.library} data-route-content data-game-library>
       <header className={styles.header}>
@@ -29,7 +32,11 @@ export function GameLibrary() {
         {gamePresentations.map((game) => (
           <Link
             prefetch={false}
-            href={`${game.href}${shell === "normal" ? "?view=normal" : ""}`}
+            href={`${game.href}${game.kind !== "hosted" && shell === "normal" ? "?view=normal" : ""}`}
+            target={game.kind === "hosted" ? "_blank" : undefined}
+            rel={game.kind === "hosted" ? "noopener noreferrer" : undefined}
+            aria-description={game.kind === "hosted" ? "Opens in a new tab" : undefined}
+            onClick={() => { if (game.kind === "hosted" && discoveryService) recordFightClubLaunch(discoveryService); }}
             key={game.id}
             className={styles.tile}
             data-color={game.color}

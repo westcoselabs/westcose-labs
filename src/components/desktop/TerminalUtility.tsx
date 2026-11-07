@@ -76,9 +76,9 @@ export function TerminalUtility({ embedded = false }: { embedded?: boolean }) {
       setLines((current) => [
         ...current,
         `> ${command}`,
-        "Opening /games/fightclub without loading a game engine.",
+        "Opening FightClub in a new tab.",
       ]);
-      router.push("/games/fightclub");
+      window.open("https://rosy-oak-905.higgsfield.gg/", "_blank", "noopener,noreferrer");
       return;
     }
 

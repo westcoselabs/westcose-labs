@@ -41,13 +41,13 @@ for (const size of [
     await page.goto("/projects?view=os");
     const showcase = page.locator("[data-project-showcase]");
     await expect(showcase).toBeVisible();
-    await expect(showcase.locator("[data-project-card]")).toHaveCount(14);
+    await expect(showcase.locator("[data-project-card]")).toHaveCount(13);
     await expect(
       showcase.getByRole("link", {
         name: "Visit Estate Sales Bakersfield",
         exact: true,
       }),
-    ).toHaveAttribute("href", "https://estate-sales-bakersfield.vercel.app");
+    ).toHaveAttribute("href", "https://estatesalesbakersfield.com/");
     await expect(
       showcase.getByRole("link", {
         name: "View source for GitPress",
@@ -74,11 +74,7 @@ for (const size of [
     await expect(
       showcase.getByRole("heading", { name: "GitPress Forms", exact: true }),
     ).toBeVisible();
-    await filters.getByRole("button", { name: /^Archive/ }).click();
-    await expect(showcase.locator("[data-project-card]")).toHaveCount(1);
-    await expect(
-      showcase.getByRole("heading", { name: "WordPress workspace" }),
-    ).toBeVisible();
+    await expect(showcase.getByRole("heading", { name: "WordPress workspace" })).toHaveCount(0);
     await filters.getByRole("button", { name: /^All/ }).click();
     const accessibility = await new AxeBuilder({ page })
       .include("[data-project-showcase]")
@@ -142,9 +138,9 @@ for (const width of [1440, 375]) {
     ).toBeVisible();
     await expect(
       spotlight.getByRole("link", {
-        name: "Preview design for Trends Collision Center",
+        name: "Visit Trends Collision Center",
       }),
-    ).toHaveAttribute("href", "https://trends-frontend-eight.vercel.app/");
+    ).toHaveAttribute("href", "https://trendsautocollision.com/");
 
     const search = showcase.getByRole("searchbox", { name: "Search projects" });
     await showcase.getByRole("group", { name: "Filter projects" }).getByRole("button", { name: "All", exact: true }).click();
@@ -187,7 +183,7 @@ for (const width of [1440, 375]) {
       showcase.getByRole("heading", { name: "No projects found" }),
     ).toBeVisible();
     await showcase.getByRole("button", { name: "Show all projects" }).click();
-    await expect(showcase.locator("[data-project-card]")).toHaveCount(14);
+    await expect(showcase.locator("[data-project-card]")).toHaveCount(13);
     await showcase
       .getByRole("group", { name: "Filter projects" })
       .getByRole("button", { name: "Client sites", exact: true })

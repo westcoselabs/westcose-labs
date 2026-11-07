@@ -15,18 +15,18 @@ export default function GitHubPage() {
     <RouteDocument
       eyebrow="Repository directory"
       title="GitHub"
-      description="Static project and source relationships without unverified live API data."
+      description="My projects, open source work, and the code behind the things I build."
       status={siteConfig.githubConfigured ? "Profile verified" : "Owner input needed"}
       presentation="github"
       actions={siteConfig.githubUrl ? [{ href: siteConfig.githubUrl, label: "Open profile", external: true, variant: "primary" }] : []}
     >
       <RouteSection title="Source relationships">
         <div className="repository-list">
-          {projectRegistry.map((project) => (
+          {projectRegistry.filter(project => project.githubUrl && !project.repositoryPrivate).map((project) => (
             <article key={project.slug}>
               <span>{project.category}</span>
-              <h2>{project.title}</h2>
-              <p>{project.githubUrl ? "Verified source available" : "Public source link not configured"}</p>
+              <h2><a href={project.githubUrl} target="_blank" rel="noopener noreferrer">{project.title} ↗</a></h2>
+              <p>{project.shortDescription}</p>
             </article>
           ))}
         </div>

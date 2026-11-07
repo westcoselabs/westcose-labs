@@ -1,19 +1,21 @@
-import { render, screen } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 
 import { ContactComposer } from "@/components/apps/ContactComposer";
+
+afterEach(cleanup);
 
 describe("ContactComposer", () => {
   it("is honest when no production recipient is configured", () => {
     render(<ContactComposer recipient={null} />);
 
     expect(
-      screen.getByRole("button", { name: "Email setup pending" }),
+      screen.getByRole("button", { name: "Open email draft" }),
     ).toBeDisabled();
     expect(
       screen.getByRole("status"),
-    ).toHaveTextContent("has not supplied a production contact email");
+    ).toHaveTextContent("Nothing is sent or stored");
   });
 
   it("validates the native handoff before opening mail", async () => {
@@ -21,10 +23,12 @@ describe("ContactComposer", () => {
     render(<ContactComposer recipient="owner@example.com" />);
 
     await user.click(
-      screen.getByRole("button", { name: "Open email application" }),
+      screen.getByRole("button", { name: "Open email draft" }),
     );
+    expect(screen.getByRole("textbox", { name: "Your name" })).toHaveFocus();
+    expect(screen.getByRole("textbox", { name: "Your email" })).toHaveAttribute("aria-invalid", "true");
     expect(screen.getByRole("alert")).toHaveTextContent(
-      "Complete every field",
+      "A few details need a second look",
     );
   });
 });

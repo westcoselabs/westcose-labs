@@ -1,5 +1,6 @@
 // The original 48px drawings provide an immediate, offline fallback while the
 // illustrated strips load. Both asset sets share the same foot-line ratio.
+import { createWalkFrames } from "./creature-walk";
 export const CREATURE_SPRITE_SIZE = 48;
 export const CREATURE_BASELINE = 46;
 export const CREATURE_KINDS = [
@@ -11,7 +12,7 @@ const ILLUSTRATED_FRAME_SIZE = 384;
 let artwork: Promise<HTMLCanvasElement[][]> | undefined;
 
 export function loadCreatureArtwork(): Promise<HTMLCanvasElement[][]> {
-  artwork ??= Promise.all(CREATURE_KINDS.map((name) => new Promise<HTMLCanvasElement[]>((resolve, reject) => {
+  artwork ??= Promise.all(CREATURE_KINDS.map((name, kind) => new Promise<HTMLCanvasElement[]>((resolve, reject) => {
     const image = new Image();
     image.onload = () => {
       if (image.naturalWidth !== ILLUSTRATED_FRAME_SIZE * 2 || image.naturalHeight !== ILLUSTRATED_FRAME_SIZE) {
@@ -29,7 +30,7 @@ export function loadCreatureArtwork(): Promise<HTMLCanvasElement[][]> {
         );
         return canvas;
       });
-      resolve(frames);
+      resolve(kind === 7 ? frames : [frames[0], ...createWalkFrames(frames[0], kind)]);
     };
     image.onerror = () => reject(new Error(`Could not load creature art for ${name}`));
     image.src = `/images/eggs/outbreak/${name.toLowerCase().replaceAll(" ", "-")}-v2.webp`;

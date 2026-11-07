@@ -1,10 +1,7 @@
 "use client";
 
-import { DotsThree } from "@phosphor-icons/react";
 import type { PointerEvent } from "react";
 import { useEffect, useRef } from "react";
-
-import { IconButton } from "@/components/ui";
 
 import { PocketAppGlyph } from "./PocketAppGlyph";
 import styles from "./PocketAppTile.module.css";
@@ -84,6 +81,13 @@ export function PocketAppTile({
           onRememberMenuTrigger(event.currentTarget);
           onOpenMenu(app);
         }}
+        onKeyDown={(event) => {
+          if (event.key === "ContextMenu" || (event.shiftKey && event.key === "F10")) {
+            event.preventDefault();
+            onRememberMenuTrigger(event.currentTarget);
+            onOpenMenu(app);
+          }
+        }}
         onPointerCancel={cancelLongPress}
         onPointerDown={startLongPress}
         onPointerLeave={cancelLongPress}
@@ -96,16 +100,6 @@ export function PocketAppTile({
         </span>
         <span className={styles.label}>{app.label}</span>
       </button>
-      <IconButton
-        className={styles.menuButton}
-        label={`More actions for ${app.label}`}
-        onClick={(event) => {
-          onRememberMenuTrigger(event.currentTarget);
-          onOpenMenu(app);
-        }}
-      >
-        <DotsThree aria-hidden="true" weight="bold" />
-      </IconButton>
     </div>
   );
 }

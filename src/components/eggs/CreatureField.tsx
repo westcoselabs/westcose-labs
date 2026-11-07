@@ -343,9 +343,11 @@ export default function CreatureField({
         if (creature.mode === "climb")
           ctx.rotate((creature.facing * Math.PI) / 2);
         ctx.scale(creature.facing, 1);
+        const walkOffset = sprites[creature.kind].length > 2 ? 1 : 0;
+        const stepDuration = walkOffset ? Math.max(40, creature.size * 500 / SPEED[creature.kind] / 12) : 160;
         const walkingFrame =
           !reducedMotion && creature.mode !== "stare"
-            ? Math.floor(time / (creature.kind === 0 ? 80 : 160) + i) % 2
+            ? walkOffset + Math.floor(time / stepDuration + i) % (sprites[creature.kind].length - walkOffset)
             : 0;
         ctx.drawImage(
           sprites[creature.kind][walkingFrame],
@@ -478,6 +480,7 @@ export default function CreatureField({
       ctx.imageSmoothingQuality = "high";
       paint(0);
       canvas.dataset.creatureArt = "illustrated";
+      canvas.dataset.creatureWalkFrames = String(illustrated[0].length - 1);
     }).catch(() => {
       if (!disposed) canvas.dataset.creatureArt = "fallback";
     });

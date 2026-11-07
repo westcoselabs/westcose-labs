@@ -10,13 +10,13 @@ import { createDiscoveryService } from "@/lib/discovery-service";
 import { achievementRegistry, fightClubRegistry } from "@/registry";
 
 describe("FightClub hosted integration", () => {
-  it("centralizes an exact trusted host and verified raw embed URL", () => {
+  it("centralizes the hosted destination and external-only launch policy", () => {
     const game = fightClubRegistry[0];
     const embed = new URL(game.hostedBuild.embedUrl);
     const launch = new URL(game.hostedBuild.launchUrl);
 
     expect(game.buildStatus).toBe("playable");
-    expect(game.hostedBuild.embedStatus).toBe("verified");
+    expect(game.hostedBuild.embedStatus).toBe("external-only");
     expect(embed.origin).toBe(game.hostedBuild.allowedOrigin);
     expect(launch.origin).toBe(game.hostedBuild.allowedOrigin);
     expect(embed.searchParams.get("__raw")).toBe("1");

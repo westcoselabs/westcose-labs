@@ -1,135 +1,47 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
+import { seedAppearance } from "./appearance-helpers";
 
-const HOST_PATTERN = "https://rosy-oak-905.higgsfield.gg/**";
-const EMBED_URL = "https://rosy-oak-905.higgsfield.gg/?__raw=1";
-
-async function readFightClubState(page: Page) {
-  return page.evaluate(() => {
-    const raw = localStorage.getItem("wcl.discoveries.v1");
-    if (!raw) return null;
-    const state = JSON.parse(raw).data;
-    return {
-      achievements: state.fightClubAchievementIds,
-      launches: state.counters.fightClubLaunches,
-    };
+const destination = "https://rosy-oak-905.higgsfield.gg/";
+for (const width of [1440, 390]) {
+  test(`FightClub opens directly in a new tab at ${width}px`, async ({ page, context }) => {
+    await seedAppearance(page, "dusk", "dusk-cliffs");
+    await page.setViewportSize({ width, height: 900 });
+    await context.route(`${destination}**`, route => route.fulfill({ contentType: "text/html", body: "<!doctype html><title>Hosted FightClub</title><h1>FightClub</h1>" }));
+    await page.goto("/games?view=os");
+    const link = page.getByRole("link", { name: "Play FightClub", exact: true });
+    await expect(link).toHaveAttribute("target", "_blank");
+    const popupPromise = page.waitForEvent("popup");
+    await link.click();
+    const popup = await popupPromise;
+    await popup.waitForLoadState();
+    await expect(popup).toHaveURL(destination);
+    await expect(page).toHaveURL(/\/games(?:\?view=os)?$/);
+    await expect(page.locator('iframe[src*="higgsfield"]')).toHaveCount(0);
+    await expect(page.getByRole("button", { name: "Start game" })).toHaveCount(0);
+    await popup.close();
   });
 }
 
-test.describe("Phase 4 FightClub integration", () => {
-  test.beforeEach(async ({ page }) => {
-    await page.addInitScript(() => {
-      localStorage.clear();
-      sessionStorage.clear();
-    });
-  });
+test("the old FightClub URL redirects to the hosted game", async ({ request }) => {
+  const response = await request.get("/games/fightclub", { maxRedirects: 0 });
+  expect([307, 308]).toContain(response.status());
+  expect(response.headers().location).toBe(destination);
+});
 
-  test("does not request the remote build before explicit Play", async ({ page }) => {
-    const remoteRequests: string[] = [];
-    page.on("request", (request) => {
-      if (request.url().startsWith("https://rosy-oak-905.higgsfield.gg/")) {
-        remoteRequests.push(request.url());
-      }
-    });
-
+test("desktop and Pocket shortcuts launch FightClub without an intermediate route", async ({ page, context }) => {
+  await seedAppearance(page, "dusk", "dusk-cliffs");
+  await context.route(`${destination}**`, route => route.fulfill({ contentType: "text/html", body: "<!doctype html><title>FightClub</title>" }));
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 900 });
     await page.goto("/?view=os");
-    await page.goto("/games?view=os");
-    await page.goto("/games/fightclub?view=os");
-
-    expect(remoteRequests).toEqual([]);
-    await expect(page.getByTitle("Citryn Fight Club hosted game")).toHaveCount(0);
-    await expect(page.getByRole("button", { name: "Start game" })).toBeVisible();
-  });
-
-  test("lazy-creates a constrained iframe and restores the Desktop launcher on Exit", async ({
-    page,
-  }) => {
-    const remoteRequests: string[] = [];
-    await page.route(HOST_PATTERN, async (route) => {
-      remoteRequests.push(route.request().url());
-      await route.fulfill({
-        body: "<!doctype html><title>Citryn Fight Club test build</title><canvas></canvas>",
-        contentType: "text/html",
-      });
-    });
-    await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto("/games?view=os");
-    await page.getByRole("link", { name: "Play FightClub" }).click();
-    await expect(page).toHaveURL(/\/games\/fightclub(?:\?view=os)?$/);
-    expect(remoteRequests).toEqual([]);
-
-    await page.getByRole("button", { name: "Start game" }).click();
-    const frame = page.getByTitle("Citryn Fight Club hosted game");
-    await expect(frame).toBeVisible();
-    await expect(frame).toHaveAttribute("src", EMBED_URL);
-    await expect(frame).toHaveAttribute(
-      "sandbox",
-      "allow-scripts allow-same-origin allow-forms allow-pointer-lock allow-popups allow-popups-to-escape-sandbox",
-    );
-    await expect.poll(() => remoteRequests).toEqual([EMBED_URL]);
-    await expect(
-      page.locator("[data-game=\"fightclub\"] header"),
-    ).toBeVisible();
-    await expect(page.getByRole("button", { name: "Back to menu" })).toBeVisible();
-    await expect(page.getByRole("link", { name: /Open hosted build/ })).toHaveAttribute(
-      "href",
-      "https://rosy-oak-905.higgsfield.gg/",
-    );
-
-    const beforeMessages = await readFightClubState(page);
-    await page.evaluate(() => {
-      window.dispatchEvent(
-        new MessageEvent("message", {
-          data: { type: "unlock", achievement: "fightclub.fake-win" },
-          origin: "https://evil.example",
-        }),
-      );
-      window.dispatchEvent(
-        new MessageEvent("message", {
-          data: { type: "navigate", url: "https://evil.example" },
-          origin: "https://rosy-oak-905.higgsfield.gg",
-        }),
-      );
-    });
-    expect(await readFightClubState(page)).toEqual(beforeMessages);
-
-    await page.getByRole("button", { name: "Back to menu" }).click();
-    await expect(frame).toHaveCount(0);
-    await expect(page.getByRole("button", { name: "Start game" })).toBeFocused();
-    expect((await readFightClubState(page))?.achievements).toEqual(expect.arrayContaining([
-      "fightclub.first-launch",
-      "fightclub.returned-to-os",
-    ]));
-
-    await page.goBack();
-    await expect(page).toHaveURL(/\/games(?:\?view=os)?$/);
-    await page.goForward();
-    await expect(page).toHaveURL(/\/games\/fightclub(?:\?view=os)?$/);
-    await expect(page.getByTitle("Citryn Fight Club hosted game")).toHaveCount(0);
-  });
-
-  test("keeps a visible Pocket exit and returns through the shell Back flow", async ({
-    page,
-  }) => {
-    await page.route(HOST_PATTERN, (route) =>
-      route.fulfill({
-        body: "<!doctype html><title>Citryn Fight Club test build</title><canvas></canvas>",
-        contentType: "text/html",
-      }),
-    );
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto("/games/fightclub?view=os");
-    await expect(page.locator("html")).toHaveAttribute("data-shell", "pocket");
-
-    await page.getByRole("button", { name: "Start game" }).click();
-    await expect(page.getByTitle("Citryn Fight Club hosted game")).toBeVisible();
-    await expect(page.getByRole("button", { name: "Back to menu" })).toBeVisible();
-    expect(
-      await page.evaluate(() => document.documentElement.scrollWidth - innerWidth),
-    ).toBeLessThanOrEqual(0);
-
-    await page.getByRole("button", { name: "Back to menu" }).click();
-    await expect(page.getByRole("button", { name: "Start game" })).toBeVisible();
-    await page.getByRole("button", { name: "Exit to Games" }).click();
-    await expect(page).toHaveURL(/\/games(?:\?.*)?$/);
-  });
+    if (width < 768) await page.getByRole("button", { name: "Go to Home Page 2" }).click();
+    const shortcut = page.getByRole("button", { name: /^Open FightClub in a new tab/ });
+    const popupPromise = page.waitForEvent("popup");
+    await shortcut.press("Enter");
+    const popup = await popupPromise;
+    await popup.waitForLoadState();
+    await expect(popup).toHaveURL(destination);
+    expect(new URL(page.url()).pathname).toBe("/");
+    await popup.close();
+  }
 });

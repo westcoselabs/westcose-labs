@@ -1,5 +1,13 @@
 {
   "schema_version": 1,
+  "runtime_animation": {
+    "updated_on": "2026-11-07",
+    "method": "Independent far and near leg cutouts with opposite stride and passing phases, baked once when the art loads. Original illustration retained for idle and reduced motion; phantom floats.",
+    "walk_frames": 12,
+    "runtime_frame_size": 192,
+    "memory_note": "Seven 12-frame walk sets at 192 square, approximately 12 MiB decoded. No per-tick limb compositing.",
+    "source_art": "Existing v2 strips. Generated four-pose candidates were rejected for repeated leading legs and alpha problems; they are not runtime assets."
+  },
   "created_on": "2026-11-06",
   "generator": "Built-in image_gen",
   "role": "Animated decorative shell creatures for the opt-in DO NOT PRESS outbreak",

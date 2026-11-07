@@ -4,14 +4,15 @@ import { createRouteMetadata, getProject, projectRegistry } from "@/registry";
 
 describe("curated projects", () => {
   it("includes the selected repositories and all four client websites", () => {
-    expect(projectRegistry).toHaveLength(14);
-    expect(new Set(projectRegistry.map((p) => p.slug)).size).toBe(14);
+    expect(projectRegistry).toHaveLength(13);
+    expect(new Set(projectRegistry.map((p) => p.slug)).size).toBe(13);
     for (const project of projectRegistry) {
       expect(project.liveUrl ?? project.githubUrl).toMatch(/^https:\/\//);
       expect(project.shortDescription.length).toBeGreaterThan(20);
     }
     expect(getProject("mission-control")).toBeUndefined();
     expect(getProject("salescout")).toBeUndefined();
+    expect(getProject("public")).toBeUndefined();
     expect(getProject("gitpress")?.featured).toBe(true);
     expect(getProject("gitpress-forms")?.status).toBe("preview");
   });
@@ -45,10 +46,10 @@ describe("curated projects", () => {
     const estate = getProject("estate-sales-bakersfield");
     expect(estate).toMatchObject({
       status: "beta",
-      liveUrl: "https://estate-sales-bakersfield.vercel.app",
+      liveUrl: "https://estatesalesbakersfield.com/",
     });
     expect(estate?.technologies).toContain("Next.js");
-    expect(estate?.cover?.src).toContain("estate-sales-bakersfield.webp");
+    expect(estate?.cover?.src).toContain("estate-sales-bakersfield-desktop.webp");
     expect(estate?.relatedProjectSlugs).toContain("westcose-labs-os");
     expect(getProject("westcose-labs-os")?.relatedProjectSlugs).toContain(
       "estate-sales-bakersfield",

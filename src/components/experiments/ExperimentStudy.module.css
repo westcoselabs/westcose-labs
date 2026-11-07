@@ -17,6 +17,14 @@
 .next a { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 44px; color: var(--color-text-primary); text-decoration: none; font-size: 1rem; font-weight: 600; }
 .next a span { font-size: 1.5rem; color: var(--color-primary); }
 .study a:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 4px; border-radius: var(--radius-xs); }
+.evidence { margin: 0; }
+.evidence > div { position: relative; overflow: hidden; aspect-ratio: 16 / 9; border-radius: var(--radius-lg); background: var(--color-surface-recessed); }
+.evidence img { object-fit: contain; }
+.evidence figcaption { margin-block-start: var(--space-sm); color: var(--color-text-secondary); font-size: var(--type-caption-size); line-height: 1.6; }
+.logSection h2 { margin: 0; font-size: var(--type-headline-sm-size); }
+.logSection p { max-inline-size: 68ch; color: var(--color-text-secondary); line-height: 1.8; }
+.related { display: flex; flex-wrap: wrap; gap: var(--space-md); }
+.related a { display: inline-flex; align-items: center; min-block-size: 44px; color: var(--color-primary); }
 :global([data-shell="pocket"]) .study { padding: 1.25rem; }
 @container experiment-study (min-width: 38rem) {
   .live { padding: 2rem; }

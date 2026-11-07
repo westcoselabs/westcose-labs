@@ -210,34 +210,6 @@
   color: var(--desktop-icon-tone);
 }
 
-.selectionBar {
-  position: absolute;
-  inset-inline-start: var(--desktop-gutter);
-  inset-block-end: calc(
-    var(--desktop-taskbar-size) + var(--desktop-gutter) * 2
-  );
-  z-index: var(--layer-widgets);
-  display: flex;
-  align-items: center;
-  gap: var(--space-lg);
-  padding: var(--space-sm) var(--space-sm) var(--space-sm) var(--space-base);
-  border: var(--border-thin) solid var(--color-border-subtle);
-  border-radius: var(--radius-lg);
-  background: var(--color-surface-overlay);
-  box-shadow: var(--neu-shadow-floating);
-}
-
-.selectionBar > div {
-  display: grid;
-}
-
-.selectionBar span {
-  color: var(--color-text-secondary);
-  font-family: var(--font-mono);
-  font-size: var(--type-caption-size);
-  text-transform: uppercase;
-}
-
 .featuredBuild {
   position: absolute;
   inset-block-start: var(--desktop-gutter);
