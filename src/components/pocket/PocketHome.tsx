@@ -4,12 +4,11 @@ import { FeaturedBuild } from "@/components/os/FeaturedBuild";
 
 import { LiquidGlass } from "@/components/ui/LiquidGlass";
 
-import { ArrowLeft, ArrowRight, CloudSun, GearSix } from "@phosphor-icons/react";
+import { ArrowLeft, ArrowRight, CloudSun } from "@phosphor-icons/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import { IconButton, SurfaceRaised } from "@/components/ui";
+import { SurfaceRaised } from "@/components/ui";
 import { useDiscoveryService } from "@/components/os/DiscoveryServiceContext";
-import { useAppearance } from "@/components/os/AppearanceContext";
 import { useLongPress } from "@/hooks/useLongPress";
 import { personalityRegistry } from "@/registry";
 
@@ -92,7 +91,6 @@ export function PocketHome({
   const [statusTaps, setStatusTaps] = useState(0);
   const discoveryService = useDiscoveryService();
   const clock = usePocketClock();
-  const { theme } = useAppearance();
   const verifiedPageTwoApps = useMemo(
     () => pageTwoApps.filter((app) => app.kind !== "social" || app.verified === true),
     [pageTwoApps],
@@ -162,23 +160,6 @@ export function PocketHome({
         inert={menuApp || customizeOpen ? true : undefined}
       >
         <h1 className="sr-only">WestCose Labs Home</h1>
-        <header className={styles.homeHeader}>
-          <LiquidGlass />
-          <div className={styles.brand}>
-            <strong>WestCose Labs</strong>
-            <span>{theme.copy?.systemLabel ?? "DUSK"} SYSTEM</span>
-          </div>
-          <IconButton
-            label="Open Settings"
-            onClick={() => {
-              const settings = allApps.find((app) => app.id === "settings");
-              if (settings) onLaunchApp(settings);
-            }}
-          >
-            <GearSix aria-hidden="true" weight="duotone" />
-          </IconButton>
-        </header>
-
         <button
           className={styles.customizeAffordance}
           onClick={() => { setCustomizeTab("wallpaper"); setCustomizeOpen(true); }}

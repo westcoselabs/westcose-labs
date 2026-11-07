@@ -286,8 +286,7 @@ test.describe("Pocket OS", () => {
     ).toBeVisible();
 
     await page
-      .getByRole("main", { name: "Pocket OS Home" })
-      .locator("header")
+      .getByRole("region", { name: "Home Page One" })
       .getByRole("button", { name: "Open Settings" })
       .click();
     await page.getByRole("button", { name: "System", exact: true }).click();

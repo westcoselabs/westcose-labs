@@ -40,7 +40,7 @@ function DangerousButton() {
     },
   });
   return (
-    <div className={styles.experiment} data-dodges={dodges}>
+    <div data-dodges={dodges}>
       <div ref={bounds} className={styles.buttonBounds} data-evasion-arena>
         <Button
           {...control}
@@ -82,6 +82,7 @@ export function DoNotOpen() {
   const active = eggs?.outbreak?.phase === "active" || eggs?.outbreak?.phase === "escaping";
   return (
     <SurfaceRecessed className={styles.panel} id="quarantine" data-quarantine-origin>
+      <h1 className={styles.title} tabIndex={-1}>Quarantine</h1>
       <div className={styles.copy}>
         <div className={styles.fileHeading}>
           <strong>quarantine.zip</strong>

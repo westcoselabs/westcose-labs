@@ -17,6 +17,7 @@ type RouteDocumentProps = {
   status?: string;
   actions?: readonly RouteAction[];
   children: ReactNode;
+  header?: ReactNode;
   className?: string;
   presentation?:
     | "home"
@@ -42,6 +43,7 @@ export function RouteDocument({
   status,
   actions = [],
   children,
+  header,
   className,
   presentation,
 }: RouteDocumentProps) {
@@ -53,7 +55,7 @@ export function RouteDocument({
       data-route-content
       data-presentation={presentation}
     >
-      <header className="route-document__header">
+      {header ?? <header className="route-document__header">
         <div className="route-document__heading-group">
           {eyebrow ? <p className="route-document__eyebrow">{eyebrow}</p> : null}
           <h1 className="route-document__title" tabIndex={-1}>
@@ -97,7 +99,7 @@ export function RouteDocument({
             })}
           </nav>
         ) : null}
-      </header>
+      </header>}
       <div className="route-document__body">{children}</div>
     </div>
   );

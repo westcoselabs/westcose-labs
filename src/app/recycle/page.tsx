@@ -1,10 +1,7 @@
 import { DoNotOpen } from "@/components/apps/DoNotOpen";
 import { RecycleExplorer } from "@/components/apps/RecycleExplorer";
-import {
-  RouteDocument,
-  RouteSection,
-} from "@/components/apps/RouteDocument";
-import { createRouteMetadata, personalityRegistry } from "@/registry";
+import { RouteDocument } from "@/components/apps/RouteDocument";
+import { createRouteMetadata } from "@/registry";
 
 export const metadata = createRouteMetadata({
   title: "Recycle",
@@ -15,16 +12,11 @@ export const metadata = createRouteMetadata({
 export default function RecyclePage() {
   return (
     <RouteDocument
-      eyebrow="Recently deleted"
-      title="Recycle"
-      description="Discarded concepts and harmless oddities. Nothing essential is stored only here."
-      status={`${personalityRegistry.recycleFiles.length} recoverable ideas`}
+      title="Quarantine"
+      header={<DoNotOpen />}
       presentation="recycle"
     >
       <RecycleExplorer />
-      <RouteSection title="Quarantine">
-        <DoNotOpen />
-      </RouteSection>
     </RouteDocument>
   );
 }

@@ -23,7 +23,9 @@ for (const theme of ["dusk", "liquid-glass"]) {
     await page.goto("/?view=os");
     const home = page.getByRole("main", { name: "Pocket OS Home" });
     await expect(home).toBeVisible();
-    await expect(home.getByText("WestCose Labs", { exact: true })).toBeVisible();
+    await expect(home.locator("header")).toHaveCount(0);
+    await expect(home.getByText("WestCose Labs", { exact: true })).toHaveCount(0);
+    await expect(page.getByRole("region", { name: "Home Page One" }).getByRole("button", { name: "Open Settings", exact: true })).toBeVisible();
     expect(await home.evaluate(el => getComputedStyle(el).backgroundImage)).toContain("url(");
     const featured = page.getByRole("link", { name: "Open featured project: WestCose World" });
     await expect(featured).toHaveAttribute("href", "/projects/westcose-world");
