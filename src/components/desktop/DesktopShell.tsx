@@ -431,7 +431,6 @@ export function DesktopShell({
       <div aria-hidden="true" className={styles.wallpaperShade} />
 
       <section aria-label="Desktop shortcuts" className={styles.iconGrid}>
-        <FeaturedBuild className={styles.featuredBuild} />
         {desktopPlacement.map((appId) => {
           const app = getAppById(appId);
           const selected = selectedAppId === app.id;
@@ -475,10 +474,8 @@ export function DesktopShell({
         </div>
       ) : null}
 
-      <aside aria-label="Desktop build status" className={styles.clockWidget}>
-        <span className={styles.clockLabel}>BUILD MODE</span>
-        <strong>WestCose</strong>
-        <span>{clock.date}</span>
+      <aside aria-label="Featured project" className={styles.featuredBuild}>
+        <FeaturedBuild />
       </aside>
 
       <main aria-label="Desktop workspace" className={styles.windowLayer}>

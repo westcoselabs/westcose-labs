@@ -136,9 +136,16 @@ test("desktop exposes the featured world and Themes shortcut", async ({ page }, 
   await seedAppearance(page, "dusk", "dusk-cliffs");
   await page.goto("/?view=os");
   const featured = page.getByRole("link", { name: "Open featured project: WestCose World" });
-  const box = (await featured.boundingBox())!;
-  expect(box.x).toBeLessThan(50);
-  expect(box.y).toBeLessThan(50);
+  await expect(page.getByText("BUILD MODE", { exact: true })).toHaveCount(0);
+  await expect(page.getByRole("region", { name: "Desktop shortcuts" }).getByRole("link")).toHaveCount(0);
+  for (const width of [1440, 1024]) {
+    await page.setViewportSize({ width, height: 1000 });
+    const box = (await featured.boundingBox())!;
+    expect(box.x).toBeGreaterThan(width - 300);
+    expect(box.y).toBeLessThan(50);
+    expect(box.x + box.width).toBeLessThanOrEqual(width - 16);
+  }
+  await page.setViewportSize({ width: 1440, height: 1000 });
   await expect.poll(() => featured.locator("img").evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0)).toBe(true);
   await page.screenshot({ path: info.outputPath("desktop-home.png") });
   const shortcut = page.getByRole("region", { name: "Desktop shortcuts" }).getByRole("button", { name: /^Open Themes/ });

@@ -18,7 +18,6 @@ test("desktop root visual baseline", async ({ page }) => {
   await page.evaluate(() => document.fonts.ready);
   await expect(page).toHaveScreenshot("desktop-root.png", {
     animations: "disabled",
-    mask: [page.getByRole("complementary", { name: "Desktop build status" })],
     maxDiffPixelRatio: 0.01,
   });
 });
@@ -45,7 +44,6 @@ test("desktop Projects window visual baseline", async ({ page }) => {
   await page.evaluate(() => document.fonts.ready);
   await expect(page).toHaveScreenshot("desktop-projects.png", {
     animations: "disabled",
-    mask: [page.getByRole("complementary", { name: "Desktop build status" })],
     maxDiffPixelRatio: 0.01,
   });
 });
@@ -75,7 +73,6 @@ test("desktop WestCose Labs OS case study visual baseline", async ({ page }) => 
   );
   await expect(page).toHaveScreenshot("desktop-project-case-study.png", {
     animations: "disabled",
-    mask: [page.getByRole("complementary", { name: "Desktop build status" })],
     maxDiffPixelRatio: 0.01,
   });
 });
@@ -102,7 +99,6 @@ test("desktop FightClub launcher visual baseline", async ({ page }) => {
   await page.evaluate(() => document.fonts.ready);
   await expect(page).toHaveScreenshot("desktop-fightclub-launcher.png", {
     animations: "disabled",
-    mask: [page.getByRole("complementary", { name: "Desktop build status" })],
     maxDiffPixelRatio: 0.01,
   });
 });
@@ -136,7 +132,6 @@ test("desktop FightClub hosted player chrome visual baseline", async ({ page }) 
   await expect(page.getByTitle("Citryn Fight Club hosted game")).toBeVisible();
   await expect(page).toHaveScreenshot("desktop-fightclub-player.png", {
     animations: "disabled",
-    mask: [page.getByRole("complementary", { name: "Desktop build status" })],
     maxDiffPixelRatio: 0.01,
   });
 });
@@ -269,7 +264,6 @@ test("desktop Corporate Beige visual baseline", async ({ page }) => {
   await page.evaluate(() => document.fonts.ready);
   await expect(page).toHaveScreenshot("desktop-corporate-beige.png", {
     animations: "disabled",
-    mask: [page.getByRole("complementary", { name: "Desktop build status" })],
     maxDiffPixelRatio: 0.01,
   });
 });

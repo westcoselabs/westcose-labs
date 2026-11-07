@@ -65,12 +65,6 @@
 :global([data-theme-surface="translucent"]) .iconWell {
   border-radius: var(--radius-lg);
 }
-:global([data-theme-widget="translucent-card"]) .clockWidget {
-  background: var(--glass-content);
-  box-shadow: var(--neu-shadow-raised);
-  border: 1px solid var(--glass-rim);
-  border-radius: var(--radius-xl);
-}
 :global([data-theme-surface="translucent"]) .startMenu {
   grid-template-rows: auto auto minmax(0, 1fr) auto;
   gap: var(--space-md);
@@ -128,8 +122,6 @@
   color: var(--color-text-primary);
   text-shadow: 0 var(--border-thin) var(--space-xs) var(--color-shadow-dark);
 }
-
-.featuredBuild { grid-column: 1 / span 2; grid-row: 1 / span 2; }
 
 .desktopIcon > span:last-child {
   max-inline-size: 100%;
@@ -246,34 +238,15 @@
   text-transform: uppercase;
 }
 
-.clockWidget {
+.featuredBuild {
   position: absolute;
   inset-block-start: var(--desktop-gutter);
   inset-inline-end: var(--desktop-gutter);
-  /* Passive desktop decoration must not cover application controls. */
+  /* Keep the featured project behind application windows. */
   z-index: var(--layer-desktop-icons);
   display: grid;
-  gap: var(--space-xs);
-  inline-size: 13rem;
-  padding: var(--space-xl);
-  border: var(--border-thin) solid var(--color-border-subtle);
-  border-radius: var(--radius-xl);
-  background: color-mix(in srgb, var(--color-surface-overlay) 94%, transparent);
-  box-shadow: var(--neu-shadow-raised);
-  text-align: end;
-}
-
-.clockWidget strong {
-  font-size: var(--type-headline-sm-size);
-  letter-spacing: var(--type-headline-lg-tracking);
-}
-
-.clockWidget > span:last-child,
-.clockLabel {
-  color: var(--color-text-secondary);
-  font-family: var(--font-mono);
-  font-size: var(--type-caption-size);
-  text-transform: uppercase;
+  inline-size: 15rem;
+  min-block-size: 15rem;
 }
 
 .windowLayer {
@@ -681,12 +654,9 @@
 }
 
 @media (max-width: 64rem) {
-  .clockWidget {
+  .featuredBuild {
     inline-size: 11rem;
-  }
-
-  .clockWidget strong {
-    font-size: var(--type-headline-md-size);
+    min-block-size: 11.5rem;
   }
 
   .taskbar {
@@ -743,21 +713,6 @@
 :global([data-theme-icons="outline"])
   .desktopIcon[data-selected="true"]
   > span:last-child {
-  background: var(--classic-title);
-  color: var(--classic-title-text);
-}
-
-:global([data-theme-widget="flat-panel"]) .clockWidget {
-  gap: var(--space-sm);
-  padding: var(--space-md);
-  background: var(--color-surface-overlay);
-  text-align: start;
-}
-
-:global([data-theme-widget="flat-panel"]) .clockLabel {
-  margin: calc(-1 * var(--space-sm));
-  margin-block-end: var(--space-xs);
-  padding: var(--space-xs) var(--space-sm);
   background: var(--classic-title);
   color: var(--classic-title-text);
 }
@@ -995,20 +950,6 @@
   border: 1px dotted var(--xp-ink-on-blue);
 }
 :global([data-theme-icons="rendered-object"]) .desktopIcon:focus-visible { outline-color: var(--color-text-on-media); }
-:global([data-theme-surface="glossy-plastic"]) .clockWidget {
-  padding: var(--space-md);
-  background: var(--color-surface-overlay);
-  text-align: start;
-}
-:global([data-theme-surface="glossy-plastic"]) .clockLabel {
-  margin: calc(-1 * var(--space-md));
-  margin-block-end: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-  background: var(--xp-title);
-  color: var(--xp-ink-on-blue);
-}
-
 /* At very short desktop heights, let the whole menu scroll rather than clip its footer. */
 @media (max-height: 560px) {
   .startMenu {
