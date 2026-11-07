@@ -2,57 +2,204 @@ export const serviceRegistry = [
   {
     slug: "website-design",
     name: "Website design",
-    title: "Custom Website Design Services",
-    heading: "Custom website design for your business",
-    description: "Work with WestCose Labs on a custom website shaped around your brand and customers. Explore website design projects and discuss what your business needs.",
-    introduction: "Your website should make it easy to understand your business and take the next step. WestCose Labs brings content, visual identity, and practical navigation together in custom websites with a clear purpose.",
+    title: "Custom Website Design in Bakersfield",
+    heading: "Custom website design that actually feels like your business.",
+    description: "Custom website design and redesigns with clear navigation, responsive layouts, and a distinct visual direction. See examples and discuss your site with WestCose Labs.",
     summary: "A website designer for businesses that want a distinct identity, clear service pages, and a considered mobile experience.",
+    introduction: [
+      "A good website needs to look right, make sense, and help people do what they came to do. I design around the business, its content, and the people using the site.",
+    ],
     sections: [
       {
-        heading: "Start with the people using your website",
-        paragraphs: ["A service business, a medical practice, and a creative studio need different kinds of websites. We start by identifying what visitors need to know and what they should be able to do: compare services, find a location, explore your work, or make an inquiry.", "That gives the design a useful structure before choosing typography, imagery, or motion. The goal is a site that reflects your business and makes the important information easy to find."],
+        heading: "Start with the real job",
+        paragraphs: [
+          "Before choosing colors or animations, I want to know what the website needs to accomplish. Maybe someone needs to book an appointment, compare services, find a location, see the work, or get in touch without digging through five menus.",
+          "That shapes the layout and content. The design should give the business its own character, but the important information still needs to be easy to find.",
+        ],
       },
       {
-        heading: "What a website design project can include",
-        paragraphs: ["Depending on the agreed scope, a project can include page planning, navigation, visual direction, responsive page layouts, and reusable design patterns. Existing brand assets and photography help give the site its own character.", "A redesign can also address confusing service pages, inconsistent layouts, or a mobile experience that makes customers work too hard. We identify which parts of the existing site should stay and which need a new approach."],
+        heading: "What the project might include",
+        paragraphs: [
+          "Page planning, navigation, visual direction, responsive layouts, reusable components, service pages, galleries, and a clear path to contact or booking. A redesign might also mean cleaning up a site that has grown messy over time.",
+          "We'll decide what belongs in scope based on what your site needs to do.",
+        ],
       },
       {
-        heading: "From design direction to a working site",
-        paragraphs: ["The process moves from a shared brief and page structure to design review, implementation, and checks across screen sizes. Content and feedback are part of the work throughout, so the finished pages are designed around real information.", "Custom front-end development and WordPress are both represented in the portfolio. The right approach depends on the design, who will maintain the content, and any booking or business tools the website needs to connect to."],
-      },
-      {
-        heading: "Planning your project",
-        paragraphs: ["Bring your current website, a short description of your business, the pages you need, and any examples that help explain your direction. We can then discuss scope, responsibilities, budget, and timing.", "Pricing and schedules depend on the work involved. Content migration, new photography, third-party subscriptions, and ongoing maintenance should be identified in the scope rather than assumed to be included."],
+        heading: "Design and development belong together",
+        paragraphs: [
+          "A layout can look great in a mockup and fall apart on a phone. I work through the layout, content, motion, and code together from the beginning.",
+          "Depending on the job, that might mean WordPress, a custom Next.js build, or something simpler. The right choice is the one that fits the website and whoever needs to manage it later.",
+        ],
       },
     ],
     projectSlugs: ["barber-refinery", "first-medical-associates", "simply-decorated", "trends-collision"],
+    closing: "Have a current website that isn't doing its job, or starting fresh? Send me the link or tell me what you're planning. We can go from there.",
+    contactLabel: "Talk about your website",
   },
   {
     slug: "web-development",
     name: "Web development",
-    title: "Custom Web Development Services",
-    heading: "Web development for custom websites and applications",
-    description: "Custom web development for business websites and web applications. Explore WestCose Labs projects, technical capabilities, and development approach.",
-    introduction: "Some websites need more than a new layout. WestCose Labs develops business websites and web applications around the content, workflows, and connections that make them useful.",
+    title: "Custom Web Development & Web Apps",
+    heading: "Custom web development for ideas that need more than pages.",
+    description: "Custom web development, Next.js applications, WordPress tools, and practical integrations built around real workflows. Explore projects from WestCose Labs.",
     summary: "Custom web development for responsive websites, content publishing, and business tools that need more than a standard page layout.",
+    introduction: [
+      "Sometimes you need a custom workflow, a directory, a checkout, a publishing tool, or an interface that works the way your business needs it to.",
+      "That's the kind of problem I like working through.",
+    ],
     sections: [
       {
-        heading: "Build around the job your website needs to do",
-        paragraphs: ["A useful development brief describes both the visitor experience and the work happening behind it. That might mean organizing a directory, connecting a booking service, publishing content from an existing workflow, or building an interface for a new product.", "We identify the essential journeys, data sources, and system boundaries before choosing an implementation. A small business website and a custom web application should not carry the same complexity by default."],
+        heading: "Build around the actual workflow",
+        paragraphs: [
+          "I start with what people need to do. Who signs in? Who manages content? Where does the data live? What happens after someone books, submits, pays, or publishes something?",
+          "Those details decide the architecture. Adding a database, payment provider, or complicated admin panel only makes sense if the project actually needs one.",
+        ],
       },
       {
-        heading: "Custom front ends and content systems",
-        paragraphs: ["The portfolio includes Next.js, React, TypeScript, and WordPress projects. These support different needs, from responsive business websites to custom publishing tools and interactive applications.", "GitPress connects GitHub content with WordPress publishing. Estate Sales Bakersfield explores a local directory and marketplace. Each project shows a different approach to working with content and application state; their case studies identify the current release status."],
+        heading: "Websites, apps, and the systems behind them",
+        paragraphs: [
+          "I work with Next.js, React, TypeScript, WordPress, and the supporting tools a project calls for. That includes interfaces, content systems, APIs, and integrations.",
+          "Estate Sales Bakersfield, Doopify, GitPress, and WestCose Labs OS show different parts of that work. Their case studies spell out what's live, in beta, or still under development.",
+        ],
       },
       {
-        heading: "Integrations with clear boundaries",
-        paragraphs: ["Booking, contact, content, and business-system connections should have a clear scope. We discuss which systems own the data, what access is available, and how the website should behave when a service is unavailable.", "Third-party fees, account setup, hosting, and ongoing support are defined as part of the engagement. A prototype or development preview in the portfolio is labeled as such, rather than presented as a finished production service."],
-      },
-      {
-        heading: "Testing, launch, and handoff",
-        paragraphs: ["Development includes attention to responsive behavior, keyboard access, meaningful HTML, and the performance of the core journeys. Search foundations include readable page content, descriptive metadata, canonical URLs, and a sitemap for published pages.", "Before launch, we review the agreed functionality and deployment requirements. Bring a description of the workflow, any existing systems, and your priorities so we can discuss an appropriate build and maintenance scope."],
+        heading: "Keep the important parts solid",
+        paragraphs: [
+          "I care about the experience someone has using the thing and the parts they don't see. That means clear feedback when something happens, reasonable performance, accessibility, safe handling of data, and testing the flows that matter.",
+          "We'll also talk about hosting, third-party services, maintenance, and who owns what after launch.",
+        ],
       },
     ],
-    projectSlugs: ["estate-sales-bakersfield", "gitpress", "westcose-labs-os"],
+    projectSlugs: ["estate-sales-bakersfield", "doopify", "gitpress", "westcose-labs-os"],
+    closing: "If you've got a workflow that needs fixing or an app idea you want to test, tell me what it needs to do. We can figure out what the first useful version looks like.",
+    contactLabel: "Discuss your build",
   },
+] as const;
+
+export type Service = (typeof serviceRegistry)[number];
+
+type ServiceCapability = {
+  id: string;
+  title: string;
+  scope: string;
+  paragraphs: readonly string[];
+  includes: readonly string[];
+  projectSlugs: readonly string[];
+  action: { href: string; label: string };
+};
+
+export const serviceCapabilities = [
+  {
+    id: "website-design",
+    title: "Website design and redesign",
+    scope: "Core work",
+    paragraphs: [
+      "New websites, complete redesigns, and better mobile experiences. I care about the visual direction, but also the page structure, the content, and whether people can find what they came for.",
+    ],
+    includes: [
+      "New website design and page planning",
+      "Redesigns and visual refreshes",
+      "Responsive layouts and reusable components",
+      "Content hierarchy and navigation cleanup",
+      "WordPress design and implementation when appropriate",
+    ],
+    projectSlugs: serviceRegistry[0].projectSlugs,
+    action: { href: "/services/website-design", label: "Website design details" },
+  },
+  {
+    id: "web-development",
+    title: "Custom web development and apps",
+    scope: "Core work",
+    paragraphs: [
+      "Some projects need more than a homepage and contact form. I build custom front ends, publishing systems, business tools, and applications with their own workflows and moving parts.",
+    ],
+    includes: [
+      "Next.js, React, and TypeScript applications",
+      "Custom business and admin interfaces",
+      "Directories, commerce flows, and booking-related tools",
+      "WordPress development and practical integrations",
+      "Data, authentication, and payments when the project needs them",
+    ],
+    projectSlugs: serviceRegistry[1].projectSlugs,
+    action: { href: "/services/web-development", label: "Web development details" },
+  },
+  {
+    id: "tools",
+    title: "Tools, integrations, and automation",
+    scope: "Project dependent",
+    paragraphs: [
+      "If a job keeps eating up time because somebody has to repeat the same steps over and over, that's usually a good reason to build a tool. I like connecting systems, cleaning up workflows, and making small utilities that remove busywork.",
+      "I'm also testing ways to automate repetitive parts of creative work.",
+    ],
+    includes: [
+      "Custom WordPress plugins and utilities",
+      "Content and publishing workflows",
+      "API integrations",
+      "Internal tools and repeatable build scripts",
+      "Creative workflow experiments and automation prototypes",
+    ],
+    projectSlugs: ["gitpress-forms", "gitpress", "broseph"],
+    action: { href: "/projects/gitpress-forms", label: "See GitPress Forms" },
+  },
+  {
+    id: "interactive",
+    title: "Interactive websites and 3D experiences",
+    scope: "Selected projects",
+    paragraphs: [
+      "Sometimes the idea needs more than a normal page. I build interactive interfaces, WebGL experiments, and Three.js scenes where the interaction is part of the story.",
+    ],
+    includes: [
+      "Three.js and React Three Fiber experiences",
+      "Interactive product or environment demos",
+      "Motion-driven interfaces",
+      "Browser-based prototypes",
+      "Performance and reduced-motion fallbacks",
+    ],
+    projectSlugs: ["westcose-world", "westcose-labs-os", "trends-collision"],
+    action: { href: "/projects/westcose-world", label: "Explore WestCose World" },
+  },
+  {
+    id: "games",
+    title: "Games and prototypes",
+    scope: "Experimental / selected projects",
+    paragraphs: [
+      "I build browser games, game systems, characters, interfaces, and prototypes because sometimes the only way to know whether an idea is any good is to make it playable.",
+      "Most of this is original work. I take on game projects selectively.",
+    ],
+    includes: [
+      "Browser game prototypes",
+      "Game menus, HUDs, and interaction systems",
+      "Gameplay experiments",
+      "World building tools and development workflows",
+    ],
+    projectSlugs: ["citryn-fight-club", "westcose-world"],
+    action: { href: "/games", label: "See game projects" },
+  },
+  {
+    id: "design-systems",
+    title: "Digital design systems",
+    scope: "Core skill / project dependent",
+    paragraphs: [
+      "Good interfaces need rules that hold up beyond the first mockup. I build reusable patterns for components, icons, and the different states an interface can be in.",
+      "WestCose Designs is where I do identity and illustration work. Labs is where that visual thinking becomes a working interface or product.",
+    ],
+    includes: [
+      "UI art direction",
+      "Reusable component patterns",
+      "Type, color, spacing, and motion systems",
+      "Custom interface icons",
+      "Design handoff and implementation",
+    ],
+    projectSlugs: ["westcose-labs-os", "westcose-designs", "first-medical-associates"],
+    action: { href: "/projects/westcose-designs", label: "View the design work" },
+  },
+] as const satisfies readonly ServiceCapability[];
+
+export const projectTypes = [
+  { title: "New build", description: "Start with the idea and work toward something real." },
+  { title: "Redesign", description: "Keep what works. Fix what doesn't. Give it a better direction." },
+  { title: "Migration", description: "Move an existing site while keeping the content and functionality that matter." },
+  { title: "Prototype", description: "Test the interesting or risky part before committing to the full build." },
+  { title: "Integration", description: "Make existing services and tools work together." },
+  { title: "Automation", description: "Let a tool handle the task you keep doing by hand." },
 ] as const;

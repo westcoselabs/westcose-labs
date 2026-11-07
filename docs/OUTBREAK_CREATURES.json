@@ -1,0 +1,275 @@
+{
+  "schema_version": 1,
+  "created_on": "2026-11-06",
+  "generator": "Built-in image_gen",
+  "role": "Animated decorative shell creatures for the opt-in DO NOT PRESS outbreak",
+  "art_direction": {
+    "references": [
+      "public/images/projects/westcose-world/apparel/dead-coast-dumpster-gull-art.webp",
+      "public/images/projects/westcose-designs.webp"
+    ],
+    "style": "Hand-inked WestCose skate mascots, thick charcoal contours, fine cream keylines, flat shaded planes and sparse screenprint wear.",
+    "palette": "Swamp mint, seafoam, warm bone, faded rust, charcoal, muted lilac and ochre.",
+    "view": "Full body, three-quarter, facing right; two walking poses",
+    "native_display_px": {
+      "desktop": [
+        144,
+        156,
+        168
+      ],
+      "pocket": [
+        68,
+        74,
+        80
+      ]
+    }
+  },
+  "technical": {
+    "frame_size": 384,
+    "strip_size": [
+      768,
+      384
+    ],
+    "frames": 2,
+    "baseline": 368,
+    "alpha": true,
+    "filtering": "linear",
+    "max_total_bytes": 1200000,
+    "normalization": "Crop both frames with one shared alpha bound and scale; align to one bottom-center baseline. Preserve generated alpha. WebP quality 90, alpha quality 100.",
+    "total_bytes": 769494
+  },
+  "prompts": {
+    "seed": "Use case: stylized-concept\nAsset type: transparent two-frame game sprite strip for WestCose Labs' opt-in DO NOT PRESS desktop outbreak.\nPrimary request: Refine the original Office Gremlin as a distinctive WestCose / Dead Coast character. Produce TWO animation frames of exactly the SAME creature, side by side, on genuine transparent alpha. This is production character art, each image is one two-frame walking strip.\nInput images: image 1 is a style reference for WestCose's dumpster gull illustration, bold lively black contours, bone highlights and red/teal accents. Image 2 is supporting original WestCose lowrider artwork for the crisp graphic silhouette and controlled ink shading. Do not copy either subject or any lettering.\nSubject: a scrappy swamp-mint goblin with oversized pointed ears, heavy mischievous brows, asymmetrical off-white eyes, one protruding fang, a tiny rumpled cream office shirt, loose faded rust-red necktie, stubby legs and worn charcoal skate shoes. Expressive slightly annoyed grin. He is a wiry little pest, adult cartoon proportions, not a cute plush baby. Preserve the classic office-gremlin idea while refining anatomy and costume.\nStyle: hand-inked WestCose skate/apparel mascot illustration, thick nearly black outer contour and thinner interior ink lines, broad flat color shapes with two or three deliberate shaded planes, subtle sparse print wear inside color areas. Sharp clean silhouette. A small warm cream separation keyline immediately outside the dark contour, consistent around the character, not a large sticker border. No pixel art, no 3D render, no glossy gradients.\nPalette: seafoam and swamp mint, warm bone cream, charcoal-black, faded vermilion/rust accents. A few restrained muted olive shadows. Readable over both dark graphite and pale OS surfaces.\nView/framing: full-body orthographic three-quarter view facing RIGHT. Both frames at the same scale and camera. Frame A left half: left foot forward/right foot back, arms in opposite swing. Frame B right half: right foot forward/left foot back, opposite arm swing. Same head, ears, costume, expression and body mass. Two separate cleanly isolated full characters, each fully contained in its own equal half of a wide landscape image, common ground baseline, generous transparent gutters. Nothing crosses the middle or outer boundaries. Each silhouette occupies about 80% of its half's height and width.\nLighting: restrained warm upper-left highlight, hard illustrated shadow planes.\nTechnical: landscape strip, ideally 1536 by 1024 or a wide 2:1 layout, genuine transparency outside the characters. No ground plane, cast shadow, scenery, labels, frame boxes, palette swatches, motion lines, logo, watermark or text. Every visible mark belongs to one of the two character frames. Designed to remain legible when each sprite is only 72-160 pixels tall.",
+    "family": "Use case: stylized-concept\nAsset type: a transparent two-frame walking sprite strip for the WestCose Labs DO NOT PRESS outbreak.\nInput image 1: mandatory approved STYLE REFERENCE, the Office Gremlin two-frame strip. Match its hand-inked skate/apparel illustration, thick charcoal outer contours, warm cream fine separation keyline, angular shaded planes, restrained scuffed print texture, muted WestCose seafoam/cream/rust palette. This reference supplies STYLE, view, scale and two-frame layout, not the goblin identity.\nPrimary request: TWO animation frames of the character specified below, both the exact same identity, clothing, mass, palette, face, proportions and camera. Left is one walking step, right is the opposite walking step. Full-body orthographic three-quarter view facing RIGHT. Frame A has left foot forward/right foot back and opposing arm swing. Frame B has the opposite stride and arm swing. Place one isolated character in each equal half of a wide 2:1 strip, common baseline, generous transparent gutters around each, no crossing the midpoint. Keep the complete silhouettes inside their halves. Bold readable focal details at 72px on phones and 160px desktop.\nStyle locks: expressive grown-up cartoon pests; playful grubby coastal skate mascots. Clean limited broad color planes, dark chunky outlines, thin cream outer keyline, a little screenprint wear. No pixel art, no photorealism, no 3D, no tiny busy embellishments, no soft glows.\nTechnical output: wide landscape 2:1 sprite strip with genuine transparent alpha. No background color, checkerboard, ground, cast shadows, scenery, text, labels, logos, borders, captions, motion lines or extra objects. Every visible mark belongs to either character frame.\nSubject: ",
+    "bin_goblin_cutout_repair": "Use case: background-extraction\nEdit target: the supplied Bin Goblin two-frame sprite strip.\nRemove ONLY the broad gray, white and colored grungy halo/background outside the two character silhouettes. Replace every background/haze/grunge pixel outside each thin cream edge line with genuine transparent alpha. Preserve the two goblin characters completely: same faces, two poses, colors, internal scuffs, lid and banana peel, metal can, arms, shoes, thin cream keyline and exact position/scale. Preserve clean antialiasing at the cutout contour. Keep both frames separated with transparent space. No drop shadows, background, smoke, haze, splashes, texture outside silhouette, extra strokes, text, labels, cropping or layout changes. This is an exact sprite cutout repair, not a redesign. Transparent background required."
+  },
+  "assets": [
+    {
+      "id": "office-gremlin",
+      "name": "Office Gremlin",
+      "path": "public/images/eggs/outbreak/office-gremlin-v2.webp",
+      "source_file": "exec-2e7363a0-fb11-4752-95c5-b9df8e8ca8f3.png",
+      "subject_prompt": null,
+      "status": "verified",
+      "verification": {
+        "alpha_checked": true,
+        "frame_dimensions_checked": true,
+        "transparent_gutters_checked": true,
+        "distinct_poses_checked": true,
+        "native_scale_reviewed": true,
+        "in_context_reviewed": true,
+        "reviewed_by": "Codex"
+      },
+      "source_dimensions": [
+        1774,
+        887
+      ],
+      "source_crop_per_frame": {
+        "left": 34,
+        "top": 26,
+        "width": 810,
+        "height": 852
+      },
+      "bytes": 112664
+    },
+    {
+      "id": "underpants-cyclops",
+      "name": "Underpants Cyclops",
+      "path": "public/images/eggs/outbreak/underpants-cyclops-v2.webp",
+      "source_file": "exec-9191527e-3193-460a-a404-a934ed3a3db6.png",
+      "subject_prompt": "Underpants Cyclops. A broad stocky dusty-lilac gray one-eyed horned monster, one huge warm bone eyeball with amber iris and dark pupil, heavy brow, two small cream horns, a crooked open grin with two chunky teeth. Wearing comically confident cream boxer shorts with only a few simple faded rust-red hearts, skinny lilac legs and worn chunky charcoal skate sneakers. One arm swinging at each side. A rough coastal alley creature with a big readable single eye and expressive silhouette, not a smooth cute toy. Retain the muted palette of the style reference with dusty lilac used sparingly.",
+      "status": "verified",
+      "verification": {
+        "alpha_checked": true,
+        "frame_dimensions_checked": true,
+        "transparent_gutters_checked": true,
+        "distinct_poses_checked": true,
+        "native_scale_reviewed": true,
+        "in_context_reviewed": true,
+        "reviewed_by": "Codex"
+      },
+      "source_dimensions": [
+        1774,
+        887
+      ],
+      "source_crop_per_frame": {
+        "left": 34,
+        "top": 8,
+        "width": 780,
+        "height": 879
+      },
+      "bytes": 91722
+    },
+    {
+      "id": "runaway-dentures",
+      "name": "Runaway Dentures",
+      "path": "public/images/eggs/outbreak/runaway-dentures-v2.webp",
+      "source_file": "exec-03ab13ca-83e7-4f9d-949c-abe8327a806e.png",
+      "subject_prompt": "Runaway Dentures. A squat wide living set of dentures with chunky slightly crooked bone teeth, weathered dusty red gum jaws, dark mouth cavity, a long vermilion tongue lolling out to the right. Two short stalks on its upper gum carry comically alert warm cream eyes. Four wiry fleshy little crablike legs ending in pointed dark feet, the front pair stepping forward in frame A and back in B. Its readable identity is a giant grinning jaw scampering sideways on tiny legs, no human head or body. Keep the tongue and eyestalks nearly identical between frames; change just the lower leg gait.",
+      "status": "verified",
+      "verification": {
+        "alpha_checked": true,
+        "frame_dimensions_checked": true,
+        "transparent_gutters_checked": true,
+        "distinct_poses_checked": true,
+        "native_scale_reviewed": true,
+        "in_context_reviewed": true,
+        "reviewed_by": "Codex"
+      },
+      "source_dimensions": [
+        1774,
+        887
+      ],
+      "source_crop_per_frame": {
+        "left": 53,
+        "top": 30,
+        "width": 762,
+        "height": 821
+      },
+      "bytes": 92402
+    },
+    {
+      "id": "slime-royalty",
+      "name": "Slime Royalty",
+      "path": "public/images/eggs/outbreak/slime-royalty-v2.webp",
+      "source_file": "exec-fe348d22-f30d-4a35-bdb6-6d6c7769eaf8.png",
+      "subject_prompt": "Slime Royalty. A squat asymmetrical seafoam/teal slime creature with three unequal cream eyeballs and a crooked grin with a single tooth. A battered small warm-ochre three-point crown with one faded vermilion jewel sits on its head. Thick drippy silhouette, chunky flat shaded mint/teal folds, solid inked outline and fine cream keyline. Two broad puddle feet rather than shoes. Frame A extends its front slime foot and compresses its rear foot; frame B reverses that little shuffling step. It is a grimy self-appointed king with attitude, no glossy jelly, no translucency inside the opaque body. Keep crown, eye placement and face stable between frames.",
+      "status": "verified",
+      "verification": {
+        "alpha_checked": true,
+        "frame_dimensions_checked": true,
+        "transparent_gutters_checked": true,
+        "distinct_poses_checked": true,
+        "native_scale_reviewed": true,
+        "in_context_reviewed": true,
+        "reviewed_by": "Codex"
+      },
+      "source_dimensions": [
+        1774,
+        887
+      ],
+      "source_crop_per_frame": {
+        "left": 34,
+        "top": 7,
+        "width": 819,
+        "height": 872
+      },
+      "bytes": 93708
+    },
+    {
+      "id": "haunted-toaster",
+      "name": "Haunted Toaster",
+      "path": "public/images/eggs/outbreak/haunted-toaster-v2.webp",
+      "source_file": "exec-848a1ee3-72a1-468d-b42f-1f4996598b22.png",
+      "subject_prompt": "Haunted Toaster. A squat battered retro seafoam metal toaster with a charcoal base, short rust-orange mechanical arms, two mismatched warm cream eyes in the front casing and a crooked one-fang grille mouth. A rectangular slice of burnt cream-and-ochre toast with its own tiny surprised face sticks clearly out of the top slot. Scuffed metal rendered as crisp broad inked planes, a small rust-red side lever. Tiny charcoal legs in worn skate shoes, two opposing walking strides. Keep it unmistakably an appliance, straight-sided rounded-corner box body, stable toast silhouette, no goblin ears, hair, crown or horns.",
+      "status": "verified",
+      "verification": {
+        "alpha_checked": true,
+        "frame_dimensions_checked": true,
+        "transparent_gutters_checked": true,
+        "distinct_poses_checked": true,
+        "native_scale_reviewed": true,
+        "in_context_reviewed": true,
+        "reviewed_by": "Codex"
+      },
+      "source_dimensions": [
+        1774,
+        887
+      ],
+      "source_crop_per_frame": {
+        "left": 37,
+        "top": 11,
+        "width": 787,
+        "height": 873
+      },
+      "bytes": 93900
+    },
+    {
+      "id": "panic-chicken",
+      "name": "Panic Chicken",
+      "path": "public/images/eggs/outbreak/panic-chicken-v2.webp",
+      "source_file": "exec-e7d783c7-5d86-4b8e-846a-8b45a3ca14a0.png",
+      "subject_prompt": "Panic Chicken. A frantic scruffy cream-feathered rooster with a long curved dusty-ochre beak thrown open in alarm, rust-red comb and wattle, charcoal wing tips and tail feathers, bulging cream eyes with tiny dark pupils and a furiously worried brow. A small backwards faded red skate cap sits behind the comb, no text. Scrawny ochre legs with oversized splayed bird toes, one foot forward and one back in frame A, swapped in B. One wing raised in panic, the other swinging back. Rough coastal trash-bird attitude matching the WestCose gull reference. Bird anatomy, no humanoid hands or shoes, no severed parts, no props.",
+      "status": "verified",
+      "verification": {
+        "alpha_checked": true,
+        "frame_dimensions_checked": true,
+        "transparent_gutters_checked": true,
+        "distinct_poses_checked": true,
+        "native_scale_reviewed": true,
+        "in_context_reviewed": true,
+        "reviewed_by": "Codex"
+      },
+      "source_dimensions": [
+        1774,
+        887
+      ],
+      "source_crop_per_frame": {
+        "left": 21,
+        "top": 2,
+        "width": 823,
+        "height": 876
+      },
+      "bytes": 111628
+    },
+    {
+      "id": "bin-goblin",
+      "name": "Bin Goblin",
+      "path": "public/images/eggs/outbreak/bin-goblin-v2.webp",
+      "source_file": "exec-fa48a48f-3a98-41d6-ab50-14825929657b.png",
+      "subject_prompt": "Bin Goblin. A tiny cheeky olive-mint goblin emerging from and wearing a dented SEAFOAM ROUND METAL TRASH CAN as its cylindrical body. An askew trash-can lid is a hat with one drooping ochre banana peel over it. Two large crooked warm cream eyes, thick dark brows and an amused single-fang mouth below the rim. Short mint arms emerging from sides of can, short thin legs and large worn charcoal skate sneakers under it. Defined ribbed metal can with flat mint highlights and dark teal shadow, a few scrapes. Two opposite running steps. Unmistakable trash-can silhouette, much squatter than Office Gremlin, no shirt or tie, no words, symbols or labels.",
+      "generation_note": "Repaired the generated background haze with image_gen before packaging.",
+      "status": "verified",
+      "verification": {
+        "alpha_checked": true,
+        "frame_dimensions_checked": true,
+        "transparent_gutters_checked": true,
+        "distinct_poses_checked": true,
+        "native_scale_reviewed": true,
+        "in_context_reviewed": true,
+        "reviewed_by": "Codex"
+      },
+      "source_dimensions": [
+        1774,
+        887
+      ],
+      "source_crop_per_frame": {
+        "left": 74,
+        "top": 4,
+        "width": 730,
+        "height": 878
+      },
+      "bytes": 94620,
+      "original_source_file": "exec-7d3a53c4-c4b3-4ef5-b684-848d8196ce5e.png"
+    },
+    {
+      "id": "decaf-phantom",
+      "name": "Decaf Phantom",
+      "path": "public/images/eggs/outbreak/decaf-phantom-v2.webp",
+      "source_file": "exec-2d97cabb-ccbb-4be5-9194-2faacd2798dc.png",
+      "subject_prompt": "Decaf Phantom. A floating ragged dusty pale-lavender and warm bone ghost with sleepy half-lidded eyes, dark eye sockets, a tiny exhausted oval mouth and a long floppy hood-like sheet top. Two stubby folded sheet arms hold a warm bone chipped COFFEE MUG in front with one small curl of pale steam attached to the mug. Ragged broad scalloped sheet hem replacing feet, opaque illustrated body with chunky flat lilac shadows, clear thick charcoal outline and fine warm cream keyline. No legs or shoes. Frame A has left hem lobe extended and right tucked; frame B swaps the hem lobes with a very small sheet ripple. Head, eyes, mug, steam and upper body stay fixed for a stable floating cycle. Grumpy under-caffeinated nightshift mascot, not a bedsheet child, no lettering on mug.",
+      "status": "verified",
+      "verification": {
+        "alpha_checked": true,
+        "frame_dimensions_checked": true,
+        "transparent_gutters_checked": true,
+        "distinct_poses_checked": true,
+        "native_scale_reviewed": true,
+        "in_context_reviewed": true,
+        "reviewed_by": "Codex"
+      },
+      "source_dimensions": [
+        1774,
+        887
+      ],
+      "source_crop_per_frame": {
+        "left": 98,
+        "top": 18,
+        "width": 683,
+        "height": 859
+      },
+      "bytes": 78850
+    }
+  ],
+  "preview": "artifacts/outbreak-creatures-v2-preview.png"
+}

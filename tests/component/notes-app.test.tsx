@@ -71,7 +71,7 @@ describe("Notes applications", () => {
     const user = userEvent.setup();
     renderNotes("pocket");
 
-    expect(screen.getByRole("heading", { level: 1, name: "Notes" })).toBeVisible();
+    expect(screen.getByRole("heading", { level: 1, name: "Notes from the workbench." })).toBeVisible();
     expect(screen.getByRole("heading", { name: "Folders" })).toBeVisible();
     expect(screen.getByRole("button", { name: /Project Notes/ })).toBeVisible();
 

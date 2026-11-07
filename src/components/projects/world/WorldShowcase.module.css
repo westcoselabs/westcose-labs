@@ -219,7 +219,7 @@
 .weaponGrid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1.5rem; margin-block: 2rem; }
 .weaponGrid > section { min-width: 0; border: 1px solid var(--world-line); border-radius: var(--radius-md); overflow: hidden; }
 .chapter .weaponGrid .figure { margin: 0; }
-.weaponGrid .imageButton { border: 0; border-radius: 0; }
+.weaponGrid .imageButton { border: 0; border-radius: var(--radius-none); }
 .weaponGrid .figure figcaption { padding: .8rem 1rem; margin: 0; font-size: .875rem; }
 .weaponCopy { padding: 1rem 1.25rem 1.5rem; }
 .weaponCopy .eyebrow { display: block; margin-bottom: .5rem !important; }
@@ -237,7 +237,7 @@
 .deckStage { display: grid; grid-template-columns: 1fr 1.05fr; }
 .deckBoard { --world-text: var(--world-product-text); --world-muted: var(--world-product-muted); background: var(--world-product-stage); padding: 1.5rem; }
 .chapter .deckBoard .figure { margin: 0; }
-.deckBoard .imageButton { border: 0; overflow: visible; border-radius: 0; }
+.deckBoard .imageButton { border: 0; overflow: visible; border-radius: var(--radius-none); }
 .deckBoard .imageButton img { height: 410px; object-fit: contain; transform: rotate(-7deg); filter: drop-shadow(12px 18px 10px var(--world-dialog-shadow)); margin-block: 1rem 2rem; }
 .deckBoard .figure figcaption { align-items: center; }
 .deckDescription { padding: 2rem 1.5rem; display: flex; flex-direction: column; justify-content: center; min-width: 0; }

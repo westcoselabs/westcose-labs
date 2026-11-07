@@ -85,20 +85,35 @@ for (const width of [375, 390, 1440]) {
     await expect(services).toBeVisible();
     const chooser = services.getByRole("group", { name: "Choose a service" });
     await expect(chooser.getByRole("button", { name: /^Website design/ })).toHaveAttribute("aria-pressed", "true");
-    await chooser.getByRole("button", { name: /^Web development/ }).click();
-    await expect(services.getByRole("heading", { name: "Make your website work harder.", exact: true })).toBeVisible();
-    await expect(services.getByRole("region", { name: "Explore website services", exact: true }).getByRole("link", { name: /Estate Sales Bakersfield/ })).toHaveAttribute("href", "/projects/estate-sales-bakersfield");
-    const process = services.getByRole("region", { name: "A clear path from brief to build." });
-    await process.locator("summary").filter({ hasText: "Define the scope" }).click();
-    await expect(process.getByText("Agree on the pages, content, design direction, integrations, and responsibilities.", { exact: true })).toBeVisible();
-    await expect(process.getByText("Discuss your audience, current website, business priorities, and required functionality.", { exact: true })).toBeHidden();
+    const capabilities = services.getByRole("region", { name: "Explore capabilities" });
+    for (const [title, label, href] of [
+      ["Website design and redesign", "Website design details", "/services/website-design"],
+      ["Tools, integrations, and automation", "See GitPress Forms", "/projects/gitpress-forms"],
+      ["Interactive websites and 3D experiences", "Explore WestCose World", "/projects/westcose-world"],
+      ["Games and prototypes", "See game projects", "/games"],
+      ["Digital design systems", "View the design work", "/projects/westcose-designs"],
+      ["Custom web development and apps", "Web development details", "/services/web-development"],
+    ]) {
+      const button = chooser.getByRole("button", { name: new RegExp(`^${title}`) });
+      await button.press("Enter");
+      await expect(button).toHaveAttribute("aria-pressed", "true");
+      await expect(capabilities.getByRole("heading", { name: title, exact: true })).toBeVisible();
+      await expect(capabilities.getByRole("link", { name: label, exact: true })).toHaveAttribute("href", href);
+      await expectContentFits(page, services);
+    }
+    await expect(capabilities.getByRole("link", { name: /Estate Sales Bakersfield.*Public beta/ })).toHaveAttribute("href", "/projects/estate-sales-bakersfield");
+    await expect(capabilities.getByText("Private beta", { exact: true })).toBeVisible();
+    const process = services.getByRole("region", { name: "How a project usually goes" });
+    await process.locator("summary").filter({ hasText: "Figure out the scope" }).click();
+    await expect(process.getByText(/Then we can decide what the project actually needs/)).toBeVisible();
+    await expect(process.getByText(/I want the real problem before I start making screens/)).toBeHidden();
     await expectContentFits(page, services);
-    await services.getByRole("link", { name: "Explore web development", exact: true }).click();
+    await capabilities.getByRole("link", { name: "Web development details", exact: true }).click();
     await expect(page).toHaveURL(/\/services\/web-development(?:\?|$)/);
-    await expect(page.getByRole("heading", { level: 1, name: "Web development for custom websites and applications", exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1, name: "Custom web development for ideas that need more than pages.", exact: true })).toBeVisible();
     const detail = page.locator("[data-route-content]:visible");
-    await detail.locator("summary").filter({ hasText: "Integrations with clear boundaries" }).click();
-    await expect(detail.getByText(/Booking, contact, content, and business-system connections should have a clear scope/)).toBeVisible();
+    await detail.locator("summary").filter({ hasText: "Websites, apps, and the systems behind them" }).click();
+    await expect(detail.getByText(/I work with Next.js, React, TypeScript, WordPress/)).toBeVisible();
     await expectContentFits(page, detail);
   });
 }
@@ -168,10 +183,10 @@ test("default catalogs keep conventional routes and disclosures without JavaScri
     await expect(page.getByRole("link", { name: "All experiments", exact: true })).toBeVisible();
     await page.goto(new URL("/services", baseURL).toString());
     const services = page.locator("[data-services-showcase]:visible");
-    await services.locator("summary").filter({ hasText: "Define the scope" }).click();
-    await expect(services.getByText("Agree on the pages, content, design direction, integrations, and responsibilities.", { exact: true })).toBeVisible();
+    await services.locator("summary").filter({ hasText: "Figure out the scope" }).click();
+    await expect(services.getByText(/Then we can decide what the project actually needs/)).toBeVisible();
     await services.getByRole("navigation", { name: "Explore services", exact: true }).getByRole("link", { name: "Web development", exact: true }).click();
-    await expect(page.getByRole("heading", { level: 1, name: "Web development for custom websites and applications", exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1, name: "Custom web development for ideas that need more than pages.", exact: true })).toBeVisible();
   } finally {
     await context.close();
   }

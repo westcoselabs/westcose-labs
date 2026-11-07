@@ -125,7 +125,9 @@ export function filterNoteLibrary(
       return false;
     }
 
-    const haystack = `${note.title} ${note.preview} ${note.tags.join(" ")}`.toLocaleLowerCase();
+    const terms = [note.title, note.preview, ...note.tags];
+    if (!note.hidden) terms.push(note.tag, note.summary);
+    const haystack = terms.join(" ").toLocaleLowerCase();
     const matchesQuery = !query || haystack.includes(query);
     const hiddenAvailable =
       !note.hidden ||

@@ -261,6 +261,14 @@
   gap: var(--space-xl);
 }
 
+.document[data-presentation="about"] :global(.route-section h3) {
+  margin: 0;
+}
+
+.document[data-presentation="about"] :global(.route-card) {
+  gap: var(--space-sm);
+}
+
 .document :global(.route-card),
 .document :global(.project-card) {
   display: grid;

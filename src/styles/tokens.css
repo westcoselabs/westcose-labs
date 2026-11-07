@@ -110,7 +110,21 @@
   --radius-xl: 1.375rem;
   --radius-2xl: 1.75rem;
   --radius-3xl: 2.25rem;
+  --radius-circle: 50%;
   --radius-full: 62.4375rem;
+
+  /* The Do Not Open prop keeps its painted finish across desktop themes. */
+  --do-not-open-badge-radius: 4px;
+  --do-not-open-button-radius: 12px;
+  --do-not-open-pip-radius: 1px;
+  --do-not-open-button-border: #ff968b;
+  --do-not-open-button-ink: #fff7ef;
+  --do-not-open-button-bg: linear-gradient(180deg, #c3423b, #a52628);
+  --do-not-open-button-hover-bg: linear-gradient(180deg, #cd4a40, #ad292b);
+  --do-not-open-button-active-bg: #9c272a;
+  --do-not-open-button-highlight: #ffffff38;
+  --do-not-open-button-edge: #64191e;
+  --do-not-open-button-shadow: #190a1233;
 
   --space-micro: 0.125rem;
   --space-xs: 0.25rem;

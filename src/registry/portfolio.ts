@@ -108,19 +108,13 @@ export const capabilityRegistry = [
 ] as const satisfies readonly Capability[];
 
 export const systemFacts = [
-  { label: "Operator", value: "Brandon" },
-  { label: "Mode", value: "Design + development" },
-  { label: "Primary functions", value: "Software, web systems, games, experiments" },
   {
-    label: "Interface family",
-    value: "Desktop OS, Pocket OS, semantic document fallback",
+    label: "Interfaces",
+    value: "Desktop OS, Pocket OS, and a plain web view",
   },
-  { label: "Build status", value: "Active", detail: "Validation baseline passing" },
-  { label: "Current focus", value: "WestCose Labs OS V3 foundation" },
   { label: "Framework", value: "Next.js App Router" },
   { label: "Presentation", value: "Route-driven" },
-  { label: "Storage", value: "Local, versioned, reversible" },
-  { label: "Location", value: "Bakersfield, California" },
+  { label: "Storage", value: "Notes and settings are saved in this browser" },
 ] as const satisfies readonly SystemFact[];
 
 export function getExperiment(slug: string) {

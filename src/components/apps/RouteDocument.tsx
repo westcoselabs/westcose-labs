@@ -13,7 +13,7 @@ export type RouteAction = {
 type RouteDocumentProps = {
   eyebrow?: string;
   title: string;
-  description?: string;
+  description?: string | readonly string[];
   status?: string;
   actions?: readonly RouteAction[];
   children: ReactNode;
@@ -59,9 +59,11 @@ export function RouteDocument({
           <h1 className="route-document__title" tabIndex={-1}>
             {title}
           </h1>
-          {description ? (
-            <p className="route-document__lede">{description}</p>
-          ) : null}
+          {description
+            ? (typeof description === "string" ? [description] : description).map((paragraph) => (
+                <p className="route-document__lede" key={paragraph}>{paragraph}</p>
+              ))
+            : null}
         </div>
         {status ? (
           <p className="route-document__status" role="status">

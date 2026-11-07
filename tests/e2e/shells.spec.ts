@@ -128,7 +128,7 @@ test.describe("Desktop OS", () => {
     await expect(page).toHaveURL("/services");
     const services = page.getByRole("region", { name: "Services", exact: true });
     await expect(services).toBeVisible();
-    await expect(services.getByRole("heading", { level: 1 })).toHaveText("Website design and web development services");
+    await expect(services.getByRole("heading", { level: 1 })).toHaveText("Websites, software, and the stuff in between.");
 
     const content = services.locator('[data-route-content]').locator("..");
     expect(await content.evaluate((element) => element.scrollHeight > element.clientHeight)).toBe(true);
@@ -333,9 +333,9 @@ test.describe("Pocket OS", () => {
     await expect(app.getByRole("button", { name: "Home", exact: true })).toBeInViewport();
     await expectViewportOnly(page);
 
-    await app.getByRole("link", { name: "Explore website design", exact: true }).click();
+    await app.getByRole("link", { name: "Website design details", exact: true }).click();
     await expect(page).toHaveURL("/services/website-design");
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Custom website design for your business");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Custom website design that actually feels like your business.");
     await expectViewportOnly(page);
     await page.getByRole("button", { name: "Back", exact: true }).click();
     await expect(page).toHaveURL("/services");

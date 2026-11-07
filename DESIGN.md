@@ -718,6 +718,10 @@ The shape language is soft, tactile, and hardware-inspired.
 - `36px`: Pocket Dock and highly tactile system trays.
 - `999px`: Sliders, badges, search fields, toggles, and progress tracks.
 
+Theme previews and the Do Not Open button use fixed illustration tokens in
+`src/styles/appearance.css` and `src/styles/tokens.css` so the active theme
+does not recolor their artwork or change its proportions.
+
 ### Shape rules
 
 - Desktop icons may use more object-like silhouettes within a consistent soft container.

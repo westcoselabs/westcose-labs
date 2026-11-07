@@ -12,6 +12,9 @@
  * outrank high contrast or forced colours from the document element.
  */
 :root {
+  --appearance-switch-radius: 20px;
+  --wallpaper-preview-inset: #ffffff15;
+
   /* Wallpaper-owned colors: these remain teal under ANY theme. */
   --wallpaper-95-base: #387c7b;
   --wallpaper-95-panel: #3c8280;
@@ -44,4 +47,55 @@
     color-mix(in srgb, var(--color-neutral) 46%, transparent),
     color-mix(in srgb, var(--color-neutral) 68%, transparent)
   );
+}
+
+/* A miniature depicts its own theme independently of the active shell theme. */
+[data-preview-theme] {
+  --scene-surface: #292e38;
+  --scene-ink: #e7e9ec;
+  --scene-accent: #4f9cff;
+  --scene-radius: 6px;
+  --scene-detail-radius: 3px;
+  --scene-dock-icon-radius: 2px;
+  --scene-backdrop: #1c1f25;
+  --scene-frame-border: #ffffff20;
+  --scene-icon-border: #ffffff55;
+  --scene-window-border: #ffffff70;
+  --scene-dock-border: #ffffff50;
+  --scene-title-dot: #ffffffc9;
+  --scene-icon-shadow: #0004;
+  --scene-window-shadow: #0005;
+}
+
+[data-preview-theme="westcose-95"] {
+  --scene-surface: #c6c6c6;
+  --scene-ink: #222;
+  --scene-accent: #000080;
+  --scene-radius: var(--radius-none);
+}
+
+[data-preview-theme="liquid-glass"] {
+  --scene-surface: #f7fbffde;
+  --scene-ink: #31475c;
+  --scene-accent: #2764bb;
+  --scene-radius: 10px;
+}
+
+[data-preview-theme="westcose-xp"] {
+  --scene-surface: #ece9d8;
+  --scene-ink: #16315a;
+  --scene-accent: #185de1;
+  --scene-radius: 5px;
+}
+
+[data-preview-theme="corporate-beige"] {
+  --scene-surface: #ede7db;
+  --scene-ink: #413c33;
+  --scene-accent: #806a44;
+}
+
+[data-preview-theme="crt-mode"] {
+  --scene-surface: #071b13;
+  --scene-ink: #b1ffab;
+  --scene-accent: #69cd79;
 }

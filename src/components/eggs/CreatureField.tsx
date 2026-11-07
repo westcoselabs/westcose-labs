@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { createCreatureSprite, CREATURE_KINDS, CREATURE_BASELINE, CREATURE_SPRITE_SIZE } from "./creature-art";
+import { createCreatureSprite, loadCreatureArtwork, CREATURE_KINDS, CREATURE_BASELINE, CREATURE_SPRITE_SIZE } from "./creature-art";
 import type { Outbreak } from "./PersonalityProvider";
 import styles from "./Personality.module.css";
 
@@ -57,7 +57,7 @@ export default function CreatureField({
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
-    const sprites = Array.from({ length: CREATURE_KINDS.length }, (_, kind) => [
+    let sprites = Array.from({ length: CREATURE_KINDS.length }, (_, kind) => [
       createCreatureSprite(kind, 0),
       createCreatureSprite(kind, 1),
     ]);
@@ -68,7 +68,9 @@ export default function CreatureField({
     let frame = 0,
       last = 0,
       scanAt = 0,
-      disposed = false;
+      disposed = false,
+      artworkReady = false;
+    canvas.dataset.creatureArt = "loading";
     const mobile = width < 768;
     canvas.dataset.creatureCount = String(mobile ? 8 : 13);
     const creatures: Creature[] = Array.from(
@@ -362,7 +364,8 @@ export default function CreatureField({
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.imageSmoothingEnabled = false;
+      ctx.imageSmoothingEnabled = artworkReady;
+      ctx.imageSmoothingQuality = "high";
 
       scanSurfaces();
       creatures.forEach((creature, i) => {
@@ -467,6 +470,17 @@ export default function CreatureField({
     if (!reducedMotion) frame = window.requestAnimationFrame(tick);
     window.addEventListener("resize", resize);
     document.addEventListener("visibilitychange", visibility);
+    void loadCreatureArtwork().then((illustrated) => {
+      if (disposed) return;
+      sprites = illustrated;
+      artworkReady = true;
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
+      paint(0);
+      canvas.dataset.creatureArt = "illustrated";
+    }).catch(() => {
+      if (!disposed) canvas.dataset.creatureArt = "fallback";
+    });
     return () => {
       disposed = true;
       window.cancelAnimationFrame(frame);

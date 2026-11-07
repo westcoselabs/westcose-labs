@@ -43,6 +43,20 @@
   line-height: 1.65;
 }
 
+.hero .eyebrow {
+  margin: 0 0 12px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 .action {
   display: inline-flex;
   align-items: center;
@@ -139,6 +153,7 @@
 }
 
 .selectionArrow {
+  flex-shrink: 0;
   margin-inline-start: auto;
 }
 
@@ -191,6 +206,57 @@
   flex-shrink: 0;
   margin-block-start: 2px;
   color: var(--color-primary);
+}
+
+.examples {
+  display: grid;
+  gap: 8px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+}
+
+.examples li {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 2px 8px;
+}
+
+.examples a {
+  padding-block: 6px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.examples small,
+.scopeList dd {
+  color: var(--color-text-secondary);
+}
+
+.scopeList {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 24px 0 0;
+}
+
+.scopeList > div {
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-recessed);
+}
+
+.scopeList dt {
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.scopeList dd {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 .project {
@@ -535,8 +601,8 @@
     padding: 8px;
   }
 
-  .serviceControl small {
-    display: none;
+  .scopeList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .serviceCopy h2,

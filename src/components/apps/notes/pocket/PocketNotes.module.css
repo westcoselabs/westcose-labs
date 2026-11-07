@@ -28,6 +28,13 @@
   gap: var(--space-sm);
 }
 
+.largeHeader p {
+  margin: 0 0 var(--space-sm);
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-sm-size);
+  line-height: 1.5;
+}
+
 .largeHeader > small,
 .noteArticle > small {
   color: var(--color-warning);

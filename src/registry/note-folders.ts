@@ -10,25 +10,25 @@ export const noteFolderRegistry = [
   {
     id: "project-notes",
     name: "Project Notes",
-    description: "Orientation and project-system notes.",
+    description: "How the actual work gets made.",
     kind: "collection",
   },
   {
     id: "build-logs",
     name: "Build Logs",
-    description: "Process notes captured while the system evolves.",
+    description: "Decisions, mistakes, and things I should remember next time.",
     kind: "collection",
   },
   {
     id: "questionable-ideas",
     name: "Questionable Ideas",
-    description: "Useful side quests and intentionally questionable concepts.",
+    description: "Not everything deserves a repository.",
     kind: "collection",
   },
   {
     id: "client-translations",
     name: "Client Translations",
-    description: "Plain-language translations of familiar project phrases.",
+    description: "Turning vague feedback into something useful.",
     kind: "collection",
   },
   {

@@ -24,7 +24,11 @@ Notices are a randomized, bounded subset of 3–6 with at most three displayed o
 
 ## Assets
 
-Eight original pixel-art monsters and their two walking frames are drawn in `creature-art.ts`: Office Gremlin, Underpants Cyclops, Runaway Dentures, Slime Royalty, Haunted Toaster, Panic Chicken, Bin Goblin, and Decaf Phantom. The 48px transparent sprites use integer pixel shapes and nearest-neighbor rendering. They render at 144–168px on desktop and 68–80px on compact viewports, resizing with the browser. No external art or audio assets are required. The pass is intentionally silent and never overrides sound preferences.
+Eight illustrated WestCose creatures have two walking poses each: Office Gremlin, Underpants Cyclops, Runaway Dentures, Slime Royalty, Haunted Toaster, Panic Chicken, Bin Goblin, and Decaf Phantom. The art follows the original WestCose apparel illustrations with charcoal contours, cream keylines, muted mint and rust colors, and sparse print wear. Each local WebP strip contains two 384px transparent frames aligned to a shared foot line. The eight strips total about 752 KiB and load only after an outbreak begins. They use smooth canvas sampling at the existing 144-168px desktop and 68-80px compact sizes.
+
+The original 48px drawings remain available during image loading and after a failed request. Successful artwork is cached for repeat outbreaks. A late load cannot repaint a contained or unmounted field. Reduced motion repaints once when art is ready, then remains still. The interaction stays silent and follows the existing sound preferences.
+
+`docs/OUTBREAK_CREATURES.json` records the built-in image_gen prompts, original WestCose references, source filenames, frame bounds, byte budget, and verification. `scripts/package-outbreak-creatures.mjs <source-directory>` packages the selected generated PNG strips into the local WebP assets with shared bounds and baselines.
 
 ## Verification
 

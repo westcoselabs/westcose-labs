@@ -17,7 +17,7 @@ test.describe("Phase 1 Notes", () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/notes?view=os");
     await expect(page.locator("html")).toHaveAttribute("data-shell", "pocket");
-    await expect(page.getByRole("heading", { level: 1, name: "Notes" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1, name: "Notes from the workbench." })).toBeVisible();
 
     await page.getByRole("button", { name: /Project Notes/ }).click();
     await expect(page).toHaveURL("/notes/folder/project-notes");
@@ -26,6 +26,13 @@ test.describe("Phase 1 Notes", () => {
     await expect(page.getByRole("heading", { level: 1, name: "WestCose Labs README" })).toBeVisible();
     await page.goBack();
     await expect(page).toHaveURL("/notes/folder/project-notes");
+
+    await page.goto("/notes?view=os");
+    const search = page.getByRole("searchbox", { name: "Search notes" });
+    await search.fill("developer-first commerce");
+    await page.getByRole("button", { name: /Why build another commerce system/ }).click();
+    await expect(page).toHaveURL("/notes/doopify-why");
+    await expect(page.getByText(/It's in private beta/)).toBeVisible();
 
     await page.goto("/notes?view=os");
     await page.getByRole("button", { name: "Create new note" }).click();

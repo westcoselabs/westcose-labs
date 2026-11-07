@@ -20,6 +20,7 @@ import { formatNoteDate, type NoteLibraryItem } from "@/lib/notes";
 import { noteFolderRegistry } from "@/registry";
 
 import type { NotesController } from "../useNotesController";
+import { emptyNotesSearch, notesHeading, notesIntroduction } from "@/registry/notes";
 import styles from "./PocketNotes.module.css";
 
 function DiscoveryNotice({ controller }: { readonly controller: NotesController }) {
@@ -115,14 +116,15 @@ function SearchField({
 function NotesHome({ controller }: { readonly controller: NotesController }) {
   const [query, setQuery] = useState("");
   const searched = controller.filterNotes(undefined, query);
-  const pinned = searched.filter((note) => note.pinned).slice(0, 4);
-  const recent = searched.slice(0, 6);
+  const pinned = query ? [] : searched.filter((note) => note.pinned).slice(0, 4);
+  const recent = query ? searched : searched.slice(0, 6);
 
   return (
     <div className={styles.page}>
       <header className={styles.largeHeader}>
         <small>ON MY POCKET</small>
-        <h1 data-route-content tabIndex={-1}>Notes</h1>
+        <h1 data-route-content tabIndex={-1}>{notesHeading}</h1>
+        <p>{notesIntroduction}</p>
         <SearchField query={query} setQuery={setQuery} />
       </header>
       <DiscoveryNotice controller={controller} />
@@ -153,7 +155,7 @@ function NotesHome({ controller }: { readonly controller: NotesController }) {
       ) : null}
       {pinned.length ? (
         <section aria-labelledby="pinned-heading" className={styles.section}>
-          <h2 id="pinned-heading">Pinned Notes</h2>
+          <h2 id="pinned-heading">Pinned</h2>
           <ul className={styles.noteList}>
             {pinned.map((note) => (
               <NoteRow controller={controller} key={note.id} note={note} />
@@ -170,7 +172,7 @@ function NotesHome({ controller }: { readonly controller: NotesController }) {
             ))}
           </ul>
         ) : (
-          <p className={styles.empty}>No notes match that search.</p>
+          <p className={styles.empty}>{query ? emptyNotesSearch : "No notes yet."}</p>
         )}
       </section>
       <button
@@ -198,6 +200,7 @@ function NotesFolder({ controller }: { readonly controller: NotesController }) {
       <header className={styles.largeHeader}>
         <small>ON MY POCKET</small>
         <h1 data-route-content tabIndex={-1}>{folder?.name ?? "Notes"}</h1>
+        {folder ? <p>{folder.description}</p> : null}
         <SearchField query={query} setQuery={setQuery} />
       </header>
       <DiscoveryNotice controller={controller} />
@@ -215,7 +218,7 @@ function NotesFolder({ controller }: { readonly controller: NotesController }) {
           </ul>
         ) : (
           <p className={styles.empty}>
-            {recycled ? "Recently Deleted is empty." : "No notes in this folder."}
+            {query ? emptyNotesSearch : recycled ? "Recently Deleted is empty." : "No notes in this folder."}
           </p>
         )}
       </section>

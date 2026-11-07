@@ -26,6 +26,9 @@ for (const [name, route] of [
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(`${route}?view=os`);
     await page.evaluate(() => document.fonts.ready);
+    await page.getByRole("link", { name: /^Open featured project:/ })
+      .locator("img")
+      .evaluate((image: HTMLImageElement) => image.decode());
     if (name === "desktop-context-menu") {
       await page.mouse.click(700, 320, { button: "right" });
       await page.getByRole("menuitem", { name: "Theme", exact: true }).click();
@@ -55,7 +58,10 @@ for (const [name, route] of [
       await page.reload();
       await expect(page.getByRole("button", { name: "Tap to unlock" })).toBeVisible();
     }
-    await waitForGlass(page);
+    // Pocket uses the CSS glass material at this viewport width.
+    await expect(page.locator("html")).toHaveAttribute("data-shell-ready", "true");
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "liquid-glass");
+    await expect(page.locator("[data-liquid-glass]")).toHaveCount(0);
     await expect(page).toHaveScreenshot(`${name}.png`, { animations: "disabled", maxDiffPixelRatio: 0.005 });
   });
 }

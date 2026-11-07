@@ -25,9 +25,10 @@ test("homepage retains SEO metadata without adding a scrolling document to the O
 
 test("service routes and case studies expose descriptive metadata and customer paths", async ({ page }) => {
   for (const [path, heading] of [
-    ["/services", "Website design and web development services"],
-    ["/services/website-design", "Custom website design for your business"],
-    ["/services/web-development", "Web development for custom websites and applications"],
+    ["/about", "Hey, I'm Brandon."],
+    ["/services", "Websites, software, and the stuff in between."],
+    ["/services/website-design", "Custom website design that actually feels like your business."],
+    ["/services/web-development", "Custom web development for ideas that need more than pages."],
     ["/projects/barber-refinery", "Barber Refinery website design"],
   ]) {
     await page.goto(path);

@@ -1,11 +1,44 @@
-// Original 48px sprites. Every mark is an integer pixel: no smoothing, paths,
-// gradients, or imported art. The shared foot line lets them perch on OS chrome.
+// The original 48px drawings provide an immediate, offline fallback while the
+// illustrated strips load. Both asset sets share the same foot-line ratio.
 export const CREATURE_SPRITE_SIZE = 48;
 export const CREATURE_BASELINE = 46;
 export const CREATURE_KINDS = [
   "Office Gremlin", "Underpants Cyclops", "Runaway Dentures", "Slime Royalty",
   "Haunted Toaster", "Panic Chicken", "Bin Goblin", "Decaf Phantom",
 ] as const;
+
+const ILLUSTRATED_FRAME_SIZE = 384;
+let artwork: Promise<HTMLCanvasElement[][]> | undefined;
+
+export function loadCreatureArtwork(): Promise<HTMLCanvasElement[][]> {
+  artwork ??= Promise.all(CREATURE_KINDS.map((name) => new Promise<HTMLCanvasElement[]>((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => {
+      if (image.naturalWidth !== ILLUSTRATED_FRAME_SIZE * 2 || image.naturalHeight !== ILLUSTRATED_FRAME_SIZE) {
+        reject(new Error(`Unexpected creature strip dimensions for ${name}`));
+        return;
+      }
+      const frames = [0, 1].map((frame) => {
+        const canvas = document.createElement("canvas");
+        canvas.width = canvas.height = ILLUSTRATED_FRAME_SIZE;
+        const context = canvas.getContext("2d")!;
+        context.drawImage(
+          image,
+          frame * ILLUSTRATED_FRAME_SIZE, 0, ILLUSTRATED_FRAME_SIZE, ILLUSTRATED_FRAME_SIZE,
+          0, 0, ILLUSTRATED_FRAME_SIZE, ILLUSTRATED_FRAME_SIZE,
+        );
+        return canvas;
+      });
+      resolve(frames);
+    };
+    image.onerror = () => reject(new Error(`Could not load creature art for ${name}`));
+    image.src = `/images/eggs/outbreak/${name.toLowerCase().replaceAll(" ", "-")}-v2.webp`;
+  }))).catch((error) => {
+    artwork = undefined;
+    throw error;
+  });
+  return artwork;
+}
 
 type Point = readonly [number, number];
 const INK = "#202032";

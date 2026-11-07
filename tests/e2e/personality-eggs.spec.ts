@@ -21,7 +21,7 @@ test("desktop outbreak clears the cursor through exactly three dodges and cleans
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/recycle?view=os");
   await expect(
-    page.getByRole("button", { name: "Close Recycle", exact: true }),
+    page.getByRole("button", { name: "Close DON'T OPEN", exact: true }),
   ).toBeVisible();
   const button = page.getByRole("button", { name: "DO NOT PRESS" });
   await button.scrollIntoViewIfNeeded();
@@ -60,11 +60,12 @@ test("desktop outbreak clears the cursor through exactly three dodges and cleans
   const field = page.locator("[data-creature-field]");
   await expect(field).toBeVisible();
   await expect(field).toHaveAttribute("data-creature-count", "13");
+  await expect(field).toHaveAttribute("data-creature-art", "illustrated");
   const outbreakId = await field.getAttribute("data-outbreak-id");
   await expect(page.locator("[data-egg-alert]").first()).toBeVisible();
   await page.screenshot({ path: info.outputPath("desktop-outbreak.png"), scale: "css" });
   await page
-    .getByRole("button", { name: "Close Recycle", exact: true })
+    .getByRole("button", { name: "Close DON'T OPEN", exact: true })
     .click();
   await expect(page).toHaveURL(/\/$/);
   await expect(field).toHaveAttribute("data-outbreak-id", outbreakId!);
@@ -74,11 +75,12 @@ test("desktop outbreak clears the cursor through exactly three dodges and cleans
   ).toBeVisible();
   const notice = page.locator("[data-egg-alert]").first();
   const title = await notice.locator("strong").innerText();
-  await notice.getByRole("button").click();
+  // Exercise keyboard dismissal while the creatures keep moving.
+  await notice.getByRole("button").press("Enter");
   await expect(
     page.getByRole("button", { name: `Dismiss ${title}`, exact: true }),
   ).toHaveCount(0);
-  await page.getByRole("button", { name: "GET THESE FUCKERS OUT" }).click();
+  await page.getByRole("button", { name: "GET THESE FUCKERS OUT" }).press("Enter");
   await page.clock.runFor(2500);
   await expect(field).toHaveCount(0);
   await expect(page.locator("[data-egg-alert]")).toHaveCount(0);
@@ -225,6 +227,7 @@ test.describe("Pocket", () => {
     const field = page.locator("[data-creature-field]");
     await expect(field).toBeVisible();
     await expect(field).toHaveAttribute("data-creature-count", "8");
+    await expect(field).toHaveAttribute("data-creature-art", "illustrated");
     const id = await field.getAttribute("data-outbreak-id");
     await page.getByRole("button", { name: "Home", exact: true }).click();
     await page.getByRole("button", { name: "Go to Home Page 2" }).click();
@@ -260,6 +263,7 @@ test("reduced motion skips evasions and animation; keyboard can always recover",
   await page.getByRole("button", { name: "DO NOT PRESS" }).click();
   const field = page.locator("[data-creature-field]");
   await expect(field).toBeVisible();
+  await expect(field).toHaveAttribute("data-creature-art", "illustrated");
   const first = await field.evaluate((node) =>
     (node as HTMLCanvasElement).toDataURL(),
   );
@@ -282,4 +286,44 @@ test("reduced motion skips evasions and animation; keyboard can always recover",
   await page.keyboard.press("Enter");
   await expect(field).toHaveCount(1);
   await expect(page.locator("[data-outbreak-control]")).toBeFocused();
+});
+
+test("missing illustration assets retain a containable outbreak", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.route("**/images/eggs/outbreak/*", (route) => route.abort());
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/recycle?view=os");
+  await page.getByRole("button", { name: "DO NOT PRESS" }).click();
+  const field = page.locator("[data-creature-field]");
+  await expect(field).toHaveAttribute("data-creature-art", "fallback");
+  await expect(field).toHaveAttribute("data-creature-count", "13");
+  await page.locator("[data-outbreak-control]").click();
+  await expect(field).toHaveCount(0);
+});
+
+test("live outbreak notices and containment remain clickable", async ({ browser, baseURL }) => {
+  const context = await browser.newContext({
+    baseURL,
+    viewport: { width: 1440, height: 900 },
+    reducedMotion: "no-preference",
+  });
+  try {
+    const page = await context.newPage();
+    await seedAppearance(page, "dusk", "dusk-cliffs");
+    await page.goto("/recycle?view=os");
+    await expect(page.locator("html")).toHaveAttribute("data-shell-ready", "true");
+    await page.getByRole("button", { name: "DO NOT PRESS", exact: true }).press("Enter");
+    const field = page.locator("[data-creature-field]");
+    await expect(field).toHaveAttribute("data-creature-art", "illustrated");
+    await page.getByRole("button", { name: "Close DON'T OPEN", exact: true }).click();
+    await expect(page.getByRole("button", { name: "GET THESE FUCKERS OUT" })).toBeVisible({ timeout: 35_000 });
+    const notice = page.locator("[data-egg-alert]").first();
+    const title = await notice.locator("strong").innerText();
+    await notice.getByRole("button").click();
+    await expect(page.getByRole("button", { name: `Dismiss ${title}`, exact: true })).toHaveCount(0);
+    await page.getByRole("button", { name: "GET THESE FUCKERS OUT" }).click();
+    await expect(field).toHaveCount(0);
+  } finally {
+    await context.close();
+  }
 });

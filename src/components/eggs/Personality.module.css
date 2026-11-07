@@ -16,7 +16,7 @@
   block-size: 100%;
   z-index: calc(var(--layer-menus) + 1);
   pointer-events: none;
-  image-rendering: pixelated;
+  image-rendering: auto;
 }
 .alerts {
   position: absolute;

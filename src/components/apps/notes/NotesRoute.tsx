@@ -4,6 +4,8 @@ import Link from "next/link";
 
 import { RouteDocument } from "@/components/apps/RouteDocument";
 import { useShellPresentation } from "@/components/os/ShellPresentationContext";
+import { getNoteFolder } from "@/registry/note-folders";
+import { notesHeading, notesIntroduction } from "@/registry/notes";
 import type { Note } from "@/registry";
 
 import { DesktopNotepad } from "./desktop/DesktopNotepad";
@@ -16,6 +18,7 @@ import {
 
 function SemanticNotes({ controller }: { readonly controller: NotesController }) {
   const { selectedNote, view } = controller;
+  const folder = view.kind === "folder" ? getNoteFolder(view.folderId) : undefined;
   const notes = controller.filterNotes(
     view.kind === "folder" ? view.folderId : undefined,
   );
@@ -23,11 +26,11 @@ function SemanticNotes({ controller }: { readonly controller: NotesController })
   return (
     <div data-app-presenter="semantic-notes">
       <RouteDocument
-        description="Professional process notes, system orientation, and a few clearly labeled jokes."
+        description={view.kind === "home" ? notesIntroduction : folder?.description}
         eyebrow="Notes"
         presentation="notes"
         status={`${notes.length} notes`}
-        title={selectedNote?.title ?? "Working notes"}
+        title={selectedNote?.title ?? folder?.name ?? notesHeading}
       >
         {view.kind === "note" ? (
           selectedNote ? (

@@ -3,7 +3,7 @@ import { createRouteMetadata, noteRegistry } from "@/registry";
 
 export const metadata = createRouteMetadata({
   title: "Notes",
-  description: "README and process notes for WestCose Labs OS.",
+  description: "Build notes, design decisions, and unfinished ideas from the WestCose Labs workbench.",
   path: "/notes",
 });
 
