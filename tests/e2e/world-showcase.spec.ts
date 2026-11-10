@@ -9,6 +9,43 @@ test.beforeEach(async ({ page }, info) => {
   await seedAppearance(page, theme, "dusk-cliffs");
 });
 
+test("world.exe and the project page launch the hosted game", async ({ page, context }) => {
+  const destination = "https://world.westcose.com/";
+  await context.route(`${destination}**`, route => route.fulfill({ contentType: "text/html", body: "<!doctype html><title>WestCose World</title>" }));
+
+  await page.goto("/?view=os");
+  const shortcut = page.getByRole("button", { name: /^Play WestCose World in a new tab/ });
+  await expect(shortcut).toContainText("world.exe");
+  const shortcutPopupPromise = page.waitForEvent("popup");
+  await shortcut.press("Enter");
+  const shortcutPopup = await shortcutPopupPromise;
+  await expect(shortcutPopup).toHaveURL(destination);
+  await shortcutPopup.close();
+
+  await page.goto("/projects/westcose-world?view=normal");
+  const playLink = page.locator("[data-world-case-study]").getByRole("link", { name: "Play game" });
+  await expect(playLink).toHaveAttribute("href", destination);
+  await expect(playLink).toHaveAttribute("target", "_blank");
+  const pagePopupPromise = page.waitForEvent("popup");
+  await playLink.click();
+  const pagePopup = await pagePopupPromise;
+  await expect(pagePopup).toHaveURL(destination);
+  await pagePopup.close();
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/?view=os");
+  await page.getByRole("button", { name: "Go to Home Page 2" }).click();
+  const mobileShortcut = page.getByRole("button", { name: "Play WestCose World in a new tab" });
+  const mobileArt = page.locator('[data-app-id="world"] img');
+  await expect(mobileArt).toBeVisible();
+  await expect.poll(() => mobileArt.evaluate((image) => (image as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+  const mobilePopupPromise = page.waitForEvent("popup");
+  await mobileShortcut.click();
+  const mobilePopup = await mobilePopupPromise;
+  await expect(mobilePopup).toHaveURL(destination);
+  await mobilePopup.close();
+});
+
 test("flagship counts once, filters normally, and opens its case study directly", async ({ page }) => {
   await page.goto("/projects?view=os");
   const projects = page.locator("[data-project-showcase]");

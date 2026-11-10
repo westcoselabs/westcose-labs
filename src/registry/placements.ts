@@ -8,6 +8,7 @@ export const desktopPlacement = [
   "experiments",
   "about",
   "contact",
+  "world",
   "fightclub",
   "terminal",
   "github",
@@ -27,6 +28,7 @@ export const startMenuPlacement = [
   "github",
   "notes",
   "recycle",
+  "world",
   "fightclub",
   "terminal",
 ] as const satisfies readonly AppId[];
@@ -57,7 +59,7 @@ export const startMenuGroups = [
   {
     id: "games",
     label: "Installed games",
-    apps: ["games", "fightclub"],
+    apps: ["games", "world", "fightclub"],
   },
   {
     id: "system",
@@ -77,7 +79,7 @@ export const startMenuGroups = [
 
 /** A compact launcher arrangement selected by theme metadata. */
 export const twoColumnStartMenuGroups = [
-  { id: "workspace", label: "My workspace", apps: ["projects", "games", "experiments", "fightclub", "services"] },
+  { id: "workspace", label: "My workspace", apps: ["projects", "games", "experiments", "world", "fightclub", "services"] },
   { id: "utilities", label: "On this computer", apps: ["notes", "terminal", "settings", "recycle", "about", "github", "contact"] },
 ] as const satisfies readonly { id: string; label: string; apps: readonly AppId[] }[];
 
@@ -94,6 +96,7 @@ export const pocketPageOnePlacement = [
 
 // Social shortcuts stay hidden until their destinations are verified.
 export const pocketPageTwoPlacement = [
+  "world",
   "fightclub",
   "shitbird",
   "low-tide-loot",

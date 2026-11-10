@@ -185,7 +185,7 @@ export function getRegistryIssues(): string[] {
     }
   }
 
-  const deferredIds = new Set(["tv", "world", "arcade", "archive"]);
+  const deferredIds = new Set(["tv", "arcade", "archive"]);
   for (const id of pocketPageTwoPlacement) {
     if (deferredIds.has(id)) {
       issues.push(`Deferred app leaked into Pocket Page Two: ${id}`);

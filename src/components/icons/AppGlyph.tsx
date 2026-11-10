@@ -6,6 +6,7 @@ import {
   EnvelopeSimple,
   GameController,
   Gear,
+  GlobeHemisphereWest,
   GithubLogo,
   Info,
   Flask,
@@ -63,6 +64,8 @@ function StandardAppGlyph({
   };
 
   switch (iconKey) {
+    case "world":
+      return <GlobeHemisphereWest {...props} />;
     case "games":
       return <GameController {...props} />;
     case "experiments":

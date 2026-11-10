@@ -3,7 +3,7 @@ import styles from "./ThemeGlyph.module.css";
 
 const objects: Record<string, string> = {
   projects: "folder", games: "controller", experiments: "flask", services: "case",
-  about: "computer", contact: "mail", fightclub: "swords", terminal: "terminal",
+  about: "computer", contact: "mail", world: "globe", fightclub: "swords", terminal: "terminal",
   github: "globe", recycle: "bin", notes: "document", settings: "computer",
   messages: "mail", phone: "phone", "low-tide-loot": "globe", shitbird: "bird",
 };

@@ -1,5 +1,6 @@
 import { siteConfig } from "./site";
 import { getRouteDescriptor } from "./routes";
+import { WORLD_GAME_URL } from "./projects";
 import type { AppId, OSApp } from "./types";
 
 export const appRegistry = [
@@ -87,6 +88,20 @@ export const appRegistry = [
       : "needs-configuration",
     availableIn: ["desktop", "normal"],
     target: { kind: "route", href: "/contact" },
+  },
+  {
+    id: "world",
+    name: "WestCose World",
+    desktopLabel: "world.exe",
+    pocketLabel: "World",
+    description: "Play WestCose World in a new tab.",
+    accessibilityLabel: "Play WestCose World in a new tab",
+    iconKey: "world",
+    tone: "teal",
+    status: "available",
+    availableIn: ["desktop", "pocket", "normal"],
+    target: { kind: "external", href: WORLD_GAME_URL },
+    defaultPocketPage: 1,
   },
   {
     id: "fightclub",

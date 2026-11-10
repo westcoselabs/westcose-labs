@@ -47,6 +47,7 @@ export function PocketAppGlyph({
   size = "grid",
 }: PocketAppGlyphProps) {
   const covers: Record<string, string> = {
+    world: "/icons/apps/world.png",
     shitbird: "/games/shitbird/cover.webp",
     "low-tide-loot": "/games/low-tide-loot/cover.webp",
     fightclub: "/images/projects/citryn-fight-club.webp",

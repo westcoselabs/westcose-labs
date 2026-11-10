@@ -28,6 +28,7 @@ export type AppId =
   | "services"
   | "about"
   | "contact"
+  | "world"
   | "fightclub"
   | "shitbird"
   | "low-tide-loot"

@@ -141,7 +141,7 @@ describe("V3 registries", () => {
   });
 
   it("does not leak deferred apps or routes", () => {
-    expect(pocketPageTwoPlacement).toEqual(["fightclub", "shitbird", "low-tide-loot"]);
+    expect(pocketPageTwoPlacement).toEqual(["world", "fightclub", "shitbird", "low-tide-loot"]);
     expect(pocketPageOnePlacement).toContain("recycle");
     expect(pocketPageOnePlacement).toContain("themes");
     const paths = routeRegistry.map((route) => route.path);

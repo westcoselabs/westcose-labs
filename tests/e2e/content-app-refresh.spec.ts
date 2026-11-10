@@ -61,7 +61,7 @@ test("desktop selection has no floating Open button and Pocket tiles use covers 
   await page.getByRole("button", { name: "Go to Home Page 2" }).click();
   const home = page.getByRole("main", { name: "Pocket OS Home" });
   await expect(home.getByRole("button", { name: /^More actions/ })).toHaveCount(0);
-  for (const id of ["fightclub", "shitbird", "low-tide-loot"]) await expect(home.locator(`[data-app-id="${id}"] img`)).toBeVisible();
+  for (const id of ["world", "fightclub", "shitbird", "low-tide-loot"]) await expect(home.locator(`[data-app-id="${id}"] img`)).toBeVisible();
   const tile = home.getByRole("button", { name: /^Open FightClub/ });
   await tile.press("Shift+F10");
   await expect(page.getByRole("dialog", { name: "FightClub", exact: true })).toBeVisible();

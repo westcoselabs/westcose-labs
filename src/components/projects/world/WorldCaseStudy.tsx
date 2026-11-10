@@ -2,6 +2,7 @@ import "server-only";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { WORLD_GAME_URL } from "@/registry/projects";
 import { chapters, labs, media, videos, weapons } from "./content";
 import { worldDisplay } from "./font";
 import { ChapterNavigation } from "./ChapterNavigation";
@@ -34,7 +35,7 @@ export function WorldCaseStudy() {
         <h1 tabIndex={-1}>WestCose <span>World.</span></h1>
         <p className={styles.lede}>A whole coast, built for the browser. An original world of skate culture, strange places, and things worth discovering.</p>
         <div className={styles.introMeta}><span>Design & engineering</span><span>Active development</span><span>Private source</span></div>
-        <div className={styles.actionRow}><a className={styles.action} href="#world">Explore the world ↓</a><a className={styles.heroSecondary} href="#loadout">Discover the collection ↗</a></div>
+        <div className={styles.actionRow}><a className={styles.action} href={WORLD_GAME_URL} target="_blank" rel="noopener noreferrer">Play game ↗</a><a className={styles.heroSecondary} href="#world">Explore the world ↓</a><a className={styles.heroSecondary} href="#loadout">Discover the collection ↗</a></div>
       </div>
       <figure className={styles.introVisual}>
         <Image src={promotional.coast.src} width={promotional.coast.width} height={promotional.coast.height} alt={promotional.coast.alt} sizes="(max-width: 820px) 100vw, 1200px" loading="eager" fetchPriority="high" />

@@ -1,5 +1,7 @@
 import type { Project } from "./types";
 
+export const WORLD_GAME_URL = "https://world.westcose.com/";
+
 const github = (name: string): `https://${string}` =>
   `https://github.com/westcoselabs/${name}`;
 const cover = (name: string, alt: string, width: number, height: number) => ({
@@ -281,6 +283,7 @@ export const projectRegistry: readonly Project[] = [
     cover: { src: "/images/projects/westcose-world/coast-key-art-v3.webp", alt: "AI-assisted promotional artwork of WestCose’s complete spherical world, curved coastline, storefronts, pier, and lighthouse", width: 1672, height: 941 },
     coverCaption:
       "Promotional artwork: AI-assisted art direction based on the game’s world and landmarks.",
+    liveUrl: WORLD_GAME_URL,
     githubUrl: github("westcose-world"),
     repositoryPrivate: true,
     featured: true,
